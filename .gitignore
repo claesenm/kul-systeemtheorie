@@ -9,6 +9,10 @@ __pycache__/
 .log
 .bbl
 .blg
+.snm
+.out
+.nav
+.toc
 
 # Distribution / packaging
 .Python
