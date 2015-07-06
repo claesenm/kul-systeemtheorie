@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.33pt}
+\beamer@sectionintoc {1}{Properties of state-space representation}{3}{0}{1}
+\beamer@sectionintoc {2}{Transfer functions}{10}{0}{2}
+\beamer@subsectionintoc {2}{1}{Impulse response and time constant}{22}{0}{2}
+\beamer@subsectionintoc {2}{2}{Relationship between state space and transfer functions}{31}{0}{2}

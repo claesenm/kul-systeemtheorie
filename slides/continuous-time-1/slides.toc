@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.33pt}
+\beamer@sectionintoc {1}{Linear differential equations}{3}{0}{1}
+\beamer@sectionintoc {2}{Laplace transform}{28}{0}{2}
+\beamer@sectionintoc {3}{Solving LDEs with the Laplace transform}{42}{0}{3}
