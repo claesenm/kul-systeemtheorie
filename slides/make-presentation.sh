@@ -7,4 +7,6 @@ mkdir $NAME
 cp template.tex $NAME/
 cp setup.tex $NAME/
 cp Makefile $NAME/
+cp title.tex $NAME/
+cp content.tex $NAME/
 
