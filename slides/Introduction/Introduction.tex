@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Short title]{Systems and control theory} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{} % Your name
+\institute[KU Leuven] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Katholieke Universiteit Leuven \\ % Your institution for the title page
+\medskip
+\textit{} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Dynamical system}
+A dynamical system is a constantly changing system that connects outputs (denoted by $\overrightarrow{y}$) and inputs (denoted by $\overrightarrow{u}$).\\The word dynamical refers to the fact that the system relates time-changing signals.
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{Dynamical_system}
+\end{figure}
+\medskip
+Everything is a dynamical system.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{System theory}
+System theory occupies itself with the mathematical description and study of systems.
+Models describe the connections between input, output and states.\\
+Examples are:
+\begin{columns}[c]
+\column{.5\textwidth}
+\begin{enumerate}
+\item State space model
+\item Transferfunction
+\item ...
+\item ...
+\end{enumerate}
+
+\column{.5\textwidth}
+\begin{enumerate}
+\item afbeelding1
+\item afbeelding2
+\item afbeelding3
+\item afbeelding4
+\end{enumerate}
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{State and order}
+Next to inputs and outputs, states (denoted by $\overrightarrow{x}$) are a third type of variable used to describe a system. They represent the internal state of the system at a given time. The next state is a function of the previous states.
+The order of a system is the number of state-variables (i.e. the size of the vector $\overrightarrow{x}$).
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Control theory}
+Control theory deals with the behavior of dynamical systems and how their behavior is modified by feedback.\\
+The output is compared to the desired output and the error is used to adjust the system. 
+% + image
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Open loop}
+In an open loop system, the output is not fed back into the controller. Therefore, the controller cannot \textit{'see'} the effect of its actions. \\
+This way it is hard to get the desired output.\\
+% + image
+\bigskip
+For example: try pouring water in a glass without looking.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Feedback}
+In a feedback system, the output is fed back to the controller. This way, the new input becomes the error on the output. 
+% + image
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Positive vs. Negative Feedback}
+\begin{columns}[c]
+
+\column{.5\textwidth}
+\centering \textbf{Negative Feedback}
+\begin{enumerate}
+\item Continuous behavior
+\item Analog technology
+\item Output primarily reflects the input
+\item Loops enhance of amplify the changes between input and output
+\end{enumerate}
+
+\column{.5\textwidth}
+\centering \textbf{Positive Feedback}
+\begin{enumerate}
+\item On-Off behavior
+\item Digital Technology
+\item Output primarily reflects memory of the past
+\item Loops tend to dampen or buffer the changes between input and output
+\end{enumerate}
+
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Millenium Bridge London}
+Resonance on the Millenium Bridge in London due to the rithm of walking people.
+\begin{figure}
+\includegraphics[scale=0.9]{Millenium_bridge}
+\end{figure}
+\url{https://www.youtube.com/watch?v=eAXVa__XWZ8}
+\end{frame}
+
+%------------------------------------------------
+\end{document} 
