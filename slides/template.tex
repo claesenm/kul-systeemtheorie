@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	DO NOT MODIFY THIS FILE UNLESS YOU KNOW WHAT YOU ARE DOING!		%
+%
+%	MAKE ALL YOUR CONTENT IN title.tex AND content.tex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass{beamer}
 
 \include{setup}
@@ -5,41 +11,13 @@
 
 \usetheme{Warsaw}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	PRESENTATION TITLE: MODIFY THIS		%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{title.tex}
 
-\title{Systeemtheorie: voorbeeld slides}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	TITLE PAGE, NO MODIFICATIONS NECESSARY  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \begin{frame}
 \titlepage
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	THE ACTUAL SLIDES, HAVE FUN!		%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Introduction}
-
-\begin{frame}
-\frametitle{Slide title}
-\textbf{Text in bold.} \\
-\begin{itemize}
-\item item 1
-\item item 2
-\end{itemize}
-\pause
-\ \newline
-$\sum_{i=1}^\infty i^2$
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	DO NOT REMOVE THIS LINE!		%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{content.tex}
 
 \end{document}
