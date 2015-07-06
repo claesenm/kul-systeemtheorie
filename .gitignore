@@ -4,7 +4,6 @@ __pycache__/
 
 # C extensions
 *.so
-.tex~
 .aux
 .log
 .bbl
@@ -13,6 +12,7 @@ __pycache__/
 .out
 .nav
 .toc
+*~
 
 # Distribution / packaging
 .Python
