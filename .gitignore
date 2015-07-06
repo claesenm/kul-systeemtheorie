@@ -4,6 +4,11 @@ __pycache__/
 
 # C extensions
 *.so
+.tex~
+.aux
+.log
+.bbl
+.blg
 
 # Distribution / packaging
 .Python
