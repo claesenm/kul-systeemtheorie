@@ -1,1 +1,6 @@
 \beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{System theory}{7}{0}{1}
+\beamer@subsectionintoc {1}{1}{Discrete systems}{8}{0}{1}
+\beamer@subsectionintoc {1}{2}{Continuous systems}{11}{0}{1}
+\beamer@sectionintoc {2}{Control theory}{14}{0}{2}
+\beamer@sectionintoc {3}{Examples}{20}{0}{3}
