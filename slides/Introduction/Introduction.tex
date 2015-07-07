@@ -79,12 +79,14 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{hyperref}
+\usepackage{tikz}
+%\usepackage{signalflowdiagram}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Short title]{Systems and control theory} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Systems and control theory]{Systems and control theory} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{} % Your name
 \institute[KU Leuven] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -101,13 +103,22 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 \titlepage % Print the title page as the first slide
 \end{frame}
 
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES
 %----------------------------------------------------------------------------------------
 
+%------------------------------------------------
+\section{System theory} 
+%------------------------------------------------
+
 \begin{frame}
 \frametitle{Dynamical system}
-A dynamical system is a constantly changing system that connects outputs (denoted by $\overrightarrow{y}$) and inputs (denoted by $\overrightarrow{u}$).\\The word dynamical refers to the fact that the system relates time-changing signals.
+A dynamical system is a constantly changing system that connects outputs (denoted by \textbf y) and inputs (denoted by \textbf u).\\The word dynamical refers to the fact that the system relates time-changing signals.
 \begin{figure}
 \includegraphics[width=0.8\linewidth]{Dynamical_system}
 \end{figure}
@@ -121,34 +132,64 @@ Everything is a dynamical system.
 \frametitle{System theory}
 System theory occupies itself with the mathematical description and study of systems.
 Models describe the connections between input, output and states.\\
-Examples are:
-\begin{columns}[c]
-\column{.5\textwidth}
-\begin{enumerate}
-\item State space model
-\item Transferfunction
-\item ...
-\item ...
-\end{enumerate}
+\bigskip
+Next to inputs and outputs, states (denoted by \textbf x) are a third type of variable used to describe a system. They represent the internal state of the system at a given time. The next state is a function of the previous states.
+The order of a system is the number of state-variables (i.e. the size of the vector \textbf x).\\
+\bigskip
+Dynamical systems can be devided into two types: discrete and continuous systems.
+\end{frame}
 
-\column{.5\textwidth}
-\begin{enumerate}
-\item afbeelding1
-\item afbeelding2
-\item afbeelding3
-\item afbeelding4
-\end{enumerate}
+%------------------------------------------------
+\subsection{Discrete systems} 
+
+\begin{frame}
+\frametitle{Discrete systems}
+\begin{columns}[c]
+
+\column{.3\textwidth}
+\centering \textbf{Delay elements}\\
+
+\usetikzlibrary{positioning,intersections,shapes.geometric,fit,arrows,decorations.shapes,decorations.markings}
+
+\tikzstyle{register} = [rectangle, draw, text centered]
+\bigskip
+\begin{tikzpicture}
+\draw (2,1) rectangle (3,2) node[pos=.5] {D}; 
+\end{tikzpicture}
+
+\column{.3\textwidth}
+\centering \textbf{Adder}\\
+\bigskip
+\begin{tikzpicture}
+\draw (0,-.8) circle (.5cm) node (0,-.8) {+}; 
+\end{tikzpicture}
+
+\column{.3\textwidth}
+\centering \textbf{Constant multiplier}\\
+\bigskip
+\begin{tikzpicture}
+\draw (0,-.8) circle (.5cm) node (0,-.8) {a}; 
+\end{tikzpicture}
+
 \end{columns}
+\bigskip
+\begin{figure}
+\includegraphics[discrete_system}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Continuous systems} 
+
+\begin{frame}
+\frametitle{Continuous systems}
+
 \end{frame}
 
 %------------------------------------------------
 
-\begin{frame}
-\frametitle{State and order}
-Next to inputs and outputs, states (denoted by $\overrightarrow{x}$) are a third type of variable used to describe a system. They represent the internal state of the system at a given time. The next state is a function of the previous states.
-The order of a system is the number of state-variables (i.e. the size of the vector $\overrightarrow{x}$).
-\end{frame}
-
+%------------------------------------------------
+\section{Control theory}
 %------------------------------------------------
 
 \begin{frame}

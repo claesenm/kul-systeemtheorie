@@ -1,1 +1,5 @@
 \beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{System theory}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Discrete systems}{5}{0}{1}
+\beamer@subsectionintoc {1}{2}{Continuous systems}{6}{0}{1}
+\beamer@sectionintoc {2}{Control theory}{7}{0}{2}
