@@ -1,7 +1,7 @@
 \section{Introduction}
 \begin{frame}
 \frametitle{Introduction}
-We can derive the mathematical model of a system in two ways mainly:
+We can derive the mathematical model of a dynamic system in two ways mainly:
 \begin{itemize}
 	\item Physical Modeling: 
 	
@@ -66,15 +66,26 @@ We can derive the mathematical model of a system in two ways mainly:
 	\stepcounter{exampleCount}
 	\frametitle{Example \arabic{exampleCount}: Pendulum}
 	\begin{columns}
-		 \begin{column}{0.5\linewidth}
+		 \begin{column}{0.4\linewidth}
 		 	\begin{figure}
 			\centering
-			\includegraphics[width=0.9\linewidth]{img/pendulum}
+			\includegraphics[width=1\linewidth]{img/new-pendulum}
 			\label{fig:pendulum}
 			\end{figure}
 		 \end{column}
-		 \begin{column}{0.5\linewidth}
-		 	todo
+		 \begin{column}{0.6\linewidth}
+		 	Dynamic equilibrium:
+		 	\begin{align*}
+		 			&I\ddot{\theta}(t) = -m g \frac{L}{2} \sin(\theta(t)) \text{ with } I= \frac{m L^2}{3} \\
+		 			&\ddot{\theta}(t)  = -\frac{3g}{2L} \sin(\theta(t)) 
+		 	\end{align*}
+		 
+			Small deviation of $\theta(t)$: \\
+					 \hspace{1cm} $\ddot{\theta}(t) = -\frac{3g}{2L} \theta(t)$
+			
+			Solving the differential equation yields the general solution:
+				$\theta(t) = A\cos(\omega_0 + \phi)$
+			with $\omega_0=\sqrt{\frac{3g}{2L}}$ and $\phi$ \& $A$ to be determined with the initial condition
 		 \end{column}
 	\end{columns}
 \end{frame}
@@ -111,7 +122,7 @@ We can derive the mathematical model of a system in two ways mainly:
 \end{frame}
 
 \begin{frame}
-	\stepcounter{exampleCount}
+	
 	\frametitle{Example \arabic{exampleCount}: RLC Circuit}
 	
 	\begin{columns}
@@ -134,21 +145,232 @@ We can derive the mathematical model of a system in two ways mainly:
 	\end{columns}
 	
 \end{frame}
+
 \begin{frame}
-	\stepcounter{exampleCount}
+	
 	\frametitle{Example \arabic{exampleCount}: RLC Circuit}
 	\begin{itemize}
-		\item Writing derivatives of state variables in function of state variables and inputs:
-		
-		\item Writing output in function of state variables and inputs:
+		\item Writing derivatives of state variables in function of state variables and inputs: 
+		$ \left\lbrace  \begin{matrix}
+							\frac{di}{dt} = \frac{V_1 - V_2}{L} = \frac{V_{in} - R\cdot i - V_2}{L} \\
+							\frac{dV_2}{dt} 
+							= \frac{i}{C}	\\
+						\end{matrix} 
+		  \right. 
+		$
+		\item Writing output in function of state variables and inputs: $V_{out} = V_1 - V_2 = V_{in} - Ri - V_2$
 	\end{itemize}
 	\begin{block}{State Space Representation}
-		This yields the State Space Representation of the dynamic system. In Matrix form:
+		This yields the \textbf{State Space Representation} of the dynamic system. In Matrix form:
 		\begin{align*}
 			\begin{bmatrix}
-			a & b 
+				\frac{dV_2}{dt} \\
+				\frac{di}{dt} \\
+			\end{bmatrix} 
+			&= 
+			\begin{bmatrix}
+				0 & 1/C \\
+				-1/L & -R/L  \\
+			\end{bmatrix} 	
+			\begin{bmatrix}
+				V_2 \\
+				i \\
 			\end{bmatrix}
+			+ 
+			\begin{bmatrix}
+				0 \\
+				1 \\
+			\end{bmatrix}
+			V_{in} 
+			\\
+			V_{out} &= 
+				\begin{bmatrix}
+					-1 & -R
+				\end{bmatrix}
+				\begin{bmatrix}
+					V_2 \\
+					i \\
+				\end{bmatrix}
+				 + V_{in}
 		\end{align*}
-	\end{block}
+	\end{block}	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Force-Voltage Analogy}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{"img/force-voltage"}
+		\label{fig:force-voltageanalogy}
+	\end{figure}
+	
+	
+	Let:
+	\begin{center}
+		\begin{tabular*}{0.4\linewidth}{@{\extracolsep{\fill} }c  c @{$\leftrightarrow$} c }
+			F	&&	V \\
+			$\dot{x}$ && i \\
+			x && q \\
+		\end{tabular*}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Force-Voltage Analogy}
+	The analogy between the other quantities follows from comparing the physical laws.
+	\vspace{2pt}
+	\begin{tabular*}{1\linewidth}{@{\extracolsep{\fill}} l l l }
+		Damping: & Resistance: & \\
+	\end{tabular*}
+	\begin{columns}
+		\begin{column}{0.25\linewidth}
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/damping}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			$F = b\dot{x} $ 
+		\end{column}
+				
+		\begin{column}{0.25\linewidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=1\linewidth]{img/resistor}
+				\label{fig:resistor}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			$V = Ri$
+		\end{column}
+		
+	\end{columns}
+	
+	\begin{center}
+		$\boxed{b \leftrightarrow R} $	
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Force-Voltage Analogy}
+	\begin{columns}
+		\begin{column}{0.25\linewidth}
+			Spring:
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/spring}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			$F = kx \newline \Rightarrow \frac{df}{dt} = k\frac{dx}{dt}$ 
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			Capacitor:
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/capacitor}
+				\label{fig:capacitor}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			$\frac{dV}{dt} = \frac{i}{C}$
+		\end{column}
+		
+	\end{columns}
+	
+	\begin{center}
+		$\boxed{k \leftrightarrow \frac{1}{C}} $	
+	\end{center}
+	
+	\pause
+	
+	\begin{columns}
+		\begin{column}{0.25\linewidth}
+			Newton:
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/newton}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			\begin{align*}
+				F &= m \ddot{x} \\ 
+				  &= m \frac{d\dot{x}}{dt}
+			\end{align*} 
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			Coil:
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/coil}
+				\label{fig:coil}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.25\linewidth}
+			\hspace{3pt}
+			$V = L\frac{di}{dt}$
+		\end{column}
+		
+	\end{columns}
+	
+	\begin{center}
+		$\boxed{L \leftrightarrow m} $	
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\stepcounter{exampleCount}
+	\frametitle{Example \arabic{exampleCount}: Hoover dam}
+	\begin{columns}
+		\begin{column}{0.6\linewidth}
+			Define:
+			\begin{itemize}
+				\item Inflow of water: $u(t)$
+				\item Current volume of water: $x(t)$
+				\item Outflow of water: $y(t)$
+				\item Water level: $h(t)$
+			\end{itemize}
+			Assume that $x(t) = c_1\cdot h(t)$
 			
+			\vspace{6pt}
+			What will happen when we open the gate?
+		\end{column}
+		\begin{column}{0.4\linewidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=1\linewidth]{img/Hoover-dam}
+				\label{fig:Hoover-dam}
+			\end{figure}
+		\end{column}
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example \arabic{exampleCount}: Hoover dam}
+	\begin{itemize}
+		\item Outflow depends on height: \\
+			\hspace{1cm}$y(t) = c_2 \cdot h(t) $
+		\item The state of the system is defined by the contained volume of water: \\
+			\hspace{1cm}$\dot{x}(t) = u(t) - y(t) = u(t) - c_2\cdot h(t) $
+		\item Thus a \textbf{State Space Representation} is, with $c \triangleq \frac{c_2}{c_1}$:
+			\begin{align*}
+				\dot{x}(t) &= u(t) - c\cdot x(t) =	\\
+				y(t) &= c\cdot x(t) \\
+			\end{align*} 
+	\end{itemize}
+	\vspace{-1cm}
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{img/hoover-block-diagram}
+	\end{center}	
 \end{frame}
