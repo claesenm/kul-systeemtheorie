@@ -26,18 +26,42 @@ This is the transfer function, the relation between input and output in the Lapl
 \item $s$ and $H(s)$ are both complex $\rightarrow$ 4D-graph?
 \item No, we will substitute $s$ for $j\omega$ with $\omega$ the angular frequency [rad/s].
 (We will often use frequency to indicate $\omega$ but keep in mind that $\omega = 2\pi f)$
-\item We will also split $H(s) = H(j\omega)$ using its polar representation in two, an amplitude and a phase plot
+\item We will also split $H(s) = H(j\omega)$ using its polar representation in two, an magnitude and a phase plot
 \item Remember: $H(j\omega) = |H(j\omega)| \exp\angle(H(j\omega))$ 
-\item The amplitude plot and the phase plot of $H(j\omega)$ are called the bode plot
+\item The magnitude plot and the phase plot of $H(j\omega)$ are called the bode plot
 
 \end{itemize}
 \end{frame}
 
 
+\begin{frame}
+\frametitle{Why use $H(j\omega)$?}
+\begin{itemize}
+\item Frequency response = steady state response of a system to a sinusoidal input.\\
+\item Assume an input $x(t) = X\sin(\omega t)$.\\
+\item The output in a linear system is then also sinusoidal, with a change in the magnitude and phase, i.e. $y(t) = Y\sin(\omega t + \phi)$\\
+\item It can be shown that: $Y = X\cdot |H(j\omega)|$ and $\phi = \angle H(j\omega)$\\
+\item $H(j\omega)$ is therefore also called the sinusoidal transfer function. 
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Relation of sinusoidal input/output in a linear system}
+
+\includegraphics[scale=0.5]{IOSinus}
+\begin{itemize}
+\item $|H(j\omega)| = \frac{Y}{X}$ and $\phi = \angle H(j\omega)$ can directly be found in the bode plot at frequency $\omega$
+\end{itemize}
+
+\end{frame}
+
 \section{What Is The Bode Plot}
 
 \begin{frame}
-\frametitle{The amplitude plot}
+\frametitle{The magnitude plot}
 
 Convention: 
 \begin{itemize}
@@ -76,6 +100,18 @@ $H(s) = \frac{14s^2 + 7s + 3}{s^4 + 10s^3 + 10s^2 + 10s + 10}$
 
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Discrete time systems}
+
+\begin{itemize}
+\item The transfer function is a function of $z$, i.e. $H(z)$
+\item In contrast to continuous time systems, we do not use $H(j\omega)$. Instead, $H(e^{j\omega T_s})$ is now the sinusoidal transfer function.
+\item $T_s$ is the sample time, i.e. the amount of time in between each sample.
+\end{itemize}
+
+
+\end{frame}
 
 \section{How To Construct A Bode Plot (by hand)}
 
@@ -120,7 +156,7 @@ Now we are able to construct the bode plot of each different factor of $H(s)$. A
 \begin{frame}
 \frametitle{Intermezzo complex numbers}
 \begin{itemize}
-\item The amplitude of the product of complex numbers is equal to the product of the amplitudes of these numbers
+\item The magnitude of the product of complex numbers is equal to the product of the magnitudes of these numbers
 \item The phase of the product of complex numbers is equal to the sum of the phases of these numbers
 \item The logarithm of a product of numbers is equal to the sum of the logarithms of these numbers
 
@@ -142,7 +178,7 @@ Next we will quickly go over the simple bodeplots of the different factors of $H
 \item $\angle K = 0^{\circ} \text{ or} \pm 180^{\circ}$  (resp $K > 0$ and $K < 0$)
 \end{itemize}
 Example: $K = 10$
-\includegraphics[scale=0.5]{BodeConstant}
+\includegraphics[scale=0.45]{BodeConstant}
 
 \end{frame}
 
@@ -198,8 +234,8 @@ This factor is equivalent to the previous one. The only difference is the sign c
 
 \begin{frame}
 \frametitle{$(1+\frac{j\omega}{s_i})$ in the denominator}
-
-%\includegraphics[scale=0.5]{BodeDenominator}
+Example $s_i = 100$
+\includegraphics[scale=0.5]{BodeDenominator}
 
 
 \end{frame}
@@ -207,27 +243,37 @@ This factor is equivalent to the previous one. The only difference is the sign c
 
 \begin{frame}
 \frametitle{$j\omega$ in the numerator}
+
 \begin{itemize}
-\item This is simply a (ascending) straight line in the amplitude plot, with a slope of 20 dB/decade
+\item This is simply a (ascending) straight line in the magnitude plot, with a slope of 20 dB/decade
 \item Constant phase of $90^{\circ}$
 \end{itemize}
 
-%\includegraphics[scale=0.5]{BodeZeroNum}
+
 
 \end{frame}
 
+\begin{frame}
+\frametitle{$j\omega$ in the numerator}
 
+\includegraphics[scale=0.5]{BodeZeroNum}
+
+\end{frame}
 
 \begin{frame}
 \frametitle{$j\omega$ in the denominator}
 
 \begin{itemize}
-\item This is simply a (descending) straight line in the amplitude plot, with a slope of -20 dB/decade
+\item This is simply a (descending) straight line in the magnitude plot, with a slope of -20 dB/decade
 \item Constant phase of $-90^{\circ}$
 \end{itemize}
 
-%\includegraphics[scale=0.5]{BodeZeroDen}
+\end{frame}
 
+\begin{frame}
+\frametitle{$j\omega$ in the denominator}
+
+\includegraphics[scale=0.5]{BodeZeroDen}
 
 \end{frame}
 
@@ -237,8 +283,17 @@ This factor is equivalent to the previous one. The only difference is the sign c
 \frametitle{Second order factors}
 A second order factor has twice the effect of a first order factor.\\
 Consider for example $(1+\frac{j\omega}{100})^2$ in the numerator:
+\begin{itemize}
+\item Slope of 40dB/decade instead of 20dB/decade after the break point
+\item Phase shift of $180^{\circ}$ instead of $90^{\circ}$
 
-%\includegraphics[scale=0.5]{BodeSecondOrder}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Second order factors}
+
+\includegraphics[scale=0.5]{BodeSecondOrder}
 
 Similar for higher order factors
 
@@ -249,26 +304,115 @@ Similar for higher order factors
 \frametitle{Exception}
 Up until now we always considered $r_i \text{ and } s_i > 0$, but what if we had a factor $(1-\frac{j\omega}{r_i})$ for example?
 \begin{itemize}
-\item The amplitude plot remains unchanged, as $|1+\frac{j\omega}{r_i}| = |1 - \frac{j\omega}{r_i} |$
+\item The magnitude plot remains unchanged, as $|1+\frac{j\omega}{r_i}| = |1 - \frac{j\omega}{r_i} |$
 \item The phase plot is reversed, as $\angle(1+\frac{j\omega}{r_i}) = -\angle(1 - \frac{j\omega}{r_i})$
 \end{itemize}
-
-
 
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Exception}
-
-%\includegraphics[scale=0.5]{BodeException}
+Example $r_i = 100$
+\includegraphics[scale=0.5]{BodeException}
 
 \end{frame}
 
-\section{Examples}
 
 \begin{frame}
 \frametitle{Example}
+Suppose we want to construct (by hand) the bode plot of $$H(s) = \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}$$
+
+The first step is to find the representation with break points.
+\begin{align*}
+    H(s) &=  \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}\\
+            &= \frac{(s+100)(s+1000)}{10s(s+10)^2}\\
+	 &= \frac{100000(1+\frac{s}{100})(1+\frac{s}{1000})}{1000s(1+\frac{s}{10})^2}
+	 &= \frac{100(1+\frac{s}{100})(1+\frac{s}{1000})}{s(1+\frac{s}{10})^2}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Example Magnitude plot}
+\includegraphics[scale=0.5]{MagnitudeParts}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Example Magnitude plot}
+\includegraphics[scale=0.5]{MagnitudeApprox}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Example Phase plot}
+\includegraphics[scale=0.5]{PhaseParts}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Example Phase plot}
+\includegraphics[scale=0.5]{PhaseApprox}
+
+\end{frame}
+
+\section{Constructing The Bode Plot In Matlab}
+
+\begin{frame}
+\frametitle{Basic commands in Matlab}
+
+In Matlab it is very easy to draw the bode plot.
+\begin{itemize}
+\item First, define the system using one of the following commands:
+	\begin{itemize}
+	\item tf(num,den) (num and den are respectively the numerator and denominator of the transfer function)
+	\item zpk(z,p,K) (using the zeros (z), the poles (p) and the gain (K) of the transfer function)
+	\item ss(A,B,C,D) (using the matrices of the state-space model)
+
+	\end{itemize}
+\item In case of a discrete time system, Ts (the sample time) is also needed as a last parameter in these commands
+\item Next, use the command bode(sys)
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Matlab example}
+\lstinputlisting{CreateBodeMatlab.m}
+\end{frame}
+
+\begin{frame}
+\frametitle{Matlab example}
+\lstinputlisting{CreateBodeMatlab2.m}
+\end{frame}
+
+
+\section{Introduction To Nyquist Plots}
+\begin{frame}
+\frametitle{Nyquist plot}
+A Nyquist plot is also called a polar plot, and is another way to plot $H(j\omega)$.\\
+In a polar plot, as $\omega$ is varied from 0 to $\infty$, $H(j\omega)$ is plotted as a point in the complex plane.
+\begin{itemize}
+\item $|H(j\omega)|$ is the distance between the origin and the point
+\item $\angle H(j\omega)$ is the angle between the vector to the point and the positive real axis, measured counterclockwise 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Nyquist plot}
+
+\includegraphics[scale=0.5]{NyquistPlot}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Nyquist plot in matlab}
+Similar to constructing the bode plot in matlab, we first have to define the system using tf, zpk or ss.\\
+Then we use the command nyquist(sys).
+\lstinputlisting{CreateNyquist.m}
 
 \end{frame}
 
@@ -279,8 +423,9 @@ Up until now we always considered $r_i \text{ and } s_i > 0$, but what if we had
 
 \begin{itemize}
 \item Today we revised the basics about (constructing) the bode plot
-\item These techniques will be used in later lectures regarding controllers
-\item The importance of the bode plot will then also be shown
+\item In a body plot, we can directly find the steady state response of a sinusoidal input to a linear system
+\item Bode plots will also be used in later lectures regarding controllers
+
 \end{itemize}
 
 \end{frame}
