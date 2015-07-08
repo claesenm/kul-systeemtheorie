@@ -78,6 +78,7 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -191,7 +192,191 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\vspace{-6ex}
+\textbf{Definition}\\
+\medskip
+A system is linear if $u_{1}(t) \rightarrow y_{1}(t)\> (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$ and $u_{2}(t) \rightarrow y_{2}(t)$ imply that \\
+\center{$\alpha u_{1}(t) + \beta u_{2}(t) \rightarrow \alpha y_{1}(t) + \beta y_{2}(t)$}\\
+\begin{flushleft}
+Properties of a linear system (contained in the definition):
+\end{flushleft}
+\vspace{-2ex}
+\begin{itemize}
+\item Superposition
+\item Homogeneity
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\textbf{Properties of a linear system} (contained in the definition):
+\begin{itemize}
+\item Superposition\\
+\smallskip
+$u_{a}(t) \rightarrow y_{a}(t),\> u_{b}(t) \rightarrow y_{b}(t) \Leftrightarrow u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\medskip
+This means the output of a system can be found by splitting up the input and solving it separately (analogous to the homogeneous part of an ordinary differential equation).
+\item Homogeneity\\
+\smallskip
+$\alpha u(t) \rightarrow \alpha y(t)$\\
+\end{itemize}
+\bigskip
+How to recognize a linear system:
+\begin{itemize}
+\item Linear in all of the variables
+\item No constant factors
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\textbf{Examples}
+\begin{itemize}
+\item  
+\[
+\begin{cases} 
+\dot{x} = u\\ 
+\dot{y} = x + 2u
+\end{cases}
+\] 
+Linearity of this system is easily verified, based on the linearity of the derivative:\\
+\vspace{-4ex}
+\[
+\begin{cases} 
+\textcolor{green}{\alpha \dot{x}_{a}(t)} + \textcolor{blue}{\beta \dot{x}_{b}(t)} = \textcolor{green}{\alpha u_{a}(t)} + \textcolor{blue}{\beta u_{b}(t)}\\ 
+\textcolor{green}{\alpha \dot{y}_{a}(t)} + \textcolor{blue}{\beta \dot{y}_{b}(t}) = \textcolor{green}{\alpha x_{a}(t)} + \textcolor{blue}{\beta x_{b}(t)} + \textcolor{green}{2 \alpha u_{a}(t)} + \textcolor{blue}{2 \beta u_{b} (t)}
+\end{cases}
+\] 
+
+\item
+\[
+\begin{cases} 
+\dot{x}_{1} = u\\ 
+\dot{x}_{2} = \frac{3}{2} x_{1} + u\\
+\dot{y} = a x_{1} - x_{2} + 2u
+\end{cases}
+\] 
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: autonomous linear systems}
+Continuous-time autonomous linear dynamical systems are described by:\\
+\smallskip
+\center{$\dot{x}(t) = Ax(t)$}\\
+\begin{columns}
+\column{.5\textwidth}
+Example: $\dot{x}(t) = \begin{bmatrix} -1 & 0 \\ 2 & 1 \end{bmatrix} x(t)$
+
+\column{.5\textwidth}
+\begin{figure}
+\includegraphics[width=1\linewidth]{autonomous}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: violating homogeneity}
+All nonhomogeneous systems are strictly speaking nonlinear, e.g.:\\
+\begin{align*}
+& \begin{cases}
+\dot{x}(t) = x(t) + u(t)^{2}\\
+\dot{y}(t) = x(t)
+\end{cases} &&\text{$\Rightarrow$ nonhomogeneous}
+\end{align*}
+
+This is nonlinear, because the term $u(t)^{2}$ violates homogeneity.\\
+It can be turned into a linear system with inputs $z(t) = u(t)^{2}$.
+
+\begin{align*}
+& \begin{cases}
+\dot{x}(t) = x(t) + z(t)\\ 
+\dot{y}(t) = x(t)
+\end{cases} &&\text{$\Rightarrow$ linear}
+\end{align*}
+$\rightarrow$ nonhomogeneous systems that are linear apart from some function of inputs are often treated as linear systems.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: nonlinear systems}
+Some examples of nonlinear systems:
+\begin{align*}
+\begin{cases}
+\dot{x}_{1}(t) = x_{1}(t) + u(t)\\
+\dot{x}_{2}(t) = x_{1}(t) x_{2}(t)\\
+y(t) = x_{1}(t) + x_{2}(t)
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\begin{cases}
+\dot{x}(t) = sin(x(t)) + u(t)\\
+y(t) = x(t)
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\begin{cases}
+\dot{x}(t) = 2 u(t) + 1\\
+y(t) = cos(x(t))
+\end{cases}
+\end{align*}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear}
+\begin{columns}
+\column{.5\textwidth}
+\textbf{\Large{Predominantly linear}}\\
+\medskip
+Simple electrical systems
+\begin{itemize}
+\item Circuits with ideal resistors, capacitors and inductors
+\end{itemize}
+Simple mechanical systems
+\begin{itemize}
+\item Systems with ideal springs
+\end{itemize}
+
+\column{.5\textwidth}
+\textbf{\Large{Inherently nonlinear}}\\
+\medskip
+Chemical systems\\
+Biological systems\\
+Economical systems\\
+More involved electrical or mechanical systems\\
+...
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear}
+\vspace{-8ex}
+\begin{itemize}
+\item Reality is nonlinear
+\item However, this course will only deal with linear systems
+\item Why we prefer linear systems: \\
+\medskip
+The previously mentioned properties will allow for a thorough study of the system
+\item Why we are allowed to use linear systems, even in a nonlinear setting:\\
+\medskip
+You can linearize around an equilibrium point (we will do this in the next lecture)
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -199,7 +384,129 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Causal vs. Non-causal}
+\begin{itemize}
+\item \normalsize{A causal system only depends on the present and the past, not on the future}
+\item \normalsize{A non-causal system (also) depends on the future}
+\item \normalsize{(Almost) all physical systems are causal}
+\begin{itemize}
+\item \normalsize{A telephone:}
+\begin{itemize}
+\item \normalsize{It will not ring for future calls}
+\end{itemize}
+\item \normalsize{Any human:} 
+\begin{itemize}
+\item \normalsize{Is a system that will only react on inputs it has already received}
+\item \normalsize{If we react because we expect something to happen in the future, then that expectation arose from past or present inputs}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\bigskip
+\bigskip
+\footnotesize{source: http://www.deekshith.in/2013/03/causal-and-non-causal-systems-better-explained.html}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+\textbf{How do non-causal systems arise?}\\
+\medskip
+A possibility is by greatly reducing the complexity of a system, in which some causes of events are taken out of the equations.\\
+Example:\\
+\begin{itemize}
+\item A model of the economical consumption (\textbf{output})
+\item A lot of influencing factors, but the only \textbf{input} is the employment numbers
+\item Current and past employment numbers determine consumption, but when someone gets fired, they will continue to work for several weeks in most instances, but their consumption will drop immediately\\
+$\rightarrow$ A correcct model for this relation would have to be \textbf{non-causal}
+\item The non-causal model for this input-output relation is not useful if you want to determine the level of consumption
+\item You could use the relation to see a drop in employment, before it is visible in the employment numbers
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+\vspace{-12ex}
+Examples of non-causal systems: \textbf{expectations}\\
+\medskip
+Modelling housing prices\\
+\begin{itemize}
+\item People are willing to offer more for houses if they expect rising prices
+\item It is hard to measure the expectations or housing prices
+\item Sometimes economists use their own predictions of housing prices to replace the expectations
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+Examples of non-causal systems: \textbf{image processing}\\
+\begin{itemize}
+\item The input to our system (the image processor) is a two dimensional series of values ($u(k,l)$): the color values at the different pixels of the original image
+\item The output is a processed image ($y(k,l)$)
+\item There is now no reason to want causality; the input depends on position and not on time
+\item $y(k,l)$ can rely on 'later' values like $u(k+1,l+1)$, without that being a problem
+\end{itemize}
+\vspace{-2ex}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{original}
+\end{figure}
+\vspace{-4ex}
+\center{Original image}
+
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{removed}
+\end{figure}
+\vspace{-4ex}
+\center{Removed details}
+
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{highlight}
+\end{figure}
+\vspace{-4ex}
+\center{Highlight borders}
+
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+%\frametitle{Causal vs. Non-causal}
+%Some mathematical examples:\\
+%\begin{colums}
+%\column{.5\textwidth}
+%\textbf{Causal systems}\\
+%\begin{itemize}
+%\item \begin{align*}
+%\begin{cases}
+%x[k+1] = u[k]\\
+%y[k] = 3 x [k+1] + u[k]
+%\end{cases}
+%\end{align*}
+%\item $y(t) = 2 u(t-\tau)$
+%\end{itemize}
+%
+%\column{.5\textwidth}
+%\textbf{Non-causal systems}\\
+%\begin{itemize}
+%\item \begin{align*}
+%\begin{cases}
+%x[k+1] = u[k])\\
+%y[k] = x[k+2] + \frac{1}{2}u[k]
+%\end{cases}
+%\end{align*}
+%\item $y(t) = u(t + \tau)$
+%\end{itemize}
+%
+%\end{columns}
 \end{frame}
 
 %------------------------------------------------
