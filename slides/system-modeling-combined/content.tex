@@ -76,7 +76,7 @@
 		\includegraphics[width=1\linewidth]{img/mass-spring-damped}
 		\label{fig:mass-spring-damped}
 	\end{figure}
-	Force excerted by damper: $F = b\dot{x}$
+	Force exerted by damper: $F = b\dot{x}$
 	
 	Differential equation can be found by writing force equilibrium and moment equilibrium around center of mass
 	
@@ -467,7 +467,7 @@
 	We write the \emph{vectors} $x$ and $u$ in their individual components to simplify interpretation:
 	\begin{align*}
 		\dot{x}_1 &= f_1(x_1, ..., x_n, u_1, .., u_l) \\
-			\vdots& \\
+			&\vdots \\
 		\dot{x}_n &= f_1(x_1, ..., x_n, u_1, .., u_l) \\
 		\dot{y}_1 &= h_1(x_1, ..., x_n, u_1, .., u_l) \\
 			&\vdots \\
@@ -475,9 +475,58 @@
 	\end{align*}
 \end{frame}
 
- \begin{frame}
- 	
- \end{frame}
+\begin{frame}
+	\frametitle{Linearization around equilibrum points}
+	The first order Taylor expansion of $f()$ is described by the \textbf{Jacobian Matrix}:
+	\begin{align*}
+		\dfrac{dx}{dt} = 
+					\begin{bmatrix}
+						\dfrac{\partial f_1}{\partial x_1} 	&\dots 	&\dfrac{\partial f_1}{\partial x_n} 	&\dfrac{\partial f_1}{\partial u_1} 	&\dots 	&\dfrac{\partial f_1}{\partial u_l} \\
+						\vdots 						&		&							&					&		&\vdots  \\
+						\dfrac{\partial f_n}{\partial x_1} 	&\dots 	&\dfrac{\partial f_n}{\partial x_n} 	&\dfrac{\partial f_n}{\partial u_1} 	&\dots 	&\dfrac{\partial f_n}{\partial u_l} \\
+					\end{bmatrix}
+					\begin{bmatrix}
+						\Delta x_1 \\
+						\vdots \\
+						\Delta x_n \\
+						\Delta u_1 \\
+						\vdots \\
+						\Delta u_l
+					\end{bmatrix}
+	\end{align*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Linearization around equilibrum points}
+	This can be split up in a contribution by the state $x$ and the input $u$:
+	\begin{align*}
+		\dfrac{dx}{dt} =
+		\underbrace{\begin{bmatrix}
+						\dfrac{\partial f_1}{\partial x_1} 	&\dots 	&\dfrac{\partial f_1}{\partial x_n} 	\\
+						\vdots 								&		&\vdots  								\\
+						\dfrac{\partial f_n}{\partial x_1} 	&\dots 	&\dfrac{\partial f_n}{\partial x_n} 	\\
+					\end{bmatrix}}_A
+		\begin{bmatrix}
+			\Delta x_1 \\
+			\vdots \\
+			\Delta x_n \\
+		\end{bmatrix}
+		+
+		\underbrace{	\begin{bmatrix}
+							\dfrac{\partial f_1}{\partial u_1} 	&\dots 	&\dfrac{\partial f_1}{\partial u_l} 	\\
+							\vdots 								&		&\vdots 								\\ 
+							\dfrac{\partial f_n}{\partial u_1}	&\dots 	&\dfrac{\partial f_n}{\partial u_l}		\\
+						\end{bmatrix}}_B
+		\begin{bmatrix}
+			\Delta u_1 \\
+			\vdots \\
+			\Delta u_l 
+		\end{bmatrix}
+	\end{align*}
+	Similarly $C$ \& $D$ can be constructed from the Jacobian Matrix of $h(x,u)$
+\end{frame}
+	
+
 
 \begin{frame}
 	\frametitle{Example: decalcification plant}
@@ -765,7 +814,7 @@
 	\frametitle{Neural network: artificial}
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=\textwidth]{img/fig_neural_network_1.png}
+		\includegraphics[width=0.9\textwidth]{img/fig_neural_network_1.png}
 	\end{figure}
 \end{frame}
 
