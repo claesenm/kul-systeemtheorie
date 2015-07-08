@@ -1,6 +1,9 @@
 \beamer@endinputifotherversion {3.36pt}
-\beamer@sectionintoc {1}{System theory}{7}{0}{1}
-\beamer@subsectionintoc {1}{1}{Discrete systems}{8}{0}{1}
-\beamer@subsectionintoc {1}{2}{Continuous systems}{11}{0}{1}
-\beamer@sectionintoc {2}{Control theory}{14}{0}{2}
-\beamer@sectionintoc {3}{Examples}{20}{0}{3}
+\beamer@sectionintoc {1}{Course overview}{3}{0}{1}
+\beamer@sectionintoc {2}{Systems theory}{6}{0}{2}
+\beamer@sectionintoc {3}{Dynamical systems}{7}{0}{3}
+\beamer@sectionintoc {4}{Real life examples}{8}{0}{4}
+\beamer@sectionintoc {5}{Control theory}{13}{0}{5}
+\beamer@sectionintoc {6}{Open-loop vs. closed-loop systems}{18}{0}{6}
+\beamer@sectionintoc {7}{Feedback}{21}{0}{7}
+\beamer@sectionintoc {8}{Automatic control}{31}{0}{8}
