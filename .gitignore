@@ -64,3 +64,14 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Latex Temp Files
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+
+# Python Temp Files
+*.pyw

@@ -1,0 +1,700 @@
+\section{Introduction}
+
+\def\Z{\mathbb{Z}}
+\begin{frame}
+	\frametitle{Discrete Time Signal}
+	\begin{definition}<1->
+		Discrete time signals are sequences of values at the moments \dots,-2T,-T,0,T,2T,\dots.\\
+		$x[k]$ is the value of a signal at the moment $t = kT$
+	\end{definition}
+	\begin{example}<2->
+\begin{figure}
+\centering
+\includegraphics[ height=0.4\textheight]{Images/discrete_time_systems_13}
+
+\label{fig:discrete_time_systems_13}
+\end{figure}
+
+	\end{example}
+\end{frame}
+\begin{frame}
+	\frametitle{Discrete Time System}
+	\begin{definition}
+			A linear time-invariant (LTI) discrete time system processes an inputvector $u[k]$ to an outputvector $y[k]$.\\
+			Such a system has:\\
+			\begin{itemize}
+				\item A vector of input $u[k]$
+				\item A vector of output $y[k]$
+				\item A vector of states $x[k]$
+			\end{itemize}
+	\end{definition}
+\end{frame}
+\begin{frame}
+	\frametitle{Discrete Time System}
+		\begin{example}
+			\begin{figure}
+			\centering
+			\includegraphics[height=0.7\textheight]{Images/discrete_time_systems_14}
+
+			\label{fig:discrete_time_systems_14}
+		\end{figure}
+
+		\end{example}
+\end{frame}
+\begin{frame}
+	\frametitle{How to represent a system?}
+	\begin{itemize}
+		\item<1-> Block-diagram
+		\item<2-> State space representation
+		\item<3-> Difference/differential equation
+		\item<4-> Impulse response
+		\item<5-> Transferfunctions
+	\end{itemize}
+
+\end{frame}
+\section{Block-diagram}
+\begin{frame}
+	\frametitle{Block diagram}
+	\begin{figure}
+		\centering
+		\label{fig:discrete_time_systems_2}
+		\includegraphics[width=0.75\linewidth]{Images/discrete_time_systems_2}
+		\caption{An example of a discrete time system}
+	\end{figure}
+	\begin{definition}
+			A block diagram is a visual representation of a system. All LTI’s (Linear Time Invariant) systems can be constructed using 3 building blocks(Memory element, summation element, multiplication element). Note that every memory element corresponds to one state variable.
+	\end{definition}
+\end{frame}
+\begin{frame}
+	\frametitle{Building blocks}
+	\begin{columns}
+		\begin{column}{0.33\textwidth}
+			\begin{block}{Adder}
+				\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_15}
+				\label{fig:discrete_time_systems_15}
+			\end{figure}
+
+			\end{block}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+				\begin{block}{Constant Multiplier}
+					\begin{figure}
+					\centering
+					\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_16}
+					\label{fig:discrete_time_systems_16}
+					\end{figure}
+
+				\end{block}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\begin{block}{Delay element}
+				\begin{figure}
+					\centering
+					\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_17}
+					\label{fig:discrete_time_systems_17}
+				\end{figure}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Example: compond interes}
+	\begin{itemize}
+			\item $ u[k]$:The deposits and withdrawals from the bank account
+			\item $ x[k]$:The current saldo on bank account(before deposit and interest)
+			\item $ y[k]$: The acquired interest of that year
+			\item $ x[k+1]$: The saldo on the next year = current saldo + interest + deposits
+	\end{itemize}
+
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.45\textheight]{Images/discrete_time_systems_3}
+		\label{fig:discrete_time_systems_3}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\begin{tabular}{|c|c|c|c|}
+		\hline  $u[k]$& $x[k+1]$  & $x[k]$  & $y[k]$  \\ 
+		\hline  50 & 50 & 0  & 0  \\ 
+		\hline  0 & 52.5  & 50 & 2.5  \\ 
+		\hline  -25 & 30.13 & 52.5 & 2.62  \\ 
+		\hline  0 &  31.63 & 30.13  & 1.51  \\ 
+		\hline  0 & 33.21  & 31.63 & 1.58 \\ 
+		\hline  30 & 64.87 & 33.21  & 1.66 \\ 
+		\hline  0 & 68.12 & 64.87 & 3.24  \\ 
+		\hline  0 & 71.52 & 68.12 & 3.41 \\
+		\hline 
+	\end{tabular}
+	
+
+\end{frame}
+\begin{frame}
+	\frametitle{Bad block diagrams}
+
+				\begin{alertblock}{Delay-free loops}
+					The issue is that this leads to an implicit connection 
+					$u[k]$ depends on $y[k]$ ,which is not yet known
+					You can easily rewrite this in an allowd shape
+					$y[k] = u[k]  + 3 y[k] \Longleftrightarrow y[k] = -\frac{1}{2} u[k]$
+					\begin{figure}
+						\centering
+						\includegraphics[width = 0.5\linewidth]{Images/discrete_time_systems_4}
+						\caption{An example of a delay free loop}
+						\label{fig:discrete_time_systems_4}
+					\end{figure}
+				\end{alertblock}
+
+		
+
+				
+
+\end{frame}
+\begin{frame}
+	\frametitle{Bad block diagrams}
+		\begin{alertblock}{Connecting two outputs without using a sum}
+			The issue is that this can lead to inconsistencies.	According to this block diagram the output of the systems S1 and S2 are equal.There is no way to get around this.
+			\begin{figure}
+				\centering
+				\includegraphics[width = 0.5\linewidth]{Images/discrete_time_systems_5}
+				\label{fig:discrete_time_systems_5}
+			\end{figure}
+		\end{alertblock}
+\end{frame}
+\section{State Space representation}
+\begin{frame}
+	\frametitle{State space representation}
+	\begin{definition}{State space representation}
+		\begin{center}
+			$x[k+1] = A x[k] + B u[k]$ \\
+			$y[k] = C x[k] + D u[k] $ \\
+		\end{center}
+	\end{definition}
+	This state space representation is specific to LTI systems:\\
+	Linear: it’s easy to see these systems are linear \\
+	Time-invariant: the matrices A,B,C,D do not depend on time, if it were to be a time-variant system the matrices would be replaced by $A[k], B[k], C[k] and D[k]$. \\
+\end{frame}
+\begin{frame}
+\frametitle{From block diagram to state space }
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+	\begin{block}{Blockdiagram}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Images/discrete_time_systems_3}
+			\label{fig:discrete_time_systems_3}
+		\end{figure}
+	\end{block}
+	
+\end{column}
+\begin{column}{0.5\textwidth}
+	\begin{block}{State space representation}
+		\begin{enumerate}
+			\item Let the output of the memory elements be $x_{i}[k]$. 
+			\item So the input of the memory elements are $x_{k+1}$
+			\item Trace back to retrieve equations for $x_i[k+1] $   and $y_i[k]$ 
+		\end{enumerate}
+		This results in:
+		\begin{center}
+				$x[k+1] = u[k] + 1.05 x[k] $
+				$y[k] = 0.05 x[k]$
+		\end{center}
+	\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{From state space to block diagram }
+		\begin{block}{State space representation}
+				\begin{center}
+					$x[k+1] = A x[k] + B u[k]$ \\
+					$y[k] = C x[k] + D u[k] $ \\
+					
+					with  A = 
+					$\begin{bmatrix}
+					1 & 0 & 0 \\
+					0 & 0 & 1 \\
+					0 & 3 & 0
+					\end{bmatrix}$,
+					B = 
+					$\begin{bmatrix}
+					1\\
+					0\\
+					4\\
+					\end{bmatrix}$,
+					C = 
+					$\begin{bmatrix}
+					5 & 1 & 0
+					\end{bmatrix}$ 
+					and D = 
+					$\begin{bmatrix}
+					1
+					\end{bmatrix}$ \\
+				\end{center}
+		\end{block}
+	\begin{block}{Blockdiagram}
+		\begin{enumerate}
+			\item First add a delay element for every state $x_i[k]$
+			\item 	Determine the input for every state x[k+1] from the matrixes A and B, as a combination of the states x[k] and inputs u[k]
+			\item Determine the outputs y[k] in the same way with the matrixes C and D
+		\end{enumerate}
+	
+	\end{block}
+	
+
+
+\end{frame}
+\begin{frame}
+	\frametitle{From state space to block diagram (DT)}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_18}
+		\caption{}
+		\label{fig:discrete_time_systems_18}
+	\end{figure}
+
+	
+\end{frame}
+\begin{frame}
+	\frametitle{Different state space representations}
+	\begin{alertblock}{State space representation is not unique}
+		Take the following system, which connects u[k] to y[k]:
+		\begin{center}
+			$x[k+1] = A x[k] + B u[k]$ \\
+			$y[k] = C x[k] + D u[k] $ 
+		\end{center}
+		Now take a non-singular square matrix T and the following system. The relation between u[k] and y[k] will be the same.	
+		\begin{center}
+			$Tx[k+1] = TAT^{-1}Tx[k] + TBu[k]$\\
+			$y[k] = C T^{-1}Tx[k] + Du[k]$
+		\end{center}
+		With $x' = Tx, A' = TAT^{-1},B' = TB,C' = CT^{-1}$ and $D'=D$,  we have found a different state space representation for this system.
+		
+	\end{alertblock}
+\end{frame}
+\begin{frame}
+	\begin{block}{Solving state space equation}
+			\begin{center}
+				$x[k+1] = A x[k] + B u[k]$ \\
+				$y[k] = C x[k] + D u[k] $ 
+			\end{center}
+			\vspace{-1em}
+			We express $X[1],x[2],\dots$ in function of $x[0]$:
+			\vspace{-1em}
+			\begin{equation}
+				\begin{align}
+				$x[1] &= Ax[0]+Bu[0]$\\
+				$x[2] &= Ax[1] + Bu[1] = A^2x[0]+ABu[0]+ Bu[1]$\\
+				&\vdots\\
+				$x[k] &= A^kx[0] + \sum\limits_{i=0}^{k-1} A^{k-1-i}Bu[i]$
+				\end{align}
+			\end{equation}
+			\vspace{-1em}
+			The output is $y[k]$:
+			\begin{center}
+				$y[k] = \left\{ \begin{matrix} Cx[0] + Du[0]  & \mbox{if k = 0} \\ CA^kx[0]+\sum\limits_{i=0}^{k-1} CA^{k  -1  -i}Bu[i] +D u[k] & \mbox{if k $> $0} \end{matrix}\right$
+			\end{center}
+	\end{block}
+\end{frame}
+\section{Diffence equations}
+\begin{frame}
+	\frametitle{Diffence equations}
+	\begin{definition}
+		Similar to differential equations, but for discrete time.\\
+		General form: $\sum\limits_{i=0}^n a_iy[k+i] = \sum\limits_{i=0}^n b_iu[k+i]$\\
+		With n  the order of the system.\\
+	\end{definition}
+	\begin{block}{Solution in 2 parts}
+	\begin{enumerate}
+			\item Homogenous: solution from input zero
+			\item Particular: solution derived as a response from the input
+	\end{enumerate}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Homogenous difference equations}
+	\begin{definition}
+		General form: $\sum\limits_{i=0}^n a_iy[k+i]= 0$ \\
+	\end{definition}
+	\begin{example}
+		$y[k+1] - ay[k] = 0$\\
+		$y[k+1] = ay[k] $\\
+		$y[1] = ay[0] $\\
+		$y[2] = ay[1] = a^2y[0]$\\
+		\vdots
+		$y[n] = a^{n}y[0]$
+	\end{example}
+
+\end{frame}
+\begin{frame}
+	\frametitle{Homogenous difference equations}
+	\begin{block}{solution}
+		\begin{itemize}
+			\item Expected form of solution: $r^{k}$ 
+			\item 	Substitution of the expected solution in the difference equation:
+			$\sum\limits_{i=0}^n a_ir^{k+i}= 0$
+			\item Division by $r^{k}$ leads to the characteristic equation:
+			$\sum\limits_{i=0}^n a_ir^{i}= 0$
+			\item 	Solutions of the characteristic equation:
+			$r_1,r_2,r_3,\dots$
+			\item Homogenous solution to the difference equation: 
+			$y[k] = c_1r_1^{k} + c_2r_2^{k} + c_3r_3^{k} + \cdots =\sum\limits_{i=1}^{n}c_ir_i^{k}$
+		\end{itemize}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\begin{example}
+		
+		\begin{itemize}
+			\item Homogeneous recurrence relations: $y[k+2]-5y[k+1]+6y[k] = 0$
+			\item Initial value: $y[0] =1$, $y[1] = 1$
+			\item Characteristic polynomial: $r^2-5r+6=0$
+			\item Roots: 2 and 3
+			\item General solution: $c_1 2^k + c_2 3^k$
+			\item Intital values: 
+			\begin{center}
+				$
+				\begin{Bmatrix}
+					1 = c_1 + c_2\\
+					1 = 2c_1 + 3c_2\\
+				\end{Bmatrix}
+				$\\
+					$
+					\begin{Bmatrix}
+					2 = c_1 \\
+					-1 = c_2\\
+					\end{Bmatrix}
+					$\\
+			\end{center}
+			\item Result: $y[k] = 2^{k+1} - 3^{k}$
+		\end{itemize}
+	\end{example}
+\end{frame}
+\begin{frame}
+\frametitle{Example: Fibonacci sequence}
+\begin{columns}
+	\begin{column}{0.35\linewidth}
+		
+\begin{figure}
+\centering
+\includegraphics[height=0.5\textheight]{Images/discrete_time_systems_7}
+\caption{\scriptsize{Leonardo Bonacci (c. 1170 – c. 1250)known as Fibonacci was an Italian mathematician, considered to be "the most talented Western mathematician of the Middle Ages".}}
+\label{fig:discrete_time_systems_7}
+\end{figure}
+	\end{column}
+	\begin{column}{0.65\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{Images/discrete_time_systems_8}
+\caption{Fibonacci sequence}
+\label{fig:discrete_time_systems_8}
+\end{figure}
+	\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Fibonacci sequence}
+	\begin{example}
+		\begin{itemize}
+			\setlength\itemsep{0em}
+			\item Homogeneous recurrence relations: $y[k+2] = y[k+1] + y[k]$
+			\item Initial value: $y[0]=1, y[1]= 1$
+			\item Characteristic polynomial: $r^2 - r - 1=0$ 
+			\item Roots: $\frac{1+\sqrt{5}}{2}, \frac{1-\sqrt{5}}{2}$
+			\item General solution: $y[k] = c_1(\frac{1+\sqrt{5}}{2}) + c_2(\frac{1-\sqrt{5}}{2})$
+			\item Intital values: 
+			\begin{center}
+				$
+				\begin{Bmatrix}
+				c_1+ c_2 = 1\\
+				c_1 \frac{1+\sqrt{5}}{2} + c_2 \frac{1-\sqrt{5}}{2} = 1  \\
+				\end{Bmatrix}
+				$\\
+				$
+				\begin{Bmatrix}
+				c_1 = \frac{5+\sqrt{5}}{10}  \\
+				c_2 = \frac{5-\sqrt{5}}{10}
+				\end{Bmatrix}
+				$\\
+			\end{center}
+			\item Result: $y[k] =  (\frac{5+\sqrt{5}}{10})(\frac{1+\sqrt{5}}{2}) +(\frac{5-\sqrt{5}}{10}) (\frac{1-\sqrt{5}}{2})$
+		\end{itemize}
+	\end{example}
+\end{frame}
+\begin{frame}
+	\frametitle{Multiple roots and Complex roots}
+	\begin{block}{Multiple roots}
+		For a multiple root $r_i$ with multiplicity m add $r_i^k$,$kr_i^k$,\dots,$k^{m-1}r_i^{k}$
+	\end{block}
+	\begin{block}{Complex roots}
+		\small{
+		Complex  will result in oscillating behavior.
+		If the difference equations and starting conditions are both real the complex roots can only be present in conjugate pairs, the constants will also be in conjugate pairs.
+		\vspace{-1em}
+		\begin{center}
+				$ r_i = Re^{j\phi}$ 	$r_{i+1} = Re^{-j\phi}$\\
+				$c_i = R_0e^{j\phi_0}$	 $c_{i+1} = R_0e^{-j\phi_0}$\\
+				$c_ir_i^k+c_{i+1}r_{i+1}^k = R_0Re^{jk\phi+j\phi_0} +  R_0Re^{-(jk\phi+j\phi_0)} $\\
+				This can be converted into a cosine using Euler’s formula:
+				\vspace{-1em}
+				\begin{multline*}
+						y[k] = R_0R\big(\cos(k\phi+\phi_0) + \sin(k\phi+\phi_0) \big) +\\ R_0R\big(\cos(k\phi+\phi_0) - \sin(k\phi+\phi_0) \big)  
+				\end{multline*}\\
+						 $= 2R_0R\big(\cos(k\phi+\phi_0)\big)$			
+		\end{center}}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Euler’s formula}
+	\begin{theorem}
+		$e^{j\phi} = \cos(\phi) + \sin(\phi)j$
+	\end{theorem}
+	\begin{proof}
+		Using power series:\\
+		\begin{equation}
+			\begin{align*}
+					$e^{\phi j} &= 1 + jx-\frac{x^{2}}{2!} - \frac{jx^{3}}{3!} + \frac{x^{4}}{4!} + \frac{jx^{5}}{5!} + \dots$\\
+					& = \bigg(1-\frac{x^{2}}{2!}+ \frac{x^{4}}{4!} + \dots\bigg)+\bigg(x - \frac{x^{3}}{3!} + \frac{x^{5}}{5!}+\dots\bigg)j\\
+					&= \cos(\phi) + \sin(\phi)j
+			\end{align*}
+		\end{equation}		
+	\end{proof}
+\end{frame}
+\begin{frame}
+	\frametitle{Non-homogeneous difference equations}
+	\begin{definition}
+		\begin{center}
+			$\sum\limits_{i=0}^n a_iy[k+i] = \sum\limits_{i=0}^n b_iu[k+i]$\\
+		\end{center}
+	 	A linear combination of inputs results in the same linear combination of the outputs resulting from each input individually.
+	\end{definition}
+	\begin{block}{Solution}
+		The equation can thus be solved for each input individually and the results added together afterwards.
+			
+		The resulting particular solutions can then be added to the general form of the homogenous solution.
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Particular solutions to difference equations}
+	\begin{tabular}{|c|c|}
+		\hline Input $u[k]$ & Suggested solution $y[k]$  \\ 
+		\hline $k$ & $\alpha_1k+\alpha_0 $\\ 
+		\hline $k^{n}$ & $\sum\limits_{i=0}^{n}\alpha_{i}k^{i}$ \\ 
+		\hline $a^{k}$&  $\alpha a^{k}$\\ 
+		\hline $k^{n}a^{k}$ & $(\sum\limits_{i=0}^{n}\alpha_{i}k^{i})a^{k}$  \\ 
+		\hline $cos(k\phi)$ & $\alpha cos(k\phi + \phi_0)$\\ 
+		\hline $a^{k}cos(k\phi)$ & $\alpha a^{k} cos(k\phi + \phi_0)$  \\ 
+		\hline  $k^{n}a^{k}cos(k\phi)$&  $(\sum\limits_{i=0}^{n}\alpha_{i}k^{i}\alpha a^{k} cos(k\phi + \phi_0)$ \\ 
+		\hline 
+	\end{tabular} 
+\end{frame}
+\begin{frame}
+	\frametitle{Example}
+	\begin{example}
+		\begin{itemize}
+			\setlength\itemsep{0em}
+			\item Difference equation : $y[k+2] - 5y[k+1]+6y[k]=(-1)^k$
+			\item Initial value:  $y[1] = \frac{1}{4}, y[0] = \frac{1}{12}$
+			\item Homogeneous difference equation: $y[k+2] - 5y[k+1]+6y[k] = 0$
+			\item Characteristic polynomial: $r^2-5r+6 = 0$
+			\item Homogeneous solution: $y_{hom}[k] = c_{1}2^{k} + c_{2}3^{k}$
+			\item Particular solution: $y_{par}[k] = \alpha(-1)^k$
+			\item Subsitution: $\alpha(-1)^{k+2}-5\alpha(-1)^{k+1}+6\alpha(-1)^k = (-1)^k$
+			\item $\alpha = \frac{1}{12}$
+			\item General solution: $y[k] = c_{1}2^{k}+c_{2}3^{k}+\frac{1}{12}(-1)^{k}$
+			\item Initial values: $c_1 = -\frac{1}{3}, c_{2} = \frac{1}{3}$
+			\item Result:  $y[k]= -\frac{1}{3}2^{k}+\frac{1}{3}3^{k}+\frac{1}{12}(-1)^{k}$
+		\end{itemize}
+	\end{example}
+
+\end{frame}
+\section{Impulse response and convolution}
+\begin{frame}
+	\frametitle{Impulse responses }
+	\begin{definition}
+			$\delta[k] = \left\{ \begin{matrix} 1  & \mbox{if k = 0} \\ 0 & \mbox{otherwise } \end{matrix}\right$
+	\end{definition}
+	\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{Images/discrete_time_systems_19}
+\label{fig:discrete_time_systems_19}
+\end{figure}
+\begin{theorem}
+	You can decompose any signal in a sum of impulse response:s\\
+	$f[k]=\sum\limits_{i=-\infty}^{i=\infty}\delta[k-i]f[i] = \delta[k] \ast f[k]$
+\end{theorem}
+\end{frame}
+\begin{frame}
+	\frametitle{Convolution}
+	\begin{definition}
+		$w[k]=u[k]\ast v[k] = \sum\limits_{i=-\infty}^{\infty} u[i]v[k-i]$
+	\end{definition}
+	\begin{block}{Solve}
+		\begin{enumerate}
+			\item Flip v[i] around vertical axis(v[-i]).
+			\item Slide to the right over k steps(v[k-i]).
+			\item Multiply $u[i]$ and $v[k-i]$
+			\item Sum all the vaules.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Convolution theorem (DT)}
+	\begin{theorem}
+		$y[k] = u[k] \ast h[k]$
+	\end{theorem}
+	\begin{proof}
+		\begin{center}
+				$ \delta[k] \rightarrow h[k]$\\
+				$ \delta[k+i] \rightarrow h[k+i]$\\
+				$ \sum\limits_{i=-\infty}^{i=\infty}\delta[k-i]u[i] \rightarrow \sum\limits_{i=-\infty}^{i=\infty}h[k-i]u[i]$\\
+				$u[k] \rightarrow u[k] \ast h[k] = y[k] $
+		\end{center}
+	\end{proof}
+\end{frame}
+\begin{frame}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_20}
+\caption{}
+\label{fig:discrete_time_systems_20}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+	\frametitle{Impulse response}
+	\begin{definition}
+		The impulse response of a dynamic system is its output when presented with a brief input signal, called an impulse.
+	\end{definition}
+	\begin{block}{Impulse response}
+		$h[k] = \left\{ \begin{matrix} 0  & \mbox{if k$ <$  0} \\ D & \mbox{k= 0 }\\ CA^{k-1}B & \mbox{k$>$ 0 } \end{matrix}\right$
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Examples of Dirac-delta’s}
+	Popping balloons for acoustic measurements
+\begin{figure}
+\centering
+\includegraphics[height=0.7\textheight]{Images/discrete_time_systems_9}
+\label{fig:discrete_time_systems_9}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Leontief model of a planned economy}
+	\begin{columns}
+		\begin{column}{0.6 \textwidth}
+			\begin{itemize}
+					\item Won the nobel prize in 1973
+					\item A simple model that assigns values to different sectors
+					\item For simplicity we choose a planned economy. But today governments all over the world are using similar models to model their economy.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4 \textwidth}
+			
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{Images/discrete_time_systems_10}
+\caption{}
+\label{fig:discrete_time_systems_10}
+\end{figure}
+		\end{column}
+	\end{columns}
+
+
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Leontief model of a planned economy}
+	Leontief divided the economy in sectors who buy from eachother.
+	To produce one unit of industry 0.40 units of agriculture are required
+	TABEL INPORTEREN
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Leontief model of a planned economy}
+		     :production of sector i in month k
+		     :the demand to goods from sector i in the next month
+		     Note: in planned economy demand can be steered, economists can decide how many rations they give.
+		     The model
+		     $ x[k-1] = A x[k] + I u[k]\\
+		     y[k] = I x[k]$
+		     
+		     It is anti-causal: a subdivision of non-causal, for which only future values have to be known to know the current value
+		     \hyperlink{http://www.unc.edu/~marzuola/Math547_S13/Math547_S13_Projects/M_Kim_Section001_Leontief_IO_Model.pdf}{More info}
+		     
+\end{frame}
+
+\section{Z-transform}
+\begin{frame}{Z-transform}
+	\begin{definition}
+		\begin{itemize}
+			\item Discrete equivalent to the Laplace-transform
+			\item Converts time dependent descriptions of systems to the time-independent Z-domain.
+			\item Simplifies many calculations:
+			\begin{itemize}
+				\item 	Convolution theorem → convolution becomes multiplication
+				\item Linear difference equations become simple algebraic expressions
+				\item \dots
+			\end{itemize}
+		\end{itemize}
+	
+		
+	\end{definition}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_21}
+			\caption{}
+			\label{fig:discrete_time_systems_21}
+		\end{figure}
+		
+\end{frame}
+\begin{frame}
+	\frametitle{Z-transform}
+	\begin{block}{2 forms}
+			\begin{itemize}
+				
+				\item Bilateral:
+				Requires knowledge of h for all values of k, including negative values
+				Can be used for non-causal systems $X(z) = \sum\limits_{k=-\infty}^{\infty} x[k]z^{-k}$
+				\item 	Unilateral:
+				Only requires knowledge of h for positive values of k
+				Can only be used for causal systems without loss of information $X(z) = \sum\limits_{k=0}^{\infty} x[k]z^{-k}$
+			\end{itemize}
+	\end{block}
+
+
+\end{frame}
+\begin{frame}
+	\frametitle{Z-transform}
+		\begin{example}
+			\begin{center}
+				
+				$x[k] = \begin{Bmatrix}
+				1 & - 1 & 0 & 2 & 4\\
+				&     &   & \uparrow & \\
+				\end{Bmatrix}$
+			\end{center}
+			\begin{center}
+				$X(z) = \sum\limits_{k=-3}^{1}x[k]z^{-k} = z^3 -z^2 +2 + 4z^{-1}$
+			\end{center}
+		\end{example}	
+\end{frame}
+\begin{frame}
+	\frametitle{Properties Unilateral Z-transform}
+	\small{
+		\begin{tabular}{|c|c|c|}
+			\hline  Propery & Time Domain & Z-domain  \\ 
+			\hline  Linearity & $af_1[n]+bf_2[n] + \dots  $& $aF_1(Z)+bF_2(Z)+\dots$ \\ 
+			\hline  Right Shift(m>0)& $f[k-m]$  &$z^{-m}F(Z)$  \\ 
+			\hline  Left Shif (m>0)& $f[k+m] $  & $ z^m\bigg(F(z)-\sum\limits_{i=0}^{m-1}f[i]z^{-i} \bigg)$ \\ 
+			\hline  Convolution & $f[k]\ast g[k] $  & $F(z)G(z) $ \\ 
+			\hline  Multiplication by $a^{k}$ & $a^{k}f[k]$  & $F(a^{-1}z)$  \\ 
+			\hline  Summation in time& $\sum\limits_{i=0}^{k}f[i]$  & $\frac{z}{z-1}F(Z) $\\ 
+			\hline  Differentation in z& $k^mf[k]$ & $\big(-z \frac{d}{d}\big)^{m} F(z)$ \\ 
+			\hline  Periodic Sequence & $f[k] = f[k+N]$  & $F(z) = \frac{z^N}{z^{N-1}}\sum\limits_{k=0}^{N-1}f[k]z^{-1}  \\ 
+			\hline  Initial Value& f[0] & \lim_{\mid z \mid \to \infty} F(z) $  \\ 
+			\hline  Final value & $f[\infty] $ & $\lim_{z \to 1} (z-1)F(z) $ \\ 
+			\hline 
+		\end{tabular} }
+\end{frame}
