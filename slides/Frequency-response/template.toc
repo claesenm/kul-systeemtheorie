@@ -1,0 +1,6 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{The Transfer Function}{2}{0}{1}
+\beamer@sectionintoc {2}{What Is The Bode Plot}{5}{0}{2}
+\beamer@sectionintoc {3}{How To Construct A Bode Plot (by hand)}{9}{0}{3}
+\beamer@sectionintoc {4}{Examples}{24}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{26}{0}{5}
