@@ -1,44 +1,31 @@
 \section{Introduction}
 
-\def\Z{\mathbb{Z}}
-\def\R{\mathbb{R}}
+\def\Z{$\mathbb{Z}$}
+\def\R{$\mathbb{R}$}
 \begin{frame}
 	\frametitle{Discrete Time Signal}
 	\begin{definition}
-		Discrete time signals are sequences of values at the moments \dots,-2T,-T,0,T,2T,\dots.\\
+		Discrete-time signals is defined only at discrete instants of time. The value (amplityde) can be either continu or discrete.\\
 		$x[k]$ is the value of a signal at the moment $t = kT$
 	\end{definition}
 	\begin{example}
 		\begin{figure}
-			\centering
-			\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_13}
-			\caption{}
-			\label{fig:discrete_time_systems_13}
-		\end{figure}
+		\centering
+		\includegraphics[width=0.25\linewidth]{Images/Discrete_time_eps_1.eps}
+\end{figure}
+
 	\end{example}
 \end{frame}
 \begin{frame}
 	\frametitle{Discrete Time System}
 	\begin{definition}
 			A linear time-invariant (LTI) discrete time system processes an inputvector $u[k]$ to an outputvector $y[k]$.\\
-			Such a system has:\\
-			\begin{itemize}
-				\item A vector of input $u[k]$
-				\item A vector of output $y[k]$
-				\item A vector of states $x[k]$
-			\end{itemize}
 	\end{definition}
-\end{frame}
-\begin{frame}
-	\frametitle{Discrete Time System}
 		\begin{example}
 			\begin{figure}
-			\centering
-			\includegraphics[height=0.7\textheight]{Images/discrete_time_systems_14}
-
-			\label{fig:discrete_time_systems_14}
-		\end{figure}
-
+				\centering
+				\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_2.eps}
+			\end{figure}
 		\end{example}
 \end{frame}
 \begin{frame}
@@ -55,14 +42,15 @@
 \section{Block-diagram}
 \begin{frame}
 	\frametitle{Block diagram}
-	\begin{figure}
-		\centering
-		\label{fig:discrete_time_systems_2}
-		\includegraphics[width=0.75\linewidth]{Images/discrete_time_systems_2}
-		\caption{An example of a discrete time system}
-	\end{figure}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_3}
+			\end{figure}
+
+
+	\vspace{-1.5em}
 	\begin{definition}
-			A block diagram is a visual representation of a system. All LTI’s (Linear Time Invariant) systems can be constructed using 3 building blocks(Memory element, summation element, multiplication element). Note that every memory element corresponds to one state variable.
+			A block diagram is a visual representation of a system. All LTI’s (Linear Time Invariant) systems can be constructed using 3 building blocks (Memory element, summation element, multiplication element). Note that every memory element corresponds to one state variable.
 	\end{definition}
 \end{frame}
 \begin{frame}
@@ -90,11 +78,12 @@
 		\end{column}
 		\begin{column}{0.33\textwidth}
 			\begin{block}{Delay element}
-				\begin{figure}
-					\centering
-					\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_17}
-					\label{fig:discrete_time_systems_17}
-				\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_17}
+\caption{}
+\label{fig:discrete_time_systems_17}
+\end{figure}
 			\end{block}
 		\end{column}
 	\end{columns}
@@ -110,8 +99,7 @@
 
 	\begin{figure}
 		\centering
-		\includegraphics[height=0.45\textheight]{Images/discrete_time_systems_3}
-		\label{fig:discrete_time_systems_3}
+		\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_3}
 	\end{figure}
 \end{frame}
 \begin{frame}
@@ -138,18 +126,14 @@
 					$u[k]$ depends on $y[k]$ ,which is not yet known
 					You can easily rewrite this in an allowd shape
 					$y[k] = u[k]  + 3 y[k] \Longleftrightarrow y[k] = -\frac{1}{2} u[k]$
-					\begin{figure}
-						\centering
-						\includegraphics[width = 0.5\linewidth]{Images/discrete_time_systems_4}
-						\caption{An example of a delay free loop}
-						\label{fig:discrete_time_systems_4}
-					\end{figure}
+\begin{figure}
+\centering
+\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_4}
+\label{fig:discrete_time_systems_4}
+\end{figure}
 				\end{alertblock}
 
-		
-
-				
-
+	
 \end{frame}
 \begin{frame}
 	\frametitle{Bad block diagrams}
@@ -207,7 +191,7 @@
 \end{frame}
 \begin{frame}
 	\frametitle{From state space to block diagram }
-		\begin{block}{State space representation}
+		\small{\begin{example}
 				\begin{center}
 					$x[k+1] = A x[k] + B u[k]$ \\
 					$y[k] = C x[k] + D u[k] $ \\
@@ -233,25 +217,23 @@
 					1
 					\end{bmatrix}$ \\
 				\end{center}
-		\end{block}
-	\begin{block}{Blockdiagram}
+		\end{example} }
+		
+	\begin{block}{From state space to block diagram }
+		\small{
 		\begin{enumerate}
+			\setlength\itemsep{-0.5em}
 			\item First add a delay element for every state $x_i[k]$
 			\item 	Determine the input for every state x[k+1] from the matrixes A and B, as a combination of the states x[k] and inputs u[k]
 			\item Determine the outputs y[k] in the same way with the matrixes C and D
-		\end{enumerate}
-	
+		\end{enumerate} }
 	\end{block}
-	
-
-
 \end{frame}
 \begin{frame}
-	\frametitle{From state space to block diagram (DT)}
+	\frametitle{From state space to block diagram}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_18}
-		\caption{}
 		\label{fig:discrete_time_systems_18}
 	\end{figure}
 
@@ -281,21 +263,19 @@
 				$y[k] = C x[k] + D u[k] $ 
 			\end{center}
 			\vspace{-1em}
-			We express $X[1],x[2],\dots$ in function of $x[0]$:
+			We express $x[1],x[2],\dots$ in function of $x[0]$:
 			\vspace{-1em}
-			\begin{equation}
-				\begin{align}
-				$x[1] &= Ax[0]+Bu[0]$\\
-				$x[2] &= Ax[1] + Bu[1] = A^2x[0]+ABu[0]+ Bu[1]$\\
-				&\vdots\\
-				$x[k] &= A^kx[0] + \sum\limits_{i=0}^{k-1} A^{k-1-i}Bu[i]$
-				\end{align}
-			\end{equation}
-			\vspace{-1em}
+			\begin{align*}
+					x[1] &= Ax[0]+Bu[0]\\
+					x[2] &= Ax[1] + Bu[1] = A^2x[0]+ABu[0]+ Bu[1]\\
+					&\vdots\\
+					x[k] &= A^kx[0] + \sum\limits_{i=0}^{k-1} A^{k-1-i}Bu[i]
+			\end{align*}
+			\vspace{-2em}
 			The output is $y[k]$:
-			\begin{center}
-				$y[k] = \left\{ \begin{matrix} Cx[0] + Du[0]  & \mbox{if k = 0} \\ CA^kx[0]+\sum\limits_{i=0}^{k-1} CA^{k  -1  -i}Bu[i] +D u[k] & \mbox{if k $> $0} \end{matrix}\right$
-			\end{center}
+%			\begin{center}
+%				$y[k] = \left\{ \begin{matrix} Cx[0] + Du[0]  & \mbox{if } k = 0 $\\ $ CA^kx[0]+\sum\limits_{i=0 }^{k-1} CA^{k  -1  -i}Bu[i] +D u[k] & \mbox{if } k > 0 \end{matrix}\right$
+%			\end{center}
 	\end{block}
 \end{frame}
 \section{Diffence equations}
@@ -380,7 +360,7 @@
 \begin{figure}
 \centering
 \includegraphics[height=0.5\textheight]{Images/discrete_time_systems_7}
-\caption{\scriptsize{Leonardo Bonacci (c. 1170 – c. 1250)known as Fibonacci was an Italian mathematician, considered to be "the most talented Western mathematician of the Middle Ages".}}
+\caption{\tiny{Leonardo Bonacci (c. 1170 – c. 1250)known as Fibonacci was an Italian mathematician, considered to be "the most talented Western mathematician of the Middle Ages".}}
 \label{fig:discrete_time_systems_7}
 \end{figure}
 	\end{column}
@@ -453,11 +433,13 @@
 	\end{theorem}
 	\begin{proof}
 		Using power series:
-			\begin{align*}
-					$e^{\phi j} &= 1 + jx-\frac{x^{2}}{2!} - \frac{jx^{3}}{3!} + \frac{x^{4}}{4!} + \frac{jx^{5}}{5!} + \dots$\\
-					& = \bigg(1-\frac{x^{2}}{2!}+ \frac{x^{4}}{4!} + \dots\bigg)+\bigg(x - \frac{x^{3}}{3!} + \frac{x^{5}}{5!}+\dots\bigg)j\\
-					&= \cos(\phi) + \sin(\phi)j
-			\end{align*}		
+		%		\begin{aligned}
+		%		$e^{\phi j} &= 1 + jx-\frac{x^{2}}{2!} - \frac{jx^{3}}{3!} + \frac{x^{4}}{4!} + \frac{jx^{5}}{5!} + \dots\\
+		%		& = \bigg(1-\frac{x^{2}}{2!}+ \frac{x^{4}}{4!} + \dots\bigg)+\bigg(x - \frac{x^{3}}{3!} + \frac{x^{5}}{5!}+\dots\bigg)j\\
+		%		&= \cos(\phi) + \sin(\phi j)$
+		%		\end{aligned}	
+		
+		
 	\end{proof}
 \end{frame}
 \begin{frame}
@@ -512,7 +494,7 @@
 \begin{frame}
 	\frametitle{Impulse responses }
 	\begin{definition}
-			$\delta[k] = \left\{ \begin{matrix} 1  & \mbox{if k = 0} \\ 0 & \mbox{otherwise } \end{matrix}\right$
+%			$\delta[k] = \left\{ \begin{matrix} 1  & \mbox{if} k = 0 \\ 0 & \mbox{otherwise } \end{matrix}\right$
 	\end{definition}
 	\begin{figure}
 \centering
@@ -555,8 +537,7 @@
 \begin{frame}
 	\begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_20}
-\caption{}
+\includegraphics[height=0.8\textheight]{Images/discrete_time_systems_20}
 \label{fig:discrete_time_systems_20}
 \end{figure}
 
@@ -567,7 +548,7 @@
 		The impulse response of a dynamic system is its output when presented with a brief input signal, called an impulse.
 	\end{definition}
 	\begin{block}{Impulse response}
-		$h[k] = \left\{ \begin{matrix} 0  & \mbox{if k$ <$  0} \\ D & \mbox{k= 0 }\\ CA^{k-1}B & \mbox{k$>$ 0 } \end{matrix}\right$
+%		$h[k] = \left\{ \begin{matrix} 0  & \mbox{if k$ <$  0} \\ D & \mbox{k= 0 }\\ CA^{k-1}B & \mbox{k$>$ 0 } \end{matrix}\right$
 	\end{block}
 \end{frame}
 \begin{frame}
@@ -601,7 +582,6 @@
 		\end{column}
 	\end{columns}
 
-
 \end{frame}
 \begin{frame}
 	\frametitle{Example: Leontief model of a planned economy}
@@ -615,11 +595,11 @@
 		     :the demand to goods from sector i in the next month
 		     Note: in planned economy demand can be steered, economists can decide how many rations they give.
 		     The model
-		     $ x[k-1] = A x[k] + I u[k]\\
-		     y[k] = I x[k]$
+		     $ x[k-1] = A x[k] + I u[k]$\\
+		     $y[k] = I x[k]$
 		     
 		     It is anti-causal: a subdivision of non-causal, for which only future values have to be known to know the current value
-		     \hyperlink{http://www.unc.edu/~marzuola/Math547_S13/Math547_S13_Projects/M_Kim_Section001_Leontief_IO_Model.pdf}{More info}
+%		     \url{http://www.unc.edu/~marzuola/Math547_S13/Math547_S13_Projects/M_Kim_Section001_Leontief_IO_Model.pdf}{More info}
 		     
 \end{frame}
 
@@ -639,12 +619,11 @@
 	
 		
 	\end{definition}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_21}
-			\caption{}
-			\label{fig:discrete_time_systems_21}
-		\end{figure}
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_21}
+%			\label{fig:discrete_time_systems_21}
+%		\end{figure}
 		
 \end{frame}
 \begin{frame}
@@ -680,7 +659,6 @@
 \end{frame}
 \begin{frame}
 	\frametitle{Properties Unilateral Z-transform}
-	\small
 		\begin{tabular}{|c|c|c|}
 			\hline  Propery & Time Domain & Z-domain  \\ 
 			\hline  Linearity & $af_1[n]+bf_2[n] + \dots  $& $aF_1(Z)+bF_2(Z)+\dots$ \\ 
@@ -690,8 +668,8 @@
 			\hline  Multiplication by $a^{k}$ & $a^{k}f[k]$  & $F(a^{-1}z)$  \\ 
 			\hline  Summation in time& $\sum\limits_{i=0}^{k}f[i]$  & $\frac{z}{z-1}F(Z) $\\ 
 			\hline  Differentation in z& $k^mf[k]$ & $\big(-z \frac{d}{d}\big)^{m} F(z)$ \\ 
-			\hline  Periodic Sequence & $f[k] = f[k+N]$  & $F(z) = \frac{z^N}{z^{N-1}}\sum\limits_{k=0}^{N-1}f[k]z^{-1}  \\ 
-			\hline  Initial Value& f[0] & \lim_{\mid z \mid \to \infty} F(z) $  \\ 
+			\hline  Periodic Sequence & $f[k] = f[k+N]$  & $F(z) = \frac{z^N}{z^{N-1}}\sum\limits_{k=0}^{N-1}f[k]z^{-1}$  \\ 
+			\hline  Initial Value& f[0] &$ \lim_{\mid z \mid \to \infty} F(z) $  \\ 
 			\hline  Final value & $f[\infty] $ & $\lim_{z \to 1} (z-1)F(z) $ \\ 
 			\hline 
 		\end{tabular} 
@@ -712,7 +690,6 @@
 	\begin{figure}
 \centering
 \includegraphics[height=0.8\textheight]{Images/discrete_time_systems_23}
-\caption{}
 \label{fig:discrete_time_systems_23}
 \end{figure}
 
@@ -741,12 +718,13 @@
 				$k\geq 0: \mid x[k] \mid \leq M_{+}R_{+}^{k} $
 			\end{center}
 			\item Using $z = r e^{j\theta}$ with R+ as small as possible and R- as large as possible we get:
+			\vspace{-2em}
 			\begin{center}
-				\begin{align}
+				\begin{align*}
 				\sum\limits_{k=-\infty}^{\infty} \mid x[k]z^{-k} \mid &= \sum\limits_{k=-\infty}^{\infty} \mid x[k] \mid r^{-k} \\
-				&= \sum\limits_{k=1}^{\infty} \mid x[-k] \mid r^{k} + \sum\limits_{k=0}^{\infty} \mid x[k] \mid r^{-k} 
+				&= \sum\limits_{k=1}^{\infty} \mid x[-k] \mid r^{k} + \sum\limits_{k=0}^{\infty} \mid x[k] \mid r^{-k} \\
 				&\leq M_{-} \sum\limits_{k=1}^{\infty} (R_{-}^{-1}r)^{k} + M_{+} \sum\limits_{k= 0}^{\infty}(R_{+}r^{-1})^{k}
-				\end{align}
+				\end{align*}
 			\end{center}
 		\end{itemize}
 \end{frame}
@@ -763,8 +741,7 @@ ROC of a stable system always contains
 the unit circle.
 \begin{figure}
 \centering
-\includegraphics[width=0.4\linewidth]{Images/discrete_time_systems_24}
-\caption{}
+\includegraphics[height=0.5\textheight]{Images/discrete_time_systems_24}
 \label{fig:discrete_time_systems_24}
 \end{figure}
 
@@ -917,8 +894,8 @@ the unit circle.
 \end{frame}
 \begin{frame}
 	\frametitle{Solving difference equations with the Z-transform}
-	The final simplified result is:
-		$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z_}$\\
+	The final simplified result is:\\
+	%	$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z_}$\\
 		With this result it is easy to find the resulting output from a given input or vice-versa given a difference equation.
 		Right-hand fraction = output resulting from starting conditions: will vanish with time = transient behavior
 		Left-hand fraction = output resulting from input: will remain = steady state response. \\
@@ -949,19 +926,28 @@ the unit circle.
 	\frametitle{Z-Transform}
 	\begin{definition}
 		A pole $p_i$ of of the is system is a point int the complex z-plane where $H(p_i) = \pm \infty$\\
-		$\sum\limits_{i=0}^{n}a_iz^{i} = 0$
+		\begin{center}
+			$\sum\limits_{i=0}^{n}a_iz^{i} = 0$
+		\end{center}
+		
 	\end{definition}
 	\begin{definition}
-		A zero $n_i$ is a point where $H(n_i)=0$.
-		$\sum\limits_{i=0}^{n}b_iz^{i} = 0$
+		A zero $n_i$ is a point where $H(n_i)=0$.\\
+		\begin{center}
+			$\sum\limits_{i=0}^{n}b_iz^{i} = 0$
+		\end{center}
+		
 	\end{definition}
 \end{frame}
 \begin{frame}
 	\frametitle{Link between Eigenvalues and poles}
-	Are Eigenvalues of A poles of H(z)?\\
-	$H(z) = C(zI-A)^{-1}B + D$ \\
-	As z approaches an Eigenvalue of A, $(zI-A)^{-1}$ is no longer defined.\\
-	$C(zI-A)^{-1}B$	may still be defined depending on the values of C and B.
+	\textbf{Are Eigenvalues of A poles of H(z)?}\\
+	\small{
+	\begin{itemize}
+			\item As z approaches an Eigenvalue of A, $(zI-A)^{-1}$ is no longer defined.\\
+			\item $C(zI-A)^{-1}B$	may still be defined depending on the values of C and B.
+	\end{itemize}
+}
 	\begin{block}{Rule 1}
 			An Eigenvalue of A will sometimes, but not always, be a pole of H(z).
 	\end{block}
@@ -999,10 +985,9 @@ the unit circle.
 	\end{itemize}
 \end{frame}
 \begin{frame}
-	\begin{figure}
+\begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_27}
-\caption{}
+\includegraphics[height=0.7\textheight]{Images/discrete_time_systems_27}
 \label{fig:discrete_time_systems_27}
 \end{figure}
 \end{frame}
@@ -1047,10 +1032,10 @@ the unit circle.
 	\begin{columns}
 		\begin{column}{0.6\textwidth}
 			Busses and other tall vehicles have a tendency to roll when taking turns too quickly.
-			A London bus is loaded with sandbags and must be able to lean at an angle of at least 28˚ while still returning all tires to the ground.
+			A London bus is loaded with sandbags and must be able to lean at an angle of at least 28 while still returning all tires to the ground.
 			Modern day car manufacturers have to pass multiple tests for stability while maneuvering
 		\end{column}
-		\begin{column}
+		\begin{column}{0.4\textwidth}
 			\begin{figure}
 				\centering
 				\includegraphics[width=0.8\linewidth]{Images/discrete_time_systems_32}
@@ -1060,7 +1045,6 @@ the unit circle.
 	\end{columns}
 \end{frame}
 \begin{frame}
-	
 	\frametitle{Steady state behavior via Z-transform}
 	Starting from the previous result:\\
 	$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)z^{s}}{\sum\limits_{i=1}^{n}a_i z^i}$\\
@@ -1068,25 +1052,24 @@ the unit circle.
 	$ u[k] = \cos(k\alpha + \theta)$\\
 	To simplify derivation, we use:\\
 	$u[k] = e^{j(k\alpha + \theta)}$\\
-	With Z-transform:
-	$U(z) = \frac{ze^{j\theta}}{z-e^{j\alpha}}$
+	With Z-transform:	$U(z) = \frac{ze^{j\theta}}{z-e^{j\alpha}}$
 	
 \end{frame}
 \begin{frame}
 	\frametitle{Steady state behavior via Z-transform}
 	Filling in U(z) and splitting into partial fractions:
 	
-		$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} \frac{ze^{j\theta}}{z-e^{j\alpha}} + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z_}$\\
-		$Y(z) = \frac{cz}{z-e^{j\alpha}} + \frac{d_1z}{z-p_1} + \dots + \frac{d_nz}{z-p_n}+g$\\
+%		$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} \frac{ze^{j\theta}}{z-e^{j\alpha}} + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z_}$\\
+%		$Y(z) = \frac{cz}{z-e^{j\alpha}} + \frac{d_1z}{z-p_1} + \dots + \frac{d_nz}{z-p_n}+g$\\
 	Calculating the coefficient c:\\
-	$c= \bigg[Y(z)\frac{z-e^{j\alpha}}{den}\bigg]_{z=e^{j\alpha}} = \bigg[H(z)e^{j\theta}\bigg]_{z=e^{j\alpha} = H(e^{j\alpha})e^{j\theta}$\\
+%	$c= \bigg[Y(z)\frac{z-e^{j\alpha}}{den}\bigg]_{z=e^{j\alpha}} = \bigg[H(z)e^{j\theta}\bigg]_{z=e^{j\alpha} = H(e^{j\alpha})e^{j\theta}$\\
 	After the inverse Z-transform:\\
-	$
-	\begin{align}
-			$y[k]&=H(e^{j\alpha})e^{j(k\alpha+\theta)}+d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]$\\
-			$ &= \mid H(e^{j\alpha}) \mid e^{j(k\alpha+\theta+\angle H(e^{j\alpha}))} +d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]$\\
-	\end{align}
-	$
+	
+%	\begin{align}
+%			y[k]&=H(e^{j\alpha})e^{j(k\alpha+\theta)}+d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]\\
+%			 &= \mid H(e^{j\alpha}) \mid e^{j(k\alpha+\theta+\angle H(e^{j\alpha}))} +d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]\\
+%	\end{align}
+	
 \end{frame}
 \begin{frame}
 	\frametitle{Steady state behavior via Z-transform}
@@ -1143,7 +1126,7 @@ the unit circle.
 	A system is observable if the current state can be determined in finite time by measuring the outputs.\\
 	The state space model without inputs gives us:\\
 	$x[k+1] = A x[k] $ 				$y[k]=Cx[k]$\\
-	Now we can determine a set of vector equations in $x[0]$:\\
+%	Now we can determine a set of vector equations in $x[0]$\\
 	$x[1] = A x[0],x[2]  = A^2x[0],\dots , x[n-1] = A^{n-1} x[0]$\\
 	If x[k] has n internal states then n equations are needed:\\
 	$y[0] =Cx[0],y[1]=Cx[1]=CAx[0],\dots, y[n-1] = C A^{n-1} x[0]$\\
