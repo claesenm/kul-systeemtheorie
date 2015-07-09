@@ -79,6 +79,7 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{amsmath}
+\usepackage{epstopdf}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -212,13 +213,14 @@ Properties of a linear system (contained in the definition):
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
+\vspace {-4ex}
 \textbf{Properties of a linear system} (contained in the definition):
 \begin{itemize}
 \item Superposition\\
 \smallskip
 $u_{a}(t) \rightarrow y_{a}(t),\> u_{b}(t) \rightarrow y_{b}(t) \Leftrightarrow u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
 \medskip
-This means the output of a system can be found by splitting up the input and solving it separately (analogous to the homogeneous part of an ordinary differential equation).
+This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.
 \item Homogeneity\\
 \smallskip
 $\alpha u(t) \rightarrow \alpha y(t)$\\
@@ -237,30 +239,30 @@ How to recognize a linear system:
 \frametitle{Linear vs. Nonlinear: a linear system}
 \textbf{Examples}
 \begin{itemize}
-\item  
-\[
+\item 
+\begin{align*}
 \begin{cases} 
 \dot{x} = u\\ 
 \dot{y} = x + 2u
 \end{cases}
-\] 
+\end{align*}
 Linearity of this system is easily verified, based on the linearity of the derivative:\\
 \vspace{-4ex}
-\[
+\begin{align*}
 \begin{cases} 
 \textcolor{green}{\alpha \dot{x}_{a}(t)} + \textcolor{blue}{\beta \dot{x}_{b}(t)} = \textcolor{green}{\alpha u_{a}(t)} + \textcolor{blue}{\beta u_{b}(t)}\\ 
 \textcolor{green}{\alpha \dot{y}_{a}(t)} + \textcolor{blue}{\beta \dot{y}_{b}(t}) = \textcolor{green}{\alpha x_{a}(t)} + \textcolor{blue}{\beta x_{b}(t)} + \textcolor{green}{2 \alpha u_{a}(t)} + \textcolor{blue}{2 \beta u_{b} (t)}
 \end{cases}
-\] 
+\end{align*}
 
-\item
-\[
+\item 
+\begin{align*}
 \begin{cases} 
 \dot{x}_{1} = u\\ 
 \dot{x}_{2} = \frac{3}{2} x_{1} + u\\
 \dot{y} = a x_{1} - x_{2} + 2u
 \end{cases}
-\] 
+\end{align*}
 \end{itemize}
 \end{frame}
 
@@ -479,34 +481,36 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-%\frametitle{Causal vs. Non-causal}
-%Some mathematical examples:\\
-%\begin{colums}
-%\column{.5\textwidth}
-%\textbf{Causal systems}\\
-%\begin{itemize}
-%\item \begin{align*}
-%\begin{cases}
-%x[k+1] = u[k]\\
-%y[k] = 3 x [k+1] + u[k]
-%\end{cases}
-%\end{align*}
-%\item $y(t) = 2 u(t-\tau)$
-%\end{itemize}
-%
-%\column{.5\textwidth}
-%\textbf{Non-causal systems}\\
-%\begin{itemize}
-%\item \begin{align*}
-%\begin{cases}
-%x[k+1] = u[k])\\
-%y[k] = x[k+2] + \frac{1}{2}u[k]
-%\end{cases}
-%\end{align*}
-%\item $y(t) = u(t + \tau)$
-%\end{itemize}
-%
-%\end{columns}
+\frametitle{Causal vs. Non-causal}
+\vspace{-10ex}
+Some mathematical examples:\\
+\bigskip
+\begin{columns}
+\column{.5\textwidth}
+\textbf{Causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k]\\
+y[k] = 3 x [k+1] + u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = 2 u(t-\tau)$
+\end{itemize}
+
+\column{.5\textwidth}
+\textbf{Non-causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k])\\
+y[k] = x[k+2] + \frac{1}{2}u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = u(t + \tau)$
+\end{itemize}
+
+\end{columns}
 \end{frame}
 
 %------------------------------------------------
@@ -514,7 +518,71 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Time-invariant vs. Time-varying}
+Dynamics and properties of the system don't change through time.\\
+If the same input is applied to a system that is in the same state, then the output of a time-invariant system will be the same.\\
+\bigskip
+Mathematically this looks as follows:\\
+\begin{itemize}
+\item In a time-invariant system:\\
+if $u(t) \xrightarrow{x(t)} y(t)$ then $u(t+\tau) \xrightarrow{x(t+\tau)} y(t+\tau)$
+\medskip
+\item In time-varying systems, the parameters of the system are functions of time, e.g.:\\
+\vspace{-2ex}
+\begin{equation*}
+\begin{cases}
+             \dot{x}(t) = \textbf{A}x(t) + \textbf{B}u(t)\\
+             y(t) = \textbf{C}x(t) + \textbf{D}u(t)
+       \end{cases} \quad
+\Rightarrow \quad
+\begin{cases}
+            \dot{x}(t) = \textbf{A}(t)x(t) + \textbf{B}(t)u(t)\\
+             y(t) = \textbf{C}(t)x(t) + \textbf{D}(t)u(t)
+       \end{cases}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-8ex}
+\textbf{Time-invariant differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations. The coefficients of all terms are constant.\\
+Example: $\frac{d^{2}x}{dt^{2}} + 5\frac{dx}{dt} + 10x=0$\\
+\bigskip
+\textbf{Time-varying differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations, but coefficients of terms may involve the independent variable.\\
+Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-4ex}
+\begin{itemize}
+\item Examples of time-varying systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{The properties of an electrical circuit slowly change over time}
+\smallskip
+\item \normalsize{The human body also has many changing properties}
+\smallskip
+\item \normalsize{Systems affected by night and day (heating of buildings), when those aspects were ignored in the model}
+\end{itemize}
+\medskip
+\item Examples of (de facto) time-invariant systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{A system that describes a physical law, for instance a system with two masses as its input and their attractive force as an output}
+\smallskip
+\item \normalsize{In practice we approximate all systems whose properties change much slower than the variables as time-invariant}
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -522,7 +590,49 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Lumped vs. Distributed}
+Take the following example:\\
+\medskip
+We have a reactor in which we send a mixture of X and Y, we take $u(t)$ to be the concentration of X in the input (the concentration of Y is implicitly determined by the concentration of X, since they sum to 1).\\
+\medskip
+The output is a mixture of X, Y and a product P. We take $y_{1}(t)$ to be the concentration of X in the output and $y_{2}(t)$ to be the concentration of P. The concentration of Y is implicitly determined by the other concentrations).\\
+\begin{figure}[!htb]
+\includegraphics[width=.8\linewidth]{chem.eps}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+We want to determine the amount of states.\\
+\medskip
+The states should describe the reactor in such a way that we will be able to determine the reaction rate throughout the reactor.\\
+\medskip
+The rate of the reaction is determined by the local concentrations of the three compounds, which means we need two states at every point in the reactor (the reactor is not uniform).\\
+\medskip
+This means we need an \textbf{infinite amount of states}, we say that this is a \textbf{distributed system}.\\
+\medskip
+The relations in a distributed system are naturally expressed by \textbf{PDE's}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+Do we really need an infinitely large system for this problem?\\
+\medskip
+Not if we discretize the system, in which we take a finite amount of points at which we keep track of the concentration.\\
+\medskip
+Physically this would mean we assume that the concentrations are locally uniform.\\
+\medskip
+For some types of reactors you can go as far as to assume the reactor is perfectly stirred; with a homogeneous content.\\
+\medskip
+If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped system}.\\
+\medskip
+It can be expressed in a finite amout of \textbf{ODE's}.
 \end{frame}
 
 %----------------------------------------------------------------------------------------
