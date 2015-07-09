@@ -80,6 +80,7 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{amsmath}
 \usepackage{epstopdf}
+\usepackage{dsfont}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -117,11 +118,17 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Based on the number of inputs and outputs}
+\vspace{-16ex}
 \begin{enumerate}
+\bigskip
 \item \textbf{SISO}: Single Input Single Output
+\medskip
 \item \textbf{SIMO}: Single Input Multiple Output
+\medskip
 \item \textbf{MISO}: Multiple Input Single Output
+\medskip
 \item \textbf{MIMO}: Multiple Input Multiple Output
+\medskip
 \item \textbf{Autonomous}: No inputs and one or more outputs
 \end{enumerate}
 \end{frame}
@@ -132,6 +139,7 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Continuous vs. Discrete time}
+\vspace{-4ex}
 We will discuss both types simultaneously in order to emphasize the similarities (and differences).\\
 \medskip
 \begin{columns}[c] 
@@ -140,7 +148,7 @@ We will discuss both types simultaneously in order to emphasize the similarities
 \center \textbf{Continuous system}
 \begin{enumerate}
 \item It has continuous input and output signals
-\item We denote continuous time by $t \in \Re$
+\item We denote continuous time by $t \in \mathds{R}$
 \item We denote functions of continuous time with round brackets, e.g.: $x(t)$
 \end{enumerate}
 
@@ -148,7 +156,7 @@ We will discuss both types simultaneously in order to emphasize the similarities
 \center \textbf{Discrete system}
 \begin{enumerate}
 \item It has discrete input and output signals
-\item We denote discrete time by $k \in Z$
+\item We denote discrete time by $k \in \mathds{Z}$
 \item We denote functions of continuous time with square brackets, e.g.: $x[k]$
 \end{enumerate}
 
@@ -159,11 +167,12 @@ We will discuss both types simultaneously in order to emphasize the similarities
 
 \begin{frame}
 \frametitle{Continuous vs. Discrete time}
+\vspace{-2ex}
 \begin{columns}[c] 
 
 \column{.5\textwidth}
 \center {\textbf{Continuous}}\\
-For every moments $t \in \Re$, the system has: 
+For every moments $t \in \mathds{R}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}(t)
 \item A vector of outputs \textbf{y}(t)
@@ -175,7 +184,7 @@ For every moments $t \in \Re$, the system has:
 
 \column{.5\textwidth}
 \center {\textbf{Discrete}}\\
-For every moments $k \in Z$, the system has: 
+For every moments $k \in \mathds{Z}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}[k]
 \item A vector of outputs \textbf{y}[k]
@@ -194,11 +203,16 @@ For every moments $k \in Z$, the system has:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
-\vspace{-6ex}
+\vspace{-4ex}
 \textbf{Definition}\\
 \medskip
-A system is linear if $u_{1}(t) \rightarrow y_{1}(t)\> (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$ and $u_{2}(t) \rightarrow y_{2}(t)$ imply that \\
+A system is linear if \\
+$\qquad u_{1}(t) \rightarrow y_{1}(t)\> \qquad \qquad (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$\\
+$\qquad u_{2}(t) \rightarrow y_{2}(t)$ \\
+imply that \\
+\vspace{-2ex}
 \center{$\alpha u_{1}(t) + \beta u_{2}(t) \rightarrow \alpha y_{1}(t) + \beta y_{2}(t)$}\\
+\bigskip
 \begin{flushleft}
 Properties of a linear system (contained in the definition):
 \end{flushleft}
@@ -213,19 +227,22 @@ Properties of a linear system (contained in the definition):
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
-\vspace {-4ex}
 \textbf{Properties of a linear system} (contained in the definition):
 \begin{itemize}
 \item Superposition\\
 \smallskip
-$u_{a}(t) \rightarrow y_{a}(t),\> u_{b}(t) \rightarrow y_{b}(t) \Leftrightarrow u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\begin{center}
+$u_{a}(t) \rightarrow y_{a}(t) \>\> and \>\> u_{b}(t) \rightarrow y_{b}(t)$\\
+$ \Updownarrow$\\
+$ u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\end{center}
 \medskip
 This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.
 \item Homogeneity\\
 \smallskip
 $\alpha u(t) \rightarrow \alpha y(t)$\\
 \end{itemize}
-\bigskip
+\smallskip
 How to recognize a linear system:
 \begin{itemize}
 \item Linear in all of the variables
@@ -237,6 +254,7 @@ How to recognize a linear system:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
+\vspace{2ex}
 \textbf{Examples}
 \begin{itemize}
 \item 
@@ -247,7 +265,7 @@ How to recognize a linear system:
 \end{cases}
 \end{align*}
 Linearity of this system is easily verified, based on the linearity of the derivative:\\
-\vspace{-4ex}
+\vspace{-2ex}
 \begin{align*}
 \begin{cases} 
 \textcolor{green}{\alpha \dot{x}_{a}(t)} + \textcolor{blue}{\beta \dot{x}_{b}(t)} = \textcolor{green}{\alpha u_{a}(t)} + \textcolor{blue}{\beta u_{b}(t)}\\ 
@@ -270,6 +288,7 @@ Linearity of this system is easily verified, based on the linearity of the deriv
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: autonomous linear systems}
+\vspace{-2ex}
 Continuous-time autonomous linear dynamical systems are described by:\\
 \smallskip
 \center{$\dot{x}(t) = Ax(t)$}\\
@@ -288,6 +307,7 @@ Example: $\dot{x}(t) = \begin{bmatrix} -1 & 0 \\ 2 & 1 \end{bmatrix} x(t)$
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: violating homogeneity}
+\vspace{-1ex}
 All nonhomogeneous systems are strictly speaking nonlinear, e.g.:\\
 \begin{align*}
 & \begin{cases}
@@ -312,6 +332,7 @@ $\rightarrow$ nonhomogeneous systems that are linear apart from some function of
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: nonlinear systems}
+\vspace{-1ex}
 Some examples of nonlinear systems:
 \begin{align*}
 \begin{cases}
@@ -334,12 +355,14 @@ y(t) = x(t)
 y(t) = cos(x(t))
 \end{cases}
 \end{align*}
+
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear}
+\vspace{-8ex}
 \begin{columns}
 \column{.5\textwidth}
 \textbf{\Large{Predominantly linear}}\\
@@ -352,14 +375,19 @@ Simple mechanical systems
 \begin{itemize}
 \item Systems with ideal springs
 \end{itemize}
+\bigskip
 
-\column{.5\textwidth}
+\column{.45\textwidth}
 \textbf{\Large{Inherently nonlinear}}\\
 \medskip
 Chemical systems\\
+\smallskip
 Biological systems\\
+\smallskip
 Economical systems\\
+\smallskip
 More involved electrical or mechanical systems\\
+\smallskip
 ...
 \end{columns}
 \end{frame}
@@ -368,7 +396,7 @@ More involved electrical or mechanical systems\\
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear}
-\vspace{-8ex}
+\vspace{-11ex}
 \begin{itemize}
 \item Reality is nonlinear
 \item However, this course will only deal with linear systems
@@ -430,7 +458,7 @@ $\rightarrow$ A correcct model for this relation would have to be \textbf{non-ca
 
 \begin{frame}
 \frametitle{Causal vs. Non-causal}
-\vspace{-12ex}
+\vspace{-15.5ex}
 Examples of non-causal systems: \textbf{expectations}\\
 \medskip
 Modelling housing prices\\
@@ -547,11 +575,12 @@ if $u(t) \xrightarrow{x(t)} y(t)$ then $u(t+\tau) \xrightarrow{x(t+\tau)} y(t+\t
 
 \begin{frame}
 \frametitle{Time-invariant vs. Time-varying}
-\vspace{-8ex}
+\vspace{-6ex}
 \textbf{Time-invariant differential equation}\\
 \medskip
 The dependent variable and its derivatives appear as linear combinations. The coefficients of all terms are constant.\\
 Example: $\frac{d^{2}x}{dt^{2}} + 5\frac{dx}{dt} + 10x=0$\\
+\bigskip
 \bigskip
 \textbf{Time-varying differential equation}\\
 \medskip
@@ -597,7 +626,7 @@ We have a reactor in which we send a mixture of X and Y, we take $u(t)$ to be th
 \medskip
 The output is a mixture of X, Y and a product P. We take $y_{1}(t)$ to be the concentration of X in the output and $y_{2}(t)$ to be the concentration of P. The concentration of Y is implicitly determined by the other concentrations).\\
 \begin{figure}[!htb]
-\includegraphics[width=.8\linewidth]{chem.eps}
+\includegraphics[width=.8\linewidth]{chem}
 \end{figure}
 \end{frame}
 
