@@ -2,6 +2,6 @@
 \beamer@sectionintoc {1}{Number of inputs and outputs}{3}{0}{1}
 \beamer@sectionintoc {2}{Continuous vs. Discrete time}{4}{0}{2}
 \beamer@sectionintoc {3}{Linear vs. Nonlinear}{6}{0}{3}
-\beamer@sectionintoc {4}{Causal vs. Non-causal}{7}{0}{4}
-\beamer@sectionintoc {5}{Time-invariant vs. Time-varying}{8}{0}{5}
-\beamer@sectionintoc {6}{Lumped vs. Distributed}{9}{0}{6}
+\beamer@sectionintoc {4}{Causal vs. Non-causal}{14}{0}{4}
+\beamer@sectionintoc {5}{Time-invariant vs. Time-varying}{19}{0}{5}
+\beamer@sectionintoc {6}{Lumped vs. Distributed}{22}{0}{6}

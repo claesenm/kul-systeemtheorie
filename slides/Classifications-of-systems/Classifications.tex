@@ -78,6 +78,8 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{epstopdf}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -191,7 +193,192 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\vspace{-6ex}
+\textbf{Definition}\\
+\medskip
+A system is linear if $u_{1}(t) \rightarrow y_{1}(t)\> (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$ and $u_{2}(t) \rightarrow y_{2}(t)$ imply that \\
+\center{$\alpha u_{1}(t) + \beta u_{2}(t) \rightarrow \alpha y_{1}(t) + \beta y_{2}(t)$}\\
+\begin{flushleft}
+Properties of a linear system (contained in the definition):
+\end{flushleft}
+\vspace{-2ex}
+\begin{itemize}
+\item Superposition
+\item Homogeneity
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\vspace {-4ex}
+\textbf{Properties of a linear system} (contained in the definition):
+\begin{itemize}
+\item Superposition\\
+\smallskip
+$u_{a}(t) \rightarrow y_{a}(t),\> u_{b}(t) \rightarrow y_{b}(t) \Leftrightarrow u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\medskip
+This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.
+\item Homogeneity\\
+\smallskip
+$\alpha u(t) \rightarrow \alpha y(t)$\\
+\end{itemize}
+\bigskip
+How to recognize a linear system:
+\begin{itemize}
+\item Linear in all of the variables
+\item No constant factors
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: a linear system}
+\textbf{Examples}
+\begin{itemize}
+\item 
+\begin{align*}
+\begin{cases} 
+\dot{x} = u\\ 
+\dot{y} = x + 2u
+\end{cases}
+\end{align*}
+Linearity of this system is easily verified, based on the linearity of the derivative:\\
+\vspace{-4ex}
+\begin{align*}
+\begin{cases} 
+\textcolor{green}{\alpha \dot{x}_{a}(t)} + \textcolor{blue}{\beta \dot{x}_{b}(t)} = \textcolor{green}{\alpha u_{a}(t)} + \textcolor{blue}{\beta u_{b}(t)}\\ 
+\textcolor{green}{\alpha \dot{y}_{a}(t)} + \textcolor{blue}{\beta \dot{y}_{b}(t}) = \textcolor{green}{\alpha x_{a}(t)} + \textcolor{blue}{\beta x_{b}(t)} + \textcolor{green}{2 \alpha u_{a}(t)} + \textcolor{blue}{2 \beta u_{b} (t)}
+\end{cases}
+\end{align*}
+
+\item 
+\begin{align*}
+\begin{cases} 
+\dot{x}_{1} = u\\ 
+\dot{x}_{2} = \frac{3}{2} x_{1} + u\\
+\dot{y} = a x_{1} - x_{2} + 2u
+\end{cases}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: autonomous linear systems}
+Continuous-time autonomous linear dynamical systems are described by:\\
+\smallskip
+\center{$\dot{x}(t) = Ax(t)$}\\
+\begin{columns}
+\column{.5\textwidth}
+Example: $\dot{x}(t) = \begin{bmatrix} -1 & 0 \\ 2 & 1 \end{bmatrix} x(t)$
+
+\column{.5\textwidth}
+\begin{figure}
+\includegraphics[width=1\linewidth]{autonomous}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: violating homogeneity}
+All nonhomogeneous systems are strictly speaking nonlinear, e.g.:\\
+\begin{align*}
+& \begin{cases}
+\dot{x}(t) = x(t) + u(t)^{2}\\
+\dot{y}(t) = x(t)
+\end{cases} &&\text{$\Rightarrow$ nonhomogeneous}
+\end{align*}
+
+This is nonlinear, because the term $u(t)^{2}$ violates homogeneity.\\
+It can be turned into a linear system with inputs $z(t) = u(t)^{2}$.
+
+\begin{align*}
+& \begin{cases}
+\dot{x}(t) = x(t) + z(t)\\ 
+\dot{y}(t) = x(t)
+\end{cases} &&\text{$\Rightarrow$ linear}
+\end{align*}
+$\rightarrow$ nonhomogeneous systems that are linear apart from some function of inputs are often treated as linear systems.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear: nonlinear systems}
+Some examples of nonlinear systems:
+\begin{align*}
+\begin{cases}
+\dot{x}_{1}(t) = x_{1}(t) + u(t)\\
+\dot{x}_{2}(t) = x_{1}(t) x_{2}(t)\\
+y(t) = x_{1}(t) + x_{2}(t)
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\begin{cases}
+\dot{x}(t) = sin(x(t)) + u(t)\\
+y(t) = x(t)
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\begin{cases}
+\dot{x}(t) = 2 u(t) + 1\\
+y(t) = cos(x(t))
+\end{cases}
+\end{align*}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear}
+\begin{columns}
+\column{.5\textwidth}
+\textbf{\Large{Predominantly linear}}\\
+\medskip
+Simple electrical systems
+\begin{itemize}
+\item Circuits with ideal resistors, capacitors and inductors
+\end{itemize}
+Simple mechanical systems
+\begin{itemize}
+\item Systems with ideal springs
+\end{itemize}
+
+\column{.5\textwidth}
+\textbf{\Large{Inherently nonlinear}}\\
+\medskip
+Chemical systems\\
+Biological systems\\
+Economical systems\\
+More involved electrical or mechanical systems\\
+...
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Linear vs. Nonlinear}
+\vspace{-8ex}
+\begin{itemize}
+\item Reality is nonlinear
+\item However, this course will only deal with linear systems
+\item Why we prefer linear systems: \\
+\medskip
+The previously mentioned properties will allow for a thorough study of the system
+\item Why we are allowed to use linear systems, even in a nonlinear setting:\\
+\medskip
+You can linearize around an equilibrium point (we will do this in the next lecture)
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -199,7 +386,131 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Causal vs. Non-causal}
+\begin{itemize}
+\item \normalsize{A causal system only depends on the present and the past, not on the future}
+\item \normalsize{A non-causal system (also) depends on the future}
+\item \normalsize{(Almost) all physical systems are causal}
+\begin{itemize}
+\item \normalsize{A telephone:}
+\begin{itemize}
+\item \normalsize{It will not ring for future calls}
+\end{itemize}
+\item \normalsize{Any human:} 
+\begin{itemize}
+\item \normalsize{Is a system that will only react on inputs it has already received}
+\item \normalsize{If we react because we expect something to happen in the future, then that expectation arose from past or present inputs}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\bigskip
+\bigskip
+\footnotesize{source: http://www.deekshith.in/2013/03/causal-and-non-causal-systems-better-explained.html}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+\textbf{How do non-causal systems arise?}\\
+\medskip
+A possibility is by greatly reducing the complexity of a system, in which some causes of events are taken out of the equations.\\
+Example:\\
+\begin{itemize}
+\item A model of the economical consumption (\textbf{output})
+\item A lot of influencing factors, but the only \textbf{input} is the employment numbers
+\item Current and past employment numbers determine consumption, but when someone gets fired, they will continue to work for several weeks in most instances, but their consumption will drop immediately\\
+$\rightarrow$ A correcct model for this relation would have to be \textbf{non-causal}
+\item The non-causal model for this input-output relation is not useful if you want to determine the level of consumption
+\item You could use the relation to see a drop in employment, before it is visible in the employment numbers
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+\vspace{-12ex}
+Examples of non-causal systems: \textbf{expectations}\\
+\medskip
+Modelling housing prices\\
+\begin{itemize}
+\item People are willing to offer more for houses if they expect rising prices
+\item It is hard to measure the expectations or housing prices
+\item Sometimes economists use their own predictions of housing prices to replace the expectations
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+Examples of non-causal systems: \textbf{image processing}\\
+\begin{itemize}
+\item The input to our system (the image processor) is a two dimensional series of values ($u(k,l)$): the color values at the different pixels of the original image
+\item The output is a processed image ($y(k,l)$)
+\item There is now no reason to want causality; the input depends on position and not on time
+\item $y(k,l)$ can rely on 'later' values like $u(k+1,l+1)$, without that being a problem
+\end{itemize}
+\vspace{-2ex}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{original}
+\end{figure}
+\vspace{-4ex}
+\center{Original image}
+
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{removed}
+\end{figure}
+\vspace{-4ex}
+\center{Removed details}
+
+\column{.3\textwidth}
+\begin{figure}
+\includegraphics[width=.5\linewidth]{highlight}
+\end{figure}
+\vspace{-4ex}
+\center{Highlight borders}
+
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Causal vs. Non-causal}
+\vspace{-10ex}
+Some mathematical examples:\\
+\bigskip
+\begin{columns}
+\column{.5\textwidth}
+\textbf{Causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k]\\
+y[k] = 3 x [k+1] + u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = 2 u(t-\tau)$
+\end{itemize}
+
+\column{.5\textwidth}
+\textbf{Non-causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k])\\
+y[k] = x[k+2] + \frac{1}{2}u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = u(t + \tau)$
+\end{itemize}
+
+\end{columns}
 \end{frame}
 
 %------------------------------------------------
@@ -207,7 +518,71 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Time-invariant vs. Time-varying}
+Dynamics and properties of the system don't change through time.\\
+If the same input is applied to a system that is in the same state, then the output of a time-invariant system will be the same.\\
+\bigskip
+Mathematically this looks as follows:\\
+\begin{itemize}
+\item In a time-invariant system:\\
+if $u(t) \xrightarrow{x(t)} y(t)$ then $u(t+\tau) \xrightarrow{x(t+\tau)} y(t+\tau)$
+\medskip
+\item In time-varying systems, the parameters of the system are functions of time, e.g.:\\
+\vspace{-2ex}
+\begin{equation*}
+\begin{cases}
+             \dot{x}(t) = \textbf{A}x(t) + \textbf{B}u(t)\\
+             y(t) = \textbf{C}x(t) + \textbf{D}u(t)
+       \end{cases} \quad
+\Rightarrow \quad
+\begin{cases}
+            \dot{x}(t) = \textbf{A}(t)x(t) + \textbf{B}(t)u(t)\\
+             y(t) = \textbf{C}(t)x(t) + \textbf{D}(t)u(t)
+       \end{cases}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-8ex}
+\textbf{Time-invariant differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations. The coefficients of all terms are constant.\\
+Example: $\frac{d^{2}x}{dt^{2}} + 5\frac{dx}{dt} + 10x=0$\\
+\bigskip
+\textbf{Time-varying differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations, but coefficients of terms may involve the independent variable.\\
+Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-4ex}
+\begin{itemize}
+\item Examples of time-varying systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{The properties of an electrical circuit slowly change over time}
+\smallskip
+\item \normalsize{The human body also has many changing properties}
+\smallskip
+\item \normalsize{Systems affected by night and day (heating of buildings), when those aspects were ignored in the model}
+\end{itemize}
+\medskip
+\item Examples of (de facto) time-invariant systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{A system that describes a physical law, for instance a system with two masses as its input and their attractive force as an output}
+\smallskip
+\item \normalsize{In practice we approximate all systems whose properties change much slower than the variables as time-invariant}
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -215,7 +590,49 @@ For every moments $k \in Z$, the system has:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Lumped vs. Distributed}
+Take the following example:\\
+\medskip
+We have a reactor in which we send a mixture of X and Y, we take $u(t)$ to be the concentration of X in the input (the concentration of Y is implicitly determined by the concentration of X, since they sum to 1).\\
+\medskip
+The output is a mixture of X, Y and a product P. We take $y_{1}(t)$ to be the concentration of X in the output and $y_{2}(t)$ to be the concentration of P. The concentration of Y is implicitly determined by the other concentrations).\\
+\begin{figure}[!htb]
+\includegraphics[width=.8\linewidth]{chem.eps}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+We want to determine the amount of states.\\
+\medskip
+The states should describe the reactor in such a way that we will be able to determine the reaction rate throughout the reactor.\\
+\medskip
+The rate of the reaction is determined by the local concentrations of the three compounds, which means we need two states at every point in the reactor (the reactor is not uniform).\\
+\medskip
+This means we need an \textbf{infinite amount of states}, we say that this is a \textbf{distributed system}.\\
+\medskip
+The relations in a distributed system are naturally expressed by \textbf{PDE's}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+Do we really need an infinitely large system for this problem?\\
+\medskip
+Not if we discretize the system, in which we take a finite amount of points at which we keep track of the concentration.\\
+\medskip
+Physically this would mean we assume that the concentrations are locally uniform.\\
+\medskip
+For some types of reactors you can go as far as to assume the reactor is perfectly stirred; with a homogeneous content.\\
+\medskip
+If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped system}.\\
+\medskip
+It can be expressed in a finite amout of \textbf{ODE's}.
 \end{frame}
 
 %----------------------------------------------------------------------------------------

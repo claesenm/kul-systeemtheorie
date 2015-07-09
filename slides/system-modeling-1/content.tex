@@ -55,11 +55,15 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 	\stepcounter{exampleCount}
 	\frametitle{Example \arabic{exampleCount}: Mass-Spring Damped}
 	\begin{figure}
-\centering
-\includegraphics[width=1\linewidth]{img/mass-spring-damped}
-\label{fig:mass-spring-damped}
-\end{figure}
-\emph{\textcolor{blue}{ \href{https://youtu.be/8DuJEpy-ODo}{Animation} }}
+		\centering
+		\includegraphics[width=1\linewidth]{img/mass-spring-damped}
+		\label{fig:mass-spring-damped}
+	\end{figure}
+	Force excerted by damper: $F = b\dot{x}$
+	
+	Differential equation can be found by writing force equilibrium and moment equilibrium around center of mass
+	
+	%\emph{\textcolor{blue}{ \href{https://youtu.be/8DuJEpy-ODo}{Animation} }}
 \end{frame}
 
 \begin{frame}
@@ -93,12 +97,20 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 \begin{frame}
 	\stepcounter{exampleCount}
 	\frametitle{Example \arabic{exampleCount}: Inverted Pendulum}
-	\begin{figure}
-	\centering
-	\includegraphics[width=0.6\linewidth]{img/pendulum-inverted}
-	\label{fig:pendulum-inverted}
-	%youtube: https://www.youtube.com/watch?v=15DIidigArA
-	\end{figure}
+	\begin{columns}
+		\begin{column}{0.6\linewidth}
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{img/pendulum-inverted}
+				\label{fig:pendulum-inverted}
+				%youtube: https://www.youtube.com/watch?v=15DIidigArA
+			\end{figure}
+		\end{column}
+		\begin{column}{0.4\linewidth}
+			Analysis can be done with Newton like former example, but less tedious is using energy-methods (Lagrange)
+			
+		\end{column}
+	\end{columns}
+	
 \end{frame}
 
 \begin{frame}
@@ -110,7 +122,7 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 		\includegraphics[width=0.7\linewidth]{img/circuit-RLC}
 		\label{fig:circuit-RLC}
 		\end{figure}
-		Besides input $v_{in}$, two internal variables needed to determine output $\Rightarrow$ Second-order System
+		Besides input $v_{in}$, two internal variables are needed to determine output $\Rightarrow$ Second-order System
 		\begin{center}
 			\begin{tabular}{c@{\hskip 1cm} c@{\hskip 1cm} c}
 				Inputs 	& Ouputs 	& Choosen States \\ \hline
@@ -268,7 +280,7 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 		
 		\begin{column}{0.25\linewidth}
 			\hspace{3pt}
-			$F = kx \newline \Rightarrow \frac{df}{dt} = k\frac{dx}{dt}$ 
+			$F = kx \newline \Rightarrow \frac{dF}{dt} = k\frac{dx}{dt}$ 
 		\end{column}
 		
 		\begin{column}{0.25\linewidth}
@@ -324,7 +336,7 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 	\end{columns}
 	
 	\begin{center}
-		$\boxed{L \leftrightarrow m} $	
+		$\boxed{m \leftrightarrow L} $	
 	\end{center}
 \end{frame}
 
@@ -365,12 +377,12 @@ We can derive the mathematical model of a dynamic system in two ways mainly:
 			\hspace{1cm}$\dot{x}(t) = u(t) - y(t) = u(t) - c_2\cdot h(t) $
 		\item Thus a \textbf{State Space Representation} is, with $c \triangleq \frac{c_2}{c_1}$:
 			\begin{align*}
-				\dot{x}(t) &= u(t) - c\cdot x(t) =	\\
+				\dot{x}(t) &= u(t) - c\cdot x(t) \\
 				y(t) &= c\cdot x(t) \\
 			\end{align*} 
 	\end{itemize}
 	\vspace{-1cm}
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{img/hoover-block-diagram}
-	\end{center}	
+		\includegraphics[width=0.75\linewidth]{img/hoover-dam-diagram}
+	\end{center}
 \end{frame}
