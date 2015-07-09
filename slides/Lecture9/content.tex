@@ -196,7 +196,10 @@ e^2 -dc\ge 0
 \\ $\zeta$ is the damping ratio
 \vspace{0.25cm}
 \item The transfer function can now be rewritten as
-\\ $H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}$
+\\ \vspace{-0.5cm}
+\begin{align*}
+H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}
+\end{align*}
 \\ Which is called the standard form of the second-order system.
 \vspace{0.25cm}
 \item The dynamic behavior of the second-order system can then be described in terms of only two parameters $\zeta$ and $\omega_n$
@@ -209,6 +212,7 @@ e^2 -dc\ge 0
 \item If $0<\zeta<1$, the poles are complex conjugates and lie in the left-half $s$-plane
 \begin{itemize}
 \item The system is then called \textbf{underdamped}
+\vspace{0.15cm}
 \item The \textbf{transient response is oscillatory}
 \end{itemize}
 \vspace{0.25cm}
@@ -225,16 +229,36 @@ e^2 -dc\ge 0
 \begin{frame}
 \frametitle{Underdamped system}
 \begin{itemize}
-\item For the underdamped case $(0< \zeta< 1)$,the transfer function can be written as:\\ $H(s)=\frac{\omega_n ^2}{(s+\zeta\omega_n+j\omega_d)(s+\zeta\omega_n-j\omega_d)}$
+\item For the underdamped case $(0< \zeta< 1)$, the transfer function can be written as:\\ 
+\begin{align*}
+H(s)=\frac{\omega_n ^2}{(s+\zeta\omega_n+j\omega_d)(s+\zeta\omega_n-j\omega_d)}
+\end{align*}
 \item Where $\omega_d$ is called the damped natural frequency
-\\ $\omega_d = \omega_n\sqrt{1-\zeta^2}$
+\\ 
+\begin{align*}
+\omega_d = \omega_n\sqrt{1-\zeta^2}
+\end{align*}
 \item For a unit-step input we can write
-\\ $Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}$
+\\ 
+\begin{align*}
+Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
 \item Which can be rewritten as\\
 \vspace{-0.5cm}
 \begin{align*}
-Y(s)&=\frac{1}{s} -\frac{s+2\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} \\
+Y(s)&=\frac{1}{s} -\frac{s+2\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} \\ \vspace{0.80cm}
 &= \frac{1}{s} -\frac{s+\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} -\frac{\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2}
+\end{align*}
+\item It can be shown that
+\\ 
+\begin{align*}
+\mathcal{L}^{-1}[\frac{s+\zeta\omega_n}{(s+\zeta\omega_n)^2+\omega_d ^2}]&= e^{-\zeta\omega_n t}cos(\omega_d t)\\  \vspace{0.80cm}
+\mathcal{L}^{-1}[\frac{\omega_d}{(s+\zeta\omega_n)^2+\omega_d ^2}]&= e^{-\zeta\omega_n t}sin(\omega_d t)
 \end{align*}
 \end{itemize}
 \end{frame}
@@ -244,11 +268,14 @@ Y(s)&=\frac{1}{s} -\frac{s+2\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} \\
 \begin{frame}
 \frametitle{Underdamped system}
 \begin{itemize}
-\item It can be shown that
-\\ $\mathcal{L}^{-1}[\frac{s+\zeta\omega_n}{(s+\zeta\omega_n)^2+\omega_d ^2}]= e^{-\zeta\omega_n t}cos(\omega_d t)$\\ 
-$\mathcal{L}^{-1}[\frac{\omega_d}{(s+\zeta\omega_n)^2+\omega_d ^2}]= e^{-\zeta\omega_n t}sin(\omega_d t)$
-\item Therefore:\\
-$\mathcal{L}^{-1}[Y(s)]=y(t)$\\$ = 1 - e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))$\\$ = 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}sin(\omega_d t+ tan^{-1}(\frac{\sqrt{1-\zeta^2}}{\zeta}))$
+\item Therefore:\\ 
+\vspace{0.25cm}
+$\mathcal{L}^{-1}[Y(s)]=y(t)$
+\vspace{0.35cm}
+\\$ = 1 - e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))$
+\vspace{0.25cm}
+\\$ = 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}sin(\omega_d t+ tan^{-1}(\frac{\sqrt{1-\zeta^2}}{\zeta}))$
+\vspace{0.4cm}
 \item It can be seen that the frequency of the transient oscillation is the damped natural frequency $\omega_d$ and thus varies with the damping ratio $\zeta$
 \end{itemize}
 \end{frame}
@@ -262,6 +289,7 @@ e(t)&= y(t) -u(t)
 \\&= e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))
 \end{align*}
 \item The error signal exhibits a damped sinusoidal oscillation
+\vspace{0.8cm}
 \item At steady state, or at $t=\infty$, the error goes to zero
 \end{itemize}
 \end{frame}
@@ -290,6 +318,7 @@ e(t)&= y(t) -u(t)
 \frametitle{Critically damped system}
 \begin{itemize}
 \item If the two poles of the system are equal, the system is critically damped and $\zeta=1$
+\vspace{0.75cm}
 \item For a unit-step, $R(s)=\frac{1}{s}$ and we can write
 \begin{align*}
 Y(s) =\frac{\omega_n ^2}{(s+\omega_n)^2 s}
@@ -305,26 +334,44 @@ y(t) = 1 - e^{-\omega_n t}(1+\omega_n t) \text{ for } t\ge 0
 \frametitle{Overdamped system}
 \begin{itemize}
 \item A system is overdamped ($\zeta>1$) when the two poles are negative, real and unequal
+\vspace{0.5cm}
 \item For a unit-step $R(s)=\frac{1}{s}$, $Y(s)$ can be written as
-\ $ Y(s) = \frac{\omega_n ^2}{(s+\zeta\omega_n + \omega_n ^2\sqrt{\zeta^2 -1})(s+\zeta\omega_n - \omega_n ^2\sqrt{\zeta^2 -1})}$
+\\ 
+\begin{align*}
+Y(s) = \frac{\omega_n ^2}{(s+\zeta\omega_n + \omega_n ^2\sqrt{\zeta^2 -1})(s+\zeta\omega_n - \omega_n ^2\sqrt{\zeta^2 -1})}
+\end{align*} 
 \item The inverse Laplace transform is
-\\ $y(t) = 1 +\frac{w_n}{2\sqrt{\zeta^2-1}}(\frac{e^{-s_1 t}}{s1} - \frac{e^{-s_2 t}}{s2})$ for $t\ge 0$
+\\ 
+\begin{align*}
+y(t) = 1 +\frac{w_n}{2\sqrt{\zeta^2-1}}(\frac{e^{-s_1 t}}{s1} - \frac{e^{-s_2 t}}{s2})\text{, for } t\ge 0
+\end{align*}
 \item Where
-\\ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n$
+\\ 
+\begin{align*}
+s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n\text{ and } s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n
+\end{align*}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Overdamped system}
-$s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n$
 \begin{itemize}
+\item $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n$
+\vspace{0.3cm}
 \item Thus $y(t)$ includes two decaying exponential terms
 \begin{itemize}
+\vspace{0.2cm}
 \item When $\zeta >> 1$, one of the two decreases much faster than the other, and then the faster decaying exponential may be neglected
+\vspace{0.2cm}
 \item If $-s_2$ is located much closer to the $j\omega$ axis than $-s_1$ ($|s_2|>>|s_1|$), then $-s_1$ may be neglected
+\vspace{0.3cm}
 \item Once the faster decaying exponential term has disappeared, the response is similar to that of a first-order system
+\vspace{0.3cm}
 \item In that case, $H(s)$ can be approximated by
-\\ $H(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1}}=\frac{s_2}{s+s_2}$
+\\ 
+\begin{align*}
+H(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1}}=\frac{s_2}{s+s_2}
+\end{align*}
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -333,9 +380,15 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \frametitle{Overdamped system}
 \begin{itemize}
 \item With the approximate transfer function, the unit-step response becomes
-\ $Y(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{(s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1})s}$
+\\
+\begin{align*}
+ Y(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{(s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1})s}
+\end{align*}
 \item The time response for the approximate transfer function is then given as
-\\ $c(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}$, for $t\le 0$
+\\ 
+\begin{align*}
+c(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
+\end{align*}
 \end{itemize}
 \end{frame}
 
@@ -351,7 +404,9 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \frametitle{Second order systems - characteristics}
 \begin{itemize}
 \item Overshoot: Highest amplitude above steady state.
+\vspace{0.15cm}
 \item Rise Time: Time needed to reach the steady state for the first time.
+\vspace{0.15cm}
 \item Peak Time: Time to reach overshoot.
 \\ \begin{figure}
 \centering{\includegraphics[width=0.45\linewidth]{Afbeelding7}}
@@ -363,7 +418,9 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \frametitle{Second order systems - characteristics}
 \begin{itemize}
 \item Settling Time: Time needed to approximate the steady state.
+\vspace{0.15cm}
 \item For: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$
+\vspace{0.15cm}
 \item We find:
 \vspace{-0.55cm}
 \begin{align*}
@@ -390,8 +447,11 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \frametitle{Second order systems - resonance}
 \begin{itemize}
 \item The resonance frequency is: $\omega_r = \omega_n\sqrt{1-\zeta^2}$
+\vspace{0.15cm}
 \item Systems with a damping $>0.707$ do not resonate
+\vspace{0.15cm}
 \item The resonance frequency and the natural frequency are equal when a system has no damping.
+\vspace{0.15cm}
 \item Another phenomenon with bridges and resonance is that many people marching with the same rhythm can cause a bridge to start resonating like the Angers bridge in $1850$. A more recent example is the Millennium bridge in London who started resonating (see video lecture 2).
 \end{itemize}
 \end{frame}
@@ -400,7 +460,10 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \frametitle{Second order systems - damping}
 \begin{itemize}
 \item When we want a system with no resonance, we choose one with damping $<0.707$. This means a pole between $135^{\circ}$ and $225^{\circ}$:
-\\ $arctan(\frac{\sqrt{1-\zeta^2}}{\zeta}) = +135^{\circ}$
+\\ 
+\begin{align*}
+arctan(\frac{\sqrt{1-\zeta^2}}{\zeta}) = +135^{\circ}
+\end{align*}
 \item We mostly want a short settling time ($<4$s). This results in another restriction on the poles of the system: 
 \\ \begin{aligned}
 \tau_n= \frac{4}{\omega\zeta}&< 4\text{s}
