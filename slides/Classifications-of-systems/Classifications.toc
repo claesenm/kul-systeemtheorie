@@ -4,4 +4,4 @@
 \beamer@sectionintoc {3}{Linear vs. Nonlinear}{6}{0}{3}
 \beamer@sectionintoc {4}{Causal vs. Non-causal}{14}{0}{4}
 \beamer@sectionintoc {5}{Time-invariant vs. Time-varying}{19}{0}{5}
-\beamer@sectionintoc {6}{Lumped vs. Distributed}{20}{0}{6}
+\beamer@sectionintoc {6}{Lumped vs. Distributed}{22}{0}{6}

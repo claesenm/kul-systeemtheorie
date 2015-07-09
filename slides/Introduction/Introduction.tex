@@ -81,6 +81,7 @@
 \usepackage{hyperref}
 \usepackage{tikz}
 \usepackage{amsmath}
+\usepackage{epstopdf}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -383,7 +384,7 @@ Everything is a dynamical system.
 \frametitle{Millenium Bridge}
 Resonance on the Millenium Bridge in London due to the rithm of walking people.
 \begin{figure}
-\includegraphics[scale=0.9]{Millenium_bridge}
+\includegraphics[scale=0.4]{millenium_bridge}
 \end{figure}
 \url{https://www.youtube.com/watch?v=eAXVa__XWZ8}
 \end{frame}
@@ -394,7 +395,7 @@ Resonance on the Millenium Bridge in London due to the rithm of walking people.
 \frametitle{Neuronal acitvity}
 Real-time visualization of neuronal activity in the zebrafish brain
 \begin{figure}
-\includegraphics[scale=0.35]{neuronal_activity}
+\includegraphics[scale=0.8]{neuronal_activity}
 \end{figure}
 \url{https://youtu.be/_rGEkYfQVwY}
 \end{frame}
@@ -405,7 +406,7 @@ Real-time visualization of neuronal activity in the zebrafish brain
 \frametitle{Drumstick hitting a cymbal}
 Drumstick hitting a cymbal at 1000 frames/sec
 \begin{figure}
-\includegraphics[scale=0.32]{cymbal}
+\includegraphics[scale=.8]{cymbal}
 \end{figure}
 \url{https://youtu.be/kpoanOlb3-w}
 \end{frame}
@@ -416,7 +417,7 @@ Drumstick hitting a cymbal at 1000 frames/sec
 \frametitle{Pilot making a risky maneuvre}
 Experienced pilot making a risky maneuvre
 \begin{figure}
-\includegraphics[scale=0.5]{risky_maneuvre}
+\includegraphics[scale=0.8]{risky_maneuvre}
 \end{figure}
 \url{https://youtu.be/gGnyWgXnZ6g}
 \end{frame}
@@ -427,7 +428,7 @@ Experienced pilot making a risky maneuvre
 \frametitle{Synchronized metronomes}
 Synchronized metronomes
 \begin{figure}
-\includegraphics[scale=0.4]{synchronized_metronomes}
+\includegraphics[scale=0.8]{synchronized_metronomes}
 \end{figure}
 \url{https://www.youtube.com/watch?v=5v5eBf2KwF8}
 \end{frame}
@@ -487,10 +488,12 @@ The output is compared to the reference input and this \textit{'error'} is used 
 
 \begin{frame}
 \frametitle{Example}
-\vspace{-6ex}
+\vspace{-11ex}
 Speed control system\\
+\bigskip
+\bigskip
 \begin{figure}
-\includegraphics[width=1.1\linewidth]{speed_control_system}
+\includegraphics[width=1\linewidth]{speed_control_system}
 \end{figure}
 \end{frame}
 
@@ -498,7 +501,9 @@ Speed control system\\
 
 \begin{frame}
 \frametitle{Example}
+\vspace{-6ex}
 Temperature control system\\
+\bigskip
 \begin{figure}
 \includegraphics[width=1\linewidth]{temp_control_system}
 \end{figure}
@@ -520,14 +525,14 @@ Temperature control system\\
 
 \begin{frame}
 \frametitle{Open loop}
+\vspace{-10ex}
 In an open loop system, the output is not fed back into the controller. Therefore, the controller cannot \textit{'see'} the effect of its actions. \\
 This way it is hard to get the desired output.\\
-\medskip
-\begin{figure}
-\includegraphics[width=1\linewidth]{open_loop2}
-\end{figure}
 \bigskip
-For example: try pouring water in a glass without looking.
+\bigskip
+\begin{figure}
+\includegraphics[width=1\linewidth]{open_loop}
+\end{figure}
 \end{frame}
 
 %------------------------------------------------
@@ -559,6 +564,7 @@ The solution is evident: look at the glass while pouring!
 
 \begin{frame}
 \frametitle{Closed loop}
+\vspace{-4ex}
 In a closed loop system, the actuating error signal, which is the difference between the input signal and the feedback, is fed to the controller so as to reduce the error and bring the output to the desired value. 
 \medskip
 \begin{figure}
@@ -590,7 +596,7 @@ There are two types of feedback systems. The output can either be added to the r
 \frametitle{Range-localized sensitivity is a nonlinear behavior}
 \center{\Large{$V = sat(I)$}}
 \begin{figure}
-\includegraphics[width=1\linewidth]{range-localization}
+\includegraphics[width=1\linewidth]{range_localization}
 \end{figure}
 \end{frame}
 
@@ -601,7 +607,10 @@ There are two types of feedback systems. The output can either be added to the r
 \begin{figure}
 \includegraphics[width=1\linewidth]{black_negative}
 \end{figure}
+\begin{center}
 $V = sat_{1}(I - KV) \equiv V = sat_{\frac{1}{1+K}}(I)$\\
+\end{center}
+\medskip
 Sensitivity domain is spread by negative feedback\\
 (The essence of control theory)
 \end{frame}
@@ -620,7 +629,8 @@ V =  sat_{1}(I + KV) \equiv V =
        \mbox{-1} &\quad \text{$I \leq K-1$}\
      \end{cases}
 \]
-Sensitivity domain is spread by negative feedback
+Sensitivity domain is spread by negative feedback\\
+$\;$
 \end{frame}
 
 %------------------------------------------------
@@ -780,7 +790,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{Dance of the Flying Machines}
 \begin{figure}
-\includegraphics[scale=0.4]{flying_machines}
+\includegraphics[scale=.7]{flying_machines}
 \end{figure}
 \url{https://youtu.be/NRL_1ozDQCA}
 \end{frame}
@@ -790,7 +800,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{Automated driving with precision at the physical limits}
 \begin{figure}
-\includegraphics[scale=0.28]{autonomous_car}
+\includegraphics[scale=.7]{autonomous_car}
 \end{figure}
 \url{https://youtu.be/1FVglbJZ_tg}
 \end{frame}
@@ -800,7 +810,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{The Cubli: a cube that can jump, balance and 'walk'}
 \begin{figure}
-\includegraphics[scale=0.4]{cubli}
+\includegraphics[scale=.7]{cubli}
 \end{figure}
 \url{https://youtu.be/n_6p-1J551Y}
 \end{frame}
@@ -810,7 +820,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{Magnetic manipulator Magman and Matlab}
 \begin{figure}
-\includegraphics[scale=0.35]{magnetic_manipulator}
+\includegraphics[scale=.7]{magnetic_manipulator}
 \end{figure}
 \url{https://youtu.be/AhS_2gU1qW0}
 \end{frame}
@@ -820,7 +830,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{Badminton robot}
 \begin{figure}
-\includegraphics[scale=0.35]{badminton_robot}
+\includegraphics[scale=.5]{badminton_robot}
 \end{figure}
 \url{https://youtu.be/LSax71cn6A4}
 \end{frame}
@@ -830,7 +840,7 @@ Necessary localization in same frequency range!
 \begin{frame}
 \frametitle{Raffaello D'Andrea: The astounding athletic power of quadcopters}
 \begin{figure}
-\includegraphics[scale=0.35]{quadcopter}
+\includegraphics[scale=.6]{quadcopter}
 \end{figure}
 \url{https://www.youtube.com/watch?v=w2itwFJCgFQ}
 \end{frame}

@@ -79,6 +79,8 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{dsfont}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -116,11 +118,17 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Based on the number of inputs and outputs}
+\vspace{-16ex}
 \begin{enumerate}
+\bigskip
 \item \textbf{SISO}: Single Input Single Output
+\medskip
 \item \textbf{SIMO}: Single Input Multiple Output
+\medskip
 \item \textbf{MISO}: Multiple Input Single Output
+\medskip
 \item \textbf{MIMO}: Multiple Input Multiple Output
+\medskip
 \item \textbf{Autonomous}: No inputs and one or more outputs
 \end{enumerate}
 \end{frame}
@@ -131,6 +139,7 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Continuous vs. Discrete time}
+\vspace{-4ex}
 We will discuss both types simultaneously in order to emphasize the similarities (and differences).\\
 \medskip
 \begin{columns}[c] 
@@ -139,7 +148,7 @@ We will discuss both types simultaneously in order to emphasize the similarities
 \center \textbf{Continuous system}
 \begin{enumerate}
 \item It has continuous input and output signals
-\item We denote continuous time by $t \in \Re$
+\item We denote continuous time by $t \in \mathds{R}$
 \item We denote functions of continuous time with round brackets, e.g.: $x(t)$
 \end{enumerate}
 
@@ -147,7 +156,7 @@ We will discuss both types simultaneously in order to emphasize the similarities
 \center \textbf{Discrete system}
 \begin{enumerate}
 \item It has discrete input and output signals
-\item We denote discrete time by $k \in Z$
+\item We denote discrete time by $k \in \mathds{Z}$
 \item We denote functions of continuous time with square brackets, e.g.: $x[k]$
 \end{enumerate}
 
@@ -158,11 +167,12 @@ We will discuss both types simultaneously in order to emphasize the similarities
 
 \begin{frame}
 \frametitle{Continuous vs. Discrete time}
+\vspace{-2ex}
 \begin{columns}[c] 
 
 \column{.5\textwidth}
 \center {\textbf{Continuous}}\\
-For every moments $t \in \Re$, the system has: 
+For every moments $t \in \mathds{R}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}(t)
 \item A vector of outputs \textbf{y}(t)
@@ -174,7 +184,7 @@ For every moments $t \in \Re$, the system has:
 
 \column{.5\textwidth}
 \center {\textbf{Discrete}}\\
-For every moments $k \in Z$, the system has: 
+For every moments $k \in \mathds{Z}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}[k]
 \item A vector of outputs \textbf{y}[k]
@@ -193,11 +203,16 @@ For every moments $k \in Z$, the system has:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
-\vspace{-6ex}
+\vspace{-4ex}
 \textbf{Definition}\\
 \medskip
-A system is linear if $u_{1}(t) \rightarrow y_{1}(t)\> (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$ and $u_{2}(t) \rightarrow y_{2}(t)$ imply that \\
+A system is linear if \\
+$\qquad u_{1}(t) \rightarrow y_{1}(t)\> \qquad \qquad (input\> u_{1}(t) \>results\> in\>output \>y_{1}(t))$\\
+$\qquad u_{2}(t) \rightarrow y_{2}(t)$ \\
+imply that \\
+\vspace{-2ex}
 \center{$\alpha u_{1}(t) + \beta u_{2}(t) \rightarrow \alpha y_{1}(t) + \beta y_{2}(t)$}\\
+\bigskip
 \begin{flushleft}
 Properties of a linear system (contained in the definition):
 \end{flushleft}
@@ -216,14 +231,18 @@ Properties of a linear system (contained in the definition):
 \begin{itemize}
 \item Superposition\\
 \smallskip
-$u_{a}(t) \rightarrow y_{a}(t),\> u_{b}(t) \rightarrow y_{b}(t) \Leftrightarrow u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\begin{center}
+$u_{a}(t) \rightarrow y_{a}(t) \>\> and \>\> u_{b}(t) \rightarrow y_{b}(t)$\\
+$ \Updownarrow$\\
+$ u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
+\end{center}
 \medskip
-This means the output of a system can be found by splitting up the input and solving it separately (analogous to the homogeneous part of an ordinary differential equation).
+This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.
 \item Homogeneity\\
 \smallskip
 $\alpha u(t) \rightarrow \alpha y(t)$\\
 \end{itemize}
-\bigskip
+\smallskip
 How to recognize a linear system:
 \begin{itemize}
 \item Linear in all of the variables
@@ -235,32 +254,33 @@ How to recognize a linear system:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
+\vspace{2ex}
 \textbf{Examples}
 \begin{itemize}
-\item  
-\[
+\item 
+\begin{align*}
 \begin{cases} 
 \dot{x} = u\\ 
 \dot{y} = x + 2u
 \end{cases}
-\] 
+\end{align*}
 Linearity of this system is easily verified, based on the linearity of the derivative:\\
-\vspace{-4ex}
-\[
+\vspace{-2ex}
+\begin{align*}
 \begin{cases} 
 \textcolor{green}{\alpha \dot{x}_{a}(t)} + \textcolor{blue}{\beta \dot{x}_{b}(t)} = \textcolor{green}{\alpha u_{a}(t)} + \textcolor{blue}{\beta u_{b}(t)}\\ 
 \textcolor{green}{\alpha \dot{y}_{a}(t)} + \textcolor{blue}{\beta \dot{y}_{b}(t}) = \textcolor{green}{\alpha x_{a}(t)} + \textcolor{blue}{\beta x_{b}(t)} + \textcolor{green}{2 \alpha u_{a}(t)} + \textcolor{blue}{2 \beta u_{b} (t)}
 \end{cases}
-\] 
+\end{align*}
 
-\item
-\[
+\item 
+\begin{align*}
 \begin{cases} 
 \dot{x}_{1} = u\\ 
 \dot{x}_{2} = \frac{3}{2} x_{1} + u\\
 \dot{y} = a x_{1} - x_{2} + 2u
 \end{cases}
-\] 
+\end{align*}
 \end{itemize}
 \end{frame}
 
@@ -268,6 +288,7 @@ Linearity of this system is easily verified, based on the linearity of the deriv
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: autonomous linear systems}
+\vspace{-2ex}
 Continuous-time autonomous linear dynamical systems are described by:\\
 \smallskip
 \center{$\dot{x}(t) = Ax(t)$}\\
@@ -286,6 +307,7 @@ Example: $\dot{x}(t) = \begin{bmatrix} -1 & 0 \\ 2 & 1 \end{bmatrix} x(t)$
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: violating homogeneity}
+\vspace{-1ex}
 All nonhomogeneous systems are strictly speaking nonlinear, e.g.:\\
 \begin{align*}
 & \begin{cases}
@@ -310,6 +332,7 @@ $\rightarrow$ nonhomogeneous systems that are linear apart from some function of
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: nonlinear systems}
+\vspace{-1ex}
 Some examples of nonlinear systems:
 \begin{align*}
 \begin{cases}
@@ -332,12 +355,14 @@ y(t) = x(t)
 y(t) = cos(x(t))
 \end{cases}
 \end{align*}
+
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear}
+\vspace{-8ex}
 \begin{columns}
 \column{.5\textwidth}
 \textbf{\Large{Predominantly linear}}\\
@@ -350,14 +375,19 @@ Simple mechanical systems
 \begin{itemize}
 \item Systems with ideal springs
 \end{itemize}
+\bigskip
 
-\column{.5\textwidth}
+\column{.45\textwidth}
 \textbf{\Large{Inherently nonlinear}}\\
 \medskip
 Chemical systems\\
+\smallskip
 Biological systems\\
+\smallskip
 Economical systems\\
+\smallskip
 More involved electrical or mechanical systems\\
+\smallskip
 ...
 \end{columns}
 \end{frame}
@@ -366,7 +396,7 @@ More involved electrical or mechanical systems\\
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear}
-\vspace{-8ex}
+\vspace{-11ex}
 \begin{itemize}
 \item Reality is nonlinear
 \item However, this course will only deal with linear systems
@@ -428,7 +458,7 @@ $\rightarrow$ A correcct model for this relation would have to be \textbf{non-ca
 
 \begin{frame}
 \frametitle{Causal vs. Non-causal}
-\vspace{-12ex}
+\vspace{-15.5ex}
 Examples of non-causal systems: \textbf{expectations}\\
 \medskip
 Modelling housing prices\\
@@ -479,34 +509,36 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-%\frametitle{Causal vs. Non-causal}
-%Some mathematical examples:\\
-%\begin{colums}
-%\column{.5\textwidth}
-%\textbf{Causal systems}\\
-%\begin{itemize}
-%\item \begin{align*}
-%\begin{cases}
-%x[k+1] = u[k]\\
-%y[k] = 3 x [k+1] + u[k]
-%\end{cases}
-%\end{align*}
-%\item $y(t) = 2 u(t-\tau)$
-%\end{itemize}
-%
-%\column{.5\textwidth}
-%\textbf{Non-causal systems}\\
-%\begin{itemize}
-%\item \begin{align*}
-%\begin{cases}
-%x[k+1] = u[k])\\
-%y[k] = x[k+2] + \frac{1}{2}u[k]
-%\end{cases}
-%\end{align*}
-%\item $y(t) = u(t + \tau)$
-%\end{itemize}
-%
-%\end{columns}
+\frametitle{Causal vs. Non-causal}
+\vspace{-10ex}
+Some mathematical examples:\\
+\bigskip
+\begin{columns}
+\column{.5\textwidth}
+\textbf{Causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k]\\
+y[k] = 3 x [k+1] + u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = 2 u(t-\tau)$
+\end{itemize}
+
+\column{.5\textwidth}
+\textbf{Non-causal systems}\\
+\begin{itemize}
+\item \begin{align*}
+\begin{cases}
+x[k+1] = u[k])\\
+y[k] = x[k+2] + \frac{1}{2}u[k]
+\end{cases}
+\end{align*}
+\item $y(t) = u(t + \tau)$
+\end{itemize}
+
+\end{columns}
 \end{frame}
 
 %------------------------------------------------
@@ -514,7 +546,72 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Time-invariant vs. Time-varying}
+Dynamics and properties of the system don't change through time.\\
+If the same input is applied to a system that is in the same state, then the output of a time-invariant system will be the same.\\
+\bigskip
+Mathematically this looks as follows:\\
+\begin{itemize}
+\item In a time-invariant system:\\
+if $u(t) \xrightarrow{x(t)} y(t)$ then $u(t+\tau) \xrightarrow{x(t+\tau)} y(t+\tau)$
+\medskip
+\item In time-varying systems, the parameters of the system are functions of time, e.g.:\\
+\vspace{-2ex}
+\begin{equation*}
+\begin{cases}
+             \dot{x}(t) = \textbf{A}x(t) + \textbf{B}u(t)\\
+             y(t) = \textbf{C}x(t) + \textbf{D}u(t)
+       \end{cases} \quad
+\Rightarrow \quad
+\begin{cases}
+            \dot{x}(t) = \textbf{A}(t)x(t) + \textbf{B}(t)u(t)\\
+             y(t) = \textbf{C}(t)x(t) + \textbf{D}(t)u(t)
+       \end{cases}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-6ex}
+\textbf{Time-invariant differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations. The coefficients of all terms are constant.\\
+Example: $\frac{d^{2}x}{dt^{2}} + 5\frac{dx}{dt} + 10x=0$\\
+\bigskip
+\bigskip
+\textbf{Time-varying differential equation}\\
+\medskip
+The dependent variable and its derivatives appear as linear combinations, but coefficients of terms may involve the independent variable.\\
+Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Time-invariant vs. Time-varying}
+\vspace{-4ex}
+\begin{itemize}
+\item Examples of time-varying systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{The properties of an electrical circuit slowly change over time}
+\smallskip
+\item \normalsize{The human body also has many changing properties}
+\smallskip
+\item \normalsize{Systems affected by night and day (heating of buildings), when those aspects were ignored in the model}
+\end{itemize}
+\medskip
+\item Examples of (de facto) time-invariant systems:
+\smallskip
+\begin{itemize}
+\item \normalsize{A system that describes a physical law, for instance a system with two masses as its input and their attractive force as an output}
+\smallskip
+\item \normalsize{In practice we approximate all systems whose properties change much slower than the variables as time-invariant}
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -522,7 +619,49 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{}
+\frametitle{Lumped vs. Distributed}
+Take the following example:\\
+\medskip
+We have a reactor in which we send a mixture of X and Y, we take $u(t)$ to be the concentration of X in the input (the concentration of Y is implicitly determined by the concentration of X, since they sum to 1).\\
+\medskip
+The output is a mixture of X, Y and a product P. We take $y_{1}(t)$ to be the concentration of X in the output and $y_{2}(t)$ to be the concentration of P. The concentration of Y is implicitly determined by the other concentrations).\\
+\begin{figure}[!htb]
+\includegraphics[width=.8\linewidth]{chem}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+We want to determine the amount of states.\\
+\medskip
+The states should describe the reactor in such a way that we will be able to determine the reaction rate throughout the reactor.\\
+\medskip
+The rate of the reaction is determined by the local concentrations of the three compounds, which means we need two states at every point in the reactor (the reactor is not uniform).\\
+\medskip
+This means we need an \textbf{infinite amount of states}, we say that this is a \textbf{distributed system}.\\
+\medskip
+The relations in a distributed system are naturally expressed by \textbf{PDE's}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Lumped vs. Distributed}
+\vspace{-6ex}
+Do we really need an infinitely large system for this problem?\\
+\medskip
+Not if we discretize the system, in which we take a finite amount of points at which we keep track of the concentration.\\
+\medskip
+Physically this would mean we assume that the concentrations are locally uniform.\\
+\medskip
+For some types of reactors you can go as far as to assume the reactor is perfectly stirred; with a homogeneous content.\\
+\medskip
+If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped system}.\\
+\medskip
+It can be expressed in a finite amout of \textbf{ODE's}.
 \end{frame}
 
 %----------------------------------------------------------------------------------------
