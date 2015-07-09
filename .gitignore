@@ -75,3 +75,5 @@ target/
 
 # Python Temp Files
 *.pyw
+# Dia Temp Files
+*.dia~
