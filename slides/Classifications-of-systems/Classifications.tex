@@ -1,101 +1,57 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Beamer Presentation
-% LaTeX Template
-% Version 1.0 (10/11/12)
-%
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
-%
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND THEMES
-%----------------------------------------------------------------------------------------
-
 \documentclass{beamer}
-
-\mode<presentation> {
-
-% The Beamer class comes with a number of default slide themes
-% which change the colors and layouts of slides. Below this is a list
-% of all the themes, uncomment each in turn to see what they look like.
-
-%\usetheme{default}
-%\usetheme{AnnArbor}
-%\usetheme{Antibes}
-%\usetheme{Bergen}
-%\usetheme{Berkeley}
-%\usetheme{Berlin}
-%\usetheme{Boadilla}
-%\usetheme{CambridgeUS}
-%\usetheme{Copenhagen}
-%\usetheme{Darmstadt}
-%\usetheme{Dresden}
-%\usetheme{Frankfurt}
-%\usetheme{Goettingen}
-%\usetheme{Hannover}
-%\usetheme{Ilmenau}
-%\usetheme{JuanLesPins}
-%\usetheme{Luebeck}
-\usetheme{Madrid}
-%\usetheme{Malmoe}
-%\usetheme{Marburg}
-%\usetheme{Montpellier}
-%\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
-%\usetheme{Rochester}
-%\usetheme{Singapore}
-%\usetheme{Szeged}
-%\usetheme{Warsaw}
-
-% As well as themes, the Beamer class has a number of color themes
-% for any slide theme. Uncomment each of these in turn to see how it
-% changes the colors of your current slide theme.
-
-%\usecolortheme{albatross}
-%\usecolortheme{beaver}
-%\usecolortheme{beetle}
-%\usecolortheme{crane}
-%\usecolortheme{dolphin}
-%\usecolortheme{dove}
-%\usecolortheme{fly}
-%\usecolortheme{lily}
-%\usecolortheme{orchid}
-%\usecolortheme{rose}
-%\usecolortheme{seagull}
-%\usecolortheme{seahorse}
-%\usecolortheme{whale}
-%\usecolortheme{wolverine}
-
-%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
-%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
-
-%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
-}
-
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{amsmath}
 \usepackage{epstopdf}
 \usepackage{dsfont}
 
-%----------------------------------------------------------------------------------------
-%	TITLE PAGE
-%----------------------------------------------------------------------------------------
+\DeclareMathOperator{\probability}{Pr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
-\title[Classifications of systems]{Classifications of systems} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author{} % Your name
-\institute[KU Leuven] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+\usetheme{Warsaw}
+%\usetheme{Copenhagen}
+
+\title{Chapter 2: Classifications of systems}
+%\subtitle{A Library for Ensemble Learning Using Support Vector Machines}
+\author{}
+%\institute{KU Leuven}
+%\institute{ESAT-STADIUS, KU~Leuven \\ iMinds Medical IT Department}
+
+\definecolor{blueish}{rgb}{0.3,0.3,0.7}
+
+\AtBeginSection[]
 {
-Katholieke Universiteit Leuven \\ % Your institution for the title page
-\medskip
-\textit{} % Your email address
+\begin{frame}<beamer>
+\frametitle{Outline}
+\tableofcontents[currentsection]
+\end{frame}
 }
-\date{\today} % Date, can be changed to a custom date
+
+\AtBeginSubsection[]
+{
+\begin{frame}<beamer>
+\frametitle{Outline}
+\tableofcontents[currentsubsection]
+\end{frame}
+}
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse
+\else
+\pdfoutput=1
+\pdftrue
+\fi
+\ifpdf
+%nessim
+\epstopdfsetup{suffix=}
+\DeclareGraphicsRule{.eps}{pdf}{.pdf}{`epstopdf #1}
+\pdfcompresslevel=9
+\else
+\usepackage{graphicx}
+\fi
 
 \begin{document}
 
@@ -113,14 +69,13 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 
 %------------------------------------------------
-\section{Number of inputs and outputs} 
+\section{SISO, SIMO, MIMO, ...} 
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Based on the number of inputs and outputs}
-\vspace{-16ex}
+\vspace{-8ex}
 \begin{enumerate}
-\bigskip
 \item \textbf{SISO}: Single Input Single Output
 \medskip
 \item \textbf{SIMO}: Single Input Multiple Output
@@ -138,8 +93,8 @@ Katholieke Universiteit Leuven \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Continuous vs. Discrete time}
-\vspace{-4ex}
+\frametitle{Continuous vs. Discrete time systems}
+\vspace{-2ex}
 We will discuss both types simultaneously in order to emphasize the similarities (and differences).\\
 \medskip
 \begin{columns}[c] 
@@ -166,13 +121,13 @@ We will discuss both types simultaneously in order to emphasize the similarities
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Continuous vs. Discrete time}
+\frametitle{Continuous vs. Discrete time systems}
 \vspace{-2ex}
 \begin{columns}[c] 
 
 \column{.5\textwidth}
 \center {\textbf{Continuous}}\\
-For every moments $t \in \mathds{R}$, the system has: 
+For every time instant $t \in \mathds{R}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}(t)
 \item A vector of outputs \textbf{y}(t)
@@ -184,7 +139,7 @@ For every moments $t \in \mathds{R}$, the system has:
 
 \column{.5\textwidth}
 \center {\textbf{Discrete}}\\
-For every moments $k \in \mathds{Z}$, the system has: 
+For every time step $k \in \mathds{Z}$, the system has: 
 \begin{enumerate}
 \item A vector of inputs \textbf{u}[k]
 \item A vector of outputs \textbf{y}[k]
@@ -203,7 +158,7 @@ For every moments $k \in \mathds{Z}$, the system has:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
-\vspace{-4ex}
+\vspace{-2ex}
 \textbf{Definition}\\
 \medskip
 A system is linear if \\
@@ -237,7 +192,7 @@ $ \Updownarrow$\\
 $ u_{a}(t) + u_{b}(t) \rightarrow y_{a}(t) + y_{b}(t)$\\
 \end{center}
 \medskip
-This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.
+\small{This means the output produced by simultaneous applications of two different inputs is the sum of the two individual outputs.}
 \item Homogeneity\\
 \smallskip
 $\alpha u(t) \rightarrow \alpha y(t)$\\
@@ -245,8 +200,8 @@ $\alpha u(t) \rightarrow \alpha y(t)$\\
 \smallskip
 How to recognize a linear system:
 \begin{itemize}
-\item Linear in all of the variables
-\item No constant factors
+\item \small{Linear in all of the variables}
+\item \small{No constant factors}
 \end{itemize}
 \end{frame}
 
@@ -254,10 +209,7 @@ How to recognize a linear system:
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: a linear system}
-\vspace{2ex}
-\textbf{Examples}
-\begin{itemize}
-\item 
+\textbf{Example}
 \begin{align*}
 \begin{cases} 
 \dot{x} = u\\ 
@@ -272,23 +224,12 @@ Linearity of this system is easily verified, based on the linearity of the deriv
 \textcolor{green}{\alpha \dot{y}_{a}(t)} + \textcolor{blue}{\beta \dot{y}_{b}(t}) = \textcolor{green}{\alpha x_{a}(t)} + \textcolor{blue}{\beta x_{b}(t)} + \textcolor{green}{2 \alpha u_{a}(t)} + \textcolor{blue}{2 \beta u_{b} (t)}
 \end{cases}
 \end{align*}
-
-\item 
-\begin{align*}
-\begin{cases} 
-\dot{x}_{1} = u\\ 
-\dot{x}_{2} = \frac{3}{2} x_{1} + u\\
-\dot{y} = a x_{1} - x_{2} + 2u
-\end{cases}
-\end{align*}
-\end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: autonomous linear systems}
-\vspace{-2ex}
 Continuous-time autonomous linear dynamical systems are described by:\\
 \smallskip
 \center{$\dot{x}(t) = Ax(t)$}\\
@@ -307,7 +248,6 @@ Example: $\dot{x}(t) = \begin{bmatrix} -1 & 0 \\ 2 & 1 \end{bmatrix} x(t)$
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: violating homogeneity}
-\vspace{-1ex}
 All nonhomogeneous systems are strictly speaking nonlinear, e.g.:\\
 \begin{align*}
 & \begin{cases}
@@ -332,7 +272,6 @@ $\rightarrow$ nonhomogeneous systems that are linear apart from some function of
 
 \begin{frame}
 \frametitle{Linear vs. Nonlinear: nonlinear systems}
-\vspace{-1ex}
 Some examples of nonlinear systems:
 \begin{align*}
 \begin{cases}
@@ -361,7 +300,7 @@ y(t) = cos(x(t))
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Linear vs. Nonlinear}
+\frametitle{Linear vs. Nonlinear systems}
 \vspace{-8ex}
 \begin{columns}
 \column{.5\textwidth}
@@ -395,15 +334,15 @@ More involved electrical or mechanical systems\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Linear vs. Nonlinear}
-\vspace{-11ex}
+\frametitle{Linear vs. Nonlinear systems}
+\vspace{-6ex}
 \begin{itemize}
 \item Reality is nonlinear
 \item However, this course will only deal with linear systems
-\item Why we prefer linear systems: \\
+\item Why do we prefer linear systems? \\
 \medskip
 The previously mentioned properties will allow for a thorough study of the system
-\item Why we are allowed to use linear systems, even in a nonlinear setting:\\
+\item Why are we allowed to use linear systems, even in a nonlinear setting?\\
 \medskip
 You can linearize around an equilibrium point (we will do this in the next lecture)
 \end{itemize}
@@ -414,11 +353,11 @@ You can linearize around an equilibrium point (we will do this in the next lectu
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Causal vs. Non-causal}
+\frametitle{Causal vs. Non-causal systems}
 \begin{itemize}
 \item \normalsize{A causal system only depends on the present and the past, not on the future}
 \item \normalsize{A non-causal system (also) depends on the future}
-\item \normalsize{(Almost) all physical systems are causal}
+\item \normalsize{All physical systems are causal}
 \begin{itemize}
 \item \normalsize{A telephone:}
 \begin{itemize}
@@ -432,53 +371,39 @@ You can linearize around an equilibrium point (we will do this in the next lectu
 \end{itemize}
 \end{itemize}
 \bigskip
-\bigskip
 \footnotesize{source: http://www.deekshith.in/2013/03/causal-and-non-causal-systems-better-explained.html}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Causal vs. Non-causal}
+\frametitle{Causal vs. Non-causal systems}
 \textbf{How do non-causal systems arise?}\\
 \medskip
 A possibility is by greatly reducing the complexity of a system, in which some causes of events are taken out of the equations.\\
 Example:\\
 \begin{itemize}
+\small{
 \item A model of the economical consumption (\textbf{output})
 \item A lot of influencing factors, but the only \textbf{input} is the employment numbers
-\item Current and past employment numbers determine consumption, but when someone gets fired, they will continue to work for several weeks in most instances, but their consumption will drop immediately\\
-$\rightarrow$ A correcct model for this relation would have to be \textbf{non-causal}
+\item Current and past employment numbers determine consumption, but when someone gets fired, they will continue to work for several weeks in most instances, but their consumption will drop immediately
+$\rightarrow$ A correct model would have to be \textbf{non-causal}
 \item The non-causal model for this input-output relation is not useful if you want to determine the level of consumption
-\item You could use the relation to see a drop in employment, before it is visible in the employment numbers
+\item You could use the relation to see a drop in employment, before it is visible in the employment numbers}
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Causal vs. Non-causal}
-\vspace{-15.5ex}
-Examples of non-causal systems: \textbf{expectations}\\
-\medskip
-Modelling housing prices\\
+\frametitle{Causal vs. Non-causal systems}
+Example of non-causal systems: \textbf{image processing}\\
 \begin{itemize}
-\item People are willing to offer more for houses if they expect rising prices
-\item It is hard to measure the expectations or housing prices
-\item Sometimes economists use their own predictions of housing prices to replace the expectations
-\end{itemize}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Causal vs. Non-causal}
-Examples of non-causal systems: \textbf{image processing}\\
-\begin{itemize}
+\small{
 \item The input to our system (the image processor) is a two dimensional series of values ($u(k,l)$): the color values at the different pixels of the original image
 \item The output is a processed image ($y(k,l)$)
 \item There is now no reason to want causality; the input depends on position and not on time
-\item $y(k,l)$ can rely on 'later' values like $u(k+1,l+1)$, without that being a problem
+\item $y(k,l)$ can rely on 'later' values like $u(k+1,l+1)$, without that being a problem}
 \end{itemize}
 \vspace{-2ex}
 \begin{columns}
@@ -487,21 +412,21 @@ Examples of non-causal systems: \textbf{image processing}\\
 \includegraphics[width=.5\linewidth]{original}
 \end{figure}
 \vspace{-4ex}
-\center{Original image}
+\center{\small{Original image}}
 
 \column{.3\textwidth}
 \begin{figure}
 \includegraphics[width=.5\linewidth]{removed}
 \end{figure}
 \vspace{-4ex}
-\center{Removed details}
+\center{\small{Removed details}}
 
 \column{.3\textwidth}
 \begin{figure}
 \includegraphics[width=.5\linewidth]{highlight}
 \end{figure}
 \vspace{-4ex}
-\center{Highlight borders}
+\center{\small{Highlight borders}}
 
 \end{columns}
 \end{frame}
@@ -509,8 +434,8 @@ Examples of non-causal systems: \textbf{image processing}\\
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Causal vs. Non-causal}
-\vspace{-10ex}
+\frametitle{Causal vs. Non-causal systems}
+\vspace{-6ex}
 Some mathematical examples:\\
 \bigskip
 \begin{columns}
@@ -546,7 +471,7 @@ y[k] = x[k+2] + \frac{1}{2}u[k]
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Time-invariant vs. Time-varying}
+\frametitle{Time-invariant vs. Time-varying systems}
 Dynamics and properties of the system don't change through time.\\
 If the same input is applied to a system that is in the same state, then the output of a time-invariant system will be the same.\\
 \bigskip
@@ -574,8 +499,7 @@ if $u(t) \xrightarrow{x(t)} y(t)$ then $u(t+\tau) \xrightarrow{x(t+\tau)} y(t+\t
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Time-invariant vs. Time-varying}
-\vspace{-6ex}
+\frametitle{Time-invariant vs. Time-varying systems}
 \textbf{Time-invariant differential equation}\\
 \medskip
 The dependent variable and its derivatives appear as linear combinations. The coefficients of all terms are constant.\\
@@ -591,8 +515,7 @@ Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Time-invariant vs. Time-varying}
-\vspace{-4ex}
+\frametitle{Time-invariant vs. Time-varying systems}
 \begin{itemize}
 \item Examples of time-varying systems:
 \smallskip
@@ -604,7 +527,7 @@ Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
 \item \normalsize{Systems affected by night and day (heating of buildings), when those aspects were ignored in the model}
 \end{itemize}
 \medskip
-\item Examples of (de facto) time-invariant systems:
+\item Examples of time-invariant systems:
 \smallskip
 \begin{itemize}
 \item \normalsize{A system that describes a physical law, for instance a system with two masses as its input and their attractive force as an output}
@@ -615,53 +538,20 @@ Example: $\frac{d^{2}x}{dt^{2}} + (1-cos(2t)x = 0$
 \end{frame}
 
 %------------------------------------------------
-\section{Lumped vs. Distributed} 
+\section{Lumped vs. Distributed parameter} 
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Lumped vs. Distributed}
-Take the following example:\\
-\medskip
-We have a reactor in which we send a mixture of X and Y, we take $u(t)$ to be the concentration of X in the input (the concentration of Y is implicitly determined by the concentration of X, since they sum to 1).\\
-\medskip
-The output is a mixture of X, Y and a product P. We take $y_{1}(t)$ to be the concentration of X in the output and $y_{2}(t)$ to be the concentration of P. The concentration of Y is implicitly determined by the other concentrations).\\
-\begin{figure}[!htb]
-\includegraphics[width=.8\linewidth]{chem}
-\end{figure}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Lumped vs. Distributed}
-\vspace{-6ex}
-We want to determine the amount of states.\\
-\medskip
-The states should describe the reactor in such a way that we will be able to determine the reaction rate throughout the reactor.\\
-\medskip
-The rate of the reaction is determined by the local concentrations of the three compounds, which means we need two states at every point in the reactor (the reactor is not uniform).\\
-\medskip
+\frametitle{Lumped vs. Distributed parameter systems}
+Many physical phenomena are described mathematically by partial differential equations (PDEs). Such systems are called distributed parameter systems.\\
+Lumped parameter systems are systems which can be described by ordinary differential equations (ODEs).\\
+Example:\\
+\begin{itemize}
+\item Diffusion equation (discretize in space)
+\item Heat equation
+\end{itemize}
 This means we need an \textbf{infinite amount of states}, we say that this is a \textbf{distributed system}.\\
-\medskip
-The relations in a distributed system are naturally expressed by \textbf{PDE's}.
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Lumped vs. Distributed}
-\vspace{-6ex}
-Do we really need an infinitely large system for this problem?\\
-\medskip
-Not if we discretize the system, in which we take a finite amount of points at which we keep track of the concentration.\\
-\medskip
-Physically this would mean we assume that the concentrations are locally uniform.\\
-\medskip
-For some types of reactors you can go as far as to assume the reactor is perfectly stirred; with a homogeneous content.\\
-\medskip
 If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped system}.\\
-\medskip
-It can be expressed in a finite amout of \textbf{ODE's}.
 \end{frame}
 
 %----------------------------------------------------------------------------------------
