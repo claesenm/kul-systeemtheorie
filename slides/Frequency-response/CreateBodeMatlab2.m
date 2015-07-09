@@ -9,6 +9,3 @@ figure
 
 sys = tf(num,den,0.5);
 bode(sys)
-
-%More examples and exercises will be made in the 
-%exercise sessions
