@@ -158,9 +158,9 @@
 		\begin{column}{0.4\linewidth}
 			Equations for each component:
 			\begin{align*}
-			&i = \frac{V_{in} - V_{1}}{R} \\
-			&V_1 - V_2 = L \cdot \frac{di}{dt} \\
-			&i = C \cdot \frac{dV_2}{dt} \\
+				&i = \frac{V_{in} - V_{1}}{R} 		&\text{\small(Ohm's law)}\\
+				&V_1 - V_2 = L \cdot \frac{di}{dt} 	&\text{\small(Coil)}\\
+				&i = C \cdot \frac{dV_2}{dt} 	 	&\text{\small(Capacitor)}
 			\end{align*}
 		\end{column}
 		\begin{column}{0.6\linewidth}
@@ -456,7 +456,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linearization around equilibrum points}
+	\frametitle{Linearization around equilibrium points}
 	Linearizing is done via \textbf{first order Taylor expansions}.
 	\begin{align*}
 	\left\{ \begin{matrix}
@@ -476,10 +476,10 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linearization around equilibrum points}
-	The first order Taylor expansion of $f()$ is described by the \textbf{Jacobian Matrix}:
+	\frametitle{Linearization around equilibrium points}
+	The first order Taylor expansion of $f()$ around $(x_e,u_e)$ is described by the \textbf{Jacobian Matrix}:
 	\begin{align*}
-		\dfrac{dx}{dt} = 
+		\dfrac{dx}{dt} = f(x_e,u_e) +
 					\begin{bmatrix}
 						\dfrac{\partial f_1}{\partial x_1} 	&\dots 	&\dfrac{\partial f_1}{\partial x_n} 	&\dfrac{\partial f_1}{\partial u_1} 	&\dots 	&\dfrac{\partial f_1}{\partial u_l} \\
 						\vdots 						&		&							&					&		&\vdots  \\
@@ -494,13 +494,16 @@
 						\Delta u_l
 					\end{bmatrix}
 	\end{align*}
+	With the partial derivatives evaluated in $x_e$ and $u_e$
+	
+	$f(x_e,u_e)=\frac{dx_e}{dt} = 0$ because we \emph{choose} $x_e$ and $u_e$ to be equilibrium points 
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linearization around equilibrum points}
+	\frametitle{Linearization around equilibrium points}
 	This can be split up in a contribution by the state $x$ and the input $u$:
 	\begin{align*}
-		\dfrac{dx}{dt} =
+		\dfrac{d\Delta x}{dt} =
 		\underbrace{\begin{bmatrix}
 						\dfrac{\partial f_1}{\partial x_1} 	&\dots 	&\dfrac{\partial f_1}{\partial x_n} 	\\
 						\vdots 								&		&\vdots  								\\
