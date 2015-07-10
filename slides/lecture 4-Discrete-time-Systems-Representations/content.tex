@@ -2,10 +2,17 @@
 
 \def\Z{$\mathbb{Z}$}
 \def\R{$\mathbb{R}$}
+\newcommand\Wider[2][3em]{%
+	\makebox[\linewidth][c]{%
+		\begin{minipage}{\dimexpr\textwidth+#1\relax}
+			\raggedright#2
+		\end{minipage}%
+	}%
+}
 \begin{frame}
 	\frametitle{Discrete Time Signal}
 	\begin{definition}
-		Discrete-time signals is defined only at discrete instants of time. The value (amplityde) can be either continu or discrete.\\
+		Discrete-time signals are defined only at discrete instants of time. The value (amplitude) can be either continuous or discrete.\\
 		$x[k]$ is the value of a signal at the moment $t = kT$
 	\end{definition}
 	\begin{example}
@@ -17,20 +24,20 @@
 	\end{example}
 \end{frame}
 \begin{frame}
-	\frametitle{Discrete Time Systme}
+	\frametitle{Discrete Time System}
 	\begin{block}{Sampling}
-		The sampeling of a continious-time signal replaces the original continuous signal by a sequence of values at discrete time points.
+		The sampling of a continuous time signal replaces the original continuous signal by a sequence of values at discrete time points.
 		\begin{figure}
-\centering
-\includegraphics[width=0.5\linewidth]{Images/Discrete_time_eps_4}
-\end{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{Images/Discrete_time_eps_4}
+		\end{figure}
 
 	\end{block}
 \end{frame}
 \begin{frame}
 	\frametitle{Discrete Time System}
 	\begin{definition}
-			A linear time-invariant (LTI) discrete time system processes an inputvector $u[k]$ to an outputvector $y[k]$.\\
+			A linear time-invariant (LTI) discrete time system processes an input vector $u[k]$ to an output vector $y[k]$.\\
 	\end{definition}
 		\begin{example}
 			\begin{figure}
@@ -41,13 +48,13 @@
 \end{frame}
 \begin{frame}
 	\frametitle{Discrete Time System}
-	\begin{block}{How to represent a discrete time?}
+	\begin{block}{How to represent a discrete time system?}
 		\begin{itemize}
 			\item Block-diagram
 			\item State space representation
-			\item Difference/differential equation
+			\item Difference equation
 			\item Impulse response
-			\item Transferfunctions
+			\item Transfer function
 		\end{itemize}
 	\end{block}
 	
@@ -55,16 +62,16 @@
 \end{frame}
 \section{Block-diagram}
 \begin{frame}
-	\frametitle{Block diagram}
-			\begin{figure}
-				\centering
-				\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_3}
-			\end{figure}
+	\frametitle{Block-diagram}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_3.eps}
+\end{figure}
 
 
 	\vspace{-1.5em}
 	\begin{definition}
-			A block diagram is a visual representation of a system. All LTI's (Linear Time Invariant) systems can be constructed using 3 building blocks (memory element, summation element and multiplication element). Note that every memory element corresponds to one state variable.
+			A block-diagram is a visual representation of a system. All LTI's (Linear Time Invariant) systems can be constructed using 3 building blocks (memory element, summation element and multiplication element). Note that every memory element corresponds to one state variable.
 	\end{definition}
 \end{frame}
 \begin{frame}
@@ -74,9 +81,9 @@
 			\begin{figure}
 				\centering
 				\includegraphics[width=0.3\linewidth]{Images/Discrete_time_eps_5.eps}
-
+				
 			\end{figure}
-
+%			\include{DT_systems_(11).tex}
 
 			\end{block}
 		
@@ -97,18 +104,22 @@
 	
 \end{frame}
 \begin{frame}
-	\frametitle{Example: compond interes}
+	\frametitle{Example: compound interest}
 	\begin{itemize}
 			\item $ u[k]$:The deposits and withdrawals from the bank account
-			\item $ x[k]$:The current saldo on bank account(before deposit and interest)
+			\item $ x[k]$:The current balance of the bank account(before deposit and interest)
 			\item $ y[k]$: The acquired interest of that year
-			\item $ x[k+1]$: The saldo on the next year = current saldo + interest + deposits - withdrawals
+			\item $ x[k+1]$: The 'next year' balance of the bank account  = current balance + interest + deposits - withdrawals
 	\end{itemize}
+	 \begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_14}
+		\end{figure}
 
-	\begin{figure}
-		\centering
-		\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_3}
-	\end{figure}
+%	\begin{figure}
+%		\centering
+%		\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_3}
+%	\end{figure}
 \end{frame}
 %\begin{frame}
 %	\begin{tabular}{|c|c|c|c|}
@@ -127,16 +138,16 @@
 %
 %\end{frame}
 \begin{frame}
-	\frametitle{Bad block diagrams}
+	\frametitle{Bad block-diagrams}
 
 				\begin{alertblock}{Delay-free loops}
 					The issue is that this leads to an implicit connection. 
 					$y[k]$ depends on $y[k]$ ,which is not yet known
-					You can easily rewrite this in an allowd shape
+					You can easily rewrite this in an allowed shape
 					$y[k] = u[k]  + 3 y[k] \Longleftrightarrow y[k] = -\frac{1}{2} u[k]$
 					\begin{figure}
 						\centering
-						\includegraphics[height=0.4\textheight]{Images/discrete_time_systems_4}
+						\includegraphics[height=0.4\textheight]{Images/Discrete_time_eps_10.eps}
 					\end{figure}
 				\end{alertblock}
 \end{frame}
@@ -146,40 +157,44 @@
 			The issue is that this can lead to inconsistencies.	According to this block diagram the output of the systems S1 and S2 are equal.
 			\begin{figure}
 				\centering
-				\includegraphics[width = 0.5\linewidth]{Images/discrete_time_systems_5}
+				\includegraphics[width = 0.5\linewidth]{Images/Discrete_time_eps_15.eps}
 			\end{figure}
 		\end{alertblock}
 \end{frame}
-\section{State Space representation}
+\section{State space representation}
 \begin{frame}
 	\frametitle{State space representation}
 	\begin{definition}
-		State space representation:
+		State space representation of a LTI system:
 		\begin{center}
 			$x[k+1] = A x[k] + B u[k]$ \\
 			$y[k] = C x[k] + D u[k] $ \\
 		\end{center}
-		This state space representation is specific to LTI systems:\\
-		\begin{itemize}
-			\item Linear: it’s easy to see these systems are linear
-			\item Time-invariant: the matrices A,B,C,D do not depend on time, if it were to be a time-variant system the matrices would be replaced by $A[k], B[k], C[k] and D[k]$.
-		\end{itemize}
+			State space representation of a LTV system:
+			\begin{center}
+				$x[k+1] = A[k] x[k] + B[k] u[k]$ \\
+				$y[k] = C[k] x[k] + D[k] u[k] $ \\
+			\end{center}
+%		This state space representation is specific to LTI systems:\\
+%		\begin{itemize}
+%			\item Linear: it's easy to see these systems are linear
+%			\item Time-invariant: the matrices A,B,C,D do not depend on time, if they were time-variant the matrices would be replaced by $A[k], B[k], C[k]$ and $D[k]$.
+%		\end{itemize}
 	\end{definition}
 \end{frame}
 
 \begin{frame}
-\frametitle{From block diagram to state space }
+\frametitle{From block-diagram to state space representation}
 \begin{columns}
 
 \begin{column}{0.5\textwidth}
-	\begin{block}{Blockdiagram}
-		\vspace{2.2em}
+	\begin{block}{Block-diagram}
+		\vspace{2.3em}
 		\begin{figure}
 			\centering
-			\includegraphics[width=1\linewidth]{Images/discrete_time_systems_3}
-			\label{fig:discrete_time_systems_3}
+			\includegraphics[width=1\linewidth]{Images/Discrete_time_eps_14}
 		\end{figure}
-		\vspace{2.2em}
+		\vspace{2.3em}
 	\end{block}
 	
 \end{column}
@@ -187,13 +202,14 @@
 	\begin{block}{State space representation}
 		\begin{enumerate}
 			\item Let the output of the memory elements be $x_{i}[k]$. 
-			\item So the input of the memory elements are $x_i[k+1]$
-			\item Trace back to retrieve equations for $x_i[k+1] $   and $y_i[k]$ 
+			\item So the input of the memory elements are $x_i[k+1]$.
+			\item Trace back to retrieve equations for $x_i[k+1] $ and $y_i[k]$.
 		\end{enumerate}
+		\vspace{-0.5em}
 		This results in:
-		\vspace{-1em}
+		\vspace{-0.5em}
 		\begin{center}
-				$x[k+1] = u[k] + 1.05 x[k] $
+				$x[k+1] = 1.05 x[k] + u[k]$
 				$y[k] = 0.05 x[k]$
 		\end{center}
 	\end{block}
@@ -201,69 +217,91 @@
 \end{columns}
 \end{frame}
 \begin{frame}
-	\frametitle{From state space to block diagram }
-		\small{\begin{example}
+	\frametitle{From state space representation to block-diagram }
+		\begin{example}
 				\begin{center}
-					$x[k+1] = A x[k] + B u[k]$ \\
-					$y[k] = C x[k] + D u[k] $ \\
-					
-					with  A = 
 					$\begin{bmatrix}
-					1 & 0 & 0 \\
-					0 & 0 & 1 \\
-					0 & 3 & 0
-					\end{bmatrix}$,
-					B = 
+						x_1[k+1]\\
+						x_2[k+1]\\
+						x_3[k+1]
+					\end{bmatrix}$
+					= 
+					$\begin{bmatrix}
+						1 & 0 & 0 \\
+						0 & 0 & 1 \\
+						0 & 3 & 0
+					\end{bmatrix}$ 
+					$\begin{bmatrix}
+						x_1[k+1]\\
+						x_2[k+1]\\
+						x_3[k+1]
+					\end{bmatrix}$
+					 +
 					$\begin{bmatrix}
 					1\\
 					0\\
 					4\\
-					\end{bmatrix}$,
-					C = 
-					$\begin{bmatrix}
+					\end{bmatrix}$ $u[k]$\\
+					
+					$y[k] = 
+					\begin{bmatrix}
 					5 & 1 & 0
-					\end{bmatrix}$ 
-					and D = 
-					$\begin{bmatrix}
+					\end{bmatrix}
+					+ 
+					\begin{bmatrix}
 					1
-					\end{bmatrix}$ \\
+					\end{bmatrix}
+					u[k]$ \\
 				\end{center}
-		\end{example} }
+		\end{example} 
 		
-	\begin{block}{From state space to block diagram }
-		\small{
-		\begin{enumerate}
-			\setlength\itemsep{-0.5em}
-			\item First add a delay element for every state $x_i[k]$
-			\item 	Determine the input for every state $x[k+1]$ from the matrixes A and B, as a combination of the states $x_i[k]$ and inputs $u[k]$
-			\item Determine the outputs y[k] in the same way with the matrixes C and D
-		\end{enumerate} }
-	\end{block}
-\end{frame}
-\begin{frame}
-	\frametitle{From state space to block diagram}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_18}
-		\label{fig:discrete_time_systems_18}
-	\end{figure}
-
 	
 \end{frame}
 \begin{frame}
+	\frametitle{From state space space representation to block-diagram}
+	\begin{block}{Step 1}
+		First add a delay element for every state $x_i[k]$.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.35\linewidth]{Images/Discrete_time_eps_11.eps}
+		\end{figure}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{From state space space representation to block-diagram}
+	\begin{block}{Step 2}
+		Determine the input for every state $x[k+1]$ from the matrices A and B, as a combination of the states $x_i[k]$ and inputs $u[k]$.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{Images/Discrete_time_eps_12.eps}
+		\end{figure}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{From state space space representation to block-diagram}
+	\begin{block}{Step 3}
+		Determine the outputs y[k] in the same way with the matrices C and D.
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{Images/Discrete_time_eps_13.eps}
+			\end{figure}
+	\end{block}
+\end{frame}
+\begin{frame}
 	\frametitle{Different state space representations}
-	\begin{alertblock}{State space representation is not unique}
+	\begin{alertblock}{State space representation is not unique!}
 		Take the following system, which connects u[k] to y[k]:
 		\begin{center}
 			$x[k+1] = A x[k] + B u[k]$ \\
 			$y[k] = C x[k] + D u[k] $ 
 		\end{center}
-		Now take a non-singular square matrix T and the following system. The relation between u[k] and y[k] will be the same.	
+		Now take a non-singular square matrix T and the following system. 	
 		\begin{center}
 			$Tx[k+1] = TAT^{-1}Tx[k] + TBu[k]$\\
 			$y[k] = C T^{-1}Tx[k] + Du[k]$
 		\end{center}
-		With $x' = Tx, A' = TAT^{-1},B' = TB,C' = CT^{-1}$ and $D'=D$,  we have found a different state space representation for this system.
+		The relation between u[k] and y[k] will be the same.
+		With $x' = Tx, A' = TAT^{-1},B' = TB,C' = CT^{-1}$ and $D'=D$,  we have found a different state space representation for the original system.
 		
 	\end{alertblock}
 \end{frame}
@@ -273,7 +311,7 @@
 				$x[k+1] = A x[k] + B u[k]$ \\
 				$y[k] = C x[k] + D u[k] $ 
 			\end{center}
-			We express $x[1],x[2],\dots$ in function of $x[0]$:
+			We express $x[1],x[2],\dots$ in function of $x[0]$ and $u[k]$:
 			\begin{align*}
 					x[1] &= Ax[0]+Bu[0]\\
 					x[2] &= Ax[1] + Bu[1] = A^2x[0]+ABu[0]+ Bu[1]\\
@@ -292,9 +330,8 @@
 			\end{center}
 	\end{block}
 \end{frame}
-\section{Diffence equations}
-\begin{frame}
-	\frametitle{Diffence equations}
+\section{Difference equations}
+\begin{frame}{Difference equations}
 	\begin{definition}
 		Similar to differential equations, but for discrete time.\\
 		General form: $\sum\limits_{i=0}^n a_iy[k+i] = \sum\limits_{i=0}^n b_iu[k+i]$\\
@@ -302,7 +339,7 @@
 	\end{definition}
 	\begin{block}{Solution in 2 parts}
 	\begin{enumerate}
-			\item Homogenous: solution from input zero
+			\item Homogeneous: solution with no input
 			\item Particular: solution derived as a response from the input
 	\end{enumerate}
 	\end{block}
@@ -313,18 +350,21 @@
 		General form: $\sum\limits_{i=0}^n a_iy[k+i]= 0$ \\
 	\end{definition}
 	\begin{example}
-		$y[k+1] - ay[k] = 0$\\
-		$y[k+1] = ay[k] $\\
-		$y[1] = ay[0] $\\
-		$y[2] = ay[1] = a^2y[0]$\\
-		\hspace{1em}\vdots \\
-		$y[n] = a^{n}y[0]$
+		\begin{center}
+				$y[k+1] - ay[k] = 0$\\
+				$y[k+1] = ay[k] $\\
+				So:
+				$y[1] = ay[0] $\\
+				$y[2] = ay[1] = a^2y[0]$\\
+				\hspace{1em}\vdots \\
+				$y[n] = a^{n}y[0]$
+		\end{center}
+	
 	\end{example}
 
 \end{frame}
-\begin{frame}
-	\frametitle{Homogenous difference equations}
-	\begin{block}{solution}
+\begin{frame}{Homogeneous difference equations}
+	\begin{block}{Solution}
 		\begin{itemize}
 			\item Expected form of solution: $r^{k}$ 
 			\item 	Substitution of the expected solution in the difference equation:
@@ -333,7 +373,7 @@
 			$\sum\limits_{i=0}^n a_ir^{i}= 0$
 			\item 	Solutions of the characteristic equation:
 			$r_1,r_2,r_3,\dots$
-			\item Homogenous solution to the difference equation: 
+			\item Homogeneous solution to the difference equation: 
 			$y[k] = c_1r_1^{k} + c_2r_2^{k} + c_3r_3^{k} + \cdots =\sum\limits_{i=1}^{n}c_ir_i^{k}$
 		\end{itemize}
 	\end{block}
@@ -345,13 +385,13 @@
 			\begin{figure}
 				\centering
 				\includegraphics[width=0.7\linewidth]{Images/Evariste_galois}
-				\caption{\tiny{Évariste Galois (25/10/1811 – 31/5/1832) was a French mathematician born in Bourg-la-Reine. While still in his teens, he was able to determine a necessary and sufficient condition for a polynomial to be solvable by radicals.}}
+				\caption{\tiny{Evariste Galois (25/10/1811 $–$ 31/5/1832) was a French mathematician born in Bourg-la-Reine. While still in his teens, he was able to determine a necessary and sufficient condition for a polynomial to be solvable by radicals.}}
 			\end{figure}
 		\end{column}
 		\begin{column}{0.6 \textwidth}
 			\begin{block}{Galois Theory}
 				\footnotesize{
-				Galois theory provides a answer to the question why there is no formula for the roots of a fifth (or higher) degree polynomial equation in terms of the coefficients of the polynomial, using only the usual algebraic operations (addition, subtraction, multiplication, division) and application of radicals (square roots, cube roots, etc). It also explains why it is possible to solve equations of degree four or lower in the above manner, and why their solutions take the form that they do. Further.}
+				Galois theory provides a answer to the question why there is no formula for the roots of a fifth (or higher) degree polynomial equation in terms of the coefficients of the polynomial, using only the usual algebraic operations (addition, subtraction, multiplication, division) and application of radicals (square roots, cube roots, etc). It also explains why it is possible to solve equations of degree four or lower in the above manner, and why their solutions take the form that they do.}
 			\end{block}
 		\end{column}
 	\end{columns}
@@ -361,12 +401,13 @@
 	\begin{example}
 		
 		\begin{itemize}
+			\small{
 			\item Homogeneous recurrence relations: $y[k+2]-5y[k+1]+6y[k] = 0$
 			\item Initial value: $y[0] =1$, $y[1] = 1$
 			\item Characteristic polynomial: $r^2-5r+6=0$
 			\item Roots: 2 and 3
 			\item General solution: $c_1 2^k + c_2 3^k$
-			\item Using the intital values: 
+			\item Using the initial values: 
 			\begin{center}
 				$
 				\begin{Bmatrix}
@@ -381,7 +422,7 @@
 					\end{Bmatrix}
 					$\\
 			\end{center}
-			\item Result: $y[k] = 2^{k+1} - 3^{k}$
+			\item Result: $y[k] = 2^{k+1} - 3^{k}$}
 		\end{itemize}
 	\end{example}
 \end{frame}
@@ -393,7 +434,7 @@
 \begin{figure}
 \centering
 \includegraphics[height=0.5\textheight]{Images/discrete_time_systems_7}
-\caption{\tiny{Leonardo Bonacci (c. 1170 – c. 1250)known as Fibonacci was an Italian mathematician, considered to be "the most talented Western mathematician of the Middle Ages".}}
+\caption{\tiny{Leonardo Bonacci (c. 1170 $–$ c. 1250) known as Fibonacci was an Italian mathematician, considered to be "the most talented Western mathematician of the Middle Ages".}}
 
 \end{figure}
 	\end{column}
@@ -407,17 +448,19 @@
 \end{columns}
 \end{frame}
 \begin{frame}
+
 	\frametitle{Example: Fibonacci sequence}
 	\begin{example}
 		\begin{itemize}
+			
 			\footnotesize{
 			\setlength\itemsep{0em}
 			\item Homogeneous recurrence relations: \\ $y[k+2] = y[k+1] + y[k]$
 			\item Initial value: $y[0]=1, y[1]= 1$
 			\item Characteristic polynomial: $r^2 - r - 1=0$ 
-			\item Roots: $\frac{1+\sqrt{5}}{2}, \frac{1-\sqrt{5}}{2}$
+			\item Roots: $\frac{1+\sqrt{5}}{2}$ and $\frac{1-\sqrt{5}}{2}$
 			\item General solution: $y[k] = c_1(\frac{1+\sqrt{5}}{2}) + c_2(\frac{1-\sqrt{5}}{2})$
-			\item Intital values: 
+			\item Initial values: 
 			\begin{center}
 				$
 				\begin{Bmatrix}
@@ -437,26 +480,26 @@
 	\end{example}
 \end{frame}
 \begin{frame}
-	\frametitle{Multiple roots and Complex roots}
+	\frametitle{Multiple roots and complex roots}
 	\begin{block}{Multiple roots}
-		For a multiple root $r_i$ with multiplicity m add $r_i^k$,$kr_i^k$,\dots,$k^{m-1}r_i^{k}$
+		\scriptsize{For a multiple root $r_i$ with multiplicity m add $r_i^k$,$kr_i^k$,\dots,$k^{m-1}r_i^{k}$}
 	\end{block}
 	\begin{block}{Complex roots}
 		\scriptsize{
-		Complex roots will result in oscillating behavior.
-		If the difference equations and starting conditions are both real the complex roots can only be present in conjugate pairs, the constants will also be in conjugate pairs.
+		Complex roots will result in oscillating behaviour.
+		If the difference equations and initial conditions are both real the complex roots can only be present in conjugate pairs, the constants will also be in conjugate pairs.
 		\begin{center}
-				$ r_i = Re^{j\phi}$ 	$r_{i+1} = Re^{-j\phi}$\\
-				$c_i = R_0e^{j\phi_0}$	 $c_{i+1} = R_0e^{-j\phi_0}$\\
+				$ r_i = Re^{j\phi}$ \quad	$r_{i+1} = Re^{-j\phi}$\\
+				$c_i = R_0e^{j\phi_0}$ \quad	 $c_{i+1} = R_0e^{-j\phi_0}$\\
 				$c_ir_i^k+c_{i+1}r_{i+1}^k = R_0Re^{jk\phi+j\phi_0} +  R_0Re^{-(jk\phi+j\phi_0)} $\\
-				This can be converted into a cosine and sine using Euler’s formula:	
+				This can be converted into a cosine and sine using Eulers formula:	
 				$y[k] = R_0R\big(\cos(k\phi+\phi_0) + \sin(k\phi+\phi_0) \big) + R_0R\big(\cos(k\phi+\phi_0) - \sin(k\phi+\phi_0) \big)$ \\
 						 $= 2R_0R\big(\cos(k\phi+\phi_0)\big)$			
 		\end{center}}
 	\end{block}
 \end{frame}
 \begin{frame}
-	\frametitle{Euler’s formula}
+	\frametitle{Eulers formula}
 	\begin{theorem}
 		$e^{j\phi} = \cos(\phi) + \sin(\phi)j$
 	\end{theorem}
@@ -468,11 +511,22 @@
 				& = \bigg(1-\frac{x^{2}}{2!}+ \frac{x^{4}}{4!} + \dots\bigg)+\bigg(x - \frac{x^{3}}{3!} + \frac{x^{5}}{5!}+\dots\bigg)j\\
 				&= \cos(\phi) + \sin(\phi j)
 				\end{split}	
-		\end{equation*}
-	
-	
-		
+		\end{equation*}	
 	\end{proof}
+\end{frame}
+\begin{frame}
+	\begin{columns}
+		\begin{column}{0.4\linewidth}
+			\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{Images/Leonhard_Euler}
+
+			\end{figure}
+		\end{column}
+		\begin{column}{0.6\linewidth}
+			Leonhard Euler (15/4/1707–18/9/1783) was a pioneering Swiss mathematician and physicist. He made important discoveries in fields as diverse as infinitesimal calculus and graph theory. He also introduced much of the modern mathematical terminology and notation, particularly for mathematical analysis, such as the notion of a mathematical function.
+		\end{column}
+	\end{columns}
 \end{frame}
 \begin{frame}
 	\frametitle{Non-homogeneous difference equations}
@@ -485,7 +539,7 @@
 	\begin{block}{Solution}
 		The equation can thus be solved for each input individually and the results added together afterwards.
 			
-		The resulting particular solutions can then be added to the general form of the homogenous solution.
+		The resulting particular solutions can then be added to the general form of the homogeneous solution.
 	\end{block}
 \end{frame}
 \begin{frame}
@@ -514,7 +568,7 @@
 			\item Characteristic polynomial: $r^2-5r+6 = 0$
 			\item Homogeneous solution: $y_{hom}[k] = c_{1}2^{k} + c_{2}3^{k}$
 			\item Particular solution: $y_{par}[k] = \alpha(-1)^k$
-			\item Subsitution: $\alpha(-1)^{k+2}-5\alpha(-1)^{k+1}+6\alpha(-1)^k = (-1)^k$
+			\item Substitution: $\alpha(-1)^{k+2}-5\alpha(-1)^{k+1}+6\alpha(-1)^k = (-1)^k$
 			\item $\alpha = \frac{1}{12}$
 			\item General solution: $y[k] = c_{1}2^{k}+c_{2}3^{k}+\frac{1}{12}(-1)^{k}$
 			\item Using the initial values: $c_1 = -\frac{1}{3}, c_{2} = \frac{1}{3}$
@@ -525,13 +579,13 @@
 \end{frame}
 \section{Impulse response and convolution}
 \begin{frame}
-	\frametitle{Impulse responses }
+	\frametitle{Impulse response}
 	
 	\begin{definition}
 		\footnotesize{
 		$\delta[k]=
 		\begin{cases} 
-			1 &\mbox{if } \text{if} k = 0 \\ 
+			1 & \text{if } k = 0 \\ 
 			0 & \mbox{otherwise}  
 		\end{cases}$}
 	\end{definition}
@@ -543,7 +597,7 @@
 		\vspace{-1em}
 \begin{theorem}
 	\scriptsize{
-	You can decompose any signal in a sum of impulse response:\\
+	You can decompose any signal as follows:\\
 	$f[k]=\sum\limits_{i=-\infty}^{i=\infty}\delta[k-i]f[i] = \delta[k] \ast f[k]$}
 \end{theorem}
 \end{frame}
@@ -557,12 +611,12 @@
 			\item Flip v[i] around vertical axis(v[-i]).
 			\item Slide to the right over k steps(v[k-i]).
 			\item Multiply $u[i]$ and $v[k-i]$
-			\item Sum all the vaules.
+			\item Sum all the values.
 		\end{enumerate}
 	\end{block}
 \end{frame}
 \begin{frame}
-	\frametitle{Convolution theorem (DT)}
+	\frametitle{Convolution theorem }
 	\begin{theorem}
 		$y[k] = u[k] \ast h[k]$
 	\end{theorem}
@@ -578,21 +632,21 @@
 \begin{frame}
 	\begin{figure}
 \centering
-\includegraphics[height=0.8\textheight]{Images/discrete_time_systems_20}
+\includegraphics[height=0.9\textheight]{Images/discrete_time_systems_20}
 
 \end{figure}
 
 \end{frame}
 \begin{frame}
 	\frametitle{Impulse response}
-	\begin{definition}
-		The impulse response of a dynamic system is its output when presented with a brief input signal, called an impulse.
+	\begin{definition}[Impulse response]
+		The impulse response of a dynamic system is  the output when the input is a unit-impulse.
 	\end{definition}
 	\begin{block}{Impulse response}
 		$h[k] = \begin{cases}
-			0  & \text{if} k <  0 \\
-			D & \text{if} k= 0 \\ 
-			CA^{k-1}B & \text{if} k> 0 
+			0  & \text{if } k <  0 \\
+			D & \text{if } k= 0 \\ 
+			CA^{k-1}B & \text{if } k> 0 
 		\end{cases}$
 	\end{block}
 \end{frame}
@@ -610,7 +664,7 @@
 	\begin{columns}
 		\begin{column}{0.6 \textwidth}
 			\begin{itemize}
-					\item Won the nobel prize in 1973
+					\item Won the Nobel prize in 1973
 					\item A simple model that assigns values to different sectors
 					\item For simplicity we choose a planned economy. But today governments all over the world are using similar models to model their economy.
 			\end{itemize}
@@ -627,7 +681,7 @@
 \end{frame}
 \begin{frame}
 	\frametitle{Example: Leontief model of a planned economy}
-	Leontief divided the economy in sectors who buy from eachother.\\
+	Leontief divided the economy in sectors who buy from each other.\\
 	The optimal production of some sector this month depends on the demand (external and internal) of the following month. So the system is non causal.\\
 	\begin{center}
 		\begin{align*}
@@ -642,10 +696,10 @@
 	\begin{definition}
 		\begin{itemize}
 			\item Discrete equivalent to the Laplace-transform
-			\item Converts time dependent descriptions of systems to the time-independent Z-domain.
+			\item Converts time-dependent descriptions of systems to the time-independent Z-domain.
 			\item Simplifies many calculations:
 			\begin{itemize}
-				\item 	Convolution theorem → convolution becomes multiplication
+				\item 	Convolution theorem $\rightarrow$ convolution becomes multiplication
 				\item Linear difference equations become simple algebraic expressions
 				\item \dots
 			\end{itemize}
@@ -654,8 +708,9 @@
 \end{frame}
 \begin{frame}
 		\begin{figure}
+			\Wider{
 			\centering
-			\includegraphics[width=0.9\linewidth]{Images/discrete_time_systems_21}
+			\includegraphics[width=1\linewidth]{Images/discrete_time_systems_21}}
 		\end{figure}
 		
 \end{frame}
@@ -665,10 +720,10 @@
 			\begin{itemize}
 				
 				\item Bilateral:
-				Requires knowledge of x for all values of k, including negative values
+				Requires knowledge of x for all values of k, including negative values.
 				Can be used for non-causal systems $X(z) = \sum\limits_{k=-\infty}^{\infty} x[k]z^{-k}$
 				\item 	Unilateral:
-				Only requires knowledge of x for positive values of k
+				Only requires knowledge of x for positive values of k.
 				Can only be used for causal systems without loss of information $X(z) = \sum\limits_{k=0}^{\infty} x[k]z^{-k}$
 			\end{itemize}
 	\end{block}
@@ -694,14 +749,14 @@
 	\frametitle{Properties Unilateral Z-transform}
 	\small{
 		\begin{tabular}{|c|c|c|}
-			\hline  Propery & Time Domain & Z-domain  \\ 
+			\hline  Property & Time Domain & Z-domain  \\ 
 			\hline  Linearity & $af_1[n]+bf_2[n] + \dots  $& $aF_1(Z)+bF_2(Z)+\dots$ \\ 
 			\hline  Right Shift(m$>$0)& $f[k-m]$  &$z^{-m}F(Z)$  \\ 
-			\hline  Left Shif (m$>$0)& $f[k+m] $  & $ z^m\bigg(F(z)-\sum\limits_{i=0}^{m-1}f[i]z^{-i} \bigg)$ \\ 
+			\hline  Left Shift (m$>$0)& $f[k+m] $  & $ z^m\bigg(F(z)-\sum\limits_{i=0}^{m-1}f[i]z^{-i} \bigg)$ \\ 
 			\hline  Convolution & $f[k]\ast g[k] $  & $F(z)G(z) $ \\ 
 			\hline  Multiplication by $a^{k}$ & $a^{k}f[k]$  & $F(a^{-1}z)$  \\ 
 			\hline  Summation in time& $\sum\limits_{i=0}^{k}f[i]$  & $\frac{z}{z-1}F(Z) $\\ 
-			\hline  Differentation in z& $k^mf[k]$ & $\big(-z \frac{d}{d}\big)^{m} F(z)$ \\ 
+			\hline  Differentiation in z& $k^mf[k]$ & $\big(-z \frac{d}{d}\big)^{m} F(z)$ \\ 
 			\hline  Periodic Sequence & $f[k] = f[k+N]$  & $F(z) = \frac{z^N}{z^{N-1}}\sum\limits_{k=0}^{N-1}f[k]z^{-1}$  \\ 
 			\hline  Initial Value& f[0] &$ \lim_{\mid z \mid \to \infty} F(z) $  \\ 
 			\hline  Final value & $f[\infty] $ & $\lim_{z \to 1} (z-1)F(z) $ \\ 
@@ -730,8 +785,8 @@
 \end{frame}
 \begin{frame}
 	\frametitle{Region of convergence}
-	\begin{alertblock}{Z-transform not unique}
-		Two different signals could have the same Z-transfor over a different region of convergence.
+	\begin{alertblock}{Z-transform is not unique}
+		Two different signals could have the same Z-transform over a different region of convergence.
 	\end{alertblock}
 	\begin{definition}
 		The region of convergence is the set of complex numbers z for which:
@@ -784,8 +839,8 @@ the unit circle.
 	\frametitle{Inverse Z-transform}
 	\begin{block}{Inverse Z-transform}
 		\begin{enumerate}
-			\item Split the function up in partial fractions
-			\item Use the table to transform each partial fraction individually to the t-domain
+			\item Split the function into partial fractions
+			\item Use the table to transform each partial fraction individually to the time domain
 		\end{enumerate}
 	\end{block}
 	
@@ -841,18 +896,15 @@ the unit circle.
 				\setcounter{enumi}{\theenumTmp}
 				\item Any remaining coefficients can be found by evaluating the equation for a number of values of z.
 			\end{enumerate}
+				\begin{tabular}{|c|c|}
+					\hline $F(z)$ & $f[k]$ \\
+					\hline $1$ & $\delta[k]$ \\
+					\hline $\frac{z}{z-a}$ & $ a^{k}$ \\
+					\hline $\frac{z^{m+1}}{(z-a)^{m+1}}$ & $\frac{(k+1)(k+2)+ \dots (k+m)a^{k}}{m!}$ \\ 
+					\hline 
+				\end{tabular} 
 	\end{block}
 
-\end{frame}
-\begin{frame}
-	\frametitle{Inverse Z-transform}
-	\begin{tabular}{|c|c|}
-		\hline $F(z)$ & $f[k]$ \\
-		\hline $1$ & $\delta[k]$ \\
-		\hline $\frac{z}{z-a}$ & $ a^{k}$ \\
-		\hline $\frac{z^{m+1}}{(z-a)^{m+1}}$ & $\frac{(k+1)(k+2)+ \dots (k+m)a^{k}}{m!}$ \\ 
-		\hline 
-	\end{tabular} 
 \end{frame}
 \begin{frame}
 	\frametitle{Inverse Z-transform}
@@ -922,11 +974,11 @@ the unit circle.
 \end{frame}
 \begin{frame}
 	\frametitle{Solving difference equations with the Z-transform}
-	We’ll apply the following transformation of the double summations:\\
+	We'll apply the following transformation of the double summations:\\
 	$ \sum\limits_{i=1}^{n} b_i z^i \sum\limits_{j=0}^{i-1}u[j]z^{-j} = \sum\limits_{s=1}^{n}\sum\limits_{j=0}^{n-s}b_{s+j}u[j]	z^{s}$
 	\begin{figure}
 	\centering
-	\includegraphics[height = 0.5\textheight]{Images/discrete_time_systems_26}
+	\includegraphics[height = 0.6\textheight]{Images/discrete_time_systems_26}
 	\label{fig:discrete_time_systems_26}
 	\end{figure}
 
@@ -935,11 +987,10 @@ the unit circle.
 	\frametitle{Solving difference equations with the Z-transform}
 	\footnotesize{The final simplified result is:\\
 		$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z^i}{\sum\limits_{i=1}^{n} a_i z^i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z^{i}}$\\
-		
 		With this result it is easy to find the resulting output from a given input or vice-versa given a difference equation.\\
-		Right-hand fraction = output resulting from starting conditions: will vanish with time = transient behavior\\
+		Right-hand fraction = output resulting from initial conditions: will vanish with time = transient behaviour\\
 		Left-hand fraction = output resulting from input: will remain = steady state response. \\
-		$ H(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i}$ is the “transfer function” of the system. This is the z transform of h[k](the impulsresponse)}
+		$ H(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i}$ is the “transfer function” of the system. This is the z transform of $h[k]$ (the impulse response)}
 		
 \end{frame}
 \begin{frame}
@@ -961,21 +1012,20 @@ the unit circle.
 		$X(z) = (zI-A)^{-1}zx[0] + (zI-A)^{-1}BU(z) $\\
 		$Y(z) = C(zI-A)^{-1}zx[0] + \bigg[C(zI-A)^{-1}B + D\bigg]U(z)$
 	\end{center}
-	If [0] = 0 and $u[k] = \gamma[k] (U(z)=1)$:\\
+	If $x[0] = 0$ and $u[k] = \delta[k] (U(z)=1)$:\\
 	$H(z) = C(zI-A)^{-1}B + D$\\
 	$Y(z)=H(z)U(z)$}
 \end{frame}
 \begin{frame}
 	\frametitle{Z-Transform}
 	\begin{definition}
-		A pole $p_i$ of of the is system is a point int the complex z-plane where $H(p_i) = \pm \infty$ i.e. the denominator becomes zero.\\
+		A pole $p_i$ of the is system is a point in the complex z-plane where $H(p_i) = \pm \infty$ i.e. the denominator becomes zero.\\
 		\begin{center}
 			$\sum\limits_{i=0}^{n}a_iz^{i} = 0$
 		\end{center}
-		
 	\end{definition}
 	\begin{definition}
-		A zero $n_i$ is a point where $H(n_i)=0$ i.e. the numinator becomes zero.\\
+		A zero $n_i$ is a point where $H(n_i)=0$ i.e. the numerator becomes zero.\\
 		\begin{center}
 			$\sum\limits_{i=0}^{n}b_iz^{i} = 0$
 		\end{center}
@@ -983,7 +1033,7 @@ the unit circle.
 \end{frame}
 \begin{frame}
 	\frametitle{Link between eigenvalues and poles}
-	\textbf{Are Eigenvalues of A poles of H(z)?}\\
+	\textbf{Are eigenvalues of A poles of H(z)?}\\
 	\small{
 	\begin{itemize}
 			\item As z approaches an eigenvalue of A, $(zI-A)^{-1}$ is no longer defined.\\
@@ -1000,18 +1050,18 @@ the unit circle.
 	
 \end{frame}
 \begin{frame}
-	\frametitle{Link between Eigenvalues and poles}
-	\textbf{Are poles of H(z) Eigenvalues of A?}\\
+	\frametitle{Link between eigenvalues and poles}
+	\textbf{Are poles of H(z) eigenvalues of A?}\\
 	$H(z) = C(zI-A)^{-1}B + D$ \\
-	B, C and D are matrixes with properly defined values.
-	If H(z) is undefined then $(zI-A)^{-1}$ must be the cause
+	B, C and D are matrices with properly defined values.
+	If H(z) is undefined then $(zI-A)^{-1}$ must be the cause. So,
 	z must be an eigenvalue of A
 	\begin{block}{Rule 2}
 		Poles of H(z) are always eigenvalues of A 
 	\end{block}
 \end{frame}
 \begin{frame}
-	\frametitle{Stabiltiy}
+	\frametitle{Stability}
 	\begin{itemize}
 		\item Internal Stability
 		\begin{itemize}
@@ -1038,9 +1088,9 @@ the unit circle.
 	According to the mathematical models we have discussed unstable systems need an infinite amount of energy.\\
 	\textbf{What happens in the real world?}
 	\begin{itemize}
-		\item The system enters a state in which the current linear model is no longer valid(Non linear behavior) .
+		\item The system enters a state in which the current linear model is no longer valid (Non linear behaviour) .
 		\item Smaller unaccounted effects become more prominent
-		\item The system malfunctions and may cause damage to itself or it’s surroundings.
+		\item The system malfunctions and may cause damage to itself or its surroundings.
 		\item Something else bad happens
 	\end{itemize}
 \end{frame}
@@ -1067,15 +1117,15 @@ the unit circle.
 		\item Faster moving air has a lower pressure.
 		\item Eddy currents may be created due to a too slow airspeed or too sharp ascent.
 		\item Turbulent airflow causes a loss of the lift generated by the Venturi effect.
-		\item Without the necessary lift an airplane becomes an unstable system.
+		\item Without the necessary lift an air plane becomes an unstable system.
 	\end{itemize}
 \end{frame}
 \begin{frame}
 	\begin{columns}
 		\begin{column}{0.6\textwidth}
-			Busses and other tall vehicles have a tendency to roll when taking turns too quickly.
-			A London bus is loaded with sandbags and must be able to lean at an angle of at least $28 \circ$ while still returning all tires to the ground.
-			Modern day car manufacturers have to pass multiple tests for stability while maneuvering
+			Buses and other tall vehicles have a tendency to roll when taking turns too quickly.
+			A London bus is loaded with sandbags and must be able to lean  at an angle of at least $28^{\circ}$ while still returning all tires to the ground.
+			Modern day car manufacturers have to pass multiple tests for stability while manoeuvring
 		\end{column}
 		\begin{column}{0.4\textwidth}
 			\begin{figure}
@@ -1089,7 +1139,7 @@ the unit circle.
 \begin{frame}
 	\frametitle{Steady state behavior via Z-transform}
 	Starting from the previous result:\\
-	$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)z^{s}}{\sum\limits_{i=1}^{n}a_i z^i}$\\
+	$Y(z) = \frac{\sum\limits_{i=1}^{n} b_i z^i}{\sum\limits_{i=1}^{n} a_i z^i} U(z) + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)z^{s}}{\sum\limits_{i=1}^{n}a_i z^i}$\\
 	We wish to find the resulting output from the input:\\
 	$ u[k] = \cos(k\alpha + \theta)$\\
 	To simplify derivation, we use:\\
@@ -1101,10 +1151,9 @@ the unit circle.
 	\frametitle{Steady state behavior via Z-transform}
 	Filling in U(z) and splitting into partial fractions:
 	\begin{align*}
-			Y(z) &= \frac{\sum\limits_{i=1}^{n} b_i z_i}{\sum\limits_{i=1}^{n} a_i z_i} \frac{ze^{j\theta}}{z-e^{j\alpha}} + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z^{i}}\\
+			Y(z) &= \frac{\sum\limits_{i=1}^{n} b_i z^i}{\sum\limits_{i=1}^{n} a_i z^i} \frac{ze^{j\theta}}{z-e^{j\alpha}} + \frac{\sum\limits_{s=1}^{n}\Bigg(\sum\limits_{j=0}^{n-s}a_{s+j}y[j]-\sum\limits_{j=0}^{n-s}b_{s+j}u[j]\Bigg)	z^{s}}{\sum\limits_{i=1}^{n} a_i z^{i}}\\
 			& = \frac{cz}{z-e^{j\alpha}} + \frac{d_1z}{z-p_1} + \dots + \frac{d_nz}{z-p_n}+g\\
 	\end{align*}
-	
 	Calculating the coefficient c:\\
 	$c= \bigg[Y(z)\frac{z-e^{j\alpha}}{z}\bigg]_{z=e^{j\alpha}} = \bigg[H(z)e^{j\theta}\bigg]_{z=e^{j\alpha}} = H(e^{j\alpha})e^{j\theta}$\\
 
@@ -1113,12 +1162,12 @@ the unit circle.
 	\frametitle{Steady state behavior via Z-transform}
 	\small{
 		After the inverse Z-transform:
-		\begin{align*}			y[k]&=H(e^{j\alpha})e^{j(k\alpha+\theta)}+d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]\\
-		 &= \mid H(e^{j\alpha}) \mid e^{j(k\alpha+\theta+\angle H(e^{j\alpha}))} +d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k]
+		\begin{align*}			y[k]&=H(e^{j\alpha})e^{j(k\alpha+\theta)}+d_1p_1^k+\dots+d_np_n^{k}+g\delta[k]\\
+		 &= \mid H(e^{j\alpha}) \mid e^{j(k\alpha+\theta+\angle H(e^{j\alpha}))} +d_1p_1^k+\dots+d_np_n^{k}+g\delta[k]
 		\end{align*}
 		
 	Because of linearity we can ignore the imaginary component, leading to the result:\\
-	$y[k] =  \underbrace{\mid H(e^{j\alpha}) \mid cos(k\alpha+\theta+\angle H(e^{j\alpha}))}_{\text{staedy state}} + \underbrace{Re(d_1p_1^k+\dots+d_np_n^{k}+g\gamma[k])}_{\text{transient behavure}}$\\
+	$y[k] =  \underbrace{\mid H(e^{j\alpha}) \mid cos(k\alpha+\theta+\angle H(e^{j\alpha}))}_{\text{staedy state}} + \underbrace{Re(d_1p_1^k+\dots+d_np_n^{k}+g\delta[k])}_{\text{transient behavure}}$\\
 	\begin{tabular}{|c|c|}
 		\hline Input & Output \\ 
 		\hline $cos(k\alpha + \theta)$ &  $\mid H(e^{j\alpha}) \mid cos(k\alpha+\theta+\angle H(e^{j\alpha}))$ \\ 
@@ -1155,9 +1204,9 @@ the unit circle.
 			\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_33}
 		\end{figure}
 \end{frame}
-\section{Observability and controlabilty}
+\section{Observability and controllability}
 \begin{frame}
-	\frametitle{Observability and controlabilty}
+	\frametitle{Observability and controllability}
 	\begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{Images/discrete_time_systems_34}
@@ -1185,7 +1234,12 @@ the unit circle.
 	CA\\
 	\vdots\\
 	CA^{n-1}\\
-	\end{bmatrix} x[0]
+	\end{bmatrix} \begin{bmatrix}
+	x_1[0]\\
+	x_2[0]\\
+	\vdots\\
+	x_n[0]\\
+	\end{bmatrix}
 	\]}
 \end{frame}
 \begin{frame}
@@ -1199,7 +1253,7 @@ the unit circle.
 	\end{bmatrix} \] has rank n.
 \end{frame}
 \begin{frame}
-	\frametitle{Controlable}
+	\frametitle{controllable}
 	A system is controllable if it can be brought to a desired state using the inputs in a finite time.\\
 	Again we start from the state space model:\\
 	The following equations can be derived:\\
@@ -1207,7 +1261,7 @@ the unit circle.
 	$x[1] = Ax[0]+Bu[0]$\\
 	$x[2] = A^2 x[0] + ABu[0] + Bu[1]$\\
 	$x[3] = A^3 x[0] + A^2Bu[0]+AB u[1] + Bu[2]$\\
-	$\vdots$\\
+	$ \hspace{3 em}\vdots$\\
 	$x[n] = A^{n}x[0]+A^{n-1}Bu[0] + \dots + Bu[n-1]$
 \end{frame}
 \begin{frame}
@@ -1223,7 +1277,7 @@ the unit circle.
 	u[1]\\
 	u[0]
 	\end{bmatrix}
-	 $	
+	 $	\\
 	For a given x[0] and a desired x[n] the required inputs can be found by solving this system.
 	$\begin{bmatrix}
 		B & AB & \dots & A^{n-1}B
