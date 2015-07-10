@@ -1,4 +1,4 @@
-\beamer@endinputifotherversion {3.36pt}
+\beamer@endinputifotherversion {3.10pt}
 \beamer@sectionintoc {1}{The Frequency Response}{2}{0}{1}
 \beamer@sectionintoc {2}{What Is The Bode Plot}{5}{0}{2}
 \beamer@sectionintoc {3}{How To Construct A Bode Plot (by hand)}{11}{0}{3}
