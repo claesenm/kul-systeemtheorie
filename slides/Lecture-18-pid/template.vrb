@@ -1,0 +1,15 @@
+\frametitle{Digital Implementation}
+The difference equations are typically implemented in a micro controller or FPGA:
+\begin{align*}
+u[k] &= K_p e[k] + \frac{K_d}{T}(e[k] - e[k-1])+u_i[k] \\
+&\text{with } u_i[k] = u_i[k-1] + K_i T e[k]
+\end{align*}
+Steps to be implemented:
+\begin{enumerate}
+\item Wait for clock interrupt
+\item Read analog input
+\item Compute control signal
+\item Set analog output
+\item Update controller variables
+\item Go to 1
+\end{enumerate}
