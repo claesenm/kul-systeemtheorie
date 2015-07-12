@@ -30,16 +30,16 @@
 				\pro Improves robustness: $K \rightarrow \infty \Rightarrow S^T_P \rightarrow 0$
 				\con Reduces but \textbf{does not eliminate steady-state error}: Only when $K \rightarrow \infty , \text{error} \rightarrow 0$
 				 (unless plant has pole(s) at $s=0$)
-				\con \textbf{Mind stability}: amplitude margin worsens
+				\con \textbf{Mind stability}: limit on gain
 			\end{itemize}
 		\pause
-		\item Integral action $K_i\int_0^t e(\tau)d\tau$
+		\item Integral action $K_i\int_0^t e(\tau)d\tau$: Reacts on constant errors
 			\begin{itemize}
-				\pro Augments the type op $P(s)C(s)$ by one, thus \textbf{can eliminate steady state error} in some cases
+				\pro Augments the type of $P(s)C(s)$ by one, thus \textbf{can eliminate steady state error} in some cases
 				\con Makes transient response slower 
 			\end{itemize}
 		\pause
-		\item Derivative action $K_d \frac{de(t)}{dt}$
+		\item Derivative action $K_d \frac{de(t)}{dt}$: Reacts on quick variations
 		\begin{itemize}
 			\pro Damping effect: reduces overshoot, improves transient response
 			\con Sensitive for noise, amplifies it if present
@@ -76,7 +76,7 @@
 	\end{equation*}
 	with $T$ the sampling time.
 	
-	Other discretization methods can be used, but forward Euler can introduce instability and Bilinear transformation a minus sign, which causes \emph{ringing}.
+	Other discretization methods can be used, but forward Euler can introduce instability.
 \end{frame}
 
 \begin{frame}
@@ -90,6 +90,8 @@
 	\begin{equation*}
 		\dot{u_i} = K_i e(t)
 	\end{equation*}
+	
+	\pause
 	Then applying backward Euler:
 	\begin{equation*}
 	u_i[k] = u[k-1] + K_i T e[k] \quad \leftrightarrow \quad \frac{U_i(z)}{E(z)} =  \frac{K_i T}{1 - z^{-1}}
@@ -119,7 +121,7 @@
 	\end{block}
 	
 	%\vspace{1em}
-	 Controllers where the integral or derivative function is omitted exist. These are called PI or PD controllers respectively.
+	 Also controllers where the integral or derivative function is omitted exist. These are called PI or PD controllers respectively.
 \end{frame}
 
 \begin{frame}
@@ -138,10 +140,45 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Digital PID controller}
-	todo
+	\frametitle{Alterantive Derivative Action}
+		\begin{columns}
+			\begin{column}{0.7\linewidth}
+				Imagine a jumping set point or rapidly changing signal. 
+				This results in a theoretically infinite, practically very large response of
+				the derivative term.  
+			\end{column}
+			\begin{column}{0.3\linewidth}
+				\includegraphics[width=\linewidth]{img/piecewise-setpoint}
+			\end{column}
+		\end{columns}
+		\pause
+		$\Rightarrow$ Add a low-pass filter to the derivative term:
+		\begin{equation*}
+			\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
+		\end{equation*}
+		With $s=j\omega$, breakpoint at $\omega=1/\tau$. This prevents amplification of high frequencies. 
+		
+		
+		
+		
 \end{frame}
 
+\begin{frame}
+	\frametitle{Alterantive Derivative Action}
+	\begin{equation*}
+		\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
+	\end{equation*}
+	
+	Further $e(t)$ is replaced by $c\cdot r(t)-y(t)$ with c the set point weighting, which is often set to zero to further reduce immediate influence of a sudden set point jump. 
+	
+	In time domain:
+	
+	\begin{equation*}
+		u_d(t) = -\tau\frac{du_d}{dt} + K_d(c\cdot r(t)-y(t))
+	\end{equation*}
+	
+	This can also be discretized, but the bilinear method then introduces \emph{ringing}, i.e. large oscillations in transient response.
+\end{frame}
 \section{Implementation Examples}
 
 \begin{frame}
@@ -275,7 +312,7 @@
 	With $K_u$ and $T_u$ determined like in the previous slide, a starting point for the parameters can be determined:
 	\vspace{1em}
 	
-	\begin{tabular}{c | c | c |c}
+	\begin{tabular}{c | c | c | c}
 		Control Type	&	$K_p$		&	$K_i$			&	$K_d$ 	\\
 		\hline
 		P				&	$0.5K_u$	&	-				&	-		\\
