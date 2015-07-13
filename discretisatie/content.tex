@@ -1,0 +1,200 @@
+\section{Introduction}
+
+\begin{frame}
+	\frametitle{Discretization of Continuous-time systems}
+	\begin{block}{Use of discretization}
+		Many systems in the real world are continous systems: chemical reactions, rocket trajectories, power plants, ice cap melting... Computers, however, are mainly digital. If we want to simulate the continuous system with a digital device, we need a method to convert the continuous model into a discrete one.  This conversion is called "discretization" or "sampling". Discretization also comes in handy when a continuous filter with usefull properties has been designed and a discrete filter with the same properties is required.
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Discretization}
+	\begin{block}{Problem statement}
+		While converting, some information of the continuous model will be lost due to the different nature of the systems. It is important that the loss of information is minimized. Each discretization method has its own qualities and they will all lead to different discrete representations of the same continuous system.
+	\end{block}
+	
+	\begin{block}{Discretization methods discussed in this lecture}
+		\begin{itemize}
+			\item Numerical Integration
+			\item Zero-pole equivalent
+			\item Hold equivalents
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Numerical Integration}
+
+\begin{frame}
+	\frametitle{Numerical Integration}
+	\begin{block}{General approach}
+		The system transfer function H(s) is first represented by a differential equation. Next a difference equation, whose solution is an approximation of this differential equation, is derived: 
+		\begin{center}
+			$H(s) = \frac{a}{s + a}$
+			is equivalent to the differential equation
+			$\frac{\mathrm d}{\mathrm d t} \big( u(t) \big) + a*u(t) = a*e(t)$
+			
+			solving this equation results in the following integral
+			$u(t) = \int_0^t \big(-a*u(\tau) + a*e(\tau) \big)\mathrm{d}\tau$
+			
+			$u(k*T) = u(k*T - T)+ $ \begin{cases}
+				\text{area of $ -a*u(t) + a*e(t)$}\\
+				\text{over $k*T - T \leq \tau < k*T$}
+			\end{cases}
+			(8.1)
+		\end{center}
+		This transfer function will be used for all the numerical integration methods.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Forward rectangular rule}
+\begin{columns}
+	
+	\begin{column}{0.5\textwidth}
+	\begin{block}{General approach}
+		The area is approximated by the rectangle looking \textbf{forward} from $(k*T - T)$ toward $k*T$ with an amplitude equal to the value of the function at $(k*T - T)$. A smaller step-size T leads to a more accurate approximation, as shown in the figures.
+	\end{block}
+	\end{column}
+
+	\begin{column}{0.5\textwidth}
+		\vspace{-1em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Rectangle_Rule_3}
+		\end{figure}
+		\vspace{-2em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Rectangle_Rule_4}
+		\end{figure}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Forward rectangular rule}
+	\begin{block}{Mathematical approach}
+		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_1$:
+		\begin{align*}
+		u_1(k*T)& =u_1(k*T - T) + T*\big(-a*u_1(k*T - T)\\
+		& + a*e(k*T - T) \big)\\
+		& =(1 - a*T)*u_1(k*T - T) + a*T*e(k*T - T)
+		\end{align*}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Forward rectangular rule}
+	\begin{block}{Mathematical approach}
+		In this case, the transfer function is:
+		\begin{center}
+		$H_F(z) = \frac{a}{(z-1)/T+a}$
+		\end{center}
+		Which can also be derived using the following substitution in the given transfer function:
+		\begin{center}
+			$s \gets \frac{z-1}{T}$
+		\end{center}
+		This is extremely usefull while making exercises.
+	\end{block}
+\end{frame}
+	
+\begin{frame}
+	\frametitle{Forward rectangular rule}
+	\begin{block}{Stability}
+	\end{block}
+\end{frame}	
+
+\begin{frame}
+	\frametitle{Backward rectangular rule}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{block}{General approach}
+				The area is approximated by the rectangle looking \textbf{backward} from $k*T$ toward $(k*T - T)$ with an amplitude equal to the value of the function at $k*T$. 
+			\end{block}	
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+		\end{column}
+		
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Backward rectangular rule}	
+	\begin{block}{Mathematical approach}
+		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_2$:
+		\begin{align*}
+		u_2(k*T)& =u_2(k*T - T) + T*\big(-a*u_2(k*T) + a*e(k*T) \big)\\
+		& =\frac{u_2(k*T - T)}{1 + a*T} + \frac{a*T}{1 + a*T}*e(k*T)
+		\end{align*}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Backward rectangular rule}
+	\begin{block}{Mathematical approach}
+		In this case, the transfer function is:
+		\begin{center}
+			$H_B(z) = \frac{a}{(z-1)/T*z+a}$
+		\end{center}
+		Which can also be derived using the following substitution in the given transfer function:
+		\begin{center}
+			$s \gets \frac{z-1}{T*z}$
+		\end{center}
+		Again this is extremely usefull while making exercises.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Backward rectangular rule}
+	\begin{block}{Stability}
+	\end{block}
+\end{frame}	
+
+\begin{frame}
+	\frametitle{Trapezoidal rule}
+	
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+	\begin{block}{General approach}
+		This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(k*T - T)$ and the amplitude equal to the value of the function at $(k*T)*$ are connected by a line as shown in the illustration.
+	\end{block}	
+	\end{column}
+
+	\begin{column}{0.5\textwidth}
+	\end{column}
+	
+\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trapezoidal rule}
+	\begin{block}{Mathematical approach}
+		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_3$:
+		\begin{align*}
+		u_3(k*T)& =u_3(k*T - T) + T/2*\big(-a*u_3(k*T - T)\\
+		& + a*e(k*T - T) - a*u_3(k*T) + a*e(k*T)\big)\\
+		& =\frac{1-(a*T/2)}{1 + (a*T/2)}*u_3(k*T - T)\\
+		& +\frac{a*T/2}{1 + (a*T/2)} * \big(e_3(k*T - T) + e_3(k*T)\big)
+		\end{align*}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Forward rectangular rule}
+	\begin{block}{Mathematical approach}
+		In this case, the transfer function is:
+		\begin{center}
+			$H_T(z) = \frac{a}{\frac{2}{T}*\frac{z-1}{z+1} * a }$
+		\end{center}
+		Which can also be derived using the following substitution in the given transfer function:
+		\begin{center}
+			$s \gets \frac{2}{T} * \frac{z-1}{z+1}$
+		\end{center}
+		This is extremely usefull while making exercises.
+	\end{block}
+\end{frame}
+
+\section{Zero-pole equivalent}
+
+\section{Hold equivalents}
