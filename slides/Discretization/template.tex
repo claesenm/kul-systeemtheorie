@@ -7,11 +7,17 @@
 \documentclass{beamer}
 
 \include{setup}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\newcommand{\verteq}{\rotatebox{90}{$\,=$}}
+\newcommand{\equalto}[2]{\underset{\scriptstyle\overset{\mkern4mu\verteq}{#2}}{#1}}
 %\usepackage{natbib}	% only use this if you want to include citations (\cite)
 
 \usetheme{Warsaw}
+
 \input{title.tex}
-\setbeamertemplate{headline}{}
+
 \begin{document}
 \begin{frame}
 \titlepage

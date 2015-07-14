@@ -47,25 +47,24 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Forward rectangular rule}
-\begin{columns}
-	
-	\begin{column}{0.5\textwidth}
+	\frametitle{Forward rectangular rule (=Forward Euler)}
+
 	\begin{block}{General approach}
 		The area is approximated by the rectangle looking \textbf{forward} from $(k*T - T)$ toward $k*T$ with an amplitude equal to the value of the function at $(k*T - T)$. A smaller step-size T leads to a more accurate approximation, as shown in the figures.
 	\end{block}
-	\end{column}
 
+\begin{columns}
 	\begin{column}{0.5\textwidth}
-		\vspace{-1em}
 		\begin{figure}
 			\centering
-			\includegraphics[width=1\linewidth]{Rectangle_Rule_3}
+			\includegraphics[width=0.6\linewidth]{Forward1}
 		\end{figure}
-		\vspace{-2em}
+	\end{column}
+	
+	\begin{column}{0.5\textwidth}
 		\begin{figure}
 			\centering
-			\includegraphics[width=1\linewidth]{Rectangle_Rule_4}
+			\includegraphics[width=0.6\linewidth]{Forward2}
 		\end{figure}
 	\end{column}
 \end{columns}
@@ -105,18 +104,27 @@
 \end{frame}	
 
 \begin{frame}
-	\frametitle{Backward rectangular rule}
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			\begin{block}{General approach}
-				The area is approximated by the rectangle looking \textbf{backward} from $k*T$ toward $(k*T - T)$ with an amplitude equal to the value of the function at $k*T$. 
-			\end{block}	
-		\end{column}
+	\frametitle{Backward rectangular rule (=Backward Euler)}
+\begin{block}{General approach}
+	The area is approximated by the rectangle looking \textbf{backward} from $k*T$ toward $(k*T - T)$ with an amplitude equal to the value of the function at $k*T$. 
+\end{block}	
+
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{Backward1}
+		\end{figure}
+	\end{column}
 		
-		\begin{column}{0.5\textwidth}
-		\end{column}
+	\begin{column}{0.5\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{Backward2}
+		\end{figure}
+	\end{column}
 		
-	\end{columns}
+\end{columns}
 \end{frame}
 
 \begin{frame}
@@ -152,17 +160,21 @@
 \end{frame}	
 
 \begin{frame}
-	\frametitle{Trapezoidal rule}
+	\frametitle{Trapezoidal rule (= bilinear or tusting rule)}
 	
 \begin{columns}
 	\begin{column}{0.5\textwidth}
-	\begin{block}{General approach}
-		This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(k*T - T)$ and the amplitude equal to the value of the function at $(k*T)*$ are connected by a line as shown in the illustration.
-	\end{block}	
+		\begin{block}{General approach}
+			This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(k*T - T)$ and the amplitude equal to the value of the function at $(k*T)*$ are connected by a line as shown in the illustration.
+		\end{block}	
 	\end{column}
 
 	\begin{column}{0.5\textwidth}
-	\end{column}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Trapezium}
+		\end{figure}
+	\end{column}	
 	
 \end{columns}
 \end{frame}
@@ -181,7 +193,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Forward rectangular rule}
+	\frametitle{Trapezoidal rule}
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
