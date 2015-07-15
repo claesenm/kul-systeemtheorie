@@ -7,6 +7,9 @@ from matplotlib import cm
 
 def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
     plt.plot(np.real(z),np.imag(z),'o',np.real(p),np.imag(p),'x')
+    print x_max
+    plt.axhline(0,0,1)
+    plt.axvline(0,0,1)
     plt.xlim( x_min, x_max) 
     plt.ylim(y_min,y_max)
     plt.xlabel("Re")
