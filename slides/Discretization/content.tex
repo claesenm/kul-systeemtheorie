@@ -16,7 +16,7 @@
 \begin{frame}
 	\frametitle{Analysis of the sample and hold}
 	\vspace{-6ex}
-	To get samples of a continuous signal, we use an analog-to-digital converter. The conversion always takes a non-zero time, often this time is significant with respect to the sample period.\\
+	To get samples of a continuous signal, we use an analog-to-digital converter. The conversion always takes a non-zero time.\\
 	\medskip
 	To give the computer an accurate representation of the signal exactly at the sampling instants kT, the converter is preceded by a sample-and-hold circuit.\\
 	The sample-and-hold will take the impulses that are produced by the mathematical sampler and produce the piecewise constant output of the device.
@@ -25,7 +25,7 @@
 \begin{frame}
 	\frametitle{Sampling operation}
 	\vspace{-4ex}
-	The sampling operation is represented by impulse modulation. Its role is to give a mathematical representation of taking periodic samples from $r(t)$ to produce $(kT)$. \\
+	The sampling operation is represented by impulse modulation. Its role is to give a mathematical representation of taking periodic samples from $r(t)$ to produce $r(kT)$. \\
 	\medskip
 	The sampler takes as input $r(t)$ and returns as output
 	\bigskip
@@ -55,7 +55,7 @@
 	The hold operation is represented as a linear filter. It is defined by means whereby the impulses are extrapolated to the piecewise constant signal $r_h(t) = r(kT)$ with $kT \leq t < (k+1)T$.\\
 	\medskip
 	A general technique is to use a polynomial fit to the past samples.\\
-	If the extrapolation is done by a constant (a zero-order polynomial), then the extrapolator is called a zero-order hold and its transfer function is $ZOH(s)$. 
+	If the extrapolation is done by a constant (a zero-order polynomial), then the extrapolator is called a zero-order hold and its transfer function is denoted $ZOH(s)$. 
 	\begin{figure}
 		\includegraphics[width=0.55\linewidth]{sample_and_hold}
 	\end{figure}
@@ -86,11 +86,20 @@
 \begin{frame}
 	\frametitle{Fourier transform}
 	\vspace{-2ex}
-	\large{\[
-	\equalto{f(t)}{\int_{-\infty}^{\infty} e^{j\omega t} d\omega} \Leftrightarrow \equalto{F(j\omega)}{\int_{-\infty}^{\infty} f(\tau) e^{-j \omega \tau} d \tau = |F(j \omega) e^{j \phi(\omega)}|}
-	\]}\\
+	\begin{center}
+		\Large{
+		$f(t)\xrightarrow{\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad}F(j\omega)$\\
+		$F(j\omega) = \int_{-\infty}^{\infty} f(t)e^{-j\omega t} dt$\\
+		\bigskip
+		$f(t)\xleftarrow{\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad}F(j\omega)$\\
+		$f(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} F(j\omega) e^{j\omega t} d\omega$}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Fourier transform}
 	\begin{figure}
-		\includegraphics[width=0.6\linewidth]{fourier_examples}
+		\includegraphics[width=.8\linewidth]{fourier_examples}
 	\end{figure}
 \end{frame}
 
@@ -146,13 +155,11 @@
 \begin{frame}
 	\frametitle{Spectrum of a sampled signal}
 	\vspace{-5ex}
-	To get further insight into the process of sampling, we use an alternative representation of the transform of $r^*(t)$ using Fourier analysis.\\
-	\medskip
-	$r^*(t)$ is a product of $r(t)$ and a train of impulses. The latter series is periodic and can be represented by a Fourier series\\
+	$r^*(t)$ is the product of $r(t)$ and a train of impulses. The latter series is periodic and can be represented by a Fourier series\\
 	\begin{center}
 		$\sum_{k=-\infty}^{\infty} \delta(t-kT) = \sum_{n=-\infty}^{\infty} C_ne^{j(2\pi n/T)}t$,
 	\end{center}
-	where Fourier coefficients $C_n$ are given by:\\
+	where the Fourier coefficients $C_n$ are given by:\\
 	\begin{center}
 		$C_n=\frac{1}{T}\int_{-T/2}^{T/2} \sum_{k=-\infty}^{\infty} \delta(t-kT)e^{-jn(2\pi t/T)}dt$.
 	\end{center}
@@ -199,7 +206,7 @@
 	Aliasing is	an effect that causes different signals to become indistinguishable when sampled. Frequencies that are too high to be sampled are folded onto lower frequencies. We cannot distinguish between them based on their samples alone.\\
 	\medskip
 	Take for example the image below.\\
-	The red sine wave is being sampled at just over it's bandwidth, however the blue sine wave will be recreated as it also fit's all data points and is within the expected bandwidth.
+	The red sine wave is being sampled at just over its bandwidth, however the blue sine wave will be recreated as it also fits all data points and is within the expected bandwidth.
 	\begin{figure}
 		\includegraphics[width=0.8\linewidth]{aliasing}
 	\end{figure}
@@ -212,29 +219,29 @@
 	\medskip
 	The errors caused by aliasing can be very severe if a substantial quantity of high-frequency components is contained in the signal to be sampled.\\
 	\medskip
-	To minimize this error, the sampling operation is preceded by a low-pass antialias filter that will remove all spectral content above the half-sampling frequency ($\pi/T$).
+	To minimize this error, the sampling operation is preceded by a low-pass anti-aliasing filter that will remove all spectral content above the half-sampling frequency ($\pi/T$).
 \end{frame}
 
 \subsection{Sampling theorem}
 
 \begin{frame}
-	\frametitle{Sampling theorem}
+	\frametitle{Shannon-Nyquist sampling theorem}
 	If all content above the half-sampling frequency is removed, no aliasing is introduced by sampling. Also the signal spectrum is not distorted, even though it is repeated endlessly, centered at $n2\pi/T$.\\
 	\medskip
 	This critical frequency, $\pi/T$, is called the \textbf{Nyquist frequency}. Band-limited signals that have no components above the Nyquist frequency are represented unambiguously by their samples. \\
 	\medskip
-	This is the \textbf{sampling theorem}: One can recover a signal from its samples if the sampling frequency ($\omega_s=2\pi/T$) is at least twice the highest frequency ($\pi/T$) in the signal. This maximum frequency is also called the \textbf{bandwidth}.
+	This is the \textbf{sampling theorem}: One can recover a signal from its samples if the sampling frequency ($\omega_s=2\pi/T$) is at least twice the highest frequency ($\pi/T$) in the signal. This maximum frequency is also called the \textbf{bandwidth} B.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Sampling theorem}
+	\frametitle{Shannon-Nyquist sampling theorem}
 	\begin{columns}
 		\column{.5\textwidth}
 		The signal can be fully reconstructed if there are no overlaps in the frequency domain.\\
-		If the sampling frequency is too low then information will be lost (overlap).\\
-		If the sampling frequency is at least twice the bandwidth B, then the signal can be reconstructed without a problem (no overlap).\\
+		If the sampling frequency is at least twice the bandwidth B, then the signal can be reconstructed without a problem (no overlap). (fig. a)\\
+		If the sampling frequency is too low then information will be lost (overlap). (fig. b)\\
 		\medskip
-		Sampling frequence $f_s \geq 2 B$
+		\textbf{Sampling frequency} $f_s \geq 2 B$
 		\column{.5\textwidth}
 		\begin{figure}
 			\includegraphics[width=1\linewidth]{nyquist}
@@ -277,15 +284,15 @@
 	\begin{center}
 		$R(j\omega)=L(j\omega)R^*(j\omega)$.
 	\end{center}
-	The signal $r(t)$ is the inverse transform of $R(j\omega)$. Because $R(j\omega)$ is the \textit{product} of two transforms, its inverse transform $r(t)$ is the \textit{convolution} of the time functions $\ell(t)$ and $r^*(t)$.\\
+	The signal $r(t)$ is the inverse Fourier transform of $R(j\omega)$. Because $R(j\omega)$ is the \textit{product} of two Fourier transforms, $r(t)$ is the \textit{convolution} of the time functions $\ell(t)$ and $r^*(t)$.\\
 	\begin{center}
-		$r(t) = l(t) * r^*(t)$
+		$r(t) = \ell(t) * r^*(t)$
 	\end{center}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Ideal low-pass filter}
-	The form of the filter impulse response can be computed using this definition\\
+	The impulse response of the filter can be computed using this definition\\
 	\vspace{-2ex}
 	\begin{columns}
 		\column{0.5\textwidth}
@@ -360,5 +367,22 @@
 	plus the $180^\circ$ shifts where the sinc function changes sign.\\
 	\medskip
 	Thus the effect of the zero-order hold is to introduce a phase shift of $\omega T/2$ (a time delay of $T/2$ seconds) and to multiply the gain by a function with the magnitude of $sinc(\omega T/2)$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero-order hold}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\textbf{Spectrum of ideal filter}
+		\vspace{8ex}
+		\begin{figure}
+			\includegraphics[width=1\linewidth]{spectrum_ideal}
+		\end{figure}
+		\column{0.5\textwidth}
+		\textbf{Spectrum of ZOH}
+		\begin{figure}
+			\includegraphics[width=0.8\linewidth]{spectrum_zoh}
+		\end{figure}
+	\end{columns}
 \end{frame}
 
