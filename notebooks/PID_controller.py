@@ -10,11 +10,11 @@ def draw_step_response(y,t,y_max,peak_time,steady_state,overshoot,rise_time,sett
     if (overshoot)>0:
         plt.plot([peak_time,peak_time],[0,y_max],'r',label= 'peak time')
     plt.plot([rise_time,rise_time],[0,steady_state],'g',label = 'rise time')
-    plt.plot([0,10],[steady_state + sigma,steady_state + sigma],'c')
-    plt.plot([0,10],[steady_state - sigma,steady_state - sigma],'c')
+    plt.plot([0,t[-1]],[steady_state + sigma,steady_state + sigma],'c')
+    plt.plot([0,t[-1]],[steady_state - sigma,steady_state - sigma],'c')
     plt.plot([settling_time,settling_time],[0,steady_state],'m',label = 'settling_time')
     plt.ylim(0,1.5)
-    plt.xlim(0,10)
+    plt.xlim(0,t[-1])
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles, labels)
 
@@ -30,4 +30,4 @@ def print_data(peak_time,steady_state,overshoot,rise_time,settling_time,sigma):
         print "Steady_state: ", steady_state
         print "Overshoot: ", overshoot if (overshoot)>0 else None
         print "Peak time: ", peak_time if (overshoot)>0 else None
-        print "Setlling time: ", settling_time if settling_time!=None else '>10'
+        print "Setlling time: ", settling_time if settling_time!=None else None
