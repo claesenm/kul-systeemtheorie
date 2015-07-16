@@ -29,21 +29,24 @@
 	\frametitle{Numerical Integration}
 	\begin{block}{General approach}
 		The system transfer function H(s) is first represented by a differential equation. Next a difference equation, whose solution is an approximation of this differential equation, is derived: 
+		\vspace{-0.8em}
 		\begin{center}
 			$H(s) = \frac{a}{s + a}$
 			is equivalent to the differential equation
-			$\frac{\mathrm d}{\mathrm d t} \big( u(t) \big) + a*u(t) = a*e(t)$
+			$\frac{\mathrm d}{\mathrm d t} \big( u(t) \big) + au(t) = ae(t)$
 			
 			solving this equation results in the following integral
-			$u(t) = \int_0^t \big(-a*u(\tau) + a*e(\tau) \big)\mathrm{d}\tau$
+			$u(t) = \int_0^t \big(-au(\tau) + ae(\tau) \big)\mathrm{d}\tau$
 			
-			$u(k*T) = u(k*T - T)+ $ \begin{cases}
-				\text{area of  $-a*u(t) + a*e(t)$}\\
-				\text{over $k*T - T \leq \tau < k*T$}
+			$u(kT) = u(kT - T)+ $ 
+			\begin{cases}
+				\text{area of  $-au(t) + ae(t)$}\\
+				\text{over $kT - T \leq \tau < kT$}
 			\end{cases}
-			$(8.1)$
+			(8.1)
 		\end{center}
-		Where T is the sampling time. The transfer function above will be used for all the numerical integration methods.
+		\vspace{-0.8em}
+		Where T is the sampling time. The transfer function H(s) above will be used for all the numerical integration methods.
 	\end{block}
 \end{frame}
 
@@ -51,7 +54,7 @@
 	\frametitle{Forward rectangular rule (=Forward Euler)}
 
 	\begin{block}{General approach}
-		The area is approximated by the rectangle looking \textbf{forward} from $(k*T - T)$ toward $k*T$ with an amplitude equal to the value of the function at $(k*T - T)$. A smaller step-size T leads to a more accurate approximation, as shown in the figures.
+		The area is approximated by the rectangle looking \textbf{forward} from $(kT - T)$ toward $kT$ with an amplitude equal to the value of the function at $(kT - T)$. A smaller step-size T leads to a more accurate approximation, as shown in the figures.
 	\end{block}
 
 \begin{columns}
@@ -76,9 +79,9 @@
 	\begin{block}{Mathematical approach}
 		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_1$:
 		\begin{align*}
-		u_1(k*T)& =u_1(k*T - T) + T*\big(-a*u_1(k*T - T)\\
-		& + a*e(k*T - T) \big)\\
-		& =(1 - a*T)*u_1(k*T - T) + a*T*e(k*T - T)
+		u_1(kT)& =u_1(kT - T) + T\big(-au_1(kT - T)\\
+		& + ae(kT - T) \big)\\
+		& =(1 - aT)u_1(kT - T) + aTe(kT - T)
 		\end{align*}
 	\end{block}
 \end{frame}
@@ -94,14 +97,14 @@
 		\begin{center}
 			$s \gets \frac{z-1}{T}$ (8.2)
 		\end{center}
-		This is extremely usefull while making exercises.
+		This is extremely useful while making exercises.
 	\end{block}
 \end{frame}	
 
 \begin{frame}
 	\frametitle{Backward rectangular rule (=Backward Euler)}
 \begin{block}{General approach}
-	The area is approximated by the rectangle looking \textbf{backward} from $k*T$ toward $(k*T - T)$ with an amplitude equal to the value of the function at $k*T$. 
+	The area is approximated by the rectangle looking \textbf{backward} from $kT$ toward $(kT - T)$ with an amplitude equal to the value of the function at $kT$. 
 \end{block}	
 
 \begin{columns}
@@ -127,8 +130,8 @@
 	\begin{block}{Mathematical approach}
 		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_2$:
 		\begin{align*}
-		u_2(k*T)& =u_2(k*T - T) + T*\big(-a*u_2(k*T) + a*e(k*T) \big)\\
-		& =\frac{u_2(k*T - T)}{1 + a*T} + \frac{a*T}{1 + a*T}*e(k*T)
+		u_2(kT)& =u_2(kT - T) + T\big(-au_2(kT) + ae(kT) \big)\\
+		&=\frac{u_2(kT - T)}{1 + aT} + \frac{aT}{1 + aT}e(kT)\\
 		\end{align*}
 	\end{block}
 \end{frame}
@@ -138,13 +141,13 @@
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
-			$H_B(z) = \frac{a}{(z-1)/T*z+a}$
+			$H_B(z) = \frac{a}{(z-1)/Tz+a}$
 		\end{center}
 		Which can also be derived using the following substitution in the given transfer function:
 		\begin{center}
-			$s \gets \frac{z-1}{T*z}$ (8.3)
+			$s \gets \frac{z-1}{Tz}$ (8.3)
 		\end{center}
-		Again this is extremely usefull while making exercises.
+		Again this is extremely useful while making exercises.
 	\end{block}
 \end{frame}
 
@@ -154,7 +157,7 @@
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{block}{General approach}
-			This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(k*T - T)$ and the amplitude equal to the value of the function at $(k*T)*$ are connected by a line as shown in the illustration.
+			This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(kT - T)$ and the amplitude equal to the value of the function at $(kT)$ are connected by a line as shown in the illustration.
 		\end{block}	
 	\end{column}
 
@@ -173,10 +176,10 @@
 	\begin{block}{Mathematical approach}
 		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_3$:
 		\begin{align*}
-		u_3(k*T)& =u_3(k*T - T) + T/2*\big(-a*u_3(k*T - T)\\
-		& + a*e(k*T - T) - a*u_3(k*T) + a*e(k*T)\big)\\
-		& =\frac{1-(a*T/2)}{1 + (a*T/2)}*u_3(k*T - T)\\
-		& +\frac{a*T/2}{1 + (a*T/2)} * \big(e_3(k*T - T) + e_3(k*T)\big)
+		u_3(kT)& =u_3(kT - T) + T/2\big(-au_3(kT - T)\\
+		& + ae(kT - T) - au_3(kT) + ae(kT)\big)\\
+		& =\frac{1-(aT/2)}{1 + (aT/2)}u_3(kT - T)\\
+		& +\frac{aT/2}{1 + (aT/2)} \big(e_3(kT - T) + e_3(kT)\big)
 		\end{align*}
 	\end{block}
 \end{frame}
@@ -186,13 +189,13 @@
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
-			$H_T(z) = \frac{a}{\frac{2}{T}*\frac{z-1}{z+1} * a }$
+			$H_T(z) = \frac{a}{\frac{2}{T}\frac{z-1}{z+1}a }$
 		\end{center}
 		Which can also be derived using the following substitution in the given transfer function:
 		\begin{center}
-			$s \gets \frac{2}{T} * \frac{z-1}{z+1}$ (8.4)
+			$s \gets \frac{2}{T} \frac{z-1}{z+1}$ (8.4)
 		\end{center}
-		This is extremely usefull while making exercises.
+		This is extremely useful while making exercises.
 	\end{block}
 \end{frame}
 
@@ -201,15 +204,15 @@
 	\begin{example}
 		Given:
 		\begin{center}
-			$H(s) = \frac{s + 1}{0.1*s + 1}$
+			$H(s) = \frac{s + 1}{0.1s + 1}$
 		\end{center}
 		We now apply substitution (8.4):
 		\begin{center}
-			$H(z) = \frac{(2 + T)*(T - 2)*z^{-1}}{(0.2 + T) + (T - 0.2)*z^{-1}}$
+			$H(z) = \frac{(2 + T)(T - 2)z^{-1}}{(0.2 + T) + (T - 0.2)z^{-1}}$
 		\end{center}
 		Using T=0.25s, this results in:
 		\begin{center}
-			$H(z) = \frac{5*(z - 0.7778)}{z + 0.1111}$
+			$H(z) = \frac{5(z - 0.7778)}{z + 0.1111}$
 		\end{center}
 	\end{example}
 \end{frame}
@@ -233,14 +236,37 @@
 
 \begin{frame}
 	\frametitle{Bilinear rule with prewarping}
-	\begin{alertblock}{Disortion}
-		The bilinear rule maps the stable region of the s-plane into the stable region of the z-plane and the entire $j\omega$-axis is compressed into the $2\Pi$-length of the unit circle, causing a great deal of distortion. 
+	\begin{alertblock}{Distortion}
+		The bilinear rule maps the stable region of the s-plane into the stable region of the z-plane and the entire $j\omega$-axis is compressed into the $2\Pi$-length of the unit circle, causing a great deal of distortion.\\
+		\vspace{1em}
+		When the actual frequency of $\omega$ is input to the discrete-time filter designed by use of the bilinear transform, it is desired to know at what frequency,  $\omega_d$, for the continuous-time filter that this  $\omega$ is mapped to.
 	\end{alertblock}
-	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
 	\begin{block}{Trapezoid rule with prewarping}
-		By extending the trapezoidal rule one step we can correct the distortion of the real frequencies mapped by the rule. This results in following substitution formula:
+		By extending the trapezoidal rule one step we can correct the distortion of the real frequencies mapped by the rule.
+		\vspace{-2em} 
 		\begin{center}
-			$s \gets \frac{\omega_0}{tan\big(\frac{\omega_0 * T}{2}\big)} * \frac{z-1}{z+1}$ (8.4)
+			\begin{align*}
+			H_d(z) &= H(\frac{2}{T} \frac{z-1}{z+1})\\
+			H_d(e^{j\omega T}) &= H(\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1})\\
+			&= H(\frac{2}{T} \frac{e^{j\omega T/2} (e^{j\omega T/2} - e^{-j\omega T/2})}{e^{j\omega T/2}(e^{j\omega T/2} + e^{-j\omega T/2})})\\
+			&= H(j \frac{2}{T} \frac{sin(\omega T/2)}{cos(\omega T/2)})
+			\end{align*}
+		\end{center}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\begin{block}{Trapezoid rule with prewarping}
+		The discrete-time system has the same behaviour at frequency $\omega$ as the continuous-time system at frequency $\omega_a = 2/T * tan(\omega T/2)$.
+		
+		This results in following substitution formula:
+		\begin{center}
+			$s \gets \frac{\omega_0}{tan\big(\frac{\omega_0 * T}{2}\big)} \frac{z-1}{z+1}$ (8.4)
 		\end{center}
 	\end{block}
 \end{frame}
@@ -252,10 +278,10 @@
 	\begin{block}{General approach}
 		The map $z = e^{sT}$ is applied to the poles as well as to the zeros of the continuous system. The following rules must be followed:
 		\begin{enumerate}
-			\item if $s=-a$ is a pole of H(s), then $z=e^{-a*T}$
-			\item all finite zeros $s=-b$ are mapped by $z = e^{-b*T}$
-			\item zeros at $\infty$ are mapped to $z = -1$
-			\item the gain of the digital filter must match the gain of H(s) at the band center or a similar critical point.
+			\item If $s=-a$ is a pole of H(s), then $z=e^{-aT}$;
+			\item All finite zeros $s=-b$ are mapped by $z = e^{-bT}$;
+			\item Zeros at $\infty$ are mapped to $z = -1$;
+			\item The gain of the digital filter must match the gain of H(s) at the band center or a similar critical point.
 		\end{enumerate}
 	\end{block}
 \end{frame}
@@ -265,19 +291,19 @@
 	\begin{example}
 		Given:
 		\begin{center}
-			$H(s) = \frac{s + 1}{0.1*s + 1}$
+			$H(s) = \frac{s + 1}{0.1s + 1}$
 		\end{center}
 		Pole at $s=-10$ and zero at $s=-1$.
 		
 		New discrete transfer function with equivalent poles and zeros:
 		\begin{center}
-			$H(z) = K * \frac{z - e^{-1*T}}{z - e^{-10*T}}$
+			$H(z) = K \frac{z - e^{-T}}{z - e^{-10T}}$
 		\end{center}
 		K is chosen so that $\mid H(z)\mid _{z=1} = \mid H(s) \mid _{s=0} \to K=4.150$
 
 		Using $T=0.25$, this results in:
 		\begin{center}
-			$H(z) = 4.150 * \frac{z-0.7788}{z-0.0821}$
+			$H(z) = 4.150 \frac{z-0.7788}{z-0.0821}$
 		\end{center}
 	\end{example}
 \end{frame}
@@ -304,14 +330,27 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Impuls-invariant method}
+	\begin{block}{Impuls-invariant transformation}
+		This method converts a continuous system into a discrete one by matching the impulse response using these transformations.
+		\vspace{-1em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{impuls_inv}
+		\end{figure}
+	\end{block}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Zero-order hold equivalent (ZOH)}
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 	\begin{block}{Practical rule}
 		The zero-order hold equivalent transfer function $H_{zoh}(z)$ can be found by computing the following:
 		\begin{center}
-			$H_{zoh}(z) = (1 - z^{-1}) * \mathcal{Z}\{\frac{H(s)}{s}\}$
+			$H_{zoh}(z) = (1 - z^{-1}) \mathcal{Z}\{\frac{H(s)}{s}\}$
 		\end{center}
+		This rule is also called the Step-invariant method because it matches the step response of the continuous and the discrete system.
 	\end{block}
 	\end{column}
 	
@@ -346,13 +385,25 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Zero-order hold equivalent}
+	\begin{block}{Step Invariant Transformation}
+		Zero-order hold equivalent of continuous systems with common transfer functions can easily be found by these transformations.
+		\vspace{-1em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{step_inv}
+		\end{figure}
+	\end{block}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Non-causal first-order (= Triangle-hold equivalent (TRI))}
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 	\begin{block}{Practical rule}
 		The non-causal first-order hold equivalent transfer function $H_{tri}(z)$ can be found by computing the following:
 		\begin{center}
-			$H_{tri}(z) = \frac{(z-1)^{2}}{T*z} * \mathcal{Z}\{\frac{H(s)}{s^{2}}\}$
+			$H_{tri}(z) = \frac{(z-1)^{2}}{Tz} \mathcal{Z}\{\frac{H(s)}{s^{2}}\}$
 		\end{center}
 	\end{block}
 	
@@ -382,11 +433,11 @@
 		\end{center}
 		Step 2: perform z-transformation
 		\begin{center}
-			$\mathcal{Z}\{\frac{H(s)}{s^{2}}\} = \frac{T^{3}}{6} * \frac{(z^{2} + 4*z +1) * z}{(z-1)^{4}}$
+			$\mathcal{Z}\{\frac{H(s)}{s^{2}}\} = \frac{T^{3}}{6} \frac{(z^{2} + 4z +1) z}{(z-1)^{4}}$
 		\end{center}
 		Step 3: simplify and multiply by $\frac{(z-1)^{2}}{T*z}$
 		\begin{center}
-			$H_{tri}(z) = \frac{T^{2}}{6} * \frac{z^{2} + 4*z + 1}{(z-1)^{2}}$
+			$H_{tri}(z) = \frac{T^{2}}{6} \frac{z^{2} + 4z + 1}{(z-1)^{2}}$
 		\end{center}
 	\end{example}
 \end{frame}
@@ -394,7 +445,7 @@
 \begin{frame}
 	\frametitle{Effect of zero- and first-order hold equivalents}
 	\begin{block}{Effects on the spectrum}
-		Some information will be permanentely lost.
+		Some information will be permanently lost.
 		\vspace{-0.7em}
 		\begin{figure}
 			\centering
@@ -406,19 +457,33 @@
 \section{Sampling Time}
 
 \begin{frame}
-	\frametitle{Sampling time T based on the frequency response}
-	\begin{block}{Nyquist-Shannon sampling theorem}
-		If a function $x(t)$ contains no frequencies higher than B hertz, it is completely determined by giving its ordinates at a series of points spaced $1/(2B)$ seconds apart. A sufficient sample-rate is therefore \textbf{2B samples/second}. This is called the \textbf{"Nyquist sampling rate"}. Equivalently, for a given sample rate $f_s$, perfect reconstruction is guaranteed possible for a bandlimit $B ≤ f_s/2$. 
+	\frametitle{Sampling time Ts based on the time response}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+	\begin{block}{Rise time}
+		Time needed to reach the steady state for the first time.
 	\end{block}
 	\begin{block}{Practical rule}
-		A higher sampling rate creates a margin of error, a good rule of thumb is \textbf{2,2B samples/second}.
+		A good rule of thumb is $Ts = T_{rising}/10$ seconds/sample.
 	\end{block}
+	\end{column}
+	
+	\begin{column}{0.5\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{rise_time}
+		\end{figure}
+	\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Sampling time T based on the time response}
-	\begin{block}{Impuls response}
-		If the time response is given, you need to calculate
+	\frametitle{Sampling time Ts based on the frequency response}
+	\begin{block}{Nyquist-Shannon sampling theorem}
+		If a function $x(t)$ contains no frequencies higher than B hertz, it is completely determined by giving its ordinates at a series of points spaced $1/(2B)$ seconds apart. A sufficient sample-rate is therefore \textbf{2B samples/second}. This is called the \textbf{"Nyquist sampling rate"}. Equivalently, for a given sample rate $f_s$, perfect reconstruction is guaranteed possible for a bandlimit $B ≤ f_s/2$. A higher sampling rate creates a margin of error.
+	\end{block}
+	\begin{block}{Practical rule}
+		A good rule of thumb is $Ts = 1/(2,2B)$ seconds/sample.
 	\end{block}
 \end{frame}
 
@@ -426,78 +491,237 @@
 
 \begin{frame}
 	\frametitle{Matlab}
-	\begin{block}{Matlab Command}
-		Control System Toolbox™ offers extensive support for discretization and resampling of linear systems:
+	\begin{block}{Matlab Commands}
+		Matlabs Control System Toolbox™ offers extensive support for discretization and resampling of linear systems:
 	\begin{itemize}
 		\item "c2d(system,sampling time,method)" used for discretization
 		\item "d2c(system,sampling time,method)" used for reconstruction
 		\item "d2d(system,sampling time,method)" used for resampling
 	\end{itemize}
+	\vspace{1em}
+		These commands can also have extra options. It is necessary to specify the options in an additional command:
+		"c2dOptions('OptionName',OptionValue)".
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Matlab}
+	\begin{block}{Available options}
+		\begin{itemize}
+			\item 'Method'
+			\item 'PrewarpFrequency'
+			\item 'FractDelayApproxOrder'
+		\end{itemize}
 	\end{block}
 	
 	\begin{block}{Available methods}
 		\begin{itemize}
 			\item zero-order hold equivalent: "zoh"
 			\item first-order hold equivalent: "foh"
+			\item impuls invariant rule: "impuls"
+			\item zero-pole matching equivalent: "matched"
 			\item bilinear: "tustin"
-			\item zero-pole matching period: "matched"
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}
+	\frametitle{Exercise 1 with Matlab}
+	\begin{block}{Exercise 1}
+		We will now discuss 4 methods applied on the same continuous system:
+		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
+		\begin{itemize}
+		\item The sampling time can be determined by the rule of thumb previously explained: Ts = 2.2Bandwidth;
+		\item Matlab can calculate the bandwidth of a given continuous system, using the command: "bandwidth(system)".
+		\end{itemize}
+		This results in a sampling time of 0.25033 seconds for the given system
+	\end{block}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Zero-order hold equivalent}
-\begin{columns}
-	\begin{column}{0.6\textwidth}
 	\begin{example}
 		Given:\\
-		$H(s) = e^{-s} * \frac{s-2}{s^{2} + 3*s + 20} $\\
-		sampling frequency = 10Hz\\
-		\vspace{1em}
+		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
+		Sampling time = 0.25033sec\\
+		\vspace{0.8em}
 		Commands in Matlab:
 		
-		H = tf([1 -2],[1 3 20],'inputdelay',1); \\
-		Ts = 0.1; \\
-		Hd = c2d(H,Ts,zoh)\\
-		\vspace{1em}
+		H = tf([1 1],[1 1 1]) \\
+		Hd = c2d(H,Ts,'zoh')\\
+		\vspace{0.8em}
 		Result:
-		$Hd(z) = z^{-10} * \frac{(0.07462*z - 0.09162)}{z^{2} - 1,571*z + 0.7408}$
+		$Hd_{zoh}(z) = \frac{0.2479z - 0.1927}{z^{2} -1.723z + 0.7785}$
 	\end{example}
-	\end{column}
-	
-	\begin{column}{0.4\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1\linewidth]{vb1}
-		\end{figure}
-	\end{column}
-\end{columns}
 \end{frame}
 
 \begin{frame}
 	\frametitle{First-order hold equivalent}
-\begin{columns}
-	\begin{column}{0.6\textwidth}
 	\begin{example}
-	Given:\\
-	$H(s) = e^{-0.3s} * \frac{s-1}{s^{2} + 4*s + 5} $\\
-	sampling frequency = 10Hz\\
-	\vspace{1em}
-	Commands in Matlab:
+		Given:\\
+		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
+		Sampling time = 0.25033sec\\
+		\vspace{1em}
+		Commands in Matlab:
 	
-	H = tf([1 -1],[1 4 5],'InputDelay', 0.3);\\
-	Hd = c2d(H,0.1,'foh');\\
-	Hd = c2d(H,Ts,zoh)\\
-	\vspace{1em}
-	Result:
+		H = tf([1 1],[1 1 1]); \\
+		Hd = c2d(H,Ts,'foh')\\
+		\vspace{1em}
+		Result:
+		$Hd_{foh}(z) = \frac{0.1245z^{2} + 0.02752z - 0.09691}{z^{2} - 1.723z + 0.7785}$
 	\end{example}
-	\end{column}
-	
-	\begin{column}{0.4\textwidth}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Impuls invariant rule}
+	\begin{example}
+		Given:\\
+		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
+		Sampling time = 0.25033sec\\
+		\vspace{1em}
+		Commands in Matlab:
+		
+		H = tf([1 1],[1 1 1]); \\
+		Hd = c2d(H,Ts,'impuls')\\
+		\vspace{1em}
+		Result:
+		$Hd_{impuls}(z) = \frac{0.2503z^{2} - 0.1883z}{z^{2} - 1.723z + 0.7785}$
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero-pole equivalent}
+	\begin{example}
+		Given:\\
+		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
+		Sampling time = 0.25033sec\\
+		\vspace{1em}
+		Commands in Matlab:
+		
+		H = tf([1 1],[1 1 1]); \\
+		Hd = c2d(H,Ts,'matched')\\
+		\vspace{1em}
+		Result: 
+		$Hd_{matched}(z) = \frac{0.249z - 0.1939}{z^{2} - 1.723z + 0.7785}$
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Exercise 2 with Matlab}
+	\begin{block}{Exercise 2}
+		We will use the transfer function of a low pass filter to indicate the difference between the bilinear rule without and the bilinear rule with prewarping: $H(s) = \frac{1}{s + 1}$
+		\begin{itemize}
+			\item The sampling time can be determined by the rule of thumb previously explained: Ts = 2.2Bandwidth;
+			\item Matlab can calculate the bandwidth of a given continuous system, using the command: "bandwidth(system)";
+			\item Matlab can draw the bode plots of the continuous system, using the command: "bode(system)".
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Exercise 2 with Matlab}
+	\begin{block}{Exercise 2}
+		This results in a sampling time of 0.45563 seconds and the following magnitude bode plot with a cutoff frequency of 0rad/s:
 		\begin{figure}
 			\centering
-			\includegraphics[width=1\linewidth]{vb2}
+			\includegraphics[width=0.9\linewidth]{bode}
 		\end{figure}
-	\end{column}
-\end{columns}
+		\vspace{0.2em}
+	\end{block}
+\end{frame}
+		
+\begin{frame}
+	\frametitle{Tusting rule}
+	\begin{example}
+		Given:\\
+		$H(s) = \frac{1}{s + 1} $\\
+		sampling rate = 0.45563sec\\
+		\vspace{1em}
+		Commands in Matlab:
+		
+		H = tf([1],[1 1]) \\
+		Hd = c2d(H,Ts,'tustin')\\
+		\vspace{1em}
+		Result: 
+		$Hd_{Tustin}(z) = \frac{0.1855z - 0.1855}{z - 0.6289}$
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tustin rule with prewarping}
+	\begin{example}
+		Given:\\
+		$H(s) = e^{-s} \frac{s-2}{s^{2} + 3s + 20} $\\
+		sampling rate = 0.25033sec\\
+		\vspace{1em}
+		Commands in Matlab:\\
+		H = tf([1],[1 1])\\
+		opt = c2dOptions('Method', 'tustin', 'PrewarpFrequency', 0)\\
+		Hd = c2d(G,Ts,opt)\\
+		\vspace{1em}
+		Result:
+		$Hd_{TustinPrewarp}(z) = $
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Matlab}
+	\begin{block}{Matlab Commands for visualisation}
+		It is possible to compare the step response of the continuous system and the discretized system in a graphic\\
+		\vspace{1em}
+		Command: "step(H,'b',Hd,'r')"\\
+		\vspace{1em}
+		'b' and 'r' stand for blue and red, by using colors, the step responses of both systems can easily be distinguished.\\
+		\vspace{1em}
+		The following figures are a graphic representation of the exercises in Matlab.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero-order hold equivalent}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{vb1}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{First-order hold equivalent}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{vb2}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Impuls invariant rule}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{vb3}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero-pole equivalent}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{vb4}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tustin rule}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{vb5}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tustin rule with prewarping}
 \end{frame}
