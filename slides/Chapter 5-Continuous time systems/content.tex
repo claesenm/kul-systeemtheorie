@@ -25,6 +25,7 @@
 \fi
 
 \begin{document}
+
 %\nocite{*}
 
 \begin{frame}
@@ -510,22 +511,22 @@ Transient response: when input of system changes, output does not change immedia
 \begin{frame}
 \frametitle{First order systems}
 E.g.RC circuit, thermal system, ...
-\vspace{0.25cm}
-\\ \includegraphics[width=0.7\linewidth]{Afbeelding1}
-\vspace{0.5cm}
+\vspace{0.15cm}
+\\ \includegraphics[width=0.6\linewidth]{Afbeelding1}
+\vspace{0.15cm}
 \pause
 \\Transfer function is given by: $\frac{Y(s)}{U(s)} = \frac{1}{\tau s +1}$
-\vspace{0.25cm}
+\vspace{0.15cm}
 \pause
 \\Unit step response
 \begin{itemize}
-\vspace{0.25cm}
+\vspace{0.15cm}
 \item Laplace of unit-step is $\frac{1}{s}$ $\rightarrow$ substituting $U(s)= \frac{1}{s}$ \\
-\vspace{0.25cm}
+\vspace{0.15cm}
 into equation $Y(s) = \frac{1}{s}\frac{1}{\tau s +1}$
-\vspace{0.25cm}
+\vspace{0.15cm}
 \item Expanding into partial fractions gives
-\vspace{0.25cm}
+\vspace{0.15cm}
 \\ $Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$
 \end{itemize}
 \end{frame}
@@ -534,86 +535,87 @@ into equation $Y(s) = \frac{1}{s}\frac{1}{\tau s +1}$
 \frametitle{Unit step transient response}
 \begin{enumerate}
 \item$Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item Taking the inverse Laplace transform
-\vspace{0.25cm}
+\vspace{0.2cm}
 \\ $y(t) = 1 - e^{-\frac{t}{\tau}}$, for $t\ge 0$ 
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item At $t=0$, the output $y(t)=0$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item At $t=\tau$, the output $y(t)=0.632$, or $y(t)$ has reached $63.2\% $ 
-\vspace{0.25cm} \\of its total change $y(\tau)= 1 - e^{-1} = 0.632$
-\vspace{0.25cm}
+\vspace{0.01cm} 
+\\ of its total change $y(\tau)= 1 - e^{-1} = 0.632$
+\vspace{0.2cm}
 \pause
 \item Slope at time $t=0$ is $\frac{1}{\tau}$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \\ $\frac{dy}{dt}|_{t=0} = \frac{1}{\tau}e^{-\frac{t}{\tau}}|_{t=0} = \frac{1}{\tau}$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \\ Where $\tau$ is called the system time constant
 \end{enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit step transient response}
-\includegraphics[width=1\linewidth]{Afbeelding2}
+\includegraphics[width=0.8\linewidth]{Afbeelding2}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit ramp transient response}
 \begin{enumerate}
-\vspace{0.25cm}
+\vspace{0.2cm}
 \item Laplace transform of unit ramp is $\frac{1}{s^2}$
-\vspace{0.25cm}
+\vspace{0.1cm}
 \\ $Y(s) = \frac{1}{\tau s +1} \frac{1}{s^2}$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item Expanding into partial fractions gives
-\vspace{0.25cm}
+\vspace{0.1cm}
 \\ $Y(s)= \frac{1}{s^2} - \frac{\tau}{s} + \frac{\tau^2}{\tau s +1}$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item Taking the inverse Laplace transform 
-\vspace{0.25cm}
+\vspace{0.1cm}
 \\ $y(t) = t -\tau + \tau e^{-\frac{t}{\tau}}$, for $t\ge 0$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item The error signal $e(t)$ is then
-\vspace{0.25cm}
+\vspace{0.1cm}
 \\ $e(t)=u(t) -y(t) = \tau(1-e^{-\frac{t}{\tau}})$
-\vspace{0.25cm}
+\vspace{0.2cm}
 \pause
 \item For $t$ approaching infinity, $e(t)$ approaches $\tau$
-\vspace{0.25cm}
+\vspace{0.1cm}
 \\ $e(\infty) = \tau$
 \end {enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit ramp transient response}
-\includegraphics[width=0.8\linewidth]{Afbeelding4}
+\includegraphics[width=0.6\linewidth]{Afbeelding4}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit-Impulse Response}
 
 \\ For a unit-impulse input, $U(s)=1$ and the output is
-\vspace{0.2cm}
+\vspace{0.15cm}
 \\ 
 \begin{align*}
 Y(s)=\frac{1}{\tau s +1}
 \end{align*}
-\vspace{0.2cm}
+\vspace{0.15cm}
 \pause
 \\ The inverse Laplace transform gives
-\vspace{0.2cm}
+\vspace{0.15cm}
 \\
 \begin{align*}
 y(t)= \frac{1}{\tau}e^{-\frac{t}{\tau}} ,\text{ for } t \ge 0
 \end{align*}
-\vspace{0.2cm}
+\vspace{0.15cm}
 \pause
 \\ For $t\rightarrow +\infty$, $y(t)\rightarrow 0$
 \end{frame}
@@ -658,26 +660,28 @@ H(s) = \frac{c}{ds^2+es+c}
 \frametitle{Step response second order system}
 \begin{enumerate}
 \item $H(s) = \frac{c}{ds^2+es+c}$
-\vspace{0.45cm}
+\vspace{0.25cm}
 \pause
 \item The transfer function can be rewritten as:
+\vspace{-0.35cm}
 \\ 
 \begin{align*}
 H(s) &= \frac{\frac{c}{d}}{s^2+\frac{e}{d}s+\frac{c}{d}}
-\\ &= \frac{\frac{c}{d}}{[s+\frac{e}{2d}+\sqrt{(\frac{e}{2d})^2-\frac{c}{d}}][s+\frac{e}{2d}-\sqrt{(\frac{e}{2d})^2-\frac{c}{d}}]}
+\vspace{-0.1cm}\\ &= \frac{\frac{c}{d}}{[s+\frac{e}{2d}+\sqrt{(\frac{e}{2d})^2-\frac{c}{d}}][s+\frac{e}{2d}-\sqrt{(\frac{e}{2d})^2-\frac{c}{d}}]}
 \end{align*}
 \pause
 \item The poles are complex conjugates if
-\\ \vspace{-0.15cm}
+\\ \vspace{-0.5cm}
 \begin{align*}
 e^2 -4dc <0
 \end{align*}
+\vspace{-0.45cm}
 \pause
 \item The poles are real if
 \\
-\vspace{-0.25cm}
+\vspace{-0.45cm}
 \begin{align*}
-e^2 -dc\ge 0
+e^2 -4dc\ge 0
 \end{align*}
 \end{enumerate}
 \end{frame}
@@ -690,20 +694,30 @@ e^2 -dc\ge 0
 \begin{align*}
 \frac{f}{d} = \omega_n ^2\text{, } \frac{e}{d}=2\zeta\omega_n=2\sigma
 \end{align*}
+\pause
 \\ Where 
+\vspace{0.15cm}
 \\ $\sigma$ is the attenuation 
+\vspace{0.3cm}
 \\$\omega_n$ is the natural frequency 
+\vspace{0.3cm}
 \\ $\zeta$ is the damping ratio
 \vspace{0.25cm}
-\pause
+\end{frame}
+
+\begin{frame}
+\frametitle{Step response second order system}
 \\ The transfer function can now be rewritten as
 \\ \vspace{-0.5cm}
 \begin{align*}
 H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}
 \end{align*}
+\vspace{0.2cm}
+\pause
 \\ Which is called the standard form of the second-order system.
 \vspace{0.25cm}
 \pause
+\vspace{0.3cm}
 \\ The dynamic behavior of the second-order system can then be described in terms of only two parameters $\zeta$ and $\omega_n$ 
 \end{frame}
 
@@ -730,7 +744,9 @@ H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}
 
 \begin{frame}
 \frametitle{Underdamped system}
-\\For the underdamped case $(0< \zeta< 1)$, the transfer function can be written as:\\ 
+\\For the underdamped case $(0< \zeta< 1)$, the transfer function can be written as
+\vspace{-0.25cm}
+\\ 
 \begin{align*}
 H(s)=\frac{\omega_n ^2}{(s+\zeta\omega_n+j\omega_d)(s+\zeta\omega_n-j\omega_d)}
 \end{align*}
@@ -741,7 +757,9 @@ H(s)=\frac{\omega_n ^2}{(s+\zeta\omega_n+j\omega_d)(s+\zeta\omega_n-j\omega_d)}
 \omega_d = \omega_n\sqrt{1-\zeta^2}
 \end{align*}
 \pause
+\vspace{-0.15cm}
 \\ For a unit-step input we can write
+\vspace{-0.25cm}
 \\ 
 \begin{align*}
 Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}
@@ -797,24 +815,24 @@ e(t)&= y(t) -u(t)
 \end{frame}
 
 \begin{frame}{Underdamped system}
-\vspace{-0.5cm}
+
 \\ If damping $\zeta=0$, the response becomes \bftext{undamped}
 \pause
 \begin{itemize}
 \vspace{0.25cm}
 \item Oscillations continue indefinitely
-\vspace{0.5cm}
+\vspace{0.25cm}
 \pause
 \item Filling in $\zeta=0$ into the equation for y(t) gives us
 \\ $y(t) = 1 -cos(\omege_n t)$, for $t\ge 0$
-\vspace{0.5cm}
+\vspace{0.25cm}
 \pause
 \item We see that the system now oscillates at the natural frequency $\omega_n$
 \pause
-\vspace{0.5cm}
+\vspace{0.25cm}
 \item If a linear system has any amount of damping, the undamped natural frequency cannot be observed experimentally, only $\omega_d$ can be observed
 \pause
-\vspace{0.5cm}
+\vspace{0.25cm}
 \item $\omega_d$ is always lower than $\omega_n$
 \end{itemize} 
 \end{frame}
@@ -839,22 +857,22 @@ y(t) = 1 - e^{-\omega_n t}(1+\omega_n t) \text{ for } t\ge 0
 \begin{frame}
 \frametitle{Overdamped system}
 \\ A system is overdamped ($\zeta>1$) when the two poles are negative, real and unequal
-\vspace{0.5cm}
+\vspace{0.25cm}
 \pause
 \\ For a unit-step $R(s)=\frac{1}{s}$, $Y(s)$ can be written as
-\\ \vspace{-0.25cm}
+\\ \vspace{-0.5cm}
 \begin{align*}
 Y(s) = \frac{\omega_n ^2}{(s+\zeta\omega_n + \omega_n ^2\sqrt{\zeta^2 -1})(s+\zeta\omega_n - \omega_n ^2\sqrt{\zeta^2 -1})}
 \end{align*} 
 \pause
 \\ The inverse Laplace transform is
-\\ \vspace{-0.25cm}
+\\ \vspace{-0.5cm}
 \begin{align*}
 y(t) = 1 +\frac{w_n}{2\sqrt{\zeta^2-1}}(\frac{e^{-s_1 t}}{s1} - \frac{e^{-s_2 t}}{s2})\text{, for } t\ge 0
 \end{align*}
 \pause
 \\ Where
-\\ \vspace{-0.25cm}
+\\ \vspace{-0.5cm}
 \begin{align*}
 s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n\text{ and } s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n
 \end{align*}
@@ -917,8 +935,10 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \vspace{0.12cm}
 \pause
 \\ Peak Time: Time to reach overshoot.\\$t_p =\frac{\pi}{\omega_d}$
-\\ \begin{figure}
-\centering{\includegraphics[width=0.4\linewidth]{Afbeelding7}}
+\vspace{-0.2cm}
+\\ 
+\begin{figure}
+\centering{\includegraphics[width=0.3\linewidth]{Afbeelding7}}
 \end{figure}
 \end{frame}
 
@@ -928,10 +948,10 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \\ $t_s = \frac{4.6}{\zeta\omega_n}$
 \pause
 \\ Important: this formulas are only useable for $0<\zeta<1$!
-\vspace{0.15cm}
+\vspace{0.12cm}
 \pause
 \\ For: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$
-\vspace{0.15cm}
+\vspace{0.12cm}
 \pause
 \\ We find:
 \vspace{-0.6cm}
@@ -939,9 +959,10 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
  e^{-\zeta\omega_n T_s} &< 0.02
 \\ T_s &= \frac{4}{\omega_n\zeta}
 \end{align*}
-\\ \begin{figure}
-\centering{\includegraphics[width=0.35\linewidth]{Afbeelding7}}
-\end{figure}
+\vspace{-1cm}
+
+\includegraphics[width=0.3\linewidth]{Afbeelding7}
+
 \end{frame}
 
 \begin{frame}
@@ -990,7 +1011,7 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \begin{frame}
 \frametitle{Second order systems - damping}
 \begin{figure}
-\centering{\includegraphics[width=0.5\linewidth]{Afbeelding8}}
+\centering{\includegraphics[width=0.4\linewidth]{Afbeelding8}}
 \end{figure}
 \end{frame}
 
