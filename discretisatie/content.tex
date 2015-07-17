@@ -1,7 +1,7 @@
 \section{Introduction}
 
 \begin{frame}
-	\frametitle{Discretization of Continuous-time systems}
+	\frametitle{Discretization}
 	\begin{block}{Use of discretization}
 		Many systems in the real world are continous systems: chemical reactions, rocket trajectories, power plants, ice cap melting... Computers, however, are mainly digital. If we want to simulate the continuous system with a digital device, we need a method to convert the continuous model into a discrete one.  This conversion is called "discretization" or "sampling". Discretization also comes in handy when a continuous filter with usefull properties has been designed and a discrete filter with the same properties is required.
 	\end{block}
@@ -10,7 +10,7 @@
 \begin{frame}
 	\frametitle{Discretization}
 	\begin{block}{Problem statement}
-		While converting, some information of the continuous model will be lost due to the different nature of the systems. It is important that the loss of information is minimized. Each discretization method has its own qualities and they will all lead to different discrete representations of the same continuous system.
+		While converting, some information of the continuous model may be lost due to the different nature of the systems. It is important that the loss of information is minimized. Each discretization method has its own qualities and they will all lead to different discrete representations of the same continuous system.
 	\end{block}
 	
 	\begin{block}{Discretization methods discussed in this lecture}
@@ -27,8 +27,24 @@
 
 \begin{frame}
 	\frametitle{Numerical Integration}
+	\begin{block}{Relation between a continuous and a discrete system}
+		\begin{center}
+			$\dot{x} = A x$\\
+			$x(t) = e^{At} x(0)$
+		\end{center}
+		The discretization of a system requires a sampling time: $T_s = \frac{1}{f_s}$\\
+		\begin{center}
+			$x(t + T_s) = e^{AT_s} e^{At} x(0) = e^{AT_s} x(t)$
+			$x(t) = e^{AT_s} x(0) + \int_0^t e^{A(t-\tau)} B u(\tau) \mathrm{d}\tau $
+		\end{center}
+		The integral can be solved using numerical integration.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Numerical Integration}
 	\begin{block}{General approach}
-		The system transfer function H(s) is first represented by a differential equation. Next a difference equation, whose solution is an approximation of this differential equation, is derived: 
+		The system transfer function H(s) is first represented by a differential equation. Next a difference equation, whose solution is an approximation of this differential equation, is derived, e.g.:
 		\vspace{-0.8em}
 		\begin{center}
 			$H(s) = \frac{a}{s + a}$
@@ -51,7 +67,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Forward rectangular rule (=Forward Euler)}
+	\frametitle{Forward rectangular rule (=(Forward) Euler)}
 
 	\begin{block}{General approach}
 		The area is approximated by the rectangle looking \textbf{forward} from $(kT - T)$ toward $kT$ with an amplitude equal to the value of the function at $(kT - T)$. A smaller step-size T leads to a more accurate approximation, as shown in the figures.
@@ -91,15 +107,32 @@
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
-		$H_F(z) = \frac{a}{(z-1)/T+a}$
+		$H_F(z) = \frac{a}{\frac{z-1}{T}+a}$
 		\end{center}
 		Which can also be derived using the following substitution in the given transfer function:
+		\begin{center}
+			$s \gets \frac{z-1}{T_s}$ (8.2)
+		\end{center}
+		This is extremely useful while making exercises.
+	\end{block}
+\end{frame}	
+
+\begin{frame}
+	\frametitle{Forward rectangular rule Barts explanation}
+	\begin{block}{Mathematical approach}
+		\begin{center}
+			\begin{align*}
+			e_k &= \frac{x_{k+1} - x_{k}}{T_s}\\
+			E(z) &= \frac{z -1}{T_s} X(z)
+			\end{align*}
+		\end{center}
+		Which means that we need to apply the following substitution in the Laplace transform of the given transfer function:
 		\begin{center}
 			$s \gets \frac{z-1}{T}$ (8.2)
 		\end{center}
 		This is extremely useful while making exercises.
 	\end{block}
-\end{frame}	
+\end{frame}
 
 \begin{frame}
 	\frametitle{Backward rectangular rule (=Backward Euler)}
@@ -121,14 +154,13 @@
 			\includegraphics[width=0.6\linewidth]{Backward2}
 		\end{figure}
 	\end{column}
-		
 \end{columns}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Backward rectangular rule}	
 	\begin{block}{Mathematical approach}
-		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_2$:
+		The general approach (formula (8.1)) applied on the backward rectangle rule, results in an equation $u_2$:
 		\begin{align*}
 		u_2(kT)& =u_2(kT - T) + T\big(-au_2(kT) + ae(kT) \big)\\
 		&=\frac{u_2(kT - T)}{1 + aT} + \frac{aT}{1 + aT}e(kT)\\
@@ -141,23 +173,39 @@
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
-			$H_B(z) = \frac{a}{(z-1)/Tz+a}$
+			$H_B(z) = \frac{a}{\frac{z-1}{Tz}+a}$
 		\end{center}
 		Which can also be derived using the following substitution in the given transfer function:
 		\begin{center}
-			$s \gets \frac{z-1}{Tz}$ (8.3)
+			$s \gets \frac{z-1}{zT_s}$ (8.3)
 		\end{center}
 		Again this is extremely useful while making exercises.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Trapezoidal rule (= bilinear or Tusting rule)}
-	
+	\frametitle{Backward rectangular rule Barts explanation}
+	\begin{block}{Mathematical approach}
+		\begin{center}
+			\begin{align*}
+			e_{k+1} &= \frac{x_{k+1} - x_{k}}{T_s}\\
+			E(z) &= \frac{z -1}{zT_s} X(z)
+			\end{align*}
+		\end{center}
+		Which means that we need to apply the following substitution in the Laplace transform of the given transfer function:
+		\begin{center}
+			$s \gets \frac{z-1}{zT_s}$ (8.2)
+		\end{center}
+		This is extremely useful while making exercises.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule (= trapezoidal or Tusting rule)}
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{block}{General approach}
-			This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward en backward rectangle rule.Thus the amplitude equal to the value of the function at $(kT - T)$ and the amplitude equal to the value of the function at $(kT)$ are connected by a line as shown in the illustration.
+			This method makes use of the area of the \textbf{trapezoid} formed by the average of the selected rectangles used in the forward and backward rectangular rule.Thus the amplitude equal to the value of the function at $(kT - T)$ and the amplitude equal to the value of the function at $(kT)$ are connected by a line as shown in the illustration.
 		\end{block}	
 	\end{column}
 
@@ -172,7 +220,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Trapezoidal rule}
+	\frametitle{Bilinear rule}
 	\begin{block}{Mathematical approach}
 		The general approach (formula (8.1)) applied on the forward rectangle rule, results in an equation $u_3$:
 		\begin{align*}
@@ -185,7 +233,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Trapezoidal rule}
+	\frametitle{Bilinear rule}
 	\begin{block}{Mathematical approach}
 		In this case, the transfer function is:
 		\begin{center}
@@ -193,14 +241,14 @@
 		\end{center}
 		Which can also be derived using the following substitution in the given transfer function:
 		\begin{center}
-			$s \gets \frac{2}{T} \frac{z-1}{z+1}$ (8.4)
+			$s \gets \frac{2}{T_s} \frac{z-1}{z+1}$ (8.4)
 		\end{center}
 		This is extremely useful while making exercises.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Trapezoidal rule}
+	\frametitle{Bilinear rule}
 	\begin{example}
 		Given:
 		\begin{center}
@@ -218,17 +266,91 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Stability of the numerical integration methods}
-	\begin{block}{Stability}
-		As already mentioned, a continuous system is stable when its poles have a negative real part in the s-plane and a discrete system is stable when its poles lie within the unit circle of the z-plane.Subsequently the $(s=j\omega)$-axis is the boundary between poles of stable and unstable continuous systems. Each of the discretization methods can be considered as a map from the s-plane to the z-plane. It is interesting to know how the $j\omega$-axis is mapped by every rule and where the stable part of the s-plane appears in the z-plane. This can be realized by solving formulas (8.2-8.3) to z and replacing s by $j\omega$. 
+	\frametitle{Steady State model}
+	\begin{block}{Steady State model}
+		\begin{columns}
+			\begin{column}{0.1\textwidth}
+				\textbf{Matrix}\\
+				A\\
+				B\\
+				C\\
+				D
+			\end{column}
+			\begin{column}{0.15\textwidth}
+				\textbf{Forward}\\
+				$I + AT_s$\\
+				$BT_s$\\
+				C\\
+				D
+			\end{column}
+			\begin{column}{0.35\textwidth}
+				\textbf{Backward}\\
+				$(I - AT_s)^{-1}$\\
+				$(I - AT_s)^{-1}BT_s$\\
+				$C(I - AT_s)^{-1}$\\
+				$D + C(I - AT_s)^{-1}BT_s$
+			\end{column}
+		\end{columns}
+		\vspace{1em}
+		\begin{columns}
+			\begin{column}{0.1\textwidth}
+				\textbf{Matrix}\\
+				A\\
+				B\\
+				C\\
+				D
+			\end{column}
+			\begin{column}{0.65\textwidth}
+				\textbf{Bilinear}\\
+				$(I+A\frac{T_s}{2})^{-1} (I+A\frac{T_s}{2})$\\
+				$(I+A\frac{T_s}{2})^{-1}BT_s$\\
+				$C(I+A\frac{T_s}{2})^{-1}$\\
+				$D + C(I+A\frac{T_s}{2})^{-1}BT_s$
+			\end{column}	
+		\end{columns}
 	\end{block}
 \end{frame}
 
 \begin{frame}
+	\frametitle{Stability of the numerical integration methods}
+	\begin{block}{Stability}
+		As already mentioned, a discrete system is stable when its poles lie within the unit circle of the z-plane and a continuous system is stable when its poles have a negative real part in the s-plane. Subsequently the $(s=j\omega)$-axis is the boundary between poles of stable and unstable continuous systems.\\
+		\vspace{1em}
+		Each of the discretization methods can be considered as a map from the s-plane to the z-plane. It is interesting to know how the $j\omega$-axis is mapped by every rule and where the stable part of the s-plane appears in the z-plane. This can be realized by solving formulas (8.2-8.3) to z and replacing s by $j\omega$. 
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stability of the numerical integration methods}
+	\begin{block}{Boudaries of the stable regions}
+		Expressions of z in terms of s:
+		\begin{itemize}
+			\item $z = 1 + T_ss$
+			\item $z = \frac{1}{1 - T_ss}$
+			\item $z = \frac{1 + T_s\frac{s}{2}}{1 - T_s\frac{s}{2}}$
+		\end{itemize}
+		By substituting s by $j\omega$ the boundaries of the regions in the z-plane, which originate from the stable portion of the s-plane, are obtained.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stability of the numerical integration methods}
+	\begin{block}{Mapping of the left-hand-s-plane}
+		\begin{itemize}
+			\item Forward Euler: stable continuous-time system points may become unstable after discretization;\\
+			\item Backward Euler: stable continuous-time system points will stay stable after discretization, but the number of degrees of freedom is restriced;\\
+			\item Bilinear transformation: the entire left-hand-plane is mapped into the unit circle.\\
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Stability of the numerical integration methods}
 	\begin{block}{Graphical representation}
+		Stable s-plane poles map onto the shaded regions in the z-plane. The unit circle is shown for reference.
 	\begin{figure}
 		\centering
-		\includegraphics[width=1\linewidth]{Stabiliteit}
+		\includegraphics[width=0.85\linewidth]{Stabiliteit}
 	\end{figure}
 	\end{block}
 \end{frame}
@@ -237,23 +359,53 @@
 \begin{frame}
 	\frametitle{Bilinear rule with prewarping}
 	\begin{alertblock}{Distortion}
-		The bilinear rule maps the stable region of the s-plane into the stable region of the z-plane and the entire $j\omega$-axis is compressed into the $2\Pi$-length of the unit circle, causing a great deal of distortion.\\
-		\vspace{1em}
-		When the actual frequency of $\omega$ is input to the discrete-time filter designed by use of the bilinear transform, it is desired to know at what frequency,  $\omega_d$, for the continuous-time filter that this  $\omega$ is mapped to.
+		Looking at the graphical representation of the stability on the previous slide, you can see that the bilinear rule maps the stable region of the s-plane into the stable region of the z-plane. The entire $j\omega$-axis is compressed into the $2\Pi$-length of the unit circle, causing a great deal of distortion.
 	\end{alertblock}
+	\begin{block}{Distortion: time domain}
+		Distortion is the alternation of the original shape (or other characteristic) of something, such as an object, image, sound or waveform. In some cases distortion is desirable but mostly it needs to be minimized or (when possible) completely eliminated.
+	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Bilinear rule with prewarping}
-	\begin{block}{Trapezoid rule with prewarping}
-		By extending the trapezoidal rule one step we can correct the distortion of the real frequencies mapped by the rule.
+	\begin{block}{Distortion: time domain}
+		An example of distortion (clipping) is shown in the figure.
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Distortion}
+		\end{figure}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\begin{block}{Distortion: frequency domain}
+		The bilinear rule causes every feature, every "bump" that is visible in the frequency response of the continuous-time filter to also be visible in the discrete-time filter, but at a different frequency. This is illustrated by the figure on the next slide.\\
+		\vspace{1em}
+		When the actual frequency of $\omega$ is input to the discrete-time filter designed by use of the bilinear transform, it is desired to know at what frequency,  $\omega_a$, for the continuous-time filter that this  $\omega$ is mapped to.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\vspace{-0.5em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{Distortion_bode}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\begin{block}{$\omega_a$ with input $\omega$}
+		We now look for a relation between $\omega_a$ and $\omega$, using the 's-domain'-\\'z-domain' relation $z = e^{sT}$ and the substitution $s=j\omega$:
 		\vspace{-2em} 
 		\begin{center}
 			\begin{align*}
-			H_d(z) &= H(\frac{2}{T} \frac{z-1}{z+1})\\
-			H_d(e^{j\omega T}) &= H(\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1})\\
-			&= H(\frac{2}{T} \frac{e^{j\omega T/2} (e^{j\omega T/2} - e^{-j\omega T/2})}{e^{j\omega T/2}(e^{j\omega T/2} + e^{-j\omega T/2})})\\
-			&= H(j \frac{2}{T} \frac{sin(\omega T/2)}{cos(\omega T/2)})
+			\frac{2}{T} \frac{z-1}{z+1}_{z = e^{j\omega T}} &=\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1}\\
+			&= \frac{2}{T} \frac{e^{j\omega T/2} (e^{j\omega T/2} - e^{-j\omega T/2})}{e^{j\omega T/2}(e^{j\omega T/2} + e^{-j\omega T/2})}\\
+			&= j \frac{2}{T} \frac{sin(\omega T/2)}{cos(\omega T/2)}\\
+			&= j \frac{2}{T} tan(\frac{\omega T}{2}) = j\omega_a
 			\end{align*}
 		\end{center}
 	\end{block}
@@ -261,14 +413,36 @@
 
 \begin{frame}
 	\frametitle{Bilinear rule with prewarping}
-	\begin{block}{Trapezoid rule with prewarping}
-		The discrete-time system has the same behaviour at frequency $\omega$ as the continuous-time system at frequency $\omega_a = 2/T * tan(\omega T/2)$.
-		
-		This results in following substitution formula:
+	\begin{block}{Frequency warping}
+		The discrete-time system has the same behavior at frequency $\omega$ as the continuous-time system at frequency $\omega_a = \frac{2}{T} tan(\frac{\omega T}{2})$. \\ 
+		\vspace{1em}
+		Specifically, the gain and phase shift that the discrete-time filter has at frequency $\omega$ is the same gain and phase shift that the continuous-time filter has at frequency  $\omega_a = \frac{2}{T} tan(\frac{\omega T}{2})$.\\
+		\vspace{1em}
+		This effect of the non-linear relation between $\omega$ and $\omega_a$ is called \textbf{frequency warping}.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\begin{block}{Frequency prewarping}
+		In certain situations, however, we really want the characteristics to be conserved during the discretization.\\
+		\vspace{1em}
+		By setting $\omega_a = \frac{2}{T} tan(\frac{\omega T}{2})$ for every frequency specification that the designer has control over, the frequency warping will be compensated. This is called \textbf{frequency prewarping}.\\
+		\vspace{1em}
+		The digital filter can be made to match the frequency response of the continuous filter at frequency  $\omega_0$  if the following transformation is substituted into the continuous filter transfer function:
 		\begin{center}
-			$s \gets \frac{\omega_0}{tan\big(\frac{\omega_0 * T}{2}\big)} \frac{z-1}{z+1}$ (8.4)
+			$s \gets \frac{\omega_0}{tan\big(\frac{\omega_0T_s}{2}\big)} \frac{z-1}{z+1}$ (8.4)
 		\end{center}
 	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bilinear rule with prewarping}
+	\vspace{-0.5em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.77\linewidth]{Distortion_bode1}
+	\end{figure}
 \end{frame}
 
 \subsection{Zero-pole equivalent}
@@ -331,7 +505,7 @@
 
 \begin{frame}
 	\frametitle{Impuls-invariant method}
-	\begin{block}{Impuls-invariant transformation}
+	\begin{block}{Practical rule}
 		This method converts a continuous system into a discrete one by matching the impulse response using these transformations.
 		\vspace{-1em}
 		\begin{figure}
@@ -457,14 +631,14 @@
 \section{Sampling Time}
 
 \begin{frame}
-	\frametitle{Sampling time Ts based on the time response}
+	\frametitle{Sampling time $T_s$ based on the time response}
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 	\begin{block}{Rise time}
 		Time needed to reach the steady state for the first time.
 	\end{block}
 	\begin{block}{Practical rule}
-		A good rule of thumb is $Ts = T_{rising}/10$ seconds/sample.
+		A good rule of thumb is $T_s = T_{rising}/10$ seconds/sample.
 	\end{block}
 	\end{column}
 	
@@ -478,21 +652,21 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Sampling time Ts based on the frequency response}
+	\frametitle{Sampling time $T_s$ based on the frequency response}
 	\begin{block}{Nyquist-Shannon sampling theorem}
 		If a function $x(t)$ contains no frequencies higher than B hertz, it is completely determined by giving its ordinates at a series of points spaced $1/(2B)$ seconds apart. A sufficient sample-rate is therefore \textbf{2B samples/second}. This is called the \textbf{"Nyquist sampling rate"}. Equivalently, for a given sample rate $f_s$, perfect reconstruction is guaranteed possible for a bandlimit $B ≤ f_s/2$. A higher sampling rate creates a margin of error.
 	\end{block}
 	\begin{block}{Practical rule}
-		A good rule of thumb is $Ts = 1/(2,2B)$ seconds/sample.
+		A good rule of thumb is $T_s = 1/(2,2B)$ seconds/sample.
 	\end{block}
 \end{frame}
 
-\section{Discretization and Matlab}
-
+\section{Discretization and MATLAB}
+\subsection{Calculation}
 \begin{frame}
-	\frametitle{Matlab}
-	\begin{block}{Matlab Commands}
-		Matlabs Control System Toolbox™ offers extensive support for discretization and resampling of linear systems:
+	\frametitle{MATLAB}
+	\begin{block}{MATLAB Commands}
+		MATLABs Control System Toolbox™ offers extensive support for discretization and resampling of linear systems:
 	\begin{itemize}
 		\item "c2d(system,sampling time,method)" used for discretization
 		\item "d2c(system,sampling time,method)" used for reconstruction
@@ -505,7 +679,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Matlab}
+	\frametitle{MATLAB}
 	\begin{block}{Available options}
 		\begin{itemize}
 			\item 'Method'
@@ -526,13 +700,13 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Exercise 1 with Matlab}
+	\frametitle{Exercise 1 with MATLAB}
 	\begin{block}{Exercise 1}
 		We will now discuss 4 methods applied on the same continuous system:
 		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
 		\begin{itemize}
-		\item The sampling time can be determined by the rule of thumb previously explained: Ts = 2.2Bandwidth;
-		\item Matlab can calculate the bandwidth of a given continuous system, using the command: "bandwidth(system)".
+		\item The sampling time can be determined by the rule of thumb previously explained: $T_s$ = 2.2Bandwidth;
+		\item MATLAB can calculate the bandwidth of a given continuous system, using the command: "bandwidth(system)".
 		\end{itemize}
 		This results in a sampling time of 0.25033 seconds for the given system
 	\end{block}
@@ -545,10 +719,10 @@
 		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
 		Sampling time = 0.25033sec\\
 		\vspace{0.8em}
-		Commands in Matlab:
+		MATLAB commands:
 		
 		H = tf([1 1],[1 1 1]) \\
-		Hd = c2d(H,Ts,'zoh')\\
+		Hd = c2d(H,$0.25033$,'zoh')\\
 		\vspace{0.8em}
 		Result:
 		$Hd_{zoh}(z) = \frac{0.2479z - 0.1927}{z^{2} -1.723z + 0.7785}$
@@ -562,10 +736,10 @@
 		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
 		Sampling time = 0.25033sec\\
 		\vspace{1em}
-		Commands in Matlab:
+		MATLAB commands:
 	
 		H = tf([1 1],[1 1 1]); \\
-		Hd = c2d(H,Ts,'foh')\\
+		Hd = c2d(H,$0.25033$,'foh')\\
 		\vspace{1em}
 		Result:
 		$Hd_{foh}(z) = \frac{0.1245z^{2} + 0.02752z - 0.09691}{z^{2} - 1.723z + 0.7785}$
@@ -579,10 +753,10 @@
 		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
 		Sampling time = 0.25033sec\\
 		\vspace{1em}
-		Commands in Matlab:
+		MATLAB commands:
 		
 		H = tf([1 1],[1 1 1]); \\
-		Hd = c2d(H,Ts,'impuls')\\
+		Hd = c2d(H,$0.25033$,'impuls')\\
 		\vspace{1em}
 		Result:
 		$Hd_{impuls}(z) = \frac{0.2503z^{2} - 0.1883z}{z^{2} - 1.723z + 0.7785}$
@@ -596,10 +770,10 @@
 		$H(s) = \frac{s + 1}{s^{2} + s + 1}$\\
 		Sampling time = 0.25033sec\\
 		\vspace{1em}
-		Commands in Matlab:
+		MATLAB commands:
 		
 		H = tf([1 1],[1 1 1]); \\
-		Hd = c2d(H,Ts,'matched')\\
+		Hd = c2d(H,$0.25033$,'matched')\\
 		\vspace{1em}
 		Result: 
 		$Hd_{matched}(z) = \frac{0.249z - 0.1939}{z^{2} - 1.723z + 0.7785}$
@@ -607,43 +781,34 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Exercise 2 with Matlab}
+	\frametitle{Exercise 2 with MATLAB}
 	\begin{block}{Exercise 2}
-		We will use the transfer function of a low pass filter to indicate the difference between the bilinear rule without and the bilinear rule with prewarping: $H(s) = \frac{1}{s + 1}$
-		\begin{itemize}
-			\item The sampling time can be determined by the rule of thumb previously explained: Ts = 2.2Bandwidth;
-			\item Matlab can calculate the bandwidth of a given continuous system, using the command: "bandwidth(system)";
-			\item Matlab can draw the bode plots of the continuous system, using the command: "bode(system)".
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Exercise 2 with Matlab}
-	\begin{block}{Exercise 2}
-		This results in a sampling time of 0.45563 seconds and the following magnitude bode plot with a cutoff frequency of 0rad/s:
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.9\linewidth]{bode}
-		\end{figure}
-		\vspace{0.2em}
-	\end{block}
+		We will now apply the bilinear rule with and without prewarping on the same continuous system: $H(s) = \frac{s^{2} + 0.5s + 9}{s^{2} + 5s + 1}$\\
+		\vspace{0.5em}
+		Criteria: 
+		\begin{enumerate}
+			\item The sampling time is chosen to be 0.5 seconds;\\
+			\item The discrete system must have the same resonance frequency as the continuous one. MATLAB can calculate the resonance frequency: "damp(system)".
+		\end{enumerate}
+		\vspace{0.5em}
+		The last criteria applies to this specific exercise. It is possible that the parity of the magnitude, of the discrete and the continuous system, at a different frequency (e.g. the peak frequency) is required.
+	\end{block}	
 \end{frame}
 		
 \begin{frame}
 	\frametitle{Tusting rule}
 	\begin{example}
 		Given:\\
-		$H(s) = \frac{1}{s + 1} $\\
-		sampling rate = 0.45563sec\\
+		$H(s) = \frac{s^{2} + 0.5s + 9}{s^{2} + 5s + 1}$\\
+		Sampling time = 0.5sec\\
 		\vspace{1em}
-		Commands in Matlab:
+		MATLAB commands:
 		
-		H = tf([1],[1 1]) \\
-		Hd = c2d(H,Ts,'tustin')\\
+		H = tf([1,0.5,9],[1,5,9]) \\
+		Hdt = c2d(H,0.5,'tustin')\\
 		\vspace{1em}
 		Result: 
-		$Hd_{Tustin}(z) = \frac{0.1855z - 0.1855}{z - 0.6289}$
+		$Hd_{Tustin}(z) = \frac{0.6z^{2} - 0.3111z + 0.5111}{z^{2} -  0.3111z + 0.1111}$
 	\end{example}
 \end{frame}
 
@@ -651,77 +816,84 @@
 	\frametitle{Tustin rule with prewarping}
 	\begin{example}
 		Given:\\
-		$H(s) = e^{-s} \frac{s-2}{s^{2} + 3s + 20} $\\
-		sampling rate = 0.25033sec\\
+		$H(s) = \frac{s^{2} + 0.5s + 9}{s^{2} + 5s + 1}$\\
+		Sampling time = 0.5sec\\
 		\vspace{1em}
-		Commands in Matlab:\\
-		H = tf([1],[1 1])\\
-		opt = c2dOptions('Method', 'tustin', 'PrewarpFrequency', 0)\\
-		Hd = c2d(G,Ts,opt)\\
+		MATLAB commands:\\
+		H = tf([1,0.5,9],[1,5,9])\\
+		damp(H) (results in 3.0Hz)\\
+		discopts = c2dOptions('Method','tustin','PrewarpFrequency',3.0);\\
+		Hdtp = c2d(H,0.5,discopts)\\
 		\vspace{1em}
 		Result:
-		$Hd_{TustinPrewarp}(z) = $
+		$Hd_{TustinPrewarp}(z) = \frac{0.5915z^{2} - 0.07726z + 0.5007}{z^{2} - 0.07726z + 0.09215}$
 	\end{example}
 \end{frame}
 
+\subsection{Visualization}
 \begin{frame}
-	\frametitle{Matlab}
-	\begin{block}{Matlab Commands for visualisation}
-		It is possible to compare the step response of the continuous system and the discretized system in a graphic\\
-		\vspace{1em}
-		Command: "step(H,'b',Hd,'r')"\\
-		\vspace{1em}
-		'b' and 'r' stand for blue and red, by using colors, the step responses of both systems can easily be distinguished.\\
-		\vspace{1em}
-		The following figures are a graphic representation of the exercises in Matlab.
+	\frametitle{MATLAB}
+	\begin{block}{MATLAB Commands for visualisation}
+		\begin{itemize}
+			\item MATLAB can draw the bode plots of the continuous system\\ 
+			$\rightarrow$ command: "bode(system)"
+			\item MATLAB can carry out a graphic showing the step response of the continuous system and the discretized system\\
+			$\rightarrow$ command: "step(H,'b',Hd,'r')" in which 'b' and 'r' stand for blue and red. By using colors, the step responses of both systems can easily be distinguished
+		\end{itemize}
+		The following figures are a graphic representation of the exercises in MATLAB.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Zero-order hold equivalent}
+	\frametitle{Exercise 1: Zero-order hold equivalent}
 	\vspace{-0.7em}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\linewidth]{vb1}
+		\includegraphics[width=0.8\linewidth]{vb1}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{First-order hold equivalent}
+	\frametitle{Exercise 1: First-order hold equivalent}
 	\vspace{-0.7em}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\linewidth]{vb2}
+		\includegraphics[width=0.8\linewidth]{vb2}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Impuls invariant rule}
+	\frametitle{Exercise 1: Impuls invariant rule}
 	\vspace{-0.7em}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\linewidth]{vb3}
+		\includegraphics[width=0.8\linewidth]{vb3}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Zero-pole equivalent}
+	\frametitle{Exercise 1: Zero-pole equivalent}
 	\vspace{-0.7em}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\linewidth]{vb4}
+		\includegraphics[width=0.8\linewidth]{vb4}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Tustin rule}
+	\frametitle{Exercise 2: Tustin rule}
 	\vspace{-0.7em}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\linewidth]{vb5}
+		\includegraphics[width=0.9\linewidth]{distortion_bode2}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Tustin rule with prewarping}
+	\frametitle{Exercise 2: Tustin rule with prewarping}
+	\vspace{-0.7em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{distortion_bode3}
+	\end{figure}
 \end{frame}
