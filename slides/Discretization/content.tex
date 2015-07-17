@@ -1,3 +1,5 @@
+\section{Introduction}
+
 \begin{frame}
 	\frametitle{Discretization and reconstruction of signals}
 	The use of digital logic and computers to calculate a control action for a continuous system introduces the operation of sampling.\\
@@ -6,9 +8,111 @@
 	\medskip
 	The role of sampling and the conversion from continuous to discrete and vice versa are important to the understanding of the complete response of digital control.
 	\begin{figure}
-		\includegraphics[width=.6\linewidth]{discretization}
+		\includegraphics[width=.55\linewidth]{discretization}
 	\end{figure}
 	%source: http://cnx.org/contents/42c54126-3078-417f-972e-dcf5c41556a4@3.1:6/Software-Receiver-Design
+\end{frame}
+
+\begin{frame}
+	\frametitle{Types of signals}
+	\begin{itemize}
+		\item \textbf{Continuous-time signal}: A signal defined over a continuous range of time.
+		\item \textbf{Discrete time signa}l: A signal defined only at discrete instants of time (the independent variable t is quantized)
+		\item \textbf{Analog signal}: A signal defined over a continuous range of time whose amplitude can assume a continuous range of values.
+		\item \textbf{Quantized signal}: A signal in which the amplitude may assume only a finite number of distinct values.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Types of signals}
+	\begin{columns}
+		\column{0.6\textwidth}
+		a. Continuous-time analog signal\\
+		\medskip
+		b. Continuous-time quantized signal\\
+		\medskip
+		c. Sampled-data signal (discrete-time analog signal)\\
+		\medskip
+		d. Digital signal (discrete-time quantized signal)
+		\column{0.4\textwidth}
+		\vspace{-2ex}
+		\begin{figure}
+			\includegraphics[width=0.8\linewidth]{types}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Digital control system}
+	\begin{figure}
+		\includegraphics[width=1\textwidth]{digital_control_system}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Definitions}
+	\textbf{Sample and hold}\\
+	A circuit that receives an analog input signal and holds this signal at a constant value for a specified period of time.\\
+	\medskip
+	\textbf{A/D converter}\\
+	An analog-to-digital converter, also called an encoder, is a device that converts an analog signal into a digital signal.\\
+	\medskip 
+	\textbf{D/A converter}\\
+	A digital-to-analog converter, also called a decoder, is a device that converts a digital signal into an analog signal.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Sample and hold}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{sample_hold}
+	\end{figure}
+	\vspace{-2ex}
+	When the switch is closed, the input signal is connected and the circuit is in \textbf{tracking mode}. The charge on the capacitor in the circuit tracks the input voltage.\\
+	When the switch is open, the input signal is disconnected and the circuit is in \textbf{hold mode}. The capacitor voltage holds constant for a specified time period.
+\end{frame}
+
+\begin{frame}
+	\frametitle{A/D converter}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{ADconverter}
+	\end{figure}
+	The successive-approximation 
+	register (SAR) is the most frequently used. It turns on the most significant bit and compares it with the analog input; The comparator decides whether to leave the bit on or turn it off (if the analog input voltage is larger, the most significant bit is set on). Then the register continues with bit 2.
+\end{frame}
+
+\begin{frame}
+	\frametitle{A/D converter}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{ADconverter}
+	\end{figure}
+	After n comparisons, the digital output of the register indicates all those bits that remain on and produces the desired digital code.
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-4ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	The input resistor of the operational amplifier have their resistance values weighted in a binary fashion. 
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-2ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	When the logic circuit receives binary 1, the switch connects the resistor to the reference voltage. When the logic circuit receives binary 0, the switch connects the resistor to ground.
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-3ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	If the binary number (here) is $b_3b_2b_1b_0$, each of the b's can be 0 or 1, the output is $V_o = \frac{R_o}{R} \Big(b_3+\frac{b_2}{2} + \frac{b_1}{4}+\frac{b_0}{8}\Big) V_{ref}$
 \end{frame}
 
 \section{Analysis of the sample and hold}
@@ -45,7 +149,7 @@
 	\end{center}
 	If the signal r(t) is shifted a small amount, then different samples will be selected by the sampling process for the output, proving that sampling is not a time-invariant process.
 	\begin{figure}
-		\includegraphics[width=0.6\linewidth]{sampled_signal}
+		\includegraphics[width=0.57\linewidth]{sampled_signal}
 	\end{figure}
 	%source: https://commons.wikimedia.org/wiki/File:Sampled.signal.svg
 \end{frame}
@@ -57,7 +161,7 @@
 	A general technique is to use a polynomial fit to the past samples.\\
 	If the extrapolation is done by a constant (a zero-order polynomial), then the extrapolator is called a zero-order hold and its transfer function is denoted $ZOH(s)$. 
 	\begin{figure}
-		\includegraphics[width=0.55\linewidth]{sample_and_hold}
+		\includegraphics[width=0.52\linewidth]{sample_and_hold}
 	\end{figure}
 	%source: https://en.wikipedia.org/wiki/Sample_and_hold#/media/File:Zeroorderhold.signal.svg
 \end{frame}
@@ -75,7 +179,7 @@
 		$ZOH(s)=\mathcal{L}\{p(t)\} = \int_{0}^{\infty} [1(t)-1(t-T)]e^{-s\tau}d\tau = \frac{1-e^{-sT}}{s}$
 	\end{center}
 	\begin{figure}
-		\includegraphics[width=0.5\linewidth]{zoh}
+		\includegraphics[width=0.48\linewidth]{zoh}
 	\end{figure}
 	%source: http://www.audiorecordingschool.com/blog/chris-montgomery-explains-digital-audio/
 \end{frame}
@@ -208,7 +312,7 @@
 	Take for example the image below.\\
 	The red sine wave is being sampled at just over its bandwidth, however the blue sine wave will be recreated as it also fits all data points and is within the expected bandwidth.
 	\begin{figure}
-		\includegraphics[width=0.8\linewidth]{aliasing}
+		\includegraphics[width=0.75\linewidth]{aliasing}
 	\end{figure}
 	%source: https://en.wikipedia.org/wiki/Aliasing#/media/File:AliasingSines.svg
 \end{frame}
@@ -384,5 +488,17 @@
 			\includegraphics[width=0.8\linewidth]{spectrum_zoh}
 		\end{figure}
 	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{First-order hold}
+	If the extrapolation is done by a first order polynomial, then the extrapolator is called a first-order hold and its transfer function is denoted $FOH(s)$. 
+	\begin{center}
+		$FOH(s)=(1-e^{-Ts})\frac{Ts+1}{Ts^2}$
+	\end{center}
+	\vspace{-4ex}
+	\begin{figure}
+		\includegraphics[width=0.7\linewidth]{foh}
+	\end{figure}
 \end{frame}
 
