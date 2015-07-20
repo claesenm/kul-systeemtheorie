@@ -26,7 +26,6 @@
 \begin{frame}
 	\frametitle{Types of signals}
 	\begin{columns}
-		\vspace{-10ex}
 		\column{0.6\textwidth}
 		a. Continuous-time analog signal\\
 		\medskip
@@ -44,28 +43,76 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Slide2: Total ...}
-	
+	\frametitle{Digital control system}
+	\begin{figure}
+		\includegraphics[width=1\textwidth]{digital_control_system}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Slide3: Definitions}
-	
+	\frametitle{Definitions}
+	\textbf{Sample and hold}\\
+	A circuit that receives an analog input signal and holds this signal at a constant value for a specified period of time.\\
+	\medskip
+	\textbf{A/D converter}\\
+	An analog-to-digital converter, also called an encoder, is a device that converts an analog signal into a digital signal.\\
+	\medskip 
+	\textbf{D/A converter}\\
+	A digital-to-analog converter, also called a decoder, is a device that converts a digital signal into an analog signal.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Slide4: Sample and hold}
-	
+	\frametitle{Sample and hold}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{sample_hold}
+	\end{figure}
+	\vspace{-2ex}
+	When the switch is closed, the input signal is connected and the circuit is in \textbf{tracking mode}. The charge on the capacitor in the circuit tracks the input voltage.\\
+	When the switch is open, the input signal is disconnected and the circuit is in \textbf{hold mode}. The capacitor voltage holds constant for a specified time period.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Slide5: A/D converter}
-	
+	\frametitle{A/D converter}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{ADconverter}
+	\end{figure}
+	The successive-approximation 
+	register (SAR) is the most frequently used. It turns on the most significant bit and compares it with the analog input; The comparator decides whether to leave the bit on or turn it off (if the analog input voltage is larger, the most significant bit is set on). Then the register continues with bit 2.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Slide6: D/A converter}
-	
+	\frametitle{A/D converter}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{ADconverter}
+	\end{figure}
+	After n comparisons, the digital output of the register indicates all those bits that remain on and produces the desired digital code.
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-4ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	The input resistor of the operational amplifier have their resistance values weighted in a binary fashion. 
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-2ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	When the logic circuit receives binary 1, the switch connects the resistor to the reference voltage. When the logic circuit receives binary 0, the switch connects the resistor to ground.
+\end{frame}
+
+\begin{frame}
+	\frametitle{D/A converter}
+	\vspace{-3ex}
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{DAconverter}
+	\end{figure}
+	If the binary number (here) is $b_3b_2b_1b_0$, each of the b's can be 0 or 1, the output is $V_o = \frac{R_o}{R} \Big(b_3+\frac{b_2}{2} + \frac{b_1}{4}+\frac{b_0}{8}\Big) V_{ref}$
 \end{frame}
 
 \section{Analysis of the sample and hold}
@@ -441,5 +488,17 @@
 			\includegraphics[width=0.8\linewidth]{spectrum_zoh}
 		\end{figure}
 	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{First-order hold}
+	If the extrapolation is done by a first order polynomial, then the extrapolator is called a first-order hold and its transfer function is denoted $FOH(s)$. 
+	\begin{center}
+		$FOH(s)=(1-e^{-Ts})\frac{Ts+1}{Ts^2}$
+	\end{center}
+	\vspace{-4ex}
+	\begin{figure}
+		\includegraphics[width=0.7\linewidth]{foh}
+	\end{figure}
 \end{frame}
 
