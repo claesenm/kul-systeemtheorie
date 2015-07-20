@@ -15,6 +15,8 @@ def draw_step_response(y,t,y_max,peak_time,steady_state,overshoot,rise_time,sett
     plt.plot([settling_time,settling_time],[0,steady_state],'m',label = 'settling_time')
     plt.ylim(0,1.5)
     plt.xlim(0,t[-1])
+    plt.xlabel('t')
+    plt.ylabel('y(t)')
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles, labels)
 
