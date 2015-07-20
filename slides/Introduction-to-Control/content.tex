@@ -238,7 +238,112 @@ Remember the example of pouring a glass of water without looking at the glass
 			S_P^Y(s) &= \frac{\frac{\partial Y}{Y}(s)}{\frac{\partial P}{P}(s)} = \frac{1}{1 + P(s)C(s)}
 		\end{align*}
 		\item Again, a very large $\left|P(s)C(s)\right|$ looks like a good choice, but again there is a risk for instability!
-		\item Note that the sensitivity can be determined for any parameter
+		\item Note that the sensitivity can be determined for any parameter	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: robustness}
+	\begin{itemize}
+		\item Suppose we want to stabilize the system $P(s)=1/(s - a)$.  We only know that $a \in [0.20;0.80]$. We propose to use a proportional controller $C(s)=K$.
+		The closed loop transfer function becomes
+		\begin{align*}
+			S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{1}{s-a}K}{1+\frac{1}{s-a}K} = \frac{K}{s-a+K}
+		\end{align*}
+		The controller stabilizes the system if $−a+K>0$. If we choose $K$ very large the system will be robust against changes in $a$.
+		
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Example 2: robustness}
+	Suppose we want to stabilize the system $P(s)=\frac{1}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
+	\begin{align*}
+		S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{s}{s-a}\frac{K}{s}}{1+\frac{s}{s-a} \frac{K}{s}} = \frac{K}{s-a+K}
+	\end{align*}
+	Again we choose $K>a$ to ensure stability.
+	But how does the controller perform on the slightly perturbed system $\tilde{P}(s)=\frac{(s+\epsilon)}{(s - a)}$  ?
+	The transfer function from $R(s)$ to $Y(s)$ becomes
+	\begin{align*}
+		S(s) = \frac{\frac{s+\epsilon}{s-a} \frac{K}{S}}{1+\frac{s+\epsilon}{s-a}\frac{K}{s}}
+		= \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
+	\end{align*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example2: robustness}
+	\begin{flalign*}
+		\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
+	\end{flalign*}
+	The figure on the right plots
+	\begin{flalign*}
+	&{\color{blue} s^2 + (K - a)s} \\
+	&{\color{red} s^2 + (K - a)s + \epsilon K}
+	\end{flalign*}
+	\begin{figure}
+\center
+\includegraphics[width=0.7\linewidth]{robustness-example}
+\caption{}
+\label{fig:robustness-example}
+For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
+\end{figure}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Example 3: Robustness of steady-state error}
+	\begin{itemize}
+		\item The steady state error is defined as follows:
+		\begin{align*}
+			\lim\limits_{t \rightarrow \infty} e(t)
+			&= \lim\limits_{t \rightarrow \infty} (r(t) - y(t)) \\
+			&= \lim\limits_{s \rightarrow 0} s(R(s) - Y(s)) &\text{(final value theorem)}
+		\end{align*}
+		
+		\item A very small steady state error (preferably zero) indicates that the controller tracks the reference very well
+		
+		\item For the open loop system with a step reference
+		\begin{align*}
+			e_{ol}(\infty) &= \lim\limits_{s \rightarrow 0}
+			s(1 - C(s)P(s))R(s) = 1 - C(0)P(0)
+		\end{align*}
+		\begin{itemize}
+			\item So the open loop controller can be free of a steady state error (for a step reference $\epsilon(t)$) by calibrating the controller such that $C(0)P(0)=1$
+			\item $\Rightarrow$ a precise calibration of the DC gain
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Example 3: Steady state error}
+	\begin{itemize}
+		\item Closed loop system:
+		\begin{flalign*}
+			\e_{cl} &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
+			&= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)}R(s) = \frac{1}{1+C(0)P(0)}
+		\end{flalign*}
+		\begin{itemize}
+			\item The steady state error is small if $C(0)P(0)$ is very large
+			\item Again, calibrating the DC gain
+			\item However, the difference is that here, we only need a large value for it, which is far less demanding than having to make it equal to 1
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{An open loop controller is not robust}
+	\begin{itemize}
+		\item We can now show how this results in a great advantage of the closed loop strategy over the open loop strategy:
+		\begin{itemize}
+			\item If $P$ changes slightly (for instance due to a factor that has not been taken up into the model) to $P+\Delta P$
+			\item Then making $e_{ol}(\infty)$ small would require to calibrate anew
+			\item Whereas $e_{cl} (\infty)$ would remain small, as long as $(P(0)+\Delta P(0))C(0)$ remains large
 			
+		\end{itemize}
+		\item Hence an open loop controller cannot control the output \textbf{robustly} against changes in $P$
 	\end{itemize}
 \end{frame}
