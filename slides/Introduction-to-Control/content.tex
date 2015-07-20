@@ -1,11 +1,58 @@
-\section{First section}
+\section{Basics}
 
 \begin{frame}
-\frametitle{Title of first slide}
-Content of the first slide
+\frametitle{An introduction to control}
 \end{frame}
 
 \begin{frame}
-\frametitle{Title of second slide}
-Content of the second slide
+\frametitle{What is control?}
+\begin{itemize}
+	\item The goal is to find an input (control signal U(s)) such that the process produces the desired output
+	\item Open loop control system: the actual output signal has no effect on the control action
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Open-Loop}
+\label{fig:Open-Loop}
+\end{figure}
+\begin{align*}
+	Y = PU = PCR \\
+\end{align*}
+Remember the example of pouring a glass of water without looking at the glass
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{A general set-up of a closed loop system}
+	\begin{itemize}
+		\item We will focus on \underline{closed loop control systems}
+		\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Closed-Loop}
+\label{fig:Closed-Loop}
+\end{figure}
+\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{Inverted pendulum}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{"Inverted Pendulum"}
+\caption{Inverted Pendulum}
+\label{fig:InvertedPendulum}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+	\begin{itemize}
+		\item On-off controller
+		\begin{itemize}
+			\item Thermostate at home
+		\end{itemize}
+		\item \textbf{PID controllers, Lead and lag compensators (this course)}
+		\begin{itemize}
+			\item Cruise-control in your car
+		\end{itemize}
+	\end{itemize}
 \end{frame}
