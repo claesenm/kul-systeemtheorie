@@ -323,7 +323,7 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 	\begin{itemize}
 		\item Closed loop system:
 		\begin{flalign*}
-			\e_{cl} &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
+			e_{cl} &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
 			&= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)}R(s) = \frac{1}{1+C(0)P(0)}
 		\end{flalign*}
 		\begin{itemize}
@@ -346,4 +346,93 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 		\end{itemize}
 		\item Hence an open loop controller cannot control the output \textbf{robustly} against changes in $P$
 	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Noise rejection and disturbance rejection}
+	\begin{itemize}
+		\item Both refer to rejection of the input $D$ but are not the same
+		\item Measurement noise is often modelled by white noise. (High frequency signal)
+		\item Disturbances are actual changes to the state of the system
+	\end{itemize}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Closed-Loop}
+\caption{}
+\label{fig:Closed-Loop3}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Noise versus Disturbances}
+	\begin{itemize}
+		\item Cruise control: \\
+		Measurement errorfra{}s on the speed are noise \\
+		A change in slope is a disturbance
+	\end{itemize}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{"cruise control"}
+\caption{}
+\label{fig:cruisecontrol}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Noise versus Disturbances}
+	\begin{itemize}
+		\item Remember from the start of the lecture
+		\begin{align*}
+			Y(s) = \frac{P(s)C(s)}{1+P(s)C(s)}R(s) + \frac{1}{1+P(s)C(s)}D(s)
+		\end{align*}
+		\item Choosing $T=\frac{1}{1+P(s)C(s)}$ sufficiently small results in the rejection of $D$. This can be achieved by choosing $C(s)$ sufficiently high
+	\end{itemize}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Closed-Loop}
+\label{fig:Closed-Loop4}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Disturbance vs noise}
+	\begin{itemize}
+		\item But what happens to measurement noise
+		\begin{itemize}
+			\item The amplified measurement noise will be applied to the input of the plant.
+			\item In reality measurement noise requires no control actions. Good noise rejection means that the controller ignores this noise.
+		\end{itemize}
+	\end{itemize}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{Closed-Loop}
+\label{fig:Closed-Loop5}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Disturbance versus noise rejection}
+	\begin{itemize}
+		\item Good disturbance rejection requires fast action to bring the state back to the desired state
+		\item Good noise rejection requires that measurement noise will be ignored
+		\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise. Fast system will have better disturbance rejection
+	\end{itemize}
+\end{frame}
+
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\begin{frame}
+	\frametitle{Classical trade-offs in control theory}
+	\begin{tabular}{ll}
+		\specialcell[]{\textbf{Slow Controllers:} \\ Not sensitive to noise \\ Small control inputs} & \specialcell[]{\textbf{Fast controllers:} \\ Good disturbance rejection \\ Fast tracking}\\ 
+		\specialcell[]{\textbf{Robust controllers:} \\ Model errors will not\\ affect the behaviour of\\ the system strongly} & \specialcell[]{\textbf{Aggresive controllers:} \\ Exchanges robustness for \\ better performance}  \\ 
+	\end{tabular}
 \end{frame}
