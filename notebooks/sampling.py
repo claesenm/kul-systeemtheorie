@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import *
 import scipy.fftpack as fourier
+import warnings
+warnings.filterwarnings("ignore")
 
 N = 2**14
 T = 1/4000.0
@@ -89,6 +91,8 @@ def plotter(t,y,x_min,x_max):
     ax = plt.subplot(1,1,1)
     ax.plot(t,y)
     plt.xlim(x_min,x_max)
+    plt.xlabel('t')
+    plt.ylabel('y(t)')
     plt.show()
 
     
@@ -149,10 +153,10 @@ y_diracf = None
 f_bem = None
 
 
-def sampling_dirac(f):
+def sampling_dirac(f_s):
     global t_dirac,y_dirac,t_diracf,y_diracf,f_bem
-    f_bem = f
-    Period = 1/f
+    f_bem = f_s
+    Period = 1/f_s
     down = int(Period*(1/T_dirac) -1)
     temp = [0]*down + [1]
     y_dirac = temp*(int((N_dirac/(down+1)))+1)
@@ -161,17 +165,26 @@ def sampling_dirac(f):
     t_dirac = np.linspace(-N_dirac*T_dirac/2,N_dirac*T_dirac/2,len(y_dirac))
     plt.plot(t_dirac,y_dirac)
     plt.xlim(-20*Period,20*Period)
+    plt.xlabel('t')
+    plt.ylabel('y(t)')
     plt.show()
     y_diracf  = fourier.fftshift(2.0/N * np.abs(fourier.fft(y_dirac)))
+    rescale = np.where(y_diracf > 0.01)
+    y_diracf[rescale] = 1
     t_diracf = np.linspace(-1.0/(2.0*T_dirac), 1.0/(2.0*T_dirac), len(y_diracf))
     plt.plot(t_diracf , y_diracf)
+    plt.xlabel('Frequency(Hz)')
+    plt.ylabel('F(jw)')
     plt.show()
 
 def draw_sampeled_signal(t,samples):
     if len(t) != len(samples):
         raise
-    for i in range(len(t)):
+    mid = int(len(t))/2
+    for i in range(mid-500,mid+500):
         plt.vlines(t[i],min(0,samples[i]),max(0,samples[i]))
-    plt.xlim(xmin,xmax)
+    plt.xlabel('t')
+    plt.ylabel('y(t)')
     plt.show()
+
 
