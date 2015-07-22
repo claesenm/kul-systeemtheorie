@@ -7,23 +7,24 @@
 \begin{frame}
 \frametitle{What is control?}
 \begin{itemize}
-	\item The goal is to find an input (control signal U(s)) such that the process produces the desired output
-	\item Open loop control system: the actual output signal has no effect on the control action
+	\item The goal is to find an input (control signal U(s)) such that the process $P(s)$ produces the desired output
+	\item Open loop control system: the actual output signal $Y(s)$ has no effect on the control action
 \end{itemize}
+\vspace{-1em}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{Open-Loop}
 	\label{fig:Open-Loop}
 \end{figure}
 \begin{align*}
-	Y = PU = PCR \\
+	Y(s) = P(s)U(s) = P(s)C(s)R(s) \\
 \end{align*}
 Remember the example of pouring a glass of water without looking at the glass
 \end{frame}
 
-\subsection[Demo: Inverted Pendulum]{Demo: Inverted Pendulum}
 \begin{frame}
 	\frametitle{A general set-up of a closed loop system}
+	\vspace*{-1em}
 	\begin{itemize}
 		\item We will focus on \underline{closed loop control systems}
 		\begin{figure}
@@ -31,22 +32,31 @@ Remember the example of pouring a glass of water without looking at the glass
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
 \label{fig:Closed-Loop}
 \end{figure}
-\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{Inverted pendulum}
+\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{\underline{Inverted pendulum}}
+
+\item Digital Control Loop:
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{digital-control-system}
+\label{fig:digital-control-system}
+\end{figure}
+
 	\end{itemize}
 \end{frame}
 
+\subsection[Demo: Inverted Pendulum]{Demo: Inverted Pendulum}
 \begin{frame}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{"Inverted Pendulum"}
-\caption{Inverted Pendulum}
+\caption{\href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{{Inverted Pendulum}}}
 \label{fig:InvertedPendulum}
 \end{figure}
 \end{frame}
 
 \subsection[Elements]{Elements}
 \begin{frame}
-	\frametitle{Concrete Control}
+	\frametitle{Concrete Controllers}
 	\begin{itemize}
 		\item On-off controller
 		\begin{itemize}
@@ -145,15 +155,19 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Transfer function of a closed-loop system}
+	\vspace*{-1.5em}
+	{\small
 	\begin{flalign*}
 		Y(s) - D(s) &= P(s)U(s) \\
 		& \text{with } U(s) = C(s)E(s) \\
 		Y(s) - D(s) &= P(s)C(s)E(s) \\
-		& \text{with} E(s) = R(s) - Y(s) \\
+		& \text{with } E(s) = R(s) - Y(s) \\
 		Y(s) - D(s) &= P(s)C(s) (R(s) - Y(s)) \\
 		Y(s) - D(s) &= P(s)C(s)R(s) - P(s)C(s)Y(s) \\
 		&\Rightarrow Y(s) = \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)
 	\end{flalign*}
+	} %
+	\vspace*{-1.5em}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
@@ -197,16 +211,89 @@ Remember the example of pouring a glass of water without looking at the glass
 \end{frame}
 
 \begin{frame}
+	\frametitle{Example: Which controller do you prefer}
+	The transfer function from $R(s)$ to $Y(s)$ for two different controllers for high precision surgery\\
+	\begin{minipage}{0.7\linewidth}
+	\begin{figure}
+\centering
+\includegraphics[width=\columnwidth,height=6em]{smooth-bode}
+\label{fig:smooth-bode}
+\end{figure}
+\end{minipage}
+\hfill
+\begin{minipage}{0.2\linewidth}
+	\[\frac{0.5}{s+0.5}\]
+\end{minipage}
+\vspace*{-3em}
+\begin{minipage}{0.7\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth,height=6em]{osc-bode}
+\label{fig:osc-bode}
+\end{figure}
+\end{minipage}
+\hfill
+\begin{minipage}{0.2\linewidth}
+	\[\frac{10}{1.09s^2 + s + 10}\]
+\end{minipage}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Example: step response of both controllers}
+	The ouput $Y(s)$ when $R(s)$ is a step function.
+	\vspace*{-1em}
+	\begin{figure}
+\centering
+\includegraphics[width=\columnwidth,height=8em]{smooth-step}
+\label{fig:smooth-step}
+\end{figure}
+\vspace*{-3em}
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth,height=8em]{osc-step}
+\label{fig:osc-step}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Quality of reference tracking}
+	\begin{minipage}{0.5\linewidth}
+		\begin{itemize}
+			\item Look at the step response from $R(s)$ to $Y(s)$. All the known criteria can help you determine the quality.
+			\begin{itemize}
+				\item Rise-time
+				\item Settling time
+				\item Steady state error
+				\item Overshoot
+				\item ...
+			\end{itemize}
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.4\linewidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{properties}
+			\label{fig:properties}
+			\caption{\tiny \raggedleft
+				\href{http://www.newport.com/Control-Theory-Terminology/178319/1033/content.aspx}{\nolinkurl{http://www.newport.com/Control-Theory-Terminology/178319/1033/content.aspx}}}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Model errors}
 	\begin{itemize}
-		\item In practice, transfer function of $P(s)$ might be unknown. It is important to know what the effect of the model errors will be. Sensitivity and robustness are key-concepts to evaluate these effects.
+		\item In practice, the transfer function $P(S)$ is often unknown. It is important to know how model errors affect the result. Sensitivity and robustness are key concepts to evaluate these effects.
 		\item Sensitivity
 		\begin{itemize}
-			\item Quantifies the effect of a small perturbation on the model will be on the output. 
+			\item Quantifies the effect of small model errors on the output.
 		\end{itemize}
 		\item Robustness
 		\begin{itemize}
-			\item This concept refers to bigger changes on the model. A controller is robust if it works properly over a given set of parameters.
+			\item Refers to bigger changes of the model. A controller is robust if it works properly over a given set of parameters.
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -216,7 +303,7 @@ Remember the example of pouring a glass of water without looking at the glass
 \begin{frame}
 	\frametitle{Sensitivity}
 	\begin{itemize}
-		\item Sensitivity is a measure for the effect of a (small) disturbance on the model (e.g. variations in the process parameters)
+		\item Sensitivity is a measure of the effect of a (small) disturbance on the model (e.g. variations in the process parameters)
 		
 		\begin{scriptsize}
 		\begin{flalign*}
@@ -224,12 +311,14 @@ Remember the example of pouring a glass of water without looking at the glass
 		\end{flalign*}
 		\end{scriptsize}
 		\item Look at the effect on the system without disturbances ($D(s)$=0)
+		{\small
 		\begin{flalign*}
 			\Delta Y &= \frac{(P+\Delta P)C}{1 + (P + \Delta P)C}R - \frac{PC}{1+PC}R \\
 			&= \frac{(P+\Delta P)C(1+PC) - PC - PC(P + \Delta P)C}{(1+(P + \Delta P)C)(1 + PC)}R \\
 			&= \frac{\Delta PC}{(1+(P + \Delta P)C)(1+PC)}R \\
 			&= Y \frac{\Delta P}{P} \frac{1}{1 + (P + \Delta P)C}
 		\end{flalign*}
+		} %
 		
 	\end{itemize}
 	
@@ -253,12 +342,12 @@ Remember the example of pouring a glass of water without looking at the glass
 \begin{frame}
 	\frametitle{Example 1: robustness}
 	\begin{itemize}
-		\item Suppose we want to stabilize the system $P(s)=1/(s - a)$.  We only know that $a \in [0.20;0.80]$. We propose to use a proportional controller $C(s)=K$.
+		\item Suppose we want to stabilize the system $P(s)=\frac{1}{(s - a)}$.  We only know that $a \in [0.20;0.80]$. We propose to use a proportional controller $C(s)=K$.
 		The closed loop transfer function becomes
 		\begin{align*}
 			S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{1}{s-a}K}{1+\frac{1}{s-a}K} = \frac{K}{s-a+K}
 		\end{align*}
-		The controller stabilizes the system if $−a+K>0$. If we choose $K$ very large the system will be robust against changes in $a$.
+		The controller stabilizes the system if $ - a+K>0$. If we choose $K$ very large the system will be robust against changes in $a$.
 		
 	\end{itemize}
 \end{frame}
@@ -266,7 +355,7 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Example 2: robustness}
-	Suppose we want to stabilize the system $P(s)=\frac{1}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
+	Suppose we want to stabilize the system $P(s)=\frac{s}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
 	\begin{align*}
 		S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{s}{s-a}\frac{K}{s}}{1+\frac{s}{s-a} \frac{K}{s}} = \frac{K}{s-a+K}
 	\end{align*}
@@ -281,22 +370,25 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Example 2: robustness}
-	\begin{flalign*}
-		\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
-	\end{flalign*}
-	The figure on the right plots
-	\begin{flalign*}
-	&{\color{blue} s^2 + (K - a)s} \\
-	&{\color{red} s^2 + (K - a)s + \epsilon K}
-	\end{flalign*}
-	\begin{figure}
-\center
-\includegraphics[width=0.7\linewidth]{robustness-example}
-\caption{}
-\label{fig:robustness-example}
-For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
-\end{figure}
-	
+	\begin{minipage}{0.5\linewidth}
+		\begin{flalign*}
+			\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
+		\end{flalign*}
+		The figure on the right plots
+		\begin{flalign*}
+			&{\color{blue} s^2 + (K - a)s} \\
+			&{\color{red} s^2 + (K - a)s + \epsilon K}
+		\end{flalign*}
+		For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.4\linewidth}
+		\begin{figure}
+			\center
+			\includegraphics[width=1.2\linewidth]{robustness-example}
+			\label{fig:robustness-example}
+		\end{figure}
+	\end{minipage}
 \end{frame}
 
 
@@ -331,13 +423,13 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 	\begin{itemize}
 		\item Closed loop system:
 		\begin{flalign*}
-			e_{cl} &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
+			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
 			&= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)}R(s) = \frac{1}{1+C(0)P(0)}
 		\end{flalign*}
 		\begin{itemize}
 			\item The steady state error is small if $C(0)P(0)$ is very large
 			\item Again, calibrating the DC gain
-			\item However, the difference is that here, we only need a large value for it, which is far less demanding than having to make it equal to 1
+			\item The difference is that here we only need a large gain, which is far less demanding than having to make it equal to 1
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -352,13 +444,82 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 			\item Whereas $e_{cl} (\infty)$ would remain small, as long as $(P(0)+\Delta P(0))C(0)$ remains large
 			
 		\end{itemize}
-		\item Hence an open loop controller cannot control the output \textbf{robustly} against changes in $P$
+		\item Hence an open loop controller can't control the output \textbf{robustly} against changes in $P$
 	\end{itemize}
 \end{frame}
 
 \subsection[Types of systems and SS-error]{Types of systems and Steady State Error}
 
+\begin{frame}
+	\frametitle{Type of a system}
+	\begin{itemize}
+		\item For a step reference $r(t) = A \epsilon (t)$ $\Rightarrow R(s) = \frac{A}{s}$
+		\[e_{cl}(\infty) = \frac{A}{1+C(0)P(0)} \]
+		So $e_{cl}(\infty) = 0$ if C(s)P(s) has a least one pole in zero ($C(0)P(0) \rightarrow \infty$)
+		\item For a ramp reference function $r(t) = At \, \Rightarrow R(s) = \frac{A}{s^2}$, we have
+		\begin{flalign*}
+			e_{cl}(\infty) = \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2}
+		\end{flalign*}
+		So $e_{cl}(\infty) = 0$ if $C(s)P(s)$ has at least two poles in zero. $\left(\lim\limits_{s\rightarrow 0} sC(s)P(s) = \infty\right)$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Type of a system}
+	\begin{itemize}
+		\item The type of a system is determined by the number of poles $P(s)C(s)$ has in zero, and hence it is linked to what type of references it can track perfectly
+		\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^l \prod_{k=1}^{n-l} (s-p_k)}$ with $l$ the amount of poles in zero
+		\item We say this system is of type $l$
+		\begin{itemize}
+			\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
+			\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
+			\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of a type 0 system}
+	\begin{itemize}
+		\item Step reference $r(t) = A \epsilon (t) \Rightarrow R(s) = \frac{A}{s}$
+		\begin{flalign*}
+			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)} \frac{A}{s} \\
+			&= \lim\limits_{s \rightarrow 0} \frac{A}{1 +  \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-l} (-p_k)}}
+			= \frac{A}{1 + K_p}
+		\end{flalign*}
+		with $K_p$ the static position constant
+		\item Ramp reference $r(t) = At \epsilon (t) \Rightarrow R(s) = \frac{A}{s^2}$
+		\begin{flalign*}
+			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2} \\
+			&= \lim\limits_{s \rightarrow 0} \frac{1}{1 + \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-l} (-p_k)}} = \infty
+		\end{flalign*}
+	\end{itemize}
+\end{frame}	
+
+\begin{frame}
+	\frametitle{Steady state errors - type of a system}
+	\begin{itemize}
+		\item With:
+			\begin{tabbing}
+			$K_p = \lim\limits_{s \rightarrow 0} P(s)C(s)$ 
+			\hspace{2em} \= $K_p = $ Static position constant \\
+			$K_v = \lim\limits_{s \rightarrow 0}s P(s)C(s)$ \> $K_v = $ Static velocity constant \\
+			$K_a = \lim\limits_{s \rightarrow 0}s^2 P(s)C(s)$ \> $K_a = $ Static acceleration constant
+			\end{tabbing}
+		\item And the respective steady state errors for different system types are:
+		\begin{tabular}{|l|c|c|c|}
+			\hline \textbf{Type} $\mathbf{l}$ & \textbf{Step} $\mathbf{A \boldsymbol{\epsilon} (t)}$ & \textbf{Ramp} $\mathbf{At \boldsymbol{\epsilon} (t)}$ & \textbf{Parabola} $\mathbf{\frac{At^2 \boldsymbol{\epsilon} (t)}{2}}$ \\ 
+			\hline \textbf{0} & $\frac{A}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
+			\hline \textbf{1} & 0 & $\frac{A}{K_v}$ & $\infty$ \\ 
+			\hline \textbf{2} & 0 & 0 & $\frac{A}{K_a}$ \\ 
+			\hline 
+		\end{tabular} 
+	\end{itemize}
+\end{frame}
+
+
 \subsection[Noise- and disturbance rejection]{Noise- and disturbance rejection}
+
 \begin{frame}
 	\frametitle{Noise rejection and disturbance rejection}
 	\begin{itemize}
@@ -369,10 +530,8 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
-\caption{}
 \label{fig:Closed-Loop3}
 \end{figure}
-
 \end{frame}
 
 
@@ -380,16 +539,14 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 	\frametitle{Noise versus Disturbances}
 	\begin{itemize}
 		\item Cruise control: \\
-		Measurement errorfra{}s on the speed are noise \\
+		Measurement errors on the speed are noise \\
 		A change in slope is a disturbance
 	\end{itemize}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{"cruise control"}
-\caption{}
 \label{fig:cruisecontrol}
 \end{figure}
-
 \end{frame}
 
 \begin{frame}
@@ -399,14 +556,13 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 		\begin{align*}
 			Y(s) = \frac{P(s)C(s)}{1+P(s)C(s)}R(s) + \frac{1}{1+P(s)C(s)}D(s)
 		\end{align*}
-		\item Choosing $T=\frac{1}{1+P(s)C(s)}$ sufficiently small results in the rejection of $D$. This can be achieved by choosing $C(s)$ sufficiently high
+		\item Choosing $T(s)=\frac{1}{1+P(s)C(s)}$ sufficiently small results in the rejection of $D$. This can be achieved by choosing $C(s)$ sufficiently high
 	\end{itemize}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
 \label{fig:Closed-Loop4}
 \end{figure}
-
 \end{frame}
 
 
@@ -424,7 +580,6 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
 \label{fig:Closed-Loop5}
 \end{figure}
-
 \end{frame}
 
 
