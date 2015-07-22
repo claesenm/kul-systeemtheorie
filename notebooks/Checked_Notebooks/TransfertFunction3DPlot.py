@@ -6,7 +6,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 
 def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
-    plt.plot(np.real(z),np.imag(z),'o',np.real(p),np.imag(p),'x')
+    ax = plt.subplot(111)
+    plt.plot(np.real(z),np.imag(z),'o',label='zero')
+    plt.plot(np.real(p),np.imag(p),'x',label='pole')
     fig = plt.gcf()
     fig.suptitle('Zero Pole plot')
     plt.axhline(0,0,1,color='black')
@@ -15,6 +17,7 @@ def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
     plt.ylim(y_min,y_max)
     plt.xlabel("Real")
     plt.ylabel("Imaginary")
+    ax.legend()
     plt.show()
 
 def input_handler(string):
@@ -53,7 +56,6 @@ def dynamic_axis(zero,pole,K):
         z_min,z_max = -1,1
     else:
         K = abs(K)
-        print K
         z_min,z_max = K*0.1,K*10.0
     return x_min,x_max,y_min,y_max,z_min,z_max
 
