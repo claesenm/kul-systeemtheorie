@@ -7,12 +7,14 @@ from matplotlib import cm
 
 def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
     plt.plot(np.real(z),np.imag(z),'o',np.real(p),np.imag(p),'x')
-    plt.axhline(0,0,1)
-    plt.axvline(0,0,1)
+    fig = plt.gcf()
+    fig.suptitle('Zero Pole plot')
+    plt.axhline(0,0,1,color='black')
+    plt.axvline(0,0,1,color='black')
     plt.xlim( x_min, x_max) 
     plt.ylim(y_min,y_max)
-    plt.xlabel("Re")
-    plt.ylabel("Im")
+    plt.xlabel("Real")
+    plt.ylabel("Imaginary")
     plt.show()
 
 def input_handler(string):
@@ -58,10 +60,11 @@ def dynamic_axis(zero,pole,K):
 def draw_3d_plot(x,y,z,z_min,z_max):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+    fig.suptitle('3D  plot')
     surf = ax.plot_surface(x, y, z)
     ax.set_zlim(z_min, z_max)
-    plt.xlabel("Re")
-    plt.ylabel("Im")
+    plt.xlabel("Real")
+    plt.ylabel("Imaginary")
     ax.set_zlabel("|H(z)|")
     plt.show()
 

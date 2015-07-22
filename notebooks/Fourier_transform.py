@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from IPython.html.widgets import *
 from math import *
+import scipy.fftpack as fourier
 
 def draw(t,y,w,y_w,t_lim=None):
     plt.subplot(1,2,1)

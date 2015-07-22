@@ -153,10 +153,10 @@ y_diracf = None
 f_bem = None
 
 
-def sampling_dirac(f):
+def sampling_dirac(f_s):
     global t_dirac,y_dirac,t_diracf,y_diracf,f_bem
-    f_bem = f
-    Period = 1/f
+    f_bem = f_s
+    Period = 1/f_s
     down = int(Period*(1/T_dirac) -1)
     temp = [0]*down + [1]
     y_dirac = temp*(int((N_dirac/(down+1)))+1)
@@ -173,7 +173,7 @@ def sampling_dirac(f):
     y_diracf[rescale] = 1
     t_diracf = np.linspace(-1.0/(2.0*T_dirac), 1.0/(2.0*T_dirac), len(y_diracf))
     plt.plot(t_diracf , y_diracf)
-    plt.xlabel('w')
+    plt.xlabel('Frequency(Hz)')
     plt.ylabel('F(jw)')
     plt.show()
 
