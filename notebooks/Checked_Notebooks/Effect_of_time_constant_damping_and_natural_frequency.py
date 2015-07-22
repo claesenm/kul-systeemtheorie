@@ -17,11 +17,11 @@ def pole_zero(TF):
 def bode_magnitude(wout,mag):
     semilogx(wout,mag)
     title("Bode-Magnitude")
-    xlabel("w")
+    xlabel("w[rad/s]")
     ylabel("Magnitude")
 def bode_phase(wout,phase):
     semilogx(wout,phase)
     title("Bode-Phase")
-    xlabel("w")
+    xlabel("w[rad/s]")
     ylabel("Phase")
     

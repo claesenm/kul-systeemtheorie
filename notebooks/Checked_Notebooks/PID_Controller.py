@@ -28,7 +28,7 @@ def draw_zero_pole_diagram(c_l_sys):
 
 def print_data(peak_time,steady_state,overshoot,rise_time,settling_time,sigma):
         print "Rise time: ", rise_time
-        print "Steady_state: ", steady_state
+        print "Final value: ", steady_state
         print "Overshoot: ", overshoot if (overshoot)>0 else None
         print "Peak time: ", peak_time if (overshoot)>0 else None
         print "Setlling time: ", settling_time if settling_time!=None else None
