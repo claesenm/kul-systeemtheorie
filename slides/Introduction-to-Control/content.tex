@@ -10,6 +10,7 @@
 	\item The goal is to find an input (control signal U(s)) such that the process produces the desired output
 	\item Open loop control system: the actual output signal has no effect on the control action
 \end{itemize}
+\vspace{-1em}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{Open-Loop}
@@ -145,6 +146,8 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Transfer function of a closed-loop system}
+	\vspace*{-1.5em}
+	{\small
 	\begin{flalign*}
 		Y(s) - D(s) &= P(s)U(s) \\
 		& \text{with } U(s) = C(s)E(s) \\
@@ -154,6 +157,8 @@ Remember the example of pouring a glass of water without looking at the glass
 		Y(s) - D(s) &= P(s)C(s)R(s) - P(s)C(s)Y(s) \\
 		&\Rightarrow Y(s) = \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)
 	\end{flalign*}
+	} %
+	\vspace*{-1.5em}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
@@ -224,12 +229,14 @@ Remember the example of pouring a glass of water without looking at the glass
 		\end{flalign*}
 		\end{scriptsize}
 		\item Look at the effect on the system without disturbances ($D(s)$=0)
+		{\small
 		\begin{flalign*}
 			\Delta Y &= \frac{(P+\Delta P)C}{1 + (P + \Delta P)C}R - \frac{PC}{1+PC}R \\
 			&= \frac{(P+\Delta P)C(1+PC) - PC - PC(P + \Delta P)C}{(1+(P + \Delta P)C)(1 + PC)}R \\
 			&= \frac{\Delta PC}{(1+(P + \Delta P)C)(1+PC)}R \\
 			&= Y \frac{\Delta P}{P} \frac{1}{1 + (P + \Delta P)C}
 		\end{flalign*}
+		} %
 		
 	\end{itemize}
 	
@@ -281,22 +288,25 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Example 2: robustness}
-	\begin{flalign*}
-		\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
-	\end{flalign*}
-	The figure on the right plots
-	\begin{flalign*}
-	&{\color{blue} s^2 + (K - a)s} \\
-	&{\color{red} s^2 + (K - a)s + \epsilon K}
-	\end{flalign*}
-	\begin{figure}
-\center
-\includegraphics[width=0.7\linewidth]{robustness-example}
-\caption{}
-\label{fig:robustness-example}
-For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
-\end{figure}
-	
+	\begin{minipage}{0.5\linewidth}
+		\begin{flalign*}
+			\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
+		\end{flalign*}
+		The figure on the right plots
+		\begin{flalign*}
+			&{\color{blue} s^2 + (K - a)s} \\
+			&{\color{red} s^2 + (K - a)s + \epsilon K}
+		\end{flalign*}
+		For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.4\linewidth}
+		\begin{figure}
+			\center
+			\includegraphics[width=1.2\linewidth]{robustness-example}
+			\label{fig:robustness-example}
+		\end{figure}
+	\end{minipage}
 \end{frame}
 
 
@@ -369,7 +379,6 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
-\caption{}
 \label{fig:Closed-Loop3}
 \end{figure}
 
@@ -386,7 +395,6 @@ For $\epsilon$ negative the system becomes unstable. The control system is not r
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{"cruise control"}
-\caption{}
 \label{fig:cruisecontrol}
 \end{figure}
 
