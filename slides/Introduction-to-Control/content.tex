@@ -32,7 +32,7 @@ Remember the example of pouring a glass of water without looking at the glass
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
 \label{fig:Closed-Loop}
 \end{figure}
-\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{Inverted pendulum}
+\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{\underline{Inverted pendulum}}
 
 \item Digital Control Loop:
 \begin{figure}
@@ -347,7 +347,7 @@ Remember the example of pouring a glass of water without looking at the glass
 		\begin{align*}
 			S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{1}{s-a}K}{1+\frac{1}{s-a}K} = \frac{K}{s-a+K}
 		\end{align*}
-		The controller stabilizes the system if $−a+K>0$. If we choose $K$ very large the system will be robust against changes in $a$.
+		The controller stabilizes the system if $ - a+K>0$. If we choose $K$ very large the system will be robust against changes in $a$.
 		
 	\end{itemize}
 \end{frame}
@@ -355,7 +355,7 @@ Remember the example of pouring a glass of water without looking at the glass
 
 \begin{frame}
 	\frametitle{Example 2: robustness}
-	Suppose we want to stabilize the system $P(s)=\frac{1}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
+	Suppose we want to stabilize the system $P(s)=\frac{s}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
 	\begin{align*}
 		S(s) = \frac{P(s)C(s)}{1+P(s)C(s)} = \frac{\frac{s}{s-a}\frac{K}{s}}{1+\frac{s}{s-a} \frac{K}{s}} = \frac{K}{s-a+K}
 	\end{align*}
@@ -423,13 +423,13 @@ Remember the example of pouring a glass of water without looking at the glass
 	\begin{itemize}
 		\item Closed loop system:
 		\begin{flalign*}
-			e_{cl} &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
+			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
 			&= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)}R(s) = \frac{1}{1+C(0)P(0)}
 		\end{flalign*}
 		\begin{itemize}
 			\item The steady state error is small if $C(0)P(0)$ is very large
 			\item Again, calibrating the DC gain
-			\item The difference is that here we only need a large value for it, which is far less demanding than having to make it equal to 1
+			\item The difference is that here we only need a large gain, which is far less demanding than having to make it equal to 1
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -471,9 +471,9 @@ Remember the example of pouring a glass of water without looking at the glass
 		\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^l \prod_{k=1}^{n-l} (s-p_k)}$ with $l$ the amount of poles in zero
 		\item We say this system is of type $l$
 		\begin{itemize}
-			\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e(t) = 0$)
-			\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e(t) = C$)
-			\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e(t) = \infty$)
+			\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
+			\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
+			\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -487,7 +487,7 @@ Remember the example of pouring a glass of water without looking at the glass
 			&= \lim\limits_{s \rightarrow 0} \frac{A}{1 +  \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-l} (-p_k)}}
 			= \frac{A}{1 + K_p}
 		\end{flalign*}
-		with $K_p$ the position constant
+		with $K_p$ the static position constant
 		\item Ramp reference $r(t) = At \epsilon (t) \Rightarrow R(s) = \frac{A}{s^2}$
 		\begin{flalign*}
 			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2} \\
