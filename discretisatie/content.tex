@@ -367,7 +367,7 @@
 \begin{frame}
 	\frametitle{Impulse-invariant method}
 	\begin{block}{Practical rule}
-		This method converts a continuou-time s system into a discrete one by matching the impulse response using these transformations:
+		This method converts a continuous-time system into a discrete one by matching the impulse response using these transformations:
 		\vspace{-1em}
 		\begin{center} 
 			\begin{tabular}{ | l | c |} 
@@ -478,7 +478,7 @@
 		\end{center}
 		Step3: simplify and multiply by $(1-z^{1})$
 		\begin{center}
-			$H_{ho}(z) = \frac{1 - e^{-0.1T}}{z - e^{0.1T}}$
+			$H_{zoh}(z) = \frac{1 - e^{-0.1T}}{z - e^{0.1T}}$
 		\end{center}
 	\end{example}
 \end{frame}
@@ -500,9 +500,9 @@
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 	\begin{block}{Practical rule}
-		The non-causal first-order hold equivalent transfer function $H_{tri}(z)$ can be found by computing the following:
+		The non-causal first-order hold equivalent transfer function $H_{foh}(z)$ can be found by computing the following:
 		\begin{center}
-			$H_{tri}(z) = \frac{(z-1)^{2}}{Tz} \mathcal{Z}\{\frac{H(s)}{s^{2}}\}$
+			$H_{foh}(z) = \frac{(z-1)^{2}}{Tz} \mathcal{Z}\{\frac{H(s)}{s^{2}}\}$
 		\end{center}
 	\end{block}
 	\end{column}
@@ -532,7 +532,7 @@
 		\end{center}
 		Step 3: simplify and multiply by $\frac{(z-1)^{2}}{T*z}$
 		\begin{center}
-			$H_{tri}(z) = \frac{T^{2}}{6} \frac{z^{2} + 4z + 1}{(z-1)^{2}}$
+			$H_{foh}(z) = \frac{T^{2}}{6} \frac{z^{2} + 4z + 1}{(z-1)^{2}}$
 		\end{center}
 	\end{example}
 \end{frame}
