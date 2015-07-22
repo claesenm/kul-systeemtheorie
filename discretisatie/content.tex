@@ -190,7 +190,7 @@
 			y &= Cx + Du & Y &= CX + DU
 			\end{align*}
 		\end{center}
-		If we use the Forward Euler method, we have that s is replaces by $\frac{z-1}{T_s}$, so we can find the discrete-time equivalent as follows:
+		If we use the Forward Euler method, we have that $s$ is replaced by $\frac{z-1}{T_s}$, so we can find the discrete-time equivalent as follows:
 		\vspace{-2em}
 		\begin{center}
 			\begin{align*}
@@ -280,7 +280,7 @@
 		Looking at the graphical representation of the stability on the previous slide, you can see that the bilinear rule maps the stable region of the s-plane into the stable region of the z-plane. The entire $j\omega$-axis is compressed into the $2\pi$-length of the unit circle, causing a frequency distortion.
 	\end{alertblock}
 	\begin{block}{Origin of prewarping}
-		On the next slide you can see that when we compare the $\mathcal{Z}$-transform with the bilinear transformation, points b and d in the s-plane are mapped onto different points in the z-plane. $(-1 + 0j)$ can only be reached by the bilinear rule when $\omega$ equals infinity.
+		On the next slide you can see that when we compare the $\mathcal{Z}$-transform with the bilinear transformation, points $b$ and $d$ in the s-plane are mapped onto different points in the z-plane. $(-1 + 0j)$ can only be reached by the bilinear rule when $\omega$ goes to infinity.
 	\end{block}
 \end{frame}
 
@@ -319,7 +319,7 @@
 		\vspace{-2em} 
 		\begin{center}
 			\begin{align*}
-			\frac{2}{T} \frac{z-1}{z+1}_{z = e^{j\omega T}} &=\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1}\\
+			\big(\frac{2}{T} \frac{z-1}{z+1}\big)_{z = e^{j\omega T}} &=\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1}\\
 			&= \frac{2}{T} \frac{e^{j\omega T/2} (e^{j\omega T/2} - e^{-j\omega T/2})}{e^{j\omega T/2}(e^{j\omega T/2} + e^{-j\omega T/2})}\\
 			&= j \frac{2}{T} \frac{sin(\omega T/2)}{cos(\omega T/2)}\\
 			&= j \frac{2}{T} tan(\frac{\omega T}{2}) = j\omega_a
@@ -647,7 +647,7 @@
 		Hd = c2d(H,$0.25033$,'zoh') \textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{0.8em}
 		Result:
-		$Hd_{zoh}(z) = \frac{0.2479z - 0.1927}{z^{2} -1.723z + 0.7785}$
+		$H_{zoh}(z) = \frac{0.2479z - 0.1927}{z^{2} -1.723z + 0.7785}$
 	\end{example}
 \end{frame}
 
@@ -683,7 +683,7 @@
 		Hd = c2d(H,$0.25033$,'foh')	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result:
-		$Hd_{foh}(z) = \frac{0.1245z^{2} + 0.02752z - 0.09691}{z^{2} - 1.723z + 0.7785}$
+		$H_{foh}(z) = \frac{0.1245z^{2} + 0.02752z - 0.09691}{z^{2} - 1.723z + 0.7785}$
 	\end{example}
 \end{frame}
 
@@ -719,7 +719,7 @@
 		Hd = c2d(H,$0.25033$,'impuls')	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result:
-		$Hd_{impuls}(z) = \frac{0.2503z^{2} - 0.1883z}{z^{2} - 1.723z + 0.7785}$
+		$H_{impulse}(z) = \frac{0.2503z^{2} - 0.1883z}{z^{2} - 1.723z + 0.7785}$
 	\end{example}
 \end{frame}
 
@@ -755,7 +755,7 @@
 		Hd = c2d(H,$0.25033$,'matched')	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result: 
-		$Hd_{matched}(z) = \frac{0.249z - 0.1939}{z^{2} - 1.723z + 0.7785}$
+		$H_{matched}(z) = \frac{0.249z - 0.1939}{z^{2} - 1.723z + 0.7785}$
 	\end{example}
 \end{frame}
 
@@ -806,7 +806,7 @@
 		Hdt = c2d(H,0.5,'tustin')	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result: 
-		$Hd_{Tustin}(z) = \frac{0.6z^{2} - 0.3111z + 0.5111}{z^{2} -  0.3111z + 0.1111}$
+		$H_{Tustin}(z) = \frac{0.6z^{2} - 0.3111z + 0.5111}{z^{2} -  0.3111z + 0.1111}$
 	\end{example}
 \end{frame}
 
@@ -833,7 +833,7 @@
 		Hdtp = c2d(H,0.5,discopts)	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result:
-		$Hd_{TustinPrewarp}(z) = \frac{0.5915z^{2} - 0.07726z + 0.5007}{z^{2} - 0.07726z + 0.09215}$
+		$H_{TustinPrewarp}(z) = \frac{0.5915z^{2} - 0.07726z + 0.5007}{z^{2} - 0.07726z + 0.09215}$
 	\end{example}
 \end{frame}
 
