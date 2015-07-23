@@ -5,21 +5,33 @@
 
 \subsection[Control Theory]{Control Theory}
 \begin{frame}
-\frametitle{What is control?}
-\begin{itemize}
-	\item The goal is to find an input (control signal U(s)) such that the process $P(s)$ produces the desired output
-	\item Open loop control system: the actual output signal $Y(s)$ has no effect on the control action
-\end{itemize}
-\vspace{-1em}
+\frametitle{What is control theory?}
+\begin{block}{}
+	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to control a system, often called the plant, so its output follows a desired control signal, called the reference, which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
+\end{block}
+\vspace{2em}
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{Open-Loop}
-	\label{fig:Open-Loop}
+	\includegraphics[width=0.7\linewidth]{controlsystem}
+	\label{fig:controlsystem}
 \end{figure}
-\begin{align*}
-	Y(s) = P(s)U(s) = P(s)C(s)R(s) \\
-\end{align*}
-Remember the example of pouring a glass of water without looking at the glass
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Open-loop System}
+	\begin{definition}
+		In an open loop control system the actual output signal $Y(s)$ has no effect on the control action.
+		\vspace{-1em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{Open-Loop}
+			\label{fig:Open-Loop}
+		\end{figure}
+		\begin{align*}
+		Y(s) = P(s)U(s) = P(s)C(s)R(s) \\
+		\end{align*}
+	\end{definition}
 \end{frame}
 
 \begin{frame}
