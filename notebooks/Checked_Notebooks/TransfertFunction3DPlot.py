@@ -4,6 +4,7 @@ from cmath import *
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
 def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
     ax = plt.subplot(111)
@@ -19,7 +20,11 @@ def draw_zero_pole(z,p,x_min,x_max,y_min,y_max):
     plt.ylabel("Imaginary")
     ax.legend()
     plt.show()
-
+def cround(n,k):
+    result = []
+    for i in n:
+        result.append(round(np.real(i),k) + round(np.imag(i),k) *1j)
+    return result
 def input_handler(string):
     correct = False
     while not correct:
@@ -61,12 +66,18 @@ def dynamic_axis(zero,pole,K):
 
 def draw_3d_plot(x,y,z,z_min,z_max):
     fig = plt.figure()
+    z_big = np.where(z>z_max)
+    z[z_big] = z_max + 5
     ax = fig.add_subplot(111, projection='3d')
     fig.suptitle('3D  plot')
-    surf = ax.plot_surface(x, y, z)
+    surf = ax.plot_surface(x, y, z,cmap=cm.coolwarm)
+    #ax.zaxis.set_major_locator(LinearLocator(10))
+    #ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+    fig.colorbar(surf, shrink=0.5, aspect=5)
     ax.set_zlim(z_min, z_max)
     plt.xlabel("Real")
     plt.ylabel("Imaginary")
     ax.set_zlabel("|H(z)|")
+    fig.set_size_inches(10,6)
     plt.show()
 
