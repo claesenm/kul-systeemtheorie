@@ -1,7 +1,0 @@
-\beamer@endinputifotherversion {3.36pt}
-\beamer@sectionintoc {1}{SISO, SIMO, MIMO, ...}{3}{0}{1}
-\beamer@sectionintoc {2}{Continuous vs. Discrete time}{5}{0}{2}
-\beamer@sectionintoc {3}{Linear vs. Nonlinear}{8}{0}{3}
-\beamer@sectionintoc {4}{Causal vs. Non-causal}{17}{0}{4}
-\beamer@sectionintoc {5}{Time-invariant vs. Time-varying}{22}{0}{5}
-\beamer@sectionintoc {6}{Lumped vs. Distributed parameter}{26}{0}{6}
