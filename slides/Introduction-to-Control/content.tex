@@ -7,7 +7,7 @@
 \begin{frame}
 \frametitle{What is control theory?}
 \begin{block}{}
-	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to control a system, often called the plant, so its output follows a desired control signal, called the reference, which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
+	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to design a controller to produces inputs to the plant so its output follows a desired reference signal which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
 \end{block}
 \vspace{2em}
 \begin{figure}
@@ -15,8 +15,32 @@
 	\includegraphics[width=0.7\linewidth]{controlsystem}
 	\label{fig:controlsystem}
 \end{figure}
-
 \end{frame}
+
+\begin{frame}
+	\frametitle{Controllers}
+	\begin{block}{Types of controllers}
+		\begin{itemize}
+			\item On-off controller
+			\begin{itemize}
+				\item Thermostate at home
+			\end{itemize}
+			\item \textbf{PID controllers, Lead and lag compensators (this course)}
+			\begin{itemize}
+				\item Cruise-control in your car
+			\end{itemize}
+			\item More advanced controllers
+			\begin{itemize}
+				\item STATE-space feedback controllers
+				\item Model Predictive Controller (MPC)
+				\item Fuzzy Control
+				\item Neuro-fuzzy Control
+				\item ...
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
 
 \begin{frame}
 	\frametitle{Open-loop System}
@@ -85,30 +109,6 @@
 \label{fig:InvertedPendulum}
 \end{figure}
 \end{frame}
-
-\subsection[Elements]{Elements}
-\begin{frame}
-	\frametitle{Concrete Controllers}
-	\begin{itemize}
-		\item On-off controller
-		\begin{itemize}
-			\item Thermostate at home
-		\end{itemize}
-		\item \textbf{PID controllers, Lead and lag compensators (this course)}
-		\begin{itemize}
-			\item Cruise-control in your car
-		\end{itemize}
-		\item More advanced controllers
-		\begin{itemize}
-			\item STATE-space feedback controllers
-			\item Model Predictive Controller (MPC)
-			\item Fuzzy Control
-			\item Neuro-fuzzy Control
-			\item ...
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
 
 \section{Control Goals}
 \begin{frame}
