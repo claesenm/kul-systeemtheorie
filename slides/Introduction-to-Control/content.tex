@@ -9,10 +9,9 @@
 \begin{block}{}
 	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to design a controller to produces inputs to the plant so its output follows a desired reference signal which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
 \end{block}
-\vspace{2em}
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{controlsystem}
+	\includegraphics[width=1\linewidth]{controlsystem}
 	\label{fig:controlsystem}
 \end{figure}
 \end{frame}
@@ -23,15 +22,16 @@
 		\begin{itemize}
 			\item On-off controller
 			\begin{itemize}
-				\item Thermostate at home
+				\item e.g., Thermostate at home
 			\end{itemize}
 			\item \textbf{PID controllers, Lead and lag compensators (this course)}
 			\begin{itemize}
 				\item Cruise-control in your car
+				\item Temperature, level, flow, presssure, pH, ... in chemical plants.
 			\end{itemize}
 			\item More advanced controllers
 			\begin{itemize}
-				\item STATE-space feedback controllers
+				\item State-space feedback controllers (e.g., LQR)
 				\item Model Predictive Controller (MPC)
 				\item Fuzzy Control
 				\item Neuro-fuzzy Control
@@ -59,46 +59,51 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Example: pouring a glass of water}
-	\begin{columns}[c]
-		
-		\column{.6\textwidth}
-		Take for example the following system:\\
-		\begin{itemize}
-			\item You are pouring a glass of water, but you \textbf{cannot look at the glass}.
-			\item The desired output is a full glass of water within a reasonable time.
-			\item The input can have two values: on or off (assume a quite primitive tap).
-			\item It will not be easy to do this successfully.
-		\end{itemize}
-		
-		\column{.4\textwidth}
-		\begin{figure}
-			\includegraphics[width=1\linewidth]{glass}
-		\end{figure}
-		
-	\end{columns}
-	\bigskip
-	The solution is evident: look at the glass while pouring!
+	\frametitle{Open-loop System}
+	\begin{example}
+		\begin{minipage}{0.5\linewidth}
+			\begin{itemize}
+				\item You are pouring a glass of water, but you \textbf{cannot look at the glass}.
+				\item The desired output is a full glass of water within a reasonable time.
+				\item The input can have two values: on or off (assume a quite primitive tap).
+				\item It will not be easy to do this successfully.
+			\end{itemize}
+		\end{minipage}
+		\hfill
+		\begin{minipage}{0.48\linewidth}
+			\begin{figure}
+				\includegraphics[width=1\linewidth]{glass}
+			\end{figure}
+		\end{minipage}
+		\parbox{\linewidth}{\vspace{1em} \quad The solution is evident: look at the glass while pouring!}
+	\end{example}
 \end{frame}
 
 \begin{frame}
 	\frametitle{A general set-up of a closed loop system}
-	\vspace*{-1em}
-	\begin{itemize}
-		\item We will focus on \underline{closed loop control systems}
+	\begin{definition}
+		In a closed-loop system is the output of the controller is influenced by the output of the system using a negative feedback loop.
+	\end{definition}
+	\begin{block}{Classical control-loop}
 		\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{Closed-Loop}
-\label{fig:Closed-Loop}
-\end{figure}
-\item Digital Control Loop:
-\begin{figure}
-\centering
-\includegraphics[width=0.6\linewidth]{digital-control-system}
-\label{fig:digital-control-system}
-\end{figure}
+			\centering
+			\includegraphics[width=0.9\linewidth]{Closed-Loop}
+			\label{fig:Closed-Loop}
+		\end{figure}
+		\vspace{1em}
+		\[ \frac{Y(s)}{R(s)} =  \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)\]
+	\end{block}
+\end{frame}
 
-	\end{itemize}
+
+\begin{frame}
+	\begin{block}{Digital Control Loop}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{digital-control-system}
+			\label{fig:digital-control-system}
+		\end{figure}
+	\end{block}
 \end{frame}
 
 \subsection[Demo: Inverted Pendulum]{Demo: Inverted Pendulum}
@@ -183,59 +188,73 @@
 
 
 \section{Closed-loop systems}
-
 \begin{frame}
 	\frametitle{Transfer function of a closed-loop system}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\linewidth]{Closed-Loop}
-		\label{fig:Closed-Loop2}
-	\end{figure}
-	{\small
-	\begin{flalign*}
-		Y(s) - D(s) &= P(s)U(s) \\
-		& \text{with } U(s) = C(s)E(s) \\
-		Y(s) - D(s) &= P(s)C(s)E(s) \\
-		& \text{with } E(s) = R(s) - Y(s) \\
-		Y(s) - D(s) &= P(s)C(s) (R(s) - Y(s)) \\
-		Y(s) - D(s) &= P(s)C(s)R(s) - P(s)C(s)Y(s) \\
-		&\Rightarrow Y(s) = \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)
-	\end{flalign*}
-	} %
+	\begin{block}{Classical control loop}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Closed-Loop}
+			\label{fig:Closed-Loop2}
+		\end{figure}
+		\vspace{0.2em}
+	\end{block}
+	\begin{block}{}
+		\begin{flalign*}
+			Y(s) - D(s) &= P(s)U(s) \quad \text{with } U(s) = C(s)E(s) \\
+			Y(s) - D(s) &= P(s)C(s)E(s) \quad \text{with } E(s) = R(s) - Y(s) \\
+		\end{flalign*}
+	\end{block}
+\end{frame}
+\begin{frame}
+	\begin{block}{}
+		\begin{flalign*}
+			Y(s) - D(s) &= P(s)C(s) (R(s) - Y(s)) \\
+			Y(s) - D(s) &= P(s)C(s)R(s) - P(s)C(s)Y(s) \\
+		\end{flalign*}
+	\end{block}
+	\begin{alertblock}{}
+		\[
+			Y(s) = \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)
+		\]
+	\end{alertblock}
 \end{frame}
 
 
 \begin{frame}
 	\frametitle{Transfer function from $R(s)$ to $Y(s)$}
-	We define S as the transfer function from $R(s)$ to $Y(s)$
-	\begin{align*}
-	S(s) \triangleq \frac{P(s)C(s)}{1 + P(s) C(s)}
-	\end{align*}
-	This transfer function $S(s)$ will help us to evaluate tracking
-	
-	Almost perfect tracking: the output $Y(s)$ will follow $R(s)$ very closely $\Rightarrow S(s) \approx 1$
+	\begin{definition}
+		We define H as the transfer function from $R(s)$ to $Y(s)$
+		\begin{align*}
+		H(s) \triangleq \frac{Y(s)}{R(s)} = \frac{P(s)C(s)}{1 + P(s) C(s)} \quad \text{when } D(s) = 0
+		\end{align*}
+		This transfer function $H(s)$ will help us to evaluate tracking
+		
+		Almost perfect tracking: the output $Y(s)$ will follow $R(s)$ very closely $\Rightarrow H(s) \approx 1$
+	\end{definition}
 	
 \end{frame}
 
 
 \begin{frame}
 	\frametitle{Transfer function from $D(s)$ to $Y(s)$}
-	We define $T(s)$ as the transfer function from $D(s)$ to $Y(s)$.
-	\begin{align*}
-	T(s) \triangleq \frac{1}{1 + P(s)C(s)}
-	\end{align*}
-	If the disturbance rejection is very good the disturbances will have almost no effect on the output $\Rightarrow T \approx 0$ \\
-	
-	\[
-	\begin{cases}
-		\left| S(j\omega) \right| \cong 1 \\
-		\left| T(j\omega) \right| \cong 0
-	\end{cases}
-	\]
-	$\Rightarrow  \left| P(j\omega)C(j\omega) \right|$ \textbf{(open loop gain)} is very large. \\
-	
-	! a large open loop amplification might lead to an unstable system
-	
+	\begin{definition}
+		We define $M(s)$ as the transfer function from $D(s)$ to $Y(s)$.
+		\begin{align*}
+		M(s) \triangleq \frac{Y(s)}{D(s)} = \frac{1}{1 + P(s)C(s)} \quad \text{when} R(s) = 0
+		\end{align*}
+		If the disturbance rejection of the control system is very good the disturbances will have almost no effect on the output $\Rightarrow M(s) \approx 0$ \\
+	\end{definition}
+	\begin{block}{}
+		\[
+		\begin{cases}
+			\left| H(j\omega) \right| \cong 1 \\
+			\left| M(j\omega) \right| \cong 0
+		\end{cases}
+		\]
+		$\Rightarrow  \left| P(j\omega)C(j\omega) \right|$ \textbf{(open loop gain)} is very large. \\
+		
+		! a large open loop amplification might lead to an unstable system
+	\end{block}
 \end{frame}
 
 \begin{frame}
