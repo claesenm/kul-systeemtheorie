@@ -728,7 +728,7 @@ $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})
 \\ Thus $y(t)$ includes two decaying exponential terms
 \begin{itemize}
 \vspace{0.2cm}
-\item When $\zeta >> 1$, one of the two decreases much faster than the other, and then the faster decaying exponential may be neglected
+\item When $\zeta >> 1$, one of the two decreases much faster than the other, the faster decaying exponential may be neglected
 \vspace{0.2cm}
 \item If $-s_2$ is located much closer to the $j\omega$ axis than $-s_1$ ($|s_2|>>|s_1|$), then $-s_1$ may be neglected
 \vspace{0.3cm}
@@ -776,42 +776,54 @@ Peak Time: Time to reach overshoot.\\$t_p =\frac{\pi}{\omega_d}$
 
 \begin{frame}
 \frametitle{Second order systems - characteristics}
-Settling Time: Time needed to approximate the steady state.\\
-$t_s = \frac{4.6}{\zeta\omega_n}$
-\\ Important: this formulas are only useable for $0<\zeta<1$!
-\vspace{0.12cm}
-For: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$
-\vspace{0.12cm}
-We find:
-\vspace{-0.6cm}
-\begin{align*}
- e^{-\zeta\omega_n T_s} &< 0.02\\
- T_s &= \frac{4}{\omega_n\zeta}
-\end{align*}
-\vspace{-1cm}
-\includegraphics[width=0.3\linewidth]{Afbeelding7}
+
+\vspace{-3}
+
+\begin{block}{Settling Time}
+	Time needed to approximate the steady state:
+	$t_s = \frac{4.6}{\zeta\omega_n}$. Important note: this formulas can only be used when  $0<\zeta<1$! 
+\end{block}
+\vspace{1em}
+
+\begin{columns}
+	\begin{column}{0.4\textwidth}
+		\vspace{-0.5em}
+		\begin{example}
+			For: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$\\
+			\vspace{0.12cm}
+			We find:
+			\begin{align*}
+			e^{-\zeta\omega_n T_s} &< 0.02\\
+			T_s &= \frac{4}{\omega_n\zeta}
+			\end{align*}
+		\end{example}
+	\end{column}
+
+	\begin{column}{0.5\textwidth}
+		\begin{figure}
+		\vspace{-1em}
+		\includegraphics[width=0.7\linewidth]{Afbeelding7}
+		\end{figure}
+	\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}
 \frametitle{Second order systems - resonace}
-The resonance frequency is the frequency at which the systems output has a larger amplitude than at other frequencies. This happens when underdamped functions oscillate at a greater magnitude than the input.
+The resonance frequency is the frequency at which the systems output has a larger amplitude than at other frequencies. This happens when underdamped functions oscillate at a greater magnitude than the input. An input with this frequency can sometime have catastrophic effects.\\
 \vspace{0.35cm}
-An input with this frequency can sometime have catastrophic effects.
-\vspace{0.35cm}
-A different view on the Tacoma bridge disaster: \url{https://www.youtube.com/watch?v=6ai2QFxStxo}
+A different view on the Tacoma bridge disaster: \url{https://www.youtube.com/watch?v=6ai2QFxStxo}\\
 \vspace{0.35cm}
 In fact the collapse was a result of a number of effects like Aerodynamic flutter and vortices. Read the full article here: \url{http://www.ketchum.org/billah/Billah-Scanlan.pdf}
 \end{frame}
 
 \begin{frame}
 \frametitle{Second order systems - resonance}
-The resonance frequency is: $\omega_r = \omega_n\sqrt{1-\zeta^2}$
+The resonance frequency is: $\omega_r = \omega_n\sqrt{1-\zeta^2}$.\\
 \vspace{0.35cm}
-Systems with a damping $>0.707$ do not resonate
+Systems with a damping $>0.707$ do not resonate. The resonance frequency and the natural frequency are equal when a system has no damping.\\
 \vspace{0.35cm}
-The resonance frequency and the natural frequency are equal when a system has no damping.
-\vspace{0.35cm}
-Another phenomenon with bridges and resonance is that many people marching with the same rhythm can cause a bridge to start resonating like the Angers bridge in $1850$. A more recent example is the Millennium bridge in London who started resonating.
+Another phenomenon with bridges and resonance is that many people marching with the same rhythm can cause a bridge to start resonating like the Angers bridge in $1850$. A more recent example is the Millennium bridge in London which started resonating.
 \end{frame}
 
 \begin{frame}
