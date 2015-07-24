@@ -48,7 +48,6 @@ def input_handler(string):
             except:
                 correct = False
     return test
-
 def dynamic_axis(zero,pole,K):
     if list(zero)+list(pole)==[]:
         x_min,x_max,y_min,y_max = -1,1,-1,1
@@ -63,10 +62,10 @@ def dynamic_axis(zero,pole,K):
         y_min = min(list(np.imag(zero))+list(np.imag(pole)))
         y_max = max(list(np.imag(zero))+list(np.imag(pole)))
         if y_min == y_max:
-            y_min -= 1
-            y_max += 1
+            y_min -= max(1,5*(x_max-x_min))
+            y_max += max(1,5*(x_max-x_min))
         else:
-            y_min,y_max = (y_min- 0.75*(y_max-y_min)),(y_max + 0.75*(y_max-y_min))
+            y_min,y_max = (y_min- 0.75*max([y_max-y_min,5*(x_max-x_min)])),(y_max + 0.75*max([y_max-y_min,5*(x_max-x_min)]))
     if K == 0:
         z_min,z_max = -1,1
     else:
@@ -96,10 +95,16 @@ def draw_3d_plot(x,y,z,z_min,z_max,x0,y0,z0):
     
 def draw_line(x,y,z,lv=False):
     fig = plt.figure()
+    fig.suptitle('3D  plot')
     ax3d = Axes3D(fig)
     line = ax3d.plot(x,y,z,'r',lw=3)
     if lv:
+        frame1 = plt.gca()
         ax3d.view_init(0,0)
+        frame1.axes.xaxis.set_ticklabels([])
+    plt.ylabel("Imaginary")
+    plt.xlabel("Real")
+    ax3d.set_zlabel("|H(z)|")
     plt.show()
 
 def draw_bode(omega,mag,logX = False,dB = False):

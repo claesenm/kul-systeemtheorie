@@ -1,4 +1,5 @@
 from control import *
+from control import bode as cbode
 from math import tan,exp
 from scipy import signal
 from numpy import *
@@ -30,40 +31,96 @@ def check():
     else:
         return False
     
+def getTs():
+    av = raw_input('Enter the sampling time you want to work around (take a small fraction of any time constant in the system): ')
+    av = float(av)
+    if av >= 100:
+        Ts1 = av-50
+        Ts2 = av+50
+        Ts_step = 1
+    elif av >= 10:
+        Ts1 = av - 5
+        Ts2 = av + 5
+        Ts_step = 0.1
+    elif av >= 5:
+        Ts1 = av - 3
+        Ts2 = av + 3
+        Ts_step = 0.1
+    elif av >= 2:
+        Ts1 = 0.1
+        Ts2 = 2*av
+        Ts_step = 0.1
+    else:
+        Ts1 = 0.01
+        Ts2 = 2*av
+        Ts_step = 0.01
+    return Ts1,Ts2,Ts_step    
+    
 def draw_zp_plot(sys):
     pzmap.pzmap(sys)
     fig = plt.gcf()
     fig.set_size_inches(15,5)
     
 def draw_zp(sys,sysd):
-    print 'The continuous-time transfer function is :', sys
-    print 'and the discrete-time transfer function is: ', sysd
     plt.subplot(3,2,1)
     draw_zp_plot(sys)
-    plt.title('Continuous time')
+    plt.title('Zero-pole plot: Continuous time')
+    plt.xlabel('Real')
+    plt.ylabel('Imaginary')
+    #plt.tight_layout(w_pad = 3.0)
     plt.subplot(3,2,2)
     draw_zp_plot(sysd)
-    plt.title('Discrete time')
+    plt.title('Zero-pole plot: Discrete time')
+    plt.xlabel('Real')
+    plt.ylabel('Imaginary')
+    #plt.tight_layout(w_pad = 3.0)
     
-def draw_bode(sys,sysd):
-    #continuous
-    n = asarray(sys.num)[0][0]
-    d = asarray(sys.den)[0][0]
-    s = signal.lti(n,d)
-    w, mag, phase = s.bode()
-    plt.subplot(323)
-    plt.semilogx(w, mag)
-    plt.subplot(325)
-    plt.semilogx(w, phase)
-    #discrete
-    nd = asarray(sysd.num)[0][0]
-    dd = asarray(sysd.den)[0][0]
-    sd = signal.lti(nd,dd)
-    wd, magd, phased = sd.bode()
-    plt.subplot(324)
-    plt.semilogx(wd, magd)
-    plt.subplot(326)
-    plt.semilogx(wd, phased)
+def draw_bode(sys,sysd,freq,Ts):
+    print 'The continuous-time transfer function is :', sys
+    print 'and the discrete-time transfer function is: ', sysd
+    start = 10**(-4)
+    stop = math.pi/Ts
+    step = 10**(-1)
+    mag,phase,omega = cbode(sys,dB=True,Hz=False)
+    mag2,phase2,omega2 = cbode(sysd,dB=True,Hz=False,omega=arange(start,stop,step))
+    plt.subplot(3,2,3)
+    plt.semilogx(omega, mag,color='blue')
+    plt.semilogx(omega2,mag2,color='red')
+    plt.title('Bode plot')
+    plt.xlabel('Frequency w [rad/s]')
+    plt.ylabel('Magnitude [dB]')
+    a,b,c,d = plt.axis()
+    if freq != None:
+        plt.plot([freq, freq], [c, d], 'g-')
+    plt.tight_layout(w_pad = 3.0)
+    ax = plt.subplot(3,2,5)
+    plt.semilogx(omega, phase,color='blue',label='Continuous-time')
+    plt.semilogx(omega2,phase2,color='red',label='Discrete-time')
+    plt.xlabel('Frequency w [rad/s]')
+    plt.ylabel('Phase [degree]')
+    a,b,c,d = plt.axis()
+    if freq != None:
+        plt.plot([freq, freq], [c, d], 'g-',label='Prewarping frequency')
+    plt.tight_layout(w_pad = 3.0)
+    ax.legend(loc='center left', bbox_to_anchor=(1.18, 0.5),fancybox=True, shadow=True)
+    
+def step_response(sys,sysd,Ts):
+    sysnum = asarray(sys.num)[0][0]
+    sysden = asarray(sys.den)[0][0]
+    sysdnum = asarray(sysd.num)[0][0]
+    sysdden = asarray(sysd.den)[0][0]
+    syslti = signal.lti(sysnum,sysden)
+    sysdlti = signal.lti(sysdnum,sysdden)
+    t,s = signal.step(syslti)
+    t2,s2 = signal.dstep((sysdnum,sysdden,Ts))
+    ax = plt.subplot(3,2,4)
+    plt.plot(t, s,color='blue',label='Continuous-time')
+    plt.plot(t2, s2[0],color='red',label='Discrete-time')
+    plt.title('Step response')
+    plt.xlabel('Time [sec]')
+    plt.ylabel('Amplitude')
+    plt.tight_layout(w_pad = 3.0)
+    plt.show()
     
 # Bilinear transform with prewarping ------------------
 
