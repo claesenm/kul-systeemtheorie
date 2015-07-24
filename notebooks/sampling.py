@@ -6,7 +6,7 @@ from math import *
 import scipy.fftpack as fourier
 import warnings
 warnings.filterwarnings("ignore")
-
+from IPython.display import clear_output
 N = 2**14
 T = 1/4000.0
 f = 4000
@@ -55,6 +55,7 @@ def select_box():
 
 
 def run(name):
+    clear_output()
     if select_input.value == 0:
         generate_sine(select_sine_amplitude.value,select_sine_frequency.value)
     elif select_input.value == 1:
