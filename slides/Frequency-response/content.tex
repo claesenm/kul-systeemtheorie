@@ -36,13 +36,16 @@
 
 \begin{frame}
 \frametitle{What is the frequency response of a system?}
-\begin{itemize}
-\item Frequency response = steady state response of a system to a sinusoidal input.\\
-\item Assume an input $x(t) = X\sin(\omega t)$.\\
-\item The output in a linear system is then also sinusoidal, with a change in the magnitude and phase, i.e. $y(t) = Y\sin(\omega t + \phi)$\\
-\item It can be shown that: $Y = X\cdot |H(j\omega)|$ and $\phi = \angle H(j\omega)$\\
-\item $H(j\omega)$ is therefore also called the sinusoidal transfer function. 
-\end{itemize}
+\begin{definition}
+	\begin{itemize}
+		\item Frequency response = steady state response of a system to a sinusoidal input.\\
+		\item Assume an input $x(t) = X\sin(\omega t)$.\\
+		\item The output in a linear system is then also sinusoidal, with a change in the magnitude and phase, i.e. $y(t) = Y\sin(\omega t + \phi)$.\\
+		\item It can be shown that: $Y = X\cdot |H(j\omega)|$ and $\phi = \angle H(j\omega)$.\\
+		\item $H(j\omega)$ is therefore also called the sinusoidal transfer function. 
+	\end{itemize}
+\end{definition}
+
 
 
 
@@ -61,18 +64,20 @@
 
 \end{frame}
 
-\section{What Is The Bode Plot}
+\section{What Is A Bode Plot}
 
 \begin{frame}
 \frametitle{The bode plot}
+\begin{definition}
+	\begin{itemize}
+		\item A bode plot is a graphical representation of the sinusoidal transfer function $H(j\omega)$
+		\item It consists of two separate plots, a magnitude and a phase plot
+		\item In this way, we can see the relation of a sinusoidal input with a given frequency $\omega$ to a linear system and its output
+		\item After all, the relation between the amplitudes is given by $|H(j\omega)|$ and the phase shift by $\angle H(j\omega)$
+		
+	\end{itemize}
+\end{definition}
 
-\begin{itemize}
-\item A bode plot is a graphical representation of the sinusoidal transfer function $H(j\omega)$
-\item It consists of two seperate plots, a magnitude and a phase plot
-\item In this way, we can see the relation of a sinusoidal input with a given frequency $\omega$ to a linear system and its output
-\item After all, the relation between the amplitudes is given by $|H(j\omega)|$, and the phase shift by $\angle H(j\omega)$
-
-\end{itemize}
 
 
 \end{frame}
@@ -81,22 +86,24 @@
 \begin{frame}
 \frametitle{Example bode plot}
 
-\begin{columns}
-\begin{column}{0.5\textwidth}
-$H(s) = \frac{14s^2 + 7s + 3}{s^4 + 10s^3 + 10s^2 + 10s + 10}$\\
-\vspace{10mm}
-\begin{itemize}
-\item Say we use an input $x(t) = 2\sin(100t)$ in this system.
-\item The steady state response would be 
-\vspace{5mm} $$y(t) = |H(j100)|\cdot 2\sin(100t + \angle H(j100))$$
-\end{itemize}
-\end{column}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			$H(s) = \frac{14s^2 + 7s + 3}{s^4 + 10s^3 + 10s^2 + 10s + 10}$\\
+			\vspace{10mm}
+			\begin{itemize}
+				\item Say we use an input $x(t) = 2\sin(100t)$ in this system.
+				\item The steady state response would be 
+				\vspace{5mm} $$y(t) = |H(j100)|\cdot 2\sin\Big(100t + \angle H(j100)\Big)$$
+			\end{itemize}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\includegraphics[scale=0.4]{ExampleBode1}
+		\end{column}
+		
+	\end{columns}
 
-\begin{column}{0.5\textwidth}
-\includegraphics[scale=0.4]{ExampleBode1}
-\end{column}
 
-\end{columns}
 
 \end{frame}
 
@@ -139,7 +146,7 @@ This is thus a semi-log plot
 \frametitle{Discrete time systems}
 
 \begin{itemize}
-\item The transfer function is a function of $z$, i.e. $H(z)$
+\item The transfer function is a function of $z$, i.e. $H(z)$.
 \item In contrast to continuous time systems, we do not use $H(j\omega)$. Instead, $H(e^{j\omega T_s})$ is now the sinusoidal transfer function.
 \item $T_s$ is the sample time, i.e. the amount of time in between each sample.
 \end{itemize}
@@ -199,7 +206,7 @@ This comes down to
 $$ 20\log_{10}|H(j\omega)| = \sum 20\log_{10}|\text{factors}| $$ 
 $$ \angle H(j\omega) = \sum(\angle \text{factors})$$
 
-Next we will quickly go over the simple bodeplots of the different factors of $H(s)$
+Next we will quickly go over the simple bode plots of the different factors of $H(s)$
 
 \end{frame}
 
@@ -209,7 +216,7 @@ Next we will quickly go over the simple bodeplots of the different factors of $H
 \frametitle{The constant K}
 \begin{itemize}
 \item $20\log_{10}|K| =$ constant
-\item $\angle K = 0^{\circ} \text{ or} \pm 180^{\circ}$  (resp $K > 0$ and $K < 0$)
+\item $\angle K = 0^{\circ} \text{ or} \pm 180^{\circ}$  (resp. $K > 0$ and $K < 0$)
 \end{itemize}
 Example: $K = 10$
 
@@ -398,12 +405,15 @@ $(1+\frac{j\omega}{100})^2$
 
 \begin{frame}
 \frametitle{Exception}
-Up until now we always considered $r_i \text{ and } s_i > 0$, but what if we have a factor $(1-\frac{j\omega}{r_i})$ for example?
-\begin{itemize}
-\item The magnitude plot remains unchanged, as $|1+\frac{j\omega}{r_i}| = |1 - \frac{j\omega}{r_i} |$
-\item The phase plot is reversed, as $\angle(1+\frac{j\omega}{r_i}) = -\angle(1 - \frac{j\omega}{r_i})$
-\item If we have such a factor in the denominator, the system will be unstable!
-\end{itemize}
+\begin{alertblock}{Exception}
+	Up until now we always considered $r_i \text{ and } s_i > 0$, but what if we have a factor $(1-\frac{j\omega}{r_i})$ for example?
+	\begin{itemize}
+		\item The magnitude plot remains unchanged, as $|1+\frac{j\omega}{r_i}| = |1 - \frac{j\omega}{r_i} |$
+		\item The phase plot is reversed, as $\angle(1+\frac{j\omega}{r_i}) = -\angle(1 - \frac{j\omega}{r_i})$
+		\item If we have such a factor in the denominator, the system will be unstable!
+	\end{itemize}
+	
+\end{alertblock}
 
 \end{frame}
 
@@ -422,7 +432,7 @@ Example $(1 - \frac{j\omega}{100})$ in the numerator
 \begin{frame}
 \frametitle{Quadratic factors and resonance}
 \begin{itemize}
-\item Also possible is a quadratic factor $[1 + 2\zeta(j\frac{\omega}{\omega_n}) +  (j\frac{\omega}{\omega_n})^2]^{\pm1}$
+Also possible is a quadratic factor $[1 + 2\zeta(j\frac{\omega}{\omega_n}) +  (j\frac{\omega}{\omega_n})^2]^{\pm1}$
 \item $\zeta$ is called the damping factor, $\omega_n$ is the natural frequency
 \item If $\zeta > 1$, this quadratic factor can be expressed as two first order factors with real zeros/poles
 \item But if $0 < \zeta < 1 $, this quadratic factor is the product of two complex-conjugate factors
@@ -449,26 +459,26 @@ Example $(1 - \frac{j\omega}{100})$ in the numerator
 
 \begin{frame}
 \frametitle{Example}
-Suppose we want to construct (by hand) the bode plot of $$H(s) = \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}$$
 
-The first step is to find the representation with breakpoints.
-\begin{align*}
-    H(s) &=  \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}\\
-            &= \frac{(s+100)(s+1000)}{10s(s+10)^2}\\
-	 &= \frac{100000(1+\frac{s}{100})(1+\frac{s}{1000})}{1000s(1+\frac{s}{10})^2}
-	 &= \frac{100(1+\frac{s}{100})(1+\frac{s}{1000})}{s(1+\frac{s}{10})^2}
-\end{align*}
+	Suppose we want to construct (by hand) the bode plot of $$H(s) = \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}$$
+	
+	The first step is to find the representation with breakpoints.
+	\begin{align*}
+	H(s) &=  \frac{s^2 + 1100s + 100000}{10s^3 + 200s^2 + 1000s}\\
+	&= \frac{(s+100)(s+1000)}{10s(s+10)^2}\\
+	&= \frac{100000(1+\frac{s}{100})(1+\frac{s}{1000})}{1000s(1+\frac{s}{10})^2}
+	&= \frac{100(1+\frac{s}{100})(1+\frac{s}{1000})}{s(1+\frac{s}{10})^2}
+	\end{align*}
+
+
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Example Magnitude plot}
-
 \begin{center}
-\includegraphics[scale=0.5]{MagnitudeParts}
+\includegraphics[width=0.7\linewidth]{MagnitudeParts}
 \end{center}
-
-
 \end{frame}
 
 \begin{frame}
@@ -506,7 +516,7 @@ The first step is to find the representation with breakpoints.
 \begin{frame}
 \frametitle{Basic commands in Matlab}
 
-In Matlab it is very easy to draw the bode plot.
+In Matlab it is very easy to draw the bode plot:
 \begin{itemize}
 \item First, define the system using one of the following commands:
 	\begin{itemize}
@@ -557,7 +567,7 @@ In a polar plot, as $\omega$ is varied from 0 to $\infty$, $H(j\omega)$ is plott
 
 \begin{frame}
 \frametitle{Nyquist plot in matlab}
-Similar to constructing the bode plot in matlab, we first have to define the system using \textcolor{blue}{tf}, \textcolor{blue}{zpk} or \textcolor{blue}{ss}.\\
+Similar to constructing the bode plot in Matlab, we first have to define the system using \textcolor{blue}{tf}, \textcolor{blue}{zpk} or \textcolor{blue}{ss}.\\
 Then we use the command \textcolor{blue}{nyquist(sys)}.
 \lstinputlisting{CreateNyquist.m}
 

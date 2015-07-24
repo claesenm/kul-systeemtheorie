@@ -3,23 +3,82 @@
 \frametitle{An introduction to control}
 \end{frame}
 
-\subsection[Classical control loop]{Classical control loop}
+\subsection[Control Theory]{Control Theory}
 \begin{frame}
-\frametitle{What is control?}
-\begin{itemize}
-	\item The goal is to find an input (control signal U(s)) such that the process $P(s)$ produces the desired output
-	\item Open loop control system: the actual output signal $Y(s)$ has no effect on the control action
-\end{itemize}
-\vspace{-1em}
+\frametitle{What is control theory?}
+\begin{block}{}
+	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to design a controller to produces inputs to the plant so its output follows a desired reference signal which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
+\end{block}
+\vspace{2em}
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{Open-Loop}
-	\label{fig:Open-Loop}
+	\includegraphics[width=0.7\linewidth]{controlsystem}
+	\label{fig:controlsystem}
 \end{figure}
-\begin{align*}
-	Y(s) = P(s)U(s) = P(s)C(s)R(s) \\
-\end{align*}
-Remember the example of pouring a glass of water without looking at the glass
+\end{frame}
+
+\begin{frame}
+	\frametitle{Controllers}
+	\begin{block}{Types of controllers}
+		\begin{itemize}
+			\item On-off controller
+			\begin{itemize}
+				\item Thermostate at home
+			\end{itemize}
+			\item \textbf{PID controllers, Lead and lag compensators (this course)}
+			\begin{itemize}
+				\item Cruise-control in your car
+			\end{itemize}
+			\item More advanced controllers
+			\begin{itemize}
+				\item STATE-space feedback controllers
+				\item Model Predictive Controller (MPC)
+				\item Fuzzy Control
+				\item Neuro-fuzzy Control
+				\item ...
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Open-loop System}
+	\begin{definition}
+		In an open loop control system the actual output signal $Y(s)$ has no effect on the control action.
+		\vspace{-1em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{Open-Loop}
+			\label{fig:Open-Loop}
+		\end{figure}
+		\begin{align*}
+		Y(s) = P(s)U(s) = P(s)C(s)R(s) \\
+		\end{align*}
+	\end{definition}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: pouring a glass of water}
+	\begin{columns}[c]
+		
+		\column{.6\textwidth}
+		Take for example the following system:\\
+		\begin{itemize}
+			\item You are pouring a glass of water, but you \textbf{cannot look at the glass}.
+			\item The desired output is a full glass of water within a reasonable time.
+			\item The input can have two values: on or off (assume a quite primitive tap).
+			\item It will not be easy to do this successfully.
+		\end{itemize}
+		
+		\column{.4\textwidth}
+		\begin{figure}
+			\includegraphics[width=1\linewidth]{glass}
+		\end{figure}
+		
+	\end{columns}
+	\bigskip
+	The solution is evident: look at the glass while pouring!
 \end{frame}
 
 \begin{frame}
@@ -32,8 +91,6 @@ Remember the example of pouring a glass of water without looking at the glass
 \includegraphics[width=0.7\linewidth]{Closed-Loop}
 \label{fig:Closed-Loop}
 \end{figure}
-\item Example: \href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{\underline{Inverted pendulum}}
-
 \item Digital Control Loop:
 \begin{figure}
 \centering
@@ -48,80 +105,54 @@ Remember the example of pouring a glass of water without looking at the glass
 \begin{frame}
 	\begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{"Inverted Pendulum"}
-\caption{\href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{{Inverted Pendulum}}}
+\href{http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html}{\includegraphics[width=1\linewidth]{"inverted-pendulum/full"}}
 \label{fig:InvertedPendulum}
 \end{figure}
 \end{frame}
 
-\subsection[Elements]{Elements}
-\begin{frame}
-	\frametitle{Concrete Controllers}
-	\begin{itemize}
-		\item On-off controller
-		\begin{itemize}
-			\item Thermostate at home
-		\end{itemize}
-		\item \textbf{PID controllers, Lead and lag compensators (this course)}
-		\begin{itemize}
-			\item Cruise-control in your car
-		\end{itemize}
-		\item More advanced controllers
-		\begin{itemize}
-			\item STATE-space feedback controllers
-			\item Model Predictive Controller (MPC)
-			\item Fuzzy Control
-			\item Neuro-fuzzy Control
-			\item ...
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-
 \section{Control Goals}
 \begin{frame}
 	\frametitle{What is good control?}
-	\begin{itemize}
-		\item Before we will start to design control systems we will first focus on the question. What is good control?
-		\item It depends on the application
+	\begin{block}{Depends on the application}
 		\begin{itemize}
 			\item Stability
 			\item Disturbance rejection
-			\item Reference tracking (speed)
-			\item Sensitivity to errors on model
-			\item Etc...
+			\item Reference tracking
+			\item Sensitivity to errors in the model
+			\item ...
 		\end{itemize}
-	\end{itemize}
+	\end{block}
 \end{frame}
 
-\subsection[stability]{stability}
+\subsection[Stability]{Stability}
 \begin{frame}
 	\frametitle{Examples: stability}
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{shuttle}
-\caption{Space shuttles are like inverted pendulums. How do you make sure they don't flip over.}
+\caption{Space shuttles are like inverted pendulums. Control systems make sure they do not flip over.}
 \label{fig:shuttle}
 \end{figure}
 \end{frame}
 
-\subsection[disturbance rejection]{disturbance rejection}
+\subsection[Disturbance rejection]{Disturbance rejection}
 \begin{frame}
 	\frametitle{Examples: Disturbance rejection}
 	\begin{itemize}
-		\item Your body will try to keep the temperature in your body as constant as possible. No matter what the outside temperature is. Two people will have almost the same body temperature.
+		\item Your body will try to keep your internal temperature as constant as possible, no matter how hot/cold it is outside.
 	\end{itemize}
 	\begin{figure}
 \centering
 \begin{minipage}{0.45\textwidth}
 \includegraphics[width=0.7\linewidth]{marathon-des-sables}
-\caption{Flickr.com, \underline{tent86}, Marathon Des Sables 046}
+\caption{\parbox{\linewidth}{\tiny Flickr.com \\ \underline{tent86} \\ Marathon Des Sables 046}}
 \label{fig:marathon-des-sables}
 \end{minipage}
 \centering
 \begin{minipage}{0.45\textwidth}
-\includegraphics[width=0.7\linewidth]{enduring}
-\caption{\underline{Jack Zalium,} Enduring, https://creativecommons.org/licenses/by-nd/2.0/}
+	\vspace*{0.5em}
+\includegraphics[width=0.8\linewidth]{enduring}
+\caption{\parbox{\linewidth}{\tiny \underline{Jack Zalium} \\ Enduring \\ \href{https://creativecommons.org/licenses/by-nd/2.0/}{\nolinkurl{https://creativecommons.org/licenses/by-nd/2.0/}}}}
 \label{fig:enduring}
 \end{minipage}
 \end{figure}
@@ -151,11 +182,15 @@ Remember the example of pouring a glass of water without looking at the glass
 \end{frame}
 
 
-\section{Closed-loop system}
+\section{Closed-loop systems}
 
 \begin{frame}
 	\frametitle{Transfer function of a closed-loop system}
-	\vspace*{-1.5em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Closed-Loop}
+		\label{fig:Closed-Loop2}
+	\end{figure}
 	{\small
 	\begin{flalign*}
 		Y(s) - D(s) &= P(s)U(s) \\
@@ -167,13 +202,6 @@ Remember the example of pouring a glass of water without looking at the glass
 		&\Rightarrow Y(s) = \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)
 	\end{flalign*}
 	} %
-	\vspace*{-1.5em}
-	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{Closed-Loop}
-\label{fig:Closed-Loop2}
-\end{figure}
-
 \end{frame}
 
 
@@ -277,8 +305,6 @@ Remember the example of pouring a glass of water without looking at the glass
 			\centering
 			\includegraphics[width=1\linewidth]{properties}
 			\label{fig:properties}
-			\caption{\tiny \raggedleft
-				\href{http://www.newport.com/Control-Theory-Terminology/178319/1033/content.aspx}{\nolinkurl{http://www.newport.com/Control-Theory-Terminology/178319/1033/content.aspx}}}
 		\end{figure}
 	\end{minipage}
 \end{frame}
@@ -286,7 +312,7 @@ Remember the example of pouring a glass of water without looking at the glass
 \begin{frame}
 	\frametitle{Model errors}
 	\begin{itemize}
-		\item In practice, the transfer function $P(S)$ is often unknown. It is important to know how model errors affect the result. Sensitivity and robustness are key concepts to evaluate these effects.
+		\item In practice, the transfer function $P(s)$ is often unknown. It is important to know how model errors affect the result. Sensitivity and robustness are key concepts to evaluate these effects.
 		\item Sensitivity
 		\begin{itemize}
 			\item Quantifies the effect of small model errors on the output.
@@ -444,19 +470,41 @@ Remember the example of pouring a glass of water without looking at the glass
 			\item Whereas $e_{cl} (\infty)$ would remain small, as long as $(P(0)+\Delta P(0))C(0)$ remains large
 			
 		\end{itemize}
-		\item Hence an open loop controller can't control the output \textbf{robustly} against changes in $P$
+		\item Hence an open loop controller can not control the output \textbf{robustly} against changes in $P$
 	\end{itemize}
 \end{frame}
 
 \subsection[Types of systems and SS-error]{Types of systems and Steady State Error}
 
 \begin{frame}
-	\frametitle{Type of a system}
+	\frametitle{Steady state error: step}
+	\begin{definition}
+		\begin{minipage}{0.4\linewidth}
+			\[
+			\epsilon (t) =
+			\begin{cases}
+			0, \quad t \leq 0 \\
+			\frac{1}{2}, \quad t = 0 \\
+			1, \quad t \geqslant 0
+			\end{cases}
+			\]
+		\end{minipage}
+		\begin{minipage}{0.5\linewidth}
+			\hspace*{4em}
+			\includegraphics[width=0.6\linewidth]{stepfunc}
+		\end{minipage}
+	\end{definition}
 	\begin{itemize}
 		\item For a step reference $r(t) = A \epsilon (t)$ $\Rightarrow R(s) = \frac{A}{s}$
 		\[e_{cl}(\infty) = \frac{A}{1+C(0)P(0)} \]
 		So $e_{cl}(\infty) = 0$ if C(s)P(s) has a least one pole in zero ($C(0)P(0) \rightarrow \infty$)
-		\item For a ramp reference function $r(t) = At \, \Rightarrow R(s) = \frac{A}{s^2}$, we have
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Steady state error: ramp}
+	\begin{itemize}
+		\item For a ramp reference function $r(t) = At \epsilon (t) \, \Rightarrow R(s) = \frac{A}{s^2}$, we have
 		\begin{flalign*}
 			e_{cl}(\infty) = \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2}
 		\end{flalign*}
@@ -586,18 +634,17 @@ Remember the example of pouring a glass of water without looking at the glass
 \begin{frame}
 	\frametitle{Disturbance versus noise rejection}
 	\begin{itemize}
-		\item Good disturbance rejection requires fast action to bring the state back to the desired state
+		\item Good disturbance rejection requires fast action to bring the system back to the desired state
 		\item Good noise rejection requires that measurement noise will be ignored
 		\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise. Fast system will have better disturbance rejection
 	\end{itemize}
 \end{frame}
 
-\newcommand{\specialcell}[2][c]{%
-	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 \begin{frame}
-	\frametitle{Classical trade-offs in control theory}
-	\begin{tabular}{ll}
-		\specialcell[]{\textbf{Slow Controllers:} \\ Not sensitive to noise \\ Small control inputs} & \specialcell[]{\textbf{Fast controllers:} \\ Good disturbance rejection \\ Fast tracking}\\ 
-		\specialcell[]{\textbf{Robust controllers:} \\ Model errors will not\\ affect the behaviour of\\ the system strongly} & \specialcell[]{\textbf{Aggresive controllers:} \\ Exchanges robustness for \\ better performance}  \\ 
-	\end{tabular}
+	\begin{figure}
+		\centering
+		\includegraphics[width=1.1\linewidth]{comparison}
+		\caption{}
+		\label{fig:comparison}
+	\end{figure}
 \end{frame}
