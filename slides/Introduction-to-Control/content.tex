@@ -550,16 +550,18 @@
 
 \begin{frame}
 	\frametitle{Type of a system}
-	\begin{itemize}
-		\item The type of a system is determined by the number of poles $P(s)C(s)$ has in zero, and hence it is linked to what type of references it can track perfectly
-		\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^l \prod_{k=1}^{n-l} (s-p_k)}$ with $l$ the amount of poles in zero
-		\item We say this system is of type $l$
+	\begin{block}{}
 		\begin{itemize}
-			\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
-			\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
-			\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
+			\item The type of a system is determined by the number of poles $P(s)C(s)$ has in zero, and hence it is linked to what type of references it can track perfectly
+			\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^l \prod_{k=1}^{n-l} (s-p_k)}$ with $l$ the amount of poles in zero
+			\item We say this system is of type $l$
+			\begin{itemize}
+				\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
+				\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
+				\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
+			\end{itemize}
 		\end{itemize}
-	\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}
@@ -588,15 +590,16 @@
 
 \begin{frame}
 	\frametitle{Steady state errors - type of a system}
-	\begin{itemize}
-		\item With:
+	\begin{block}{}
 			\begin{tabbing}
 			$K_p = \lim\limits_{s \rightarrow 0} P(s)C(s)$ 
 			\hspace{2em} \= $K_p = $ Static position constant \\
 			$K_v = \lim\limits_{s \rightarrow 0}s P(s)C(s)$ \> $K_v = $ Static velocity constant \\
 			$K_a = \lim\limits_{s \rightarrow 0}s^2 P(s)C(s)$ \> $K_a = $ Static acceleration constant
 			\end{tabbing}
-		\item And the respective steady state errors for different system types are:
+		\end{block}
+	\begin{alertblock}{}
+		And the respective steady state errors for different system types are:
 		\begin{tabular}{|l|c|c|c|}
 			\hline \textbf{Type} $\mathbf{l}$ & \textbf{Step} $\mathbf{A \boldsymbol{\epsilon} (t)}$ & \textbf{Ramp} $\mathbf{At \boldsymbol{\epsilon} (t)}$ & \textbf{Parabola} $\mathbf{\frac{At^2 \boldsymbol{\epsilon} (t)}{2}}$ \\ 
 			\hline \textbf{0} & $\frac{A}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
@@ -604,7 +607,7 @@
 			\hline \textbf{2} & 0 & 0 & $\frac{A}{K_a}$ \\ 
 			\hline 
 		\end{tabular} 
-	\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 
@@ -662,28 +665,32 @@
 
 \begin{frame}
 	\frametitle{Disturbance vs noise}
-	\begin{itemize}
-		\item But what happens to measurement noise
+	\begin{block}{}
 		\begin{itemize}
-			\item The amplified measurement noise will be applied to the input of the plant.
-			\item In reality measurement noise requires no control actions. Good noise rejection means that the controller ignores this noise.
+			\item But what happens to measurement noise
+			\begin{itemize}
+				\item The amplified measurement noise will be applied to the input of the plant.
+				\item In reality measurement noise requires no control actions. Good noise rejection means that the controller ignores this noise.
+			\end{itemize}
 		\end{itemize}
-	\end{itemize}
-	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{Closed-Loop}
-\label{fig:Closed-Loop5}
-\end{figure}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{Closed-Loop}
+			\label{fig:Closed-Loop5}
+		\end{figure}
+	\end{block}
 \end{frame}
 
 
 \begin{frame}
 	\frametitle{Disturbance versus noise rejection}
-	\begin{itemize}
-		\item Good disturbance rejection requires fast action to bring the system back to the desired state
-		\item Good noise rejection requires that measurement noise will be ignored
-		\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise. Fast system will have better disturbance rejection
-	\end{itemize}
+	\begin{block}{}
+		\begin{itemize}
+			\item Good disturbance rejection requires fast action to bring the system back to the desired state
+			\item Good noise rejection requires that measurement noise will be ignored
+			\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise. Fast system will have better disturbance rejection
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \begin{frame}
