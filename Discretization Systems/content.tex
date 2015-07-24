@@ -319,10 +319,10 @@
 		\vspace{-2em} 
 		\begin{center}
 			\begin{align*}
-			\big(\frac{2}{T} \frac{z-1}{z+1}\big)_{z = e^{j\omega T}} &=\frac{2}{T} \frac{e^{j\omega T}-1}{e^{j\omega T}+1}\\
-			&= \frac{2}{T} \frac{e^{j\omega T/2} (e^{j\omega T/2} - e^{-j\omega T/2})}{e^{j\omega T/2}(e^{j\omega T/2} + e^{-j\omega T/2})}\\
-			&= j \frac{2}{T} \frac{sin(\omega T/2)}{cos(\omega T/2)}\\
-			&= j \frac{2}{T} tan(\frac{\omega T}{2}) = j\omega_a
+			\big(\frac{2}{T_s} \frac{z-1}{z+1}\big)_{z = e^{j\omega T_s}} &=\frac{2}{T_s} \frac{e^{j\omega T_s}-1}{e^{j\omega T_s}+1}\\
+			&= \frac{2}{T_s} \frac{e^{j\omega T_s/2} (e^{j\omega T_s/2} - e^{-j\omega T_s/2})}{e^{j\omega T_s/2}(e^{j\omega T_s/2} + e^{-j\omega T_s/2})}\\
+			&= j \frac{2}{T_s} \frac{sin(\omega T_s/2)}{cos(\omega T_s/2)}\\
+			&= j \frac{2}{T_s} tan(\frac{\omega T_s}{2}) = j\omega_a
 			\end{align*}
 		\end{center}
 	\end{block}
@@ -331,9 +331,9 @@
 \begin{frame}
 	\frametitle{Bilinear rule with prewarping}
 	\begin{block}{Frequency warping}
-		The discrete-time system has the same behavior at frequency $\omega$ as the continuous-time system at frequency $\omega_a = \frac{2}{T} tan(\frac{\omega T}{2})$. \\ 
+		The discrete-time system has the same behavior at frequency $\omega$ as the continuous-time system at frequency $\omega_a = \frac{2}{T_s} tan(\frac{\omega T_s}{2})$. \\ 
 		\vspace{1em}
-		Specifically, the gain and phase shift that the discrete-time filter has at frequency $\omega$ is the same gain and phase shift that the continuous-time filter has at frequency  $\omega_a = \frac{2}{T} tan(\frac{\omega T}{2})$.\\
+		Specifically, the gain and phase shift that the discrete-time filter has at frequency $\omega$ is the same gain and phase shift that the continuous-time filter has at frequency  $\omega_a = \frac{2}{T_s} tan(\frac{\omega T_s}{2})$.\\
 		\vspace{1em}
 		This effect of the non-linear relation between $\omega$ and $\omega_a$ is called \textbf{frequency warping}.
 	\end{block}
