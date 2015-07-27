@@ -29,8 +29,11 @@ QUADCOPTER
 https://www.youtube.com/watch?v=w2itwFJCgFQ
 3.28: stability
 3.43: reference tracking
-4.40: model errors
+4.40: model errors / robustness
 9.0: reference tracking
 
 Steady State Error Example:
 https://www.youtube.com/watch?v=c5Rmoxt9-kM
+
+Steady State explanation:
+https://www.youtube.com/watch?v=PXxveGoNRUw

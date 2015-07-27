@@ -42,7 +42,7 @@
 \begin{frame}
 	\frametitle{Open-loop System}
 	\begin{definition}
-		In an open loop control system the actual output signal $Y(s)$ has no effect on the control action.
+		In an open loop control system the actual output signal $Y(s)$ has no effect on the control action U(s).
 		\vspace{-1em}
 		\begin{figure}
 			\centering
@@ -80,7 +80,7 @@
 \begin{frame}
 	\frametitle{A general set-up of a closed-loop system}
 	\begin{definition}
-		In a closed-loop system the output of the controller is influenced by the output of the system using a negative feedback loop.
+		In a closed-loop system the output of the controller is influenced by the output of the system using a \textbf{negative feedback loop}.
 	\end{definition}
 	\begin{block}{Classical control-loop}
 		\begin{figure}
@@ -89,7 +89,7 @@
 			\label{fig:Closed-Loop}
 		\end{figure}
 		\vspace{1em}
-		\[ \frac{Y(s)}{R(s)} =  \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) + \frac{1}{1 + P(s)C(s)}D(s)\]
+		\[ Y(s) =  \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) \text{\quad when D(s) = 0}\]
 	\end{block}
 \end{frame}
 
@@ -116,7 +116,10 @@
 \section{Control Goals}
 \begin{frame}
 	\frametitle{What is good control?}
-	\begin{block}{Good control depends on the application}
+	\begin{block}{}
+		Good control depends on the application
+	\end{block}
+	\begin{block}{Control Goals}
 		\begin{itemize}
 			\item Stability
 			\item Disturbance rejection
@@ -127,18 +130,18 @@
 	\end{block}
 \end{frame}
 
-\subsection[Stability]{Stability}
+\subsection[Examples]{Examples}
+
 \begin{frame}
 	\frametitle{Examples: stability}
 \begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{shuttle}
+\includegraphics[width=0.6\linewidth]{control-goals/shuttle}
 \caption{Space shuttles are like inverted pendulums. Control systems make sure they do not flip over.}
 \label{fig:shuttle}
 \end{figure}
 \end{frame}
 
-\subsection[Disturbance rejection]{Disturbance rejection}
 \begin{frame}
 	\frametitle{Examples: Disturbance rejection}
 	\begin{itemize}
@@ -147,28 +150,38 @@
 	\begin{figure}
 		\centering
 		\begin{minipage}{0.45\textwidth}
-			\includegraphics[width=0.7\linewidth]{marathon-des-sables}
+			\includegraphics[width=0.7\linewidth]{control-goals/marathon-des-sables}
 			\caption{\href{https://www.flickr.com/photos/61680535@N07/5625053385/}{\parbox{\linewidth}{\tiny Flickr.com \\ \underline{tent86} \\ Marathon Des Sables 046}}}
 			\label{fig:marathon-des-sables}
 		\end{minipage}
 		\centering
 		\begin{minipage}{0.45\textwidth}
-			\includegraphics[width=0.8\linewidth]{enduring}
+			\includegraphics[width=0.8\linewidth]{control-goals/enduring}
 			\caption{\parbox{\linewidth}{\tiny \href{https://www.flickr.com/photos/kaiban/8515218404/in/photolist-dYsHLq}{\underline{Jack Zalium} \\ Enduring} \\ \href{https://creativecommons.org/licenses/by-nd/2.0/}{Creative Commons}}}
 			\label{fig:enduring}
 		\end{minipage}
 	\end{figure}
 \end{frame}
 
-\subsection[Tracking]{Reference tracking}
 \begin{frame}
 	\frametitle{Examples: Reference tracking}
 	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{audi-tracking}
-\caption{Audi has a system for automatic driving in traffic jams. The audi will follow the car in front of him at an appropriate distance. \href[pdfnewwindow=true]{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}{\nolinkurl{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}}}
-\label{fig:audi-tracking}
-\end{figure}
+		\centering
+		\includegraphics[width=0.6\linewidth]{control-goals/audi}
+		\caption{Audi has a system for automatic driving in traffic jams. The audi will follow the car in front of him at an appropriate distance. \href[pdfnewwindow=true]{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}{\nolinkurl{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}}}
+		\label{fig:audi-tracking}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Examples: Sensitivity to errors in the model}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{control-goals/formula-1}
+		\caption{It is not possible to drive a formula 1 car using your knowledge of regular cars. However, driving your friends car will work.}
+		\label{fig:formula-1}
+	\end{figure}
 \end{frame}
 
 \subsection[Exercise]{Exercise}
@@ -176,7 +189,7 @@
 	\frametitle{Exercise: name the correct property}
 	\begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{ted-drone}
+\includegraphics[width=1\linewidth]{control-goals/quadcopter}
 \label{fig:ted-drone}
 \end{figure}
 
@@ -219,11 +232,11 @@
 \begin{frame}
 	\frametitle{Transfer function from $R(s)$ to $Y(s)$}
 	\begin{definition}
-		We define H as the transfer function from $R(s)$ to $Y(s)$
+		We define $H(s)$ as the transfer function from $R(s)$ to $Y(s)$
 		\begin{align*}
-		H(s) \triangleq \frac{Y(s)}{R(s)} = \frac{P(s)C(s)}{1 + P(s) C(s)} \quad \text{when } D(s) = 0
+		H(s) \triangleq \frac{Y(s)}{R(s)} = \frac{P(s)C(s)}{1 + P(s) C(s)} \quad \text{when } D(s) = 0.
 		\end{align*}
-		This transfer function $H(s)$ will help us to evaluate tracking
+		This transfer function $H(s)$ will help us to evaluate tracking.
 		
 		Almost perfect tracking: the output $Y(s)$ will follow $R(s)$ very closely $\Rightarrow H(s) \approx 1$
 	\end{definition}
@@ -234,28 +247,37 @@
 \begin{frame}
 	\frametitle{Transfer function from $D(s)$ to $Y(s)$}
 	\begin{definition}
-		We define $M(s)$ as the transfer function from $D(s)$ to $Y(s)$.
+		We define $M(s)$ as the transfer function from $D(s)$ to $Y(s)$
 		\begin{align*}
-		M(s) \triangleq \frac{Y(s)}{D(s)} = \frac{1}{1 + P(s)C(s)} \quad \text{when} R(s) = 0
+		M(s) \triangleq \frac{Y(s)}{D(s)} = \frac{1}{1 + P(s)C(s)} \quad \text{when } R(s) = 0.
 		\end{align*}
-		If the disturbance rejection of the control system is very good the disturbances will have almost no effect on the output $\Rightarrow M(s) \approx 0$ \\
+		If the disturbance rejection of the control system is very good, the disturbances will have almost no effect on the output $\Rightarrow M(s) \approx 0$ \\
 	\end{definition}
 	\begin{block}{}
-		\[
+		\vspace*{-1em}
+		\begin{minipage}{0.2\linewidth}
+		\[\text{if }
 		\begin{cases}
 			\left| H(j\omega) \right| \cong 1 \\
 			\left| M(j\omega) \right| \cong 0
 		\end{cases}
 		\]
-		$\Rightarrow  \left| P(j\omega)C(j\omega) \right|$ \textbf{(open loop gain)} is very large. \\
-		
-		! a large open loop amplification might lead to an unstable system
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.7\linewidth}
+		\vspace*{1em}
+		then $ \left| P(j\omega)C(j\omega) \right|$ \textbf{(open loop gain)} is very large.
+	\end{minipage}
 	\end{block}
+	\begin{alertblock}{}
+		A large open loop amplification might lead to an unstable system!
+	\end{alertblock}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Example: Which controller do you prefer}
-	The transfer function from $R(s)$ to $Y(s)$ for two different controllers for high precision surgery\\
+	\frametitle{Exercise: Which controller do you prefer?}
+	The transfer function of the closed-loop system from $R(s)$ to $Y(s)$ for two different controllers for high precision surgery\\
+	\hspace*{-2em}
 	\begin{minipage}{0.7\linewidth}
 	\begin{figure}
 \centering
@@ -263,11 +285,11 @@
 \label{fig:smooth-bode}
 \end{figure}
 \end{minipage}
-\hfill
 \begin{minipage}{0.2\linewidth}
-	\[\frac{0.5}{s+0.5}\]
+	\[\frac{Y(s)}{R(s)} = \frac{0.5}{s+0.5}\]
 \end{minipage}
-\vspace*{-3em}
+
+\hspace*{-2em}
 \begin{minipage}{0.7\linewidth}
 \begin{figure}
 \centering
@@ -275,16 +297,15 @@
 \label{fig:osc-bode}
 \end{figure}
 \end{minipage}
-\hfill
 \begin{minipage}{0.2\linewidth}
-	\[\frac{10}{1.09s^2 + s + 10}\]
+	\[\frac{Y(s)}{R(s)} = \frac{10}{1.09s^2 + s + 10}\]
 \end{minipage}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Example: step response of both controllers}
-	The ouput $Y(s)$ when $R(s)$ is a step function.
+	\frametitle{Exercise: Which controller do you prefer?}
+	The output $Y(s)$ of the closed-loop system when $R(s)$ is a step function.
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\columnwidth]{smooth-step}
@@ -325,11 +346,16 @@
 \begin{frame}
 	\frametitle{Model errors}
 	\begin{block}{}
-			In practice, the transfer function $P(s)$ is often unknown. It is important to know how model errors affect the result. Sensitivity and robustness are key concepts to evaluate these effects.
-			\begin{itemize}
-				\item Sensitivity quantifies the effect of small model errors on the output.
-				\item Robustness refers to bigger changes of the model. A controller is robust if it works properly over a given set of parameters.
-			\end{itemize}
+		\begin{itemize}
+			\item The plant characteristics may be variable or time-varying.
+			System modeling techniques identify the plant
+			within a certain model class and with a certain amount
+			of inaccuracy. So there always exists a plant uncertainty,
+			which cannot be described exactly by the mathematical
+			models.	
+			\item Control systems need to be made robust against this
+			plant variability and uncertainty.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
@@ -338,7 +364,7 @@
 \begin{frame}
 	\frametitle{Sensitivity}
 	\begin{block}{}
-		Sensitivity is a measure of the effect of a (small) disturbance on the model (e.g. variations in the process parameters)
+		Sensitivity is a measure of the relative change in the system due to a relative change in a chosen parameter. Here we look at \small{$\Delta Y(s)$} due to \small{$\Delta P(s)$}.
 		
 		\begin{scriptsize}
 		\begin{flalign*}
@@ -357,7 +383,7 @@
 \begin{frame}
 	\frametitle{Sensitivity}
 	\begin{block}{}
-		\tiny
+		\fontsize{7.5 pt}{9 pt}
 		\begin{flalign*}
 			&= \frac{(P(s)+\Delta P(s))C(s)(1+P(s)C(s)) - P(s)C(s) - P(s)C(s)(P(s) + \Delta P(s))C(s)}{(1+(P(s) + \Delta P(s))C(s)(1 + P(s)C(s))}R(s) \\
 			&= \frac{\Delta P(s)C(s)}{(1+(P(s) + \Delta P(s))C(s))(1+P(s)C(s))}R(s) \\
@@ -370,7 +396,7 @@
 \begin{frame}
 	\frametitle{Sensitivity}
 	\begin{alertblock}{}
-		Now take the relative change due to this disturbance of the model and take the limit for $\partial x \rightarrow 0$; this gives the following (measure of the) sensitivity:
+		Now take the relative change due to this disturbance of the model and take the limit for $\Delta x \rightarrow 0$; this gives the following (measure of the) sensitivity:
 		\begin{align*}
 			S_P^Y(s) &= \frac{\frac{\partial Y}{Y}(s)}{\frac{\partial P}{P}(s)} = \frac{\partial Y}{\partial P}\left(s\right) \cdot \frac{P(s)}{Y(s)} = \frac{1}{1 + P(s)C(s)}
 		\end{align*}
@@ -412,7 +438,7 @@
 		The transfer function from $R(s)$ to $Y(s)$ becomes
 				\vspace{-0.5em}
 		\begin{align*}
-			H(s) = \frac{\frac{s+\epsilon}{s-a} \frac{K}{S}}{1+\frac{s+\epsilon}{s-a}\frac{K}{s}}
+			\tilde{H}(s) = \frac{\frac{s+\epsilon}{s-a} \frac{K}{S}}{1+\frac{s+\epsilon}{s-a}\frac{K}{s}}
 			= \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
 		\end{align*}
 	\end{example}
@@ -429,7 +455,7 @@
 			&{\color{blue} s^2 + (K - a)s} \\
 			&{\color{red} s^2 + (K - a)s + \epsilon K}
 		\end{flalign*}
-		For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You shouldn’t use control laws which rely on a pole-zero cancellation. 
+		For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You should not use control laws which rely on a pole-zero cancellation. 
 	\end{minipage}
 	\begin{minipage}{0.4\linewidth}
 		\begin{figure}
@@ -442,7 +468,7 @@
 
 
 \begin{frame}
-	\frametitle{Robustness of steady-state error}
+	\frametitle{Robustness}
 	\begin{definition}
 		The steady state error is defined as follows:
 		\begin{align*}
@@ -455,8 +481,9 @@
 
 
 \begin{frame}
+	\frametitle{Robustness}
 	\begin{block}{Open-loop system}
-		A very small steady state error (preferably zero) indicates that the controller tracks the reference very well
+		A very small steady state error (preferably zero) indicates that the controller tracks the reference very well.
 		
 		For the open loop system with a step reference
 		\begin{align*}
@@ -465,15 +492,15 @@
 		\end{align*}
 		\vspace{-1em}
 		\begin{itemize}
-			\item So the open loop controller can be free of a steady state error (for a step reference $\epsilon(t)$) by calibrating the controller such that $C(0)P(0)=1$
-			\item $\Rightarrow$ a precise calibration of the DC gain
+			\item So the open loop controller has no steady state error (for a step reference) if the controller is calibrated such that $C(0)P(0)=1$
+			\item $\Rightarrow$ a precise calibration of the DC gain (not robust)
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Steady state error}
+	\frametitle{Robustness}
 	\begin{block}{Closed-loop system:}
 		\begin{flalign*}
 			e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} s\left(1 - \frac{C(s)P(s)}{1+C(s)P(s)}\right)R(s) \\
@@ -482,7 +509,7 @@
 		\begin{itemize}
 			\item The steady state error is small if $C(0)P(0)$ is very large
 			\item Again, calibrating the DC gain
-			\item The difference is that here we only need a large gain, which is far less demanding than having to make it equal to 1
+			\item The difference is that we only need a large gain, which is far less demanding than having to make it equal to 1
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -522,8 +549,8 @@
 		\end{minipage}
 	\end{definition}
 	\begin{block}{}
-		For a step reference $r(t) = A \epsilon (t)$ $\Rightarrow R(s) = \frac{A}{s}$
-		\[e_{cl}(\infty) = \frac{A}{1+C(0)P(0)} \]
+		For a step reference $r(t) = a \epsilon (t)$ $\Rightarrow R(s) = \frac{a}{s}$
+		\[e_{cl}(\infty) = \frac{s}{1+C(0)P(0)} \frac{a}{s}\]
 		So $e_{cl}(\infty) = 0$ if C(s)P(s) has a least one pole in zero ($C(0)P(0) \rightarrow \infty$)
 	\end{block}
 \end{frame}
@@ -531,11 +558,11 @@
 \begin{frame}
 	\frametitle{Steady state error: ramp}
 	\begin{block}{}
-		For a ramp reference function $r(t) = At \epsilon (t) \, \Rightarrow R(s) = \frac{A}{s^2}$, we have
+		For a ramp reference function $r(t) = at \epsilon (t) \, \Rightarrow R(s) = \frac{a}{s^2}$, we have
 		\begin{flalign*}
-			e_{cl}(\infty) = \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2}
+			e_{cl}(\infty) = \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{a}{s^2}
 		\end{flalign*}
-		So $e_{cl}(\infty) = 0$ if $C(s)P(s)$ has at least two poles in zero. $\left(\lim\limits_{s\rightarrow 0} sC(s)P(s) = \infty\right)$
+		So, $e_{cl}(\infty) = 0$ if $C(s)P(s)$ has at least two poles in zero. $\left(\lim\limits_{s\rightarrow 0} sC(s)P(s) = \infty\right)$
 	\end{block}
 \end{frame}
 
@@ -544,12 +571,12 @@
 	\begin{block}{}
 		\begin{itemize}
 			\item The type of a system is determined by the number of poles $P(s)C(s)$ has in zero, and hence it is linked to what type of references it can track perfectly
-			\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^l \prod_{k=1}^{n-l} (s-p_k)}$ with $l$ the amount of poles in zero
-			\item We say this system is of type $l$
+			\item Write $P(s)C(s)$ as $\frac{K \prod_{k=1}^{m} (s-z_k)}{s^i \prod_{k=1}^{n-i} (s-p_k)}$ with $i$ the amount of poles in zero
+			\item We say this system is of type $i$
 			\begin{itemize}
-				\item It will be able to track references of shape $At^0 \epsilon(t)$ up to $At^{(l - 1)} \epsilon(t)$ perfectly (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
-				\item A reference of shape $At^l \epsilon(t)$ will be missed by a finite factor (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
-				\item A reference of shape $At^{l+...} \epsilon(t)$ will be missed by infinity (for $t\rightarrow \infty$, $\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
+				\item It will be able to track references of shape $at^0 \epsilon(t)$ up to $at^{(i - 1)} \epsilon(t)$ perfectly for $t\rightarrow \infty$ ($\lim\limits_{t \rightarrow \infty} e_{cl}(t) = 0$)
+				\item A reference of shape $at^i \epsilon(t)$ will be missed by a finite factor for $t\rightarrow \infty$ ($\lim\limits_{t \rightarrow \infty} e_{cl}(t) = C$)
+				\item A reference of shape $at^{i+...} \epsilon(t)$ will be missed by infinity for $t\rightarrow \infty$ ($\lim\limits_{t \rightarrow \infty} e_{cl}(t) = \infty$)
 			\end{itemize}
 		\end{itemize}
 	\end{block}
@@ -561,8 +588,8 @@
 			{Step reference $r(t) = A \epsilon (t) \Rightarrow R(s) = \frac{A}{s}$}
 			\begin{flalign*}
 				e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} \frac{s}{1 + C(s)P(s)} \frac{A}{s} \\
-				&= \lim\limits_{s \rightarrow 0} \frac{A}{1 +  \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-l} (-p_k)}}
-				= \frac{A}{1 + K_p}
+				&= \lim\limits_{s \rightarrow 0} \frac{A}{1 +  \color{red}{\frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-i} (-p_k)}}}
+				= \frac{A}{1 + \color{red}{K_p}}
 			\end{flalign*}
 			where $K_p$ is the static position constant
 		\end{example}
@@ -574,8 +601,10 @@
 			{Ramp reference $r(t) = At \epsilon (t) \Rightarrow R(s) = \frac{A}{s^2}$}
 			\begin{flalign*}
 				e_{cl}(\infty) &= \lim\limits_{s \rightarrow 0} \frac{s}{1+C(s)P(s)} \frac{A}{s^2} \\
-				&= \lim\limits_{s \rightarrow 0} \frac{1}{1 + \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-l} (-p_k)}} \frac{A}{s} = \infty
+				&= \lim\limits_{s \rightarrow 0} \frac{1}{1 + \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-i} (-p_k)}} \frac{A}{s} \\
+				&= \lim\limits_{s \rightarrow 0} \frac{A}{s + \color{red}{s \frac{K \prod_{k=1}^{m} (-z_k)}{\prod_{k=1}^{n-i} (-p_k)}}} = \frac{1}{\color{red}{K_v}} = \infty
 			\end{flalign*}
+			where $K_v$ is the static velocity constant
 		\end{example}
 \end{frame}	
 
@@ -602,14 +631,13 @@
 \end{frame}
 
 
-\subsection[Noise- and disturbance rejection]{Noise- and disturbance rejection}
+\subsection[Noise and disturbance rejection]{Noise and disturbance rejection}
 
 \begin{frame}
 	\frametitle{Noise rejection and disturbance rejection}
 	\begin{block}{Noise rejection and disturbance rejection}
 		\begin{itemize}
-			\item Both refer to rejection of the input $D$ but are not the same
-			\item Measurement noise is often modelled by white noise. (High frequency signal)
+			\item Measurement noise is often modelled by zero-mean white noise.
 			\item Disturbances are actual changes to the state of the system
 		\end{itemize}
 		\vspace{-1em}
@@ -631,7 +659,7 @@
 		\end{itemize}
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.7\linewidth]{"cruise control"}
+			\includegraphics[width=0.45\linewidth]{control-goals/steep-road}
 			\label{fig:cruisecontrol}
 		\end{figure}
 \end{frame}
@@ -640,11 +668,11 @@
 	\frametitle{Noise versus Disturbances}
 	\begin{block}{}
 		\begin{itemize}
-			\item Remember from the start of the lecture
+			\item Remember
 			\begin{align*}
 				Y(s) = \frac{P(s)C(s)}{1+P(s)C(s)}R(s) + \frac{1}{1+P(s)C(s)}D(s)
 			\end{align*}
-			\item Choosing $T(s)=\frac{1}{1+P(s)C(s)}$ sufficiently small results in the rejection of $D$. This can be achieved by choosing $C(s)$ sufficiently high
+			\item Choosing $M(s)=\frac{1}{1+P(s)C(s)}$ sufficiently small results in the rejection of $D$. This can be achieved by choosing $C(s)$ sufficiently high
 		\end{itemize}
 		\vspace{-2em}
 		\begin{figure}
@@ -660,10 +688,9 @@
 	\frametitle{Disturbance vs noise}
 	\begin{block}{}
 		\begin{itemize}
-			\item But what happens to measurement noise
+			\item What happens to the measurement noise?
 			\begin{itemize}
-				\item The amplified measurement noise will be applied to the input of the plant.
-				\item In reality measurement noise requires no control actions. Good noise rejection means that the controller ignores this noise.
+				\item It will be amplified and applied to the input of the plant which in turn leads to a nervous controller.
 			\end{itemize}
 		\end{itemize}
 		\begin{figure}
@@ -680,8 +707,8 @@
 	\begin{block}{}
 		\begin{itemize}
 			\item Good disturbance rejection requires fast action to bring the system back to the desired state
-			\item Good noise rejection requires that measurement noise will be ignored
-			\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise. Fast system will have better disturbance rejection
+			\item Good noise rejection requires slower action
+			\item Note that a controller can not see the difference between measurement noise and disturbances. Slow controllers will be less sensitive to measurement noise but fast controllers will have better disturbance rejection
 		\end{itemize}
 	\end{block}
 \end{frame}
