@@ -346,11 +346,16 @@
 \begin{frame}
 	\frametitle{Model errors}
 	\begin{block}{}
-		In practice, the transfer function $P(s)$ is often unknown. It is important to know how model errors affect the performance of the controller. Sensitivity and robustness are key concepts to evaluate these effects.
-	\end{block}
-	\begin{block}{Sensitivity - Robustness}
-			Sensitivity quantifies the effect of small model errors on the output.
-			A controller is robust if it works properly over a given set of parameters.
+		\begin{itemize}
+			\item The plant characteristics may be variable or time-varying.
+			System modeling techniques identify the plant
+			within a certain model class and with a certain amount
+			of inaccuracy. So there always exists a plant uncertainty,
+			which cannot be described exactly by the mathematical
+			models.	
+			\item Control systems need to be made robust against this
+			plant variability and uncertainty.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
@@ -359,7 +364,7 @@
 \begin{frame}
 	\frametitle{Sensitivity}
 	\begin{block}{}
-		Sensitivity is a measure of the relative change in the system due to a relative change in a chosen parameter.
+		Sensitivity is a measure of the relative change in the system due to a relative change in a chosen parameter. Here we look at \small{$\Delta Y(s)$} due to \small{$\Delta P(s)$}.
 		
 		\begin{scriptsize}
 		\begin{flalign*}
