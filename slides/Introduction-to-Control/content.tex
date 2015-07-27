@@ -424,7 +424,7 @@
 
 \begin{frame}
 	\frametitle{Example 1}
-	\begin{exampleblock}{Problem statement}
+	\begin{exampleblock}{Problem statement and solution}
 		Suppose we want to stabilize the system $P(s)=\frac{1}{(s - a)}$.  We only know that $a \in [0.20;0.80]$. We propose to use a proportional controller $C(s)=K$.
 		The closed-loop transfer function becomes
 		\begin{align*}
@@ -437,7 +437,7 @@
 
 
 \begin{frame}
-	\frametitle{Example 2}
+	\frametitle{Problem statement and solution}
 	\begin{example}
 		Suppose we want to stabilize the system $P(s)=\frac{s}{(s - a)}$ with $a\in[0.20;0.80]$. If we choose the control law $C(s)=\frac{K}{s}$ this results in the same transfer function.
 		\vspace{-0.5em}
@@ -458,7 +458,7 @@
 \begin{frame}
 	\frametitle{Example 2}
 	\begin{minipage}{0.5\linewidth}
-		\begin{block}{}
+		\begin{exampleblock}{}
 			\vspace*{-1em}
 			\begin{flalign*}
 				\tilde{S}(s) = \frac{(s+\epsilon)K}{s^2 + (K-a)s + \epsilon K}
@@ -469,7 +469,7 @@
 				&{\color{red} s^2 + (K - a)s + \epsilon K}
 			\end{flalign*}
 			For $\epsilon$ negative the system becomes unstable. The control system is not robust and useless in practical situations. You should not use control laws which rely on a pole-zero cancellation. 
-		\end{block}
+		\end{exampleblock}
 	\end{minipage}
 	\hspace{0.1em}
 	\begin{minipage}{0.4\linewidth}
@@ -639,9 +639,9 @@
 		\centering
 		\begin{tabular}{|l|c|c|c|}
 			\hline \textbf{Type} $\mathbf{l}$ & \textbf{Step} $\mathbf{a \boldsymbol{\epsilon} (t)}$ & \textbf{Ramp} $\mathbf{at \boldsymbol{\epsilon} (t)}$ & \textbf{Parabola} $\mathbf{\frac{at^2 \boldsymbol{\epsilon} (t)}{2}}$ \\ 
-			\hline \textbf{0} & $\frac{A}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
-			\hline \textbf{1} & 0 & $\frac{A}{K_v}$ & $\infty$ \\ 
-			\hline \textbf{2} & 0 & 0 & $\frac{A}{K_a}$ \\ 
+			\hline \textbf{0} & $\frac{a}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
+			\hline \textbf{1} & 0 & $\frac{a}{K_v}$ & $\infty$ \\ 
+			\hline \textbf{2} & 0 & 0 & $\frac{a}{K_a}$ \\ 
 			\hline 
 		\end{tabular} 
 	\end{alertblock}
