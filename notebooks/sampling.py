@@ -1,15 +1,15 @@
 from IPython.html import widgets
-from IPython.display import display
+from IPython.display import display,clear_output
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.fft as fourier
 from math import *
-import scipy.fftpack as fourier
-import warnings
-warnings.filterwarnings("ignore")
-from IPython.display import clear_output
-N = 2**14
-T = 1/4000.0
-f = 4000
+
+
+
+N = 2.**17
+Fs = 2.**12
+
 options = {"sine":0,"cosine":1,"sinc":2,"block":3,"impulse":4,"blocktrain":5,"damped oscillation":6,"carrier + signal":7}
 
 # Extra options for sine
@@ -24,14 +24,14 @@ box_cosine = widgets.Box(children =[select_cosine_amplitude,select_cosine_freque
 select_sinc_frequency = widgets.IntSlider(min = 100,max =200,step =10, description = "Frequency:")
 box_sinc = widgets.Box(children = [select_sinc_frequency],visible = False,)
 # Extra options for block
-select_block_width = widgets.FloatSlider(min = 1, max = 2, step = 0.1,description = "Width:")
+select_block_width = widgets.FloatSlider(min = 1, max = 15, step = 0.1,description = "Width:")
 select_block_heigth = widgets.IntSlider(min = 1,max = 5 ,description = "Height:")
 box_block = widgets.Box(children =[select_block_width,select_block_heigth],visible = False)
 # Extra options for impulse
 box_impulse = widgets.Box(visible = False)
 # Extra options for blocktrain
 select_blocktrain_height = widgets.IntSlider(min=1,max=5,description ="Height:")
-select_blocktrain_frequency = widgets.FloatSlider(min = 1.0, max = 5.0,description = "Frequency: ")
+select_blocktrain_frequency = widgets.FloatSlider(min = 0.1, max = 1.0,description = "Frequency: ")
 box_blocktrain = widgets.Box(children = [select_blocktrain_height,select_blocktrain_frequency],visible=False)
 # Extra options for damped oscillation
 select_damped_oscilation_frequency = widgets.IntSlider(min = 100,max = 200,step = 10,description = "Frequency: ")
@@ -82,71 +82,75 @@ y_signal = None
 t_signal = None
 xmin = None
 xmax = None
+fmin = None
+fmax = None
 
-def plotter(t,y,x_min,x_max):
-    global t_signal,y_signal,xmin,xmax
+def plotter(t,y,x_min,x_max,f_min,f_max):
+    global t_signal,y_signal,xmin,xmax,fmin,fmax
     plt.close() 
     t_signal = t
     y_signal = y
-    xmin,xmax = x_min,x_max
+    xmin,xmax,fmin,fmax = x_min,x_max,f_min,f_max
     ax = plt.subplot(1,1,1)
     ax.plot(t,y)
     plt.xlim(x_min,x_max)
     plt.xlabel('t')
     plt.ylabel('y(t)')
     plt.show()
+    
 
     
 def generate_sine(amplitude,frequency):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     y = amplitude * np.sin(2*np.pi*frequency*t)
-    plotter(t,y,-5/100.0,5/100.0)
+    plotter(t,y,-5/100.0,5/100.0,-2*frequency,2*frequency)
 
 def generate_cosine(amplitude,frequency):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     y = amplitude * np.cos(2*np.pi*frequency*t)
-    plotter(t,y,-3/100.0,3/100.0)
+    plotter(t,y,-5/100.0,5/100.0,-2*frequency,2*frequency)
+    
 def generate_sinc(frequency):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
-    y = np.sin(2*np.pi*frequency*t)/t
-    plotter(t,y,-3/100.0,3/100.0)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
+    y = np.sin(2*np.pi*frequency*t)/(2*np.pi*frequency*t)
+    plotter(t,y,-5/100.0,5/100.0,-2*frequency,2*frequency)
     
 def generate_block(width,height):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
-    up = int(width*f)
-    down = int((N - up)/2.0)
-    y = [0]*down+[height]*up+[0]*down
-    plotter(t,np.asarray(y),-(N*T)/2.0,(N*T)/2.0)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
+    start = (N/2) - width*Fs/2.
+    stop = (N/2) + width*Fs/2.
+    y = np.zeros(N)
+    y[start:stop] = height
+    plotter(t,y,-N/(2.*Fs),N/(2.*Fs),-1,1)
+
 def generate_impulse():
-    t= np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
-    y = [0]*((N/2)-1)+[100] + [0]*(N/2)
-    plotter(t,np.asarray(y),-(N*T)/2.0,(N*T)/2.0)
+    t= np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
+    y = np.zeros(N)
+    y[N/2] = 1
+    plotter(t,y,-N/(2.*Fs),N/(2.*Fs),-10,10)
+                     
 def generate_block_train(height,frequency):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     period = 1/frequency
-    print period
-    up = int(0.1*f)
-    down = int(period*f-up)
-    print up
-    print down
+    up = int(0.1*Fs)
+    down = int(period*Fs-up)
     y = []
     while len(y)<N:
         y += [height]*up + [0]*down
-    plotter(t,np.asarray(y[:N]),-(N*T)/2.0,(N*T)/2.0)
+    plotter(t,np.asarray(y[:int(N)]),-N/(2.*Fs),N/(2.*Fs),-1,1)
+
 def generate_damped_ocilation(frequency,damping):
-    t= np.linspace(0,(N*T),N)
-    print t
+    t= np.linspace(0,N/Fs,N)
     y = np.exp(-damping*t)*np.sin(2*np.pi * frequency *t)
-    print np.max(y)
-    plotter(t,y,0,1)
+    plotter(t,y,0,1,-2*frequency,2*frequency)
+    
 def generate_carrier_signal(carrier,signal):
-    t = np.linspace(-(N*T)/2.0,(N*T)/2.0,N)
+    t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     y = np.sin(carrier*t) * np.sin(signal*t)
-    plotter(t,y,-3/100.0,3/100.0)
+    plotter(t,y,-3/10.0,3/10.0,-2*signal,2*signal)
 
 
-N_dirac = N
-T_dirac = T
+
 t_dirac = None
 y_dirac = None
 t_diracf = None
@@ -158,21 +162,22 @@ def sampling_dirac(f_s):
     global t_dirac,y_dirac,t_diracf,y_diracf,f_bem
     f_bem = f_s
     Period = 1/f_s
-    down = int(Period*(1/T_dirac) -1)
-    temp = [0]*down + [1]
-    y_dirac = temp*(int((N_dirac/(down+1)))+1)
-    print len(y_dirac)
-    y_dirac = y_dirac[:N_dirac]
-    t_dirac = np.linspace(-N_dirac*T_dirac/2,N_dirac*T_dirac/2,len(y_dirac))
+    stap = int(Period*Fs)
+    y_dirac = np.zeros(N)
+    i = 0
+    while i < N:
+        y_dirac[i] = 1
+        i += stap
+    t_dirac = np.linspace(-N/(2*Fs),N/(2*Fs),N)
     plt.plot(t_dirac,y_dirac)
-    plt.xlim(-20*Period,20*Period)
+    plt.xlim(-30*Period,30*Period)
     plt.xlabel('t')
     plt.ylabel('y(t)')
     plt.show()
-    y_diracf  = fourier.fftshift(2.0/N * np.abs(fourier.fft(y_dirac)))
-    rescale = np.where(y_diracf > 0.01)
+    y_diracf  = (1/Fs)*np.abs(fourier.fftshift(fourier.fft(y_dirac)))
+    rescale = np.where(y_diracf>0.01)
     y_diracf[rescale] = 1
-    t_diracf = np.linspace(-1.0/(2.0*T_dirac), 1.0/(2.0*T_dirac), len(y_diracf))
+    t_diracf = np.linspace(-Fs/(2.), Fs/(2.), N)
     plt.plot(t_diracf , y_diracf)
     plt.xlabel('Frequency(Hz)')
     plt.ylabel('F(jw)')
@@ -189,3 +194,11 @@ def draw_sampeled_signal(t,samples):
     plt.show()
 
 
+def draw_fourier_transform(f,y,xlim= None):
+    if xlim != None:
+        global fmin,fmax
+        plt.xlim(fmin,fmax)
+    plt.plot(f,y)
+    plt.xlabel('frequency (Hz)')
+    plt.ylabel('F(jw)')
+    plt.show()
