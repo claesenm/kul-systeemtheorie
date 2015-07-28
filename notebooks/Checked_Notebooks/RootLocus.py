@@ -5,8 +5,8 @@ import scipy.signal as sig
 from IPython.html.widgets import *
 
 def draw_axis():
-    plt.axhline(0,0,1)
-    plt.axvline(0,0,1)
+    plt.axhline(0,0,1,color = 'black')
+    plt.axvline(0,0,1,color = 'black')
 def draw_step_response_feedback(K,sys):
     # Defining feedback system
     C = control.tf(K,1)
