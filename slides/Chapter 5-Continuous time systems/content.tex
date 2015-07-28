@@ -21,11 +21,11 @@ The \textbf{order of a LDE} is the index of the highest derivative of $y$.
 L_n(y) = \sum_{i=0}^{n} A_i(t) \frac{d^{n-i}y}{dt^{n-i}} = f(t).
 \end{equation*}
 \begin{itemize}
-\item $y$ is a scalar function $\rightarrow$ \textbf{ordinary differential equation} (ODE)
-\item $y$ is a vector function $\rightarrow$ \textbf{partial differential equation} (PDE) \\
+\item $y$ is a scalar function $\rightarrow$ \textbf{ordinary differential equation} (ODE);
+\item $y$ is a vector function $\rightarrow$ \textbf{partial differential equation} (PDE); \\
 \item $f = 0$ $\rightarrow$ \textbf{homogeneous equation} \\
-$\rightarrow$ solutions are called \textbf{complementary functions} \\
-\item if $A_{0:n}(t)$ are constants (i.e. not functions of time), the LDE is said to have \textbf{constant coëfficients}
+$\rightarrow$ solutions are called \textbf{complementary functions}; \\
+\item if $A_{0:n}(t)$ are constants (i.e. not functions of time), the LDE is said to have \textbf{constant coefficients}.
 \end{itemize}
 \end{frame}
 
@@ -36,20 +36,22 @@ Let $N(t)$ be the number of radioactive atoms at time $t$, then:
 \frac{dN(t)}{dt} = - k N(t),
 \end{equation*}
 for some constant $k>0$. \\
-This is a first order homogeneous LDE with constant coëfficients.
+\vspace{1em}
+This is a first order homogeneous LDE with constant coefficients.
 \end{frame}
 
 \begin{frame}
 \frametitle{Example: radioactive decay 2/2}
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{decay-of-carbon-14.png}
+	\centering
+	\includegraphics[width=0.5\textwidth]{decay-of-carbon-14.png}
 \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Solving homogeneous LDEs with constant coëfficients 1/3}
 Solutions of LDEs must be of the form $e^{zt}$ with $z \in \mathbb{C}$. \\
-We assume an LDE with constant coëfficients:
+We assume an LDE with constant coefficients:
 \begin{equation*}
 \sum_{i=0}^n A_i y^{(n-i)} = 0.
 \end{equation*}
@@ -70,46 +72,57 @@ Characteristic equation:
 F(z) = \sum_{i=0}^n A_i z^{n-i} = 0.
 \end{equation*}
 \begin{enumerate}
-\item Solving the polynomial $F(z)$ yields $n$ zeros $z_1$ to $z_n$.
+\item Solving the polynomial $F(z)$ yields $n$ zeros $z_1$ to $z_n$;
 \item Substituting a given zero $z_i$ into $e^{zt}$ gives a solution $e^{z_it}$.
 \end{enumerate}
+\vspace{1em}
 Homogeneous LDEs obey the superposition position: \\
 $\rightarrow$ any linear combination of solutions $e^{z_1t}$,\ldots,$e^{z_nt}$ is a solution \pause \\
 $\rightarrow$ $e^{z_1t}$,\ldots,$e^{z_nt}$ form a basis of the solution space of the LDE \\
 The specific linear combination depends on initial conditions.
 \end{frame}
 
-
 \begin{frame}
 \frametitle{Solving homogeneous LDEs with constant coëfficients 3/3}
-Example:
-\begin{equation*}
-y^{(4)}(t) - 2 y^{(3)}(t) + 2 y^{(2)}(t) - 2 y^{(1)}(t) + y(t) = 0.
-\end{equation*}
-This is a 4th order homogeneous LDE with constant coëfficients.\\
-The corresponding characteristic equation:
-\begin{equation*}
-F(z) = z^4 - 2z^3 + 2z^2 - 2 z + 1 = 0.
-\end{equation*}
-The zeros of $F(z)$ are ($j=\sqrt{-1}$):
-\begin{equation*}
-z_1 = j, \quad z_2 = -j, \quad z_{3, 4} = 1.
-\end{equation*}
-These zeros correspond to the following basis functions $t$:
-\begin{equation*}
- e^{jt}, \quad e^{-jt}, \quad e^t, \quad te^t.
-\end{equation*}
+\begin{example}
+	\begin{equation*}
+	y^{(4)}(t) - 2 y^{(3)}(t) + 2 y^{(2)}(t) - 2 y^{(1)}(t) + y(t) = 0.
+	\end{equation*}
+	This is a 4th order homogeneous LDE with constant coefficients.\\
+	The corresponding characteristic equation:
+	\vspace{-0.5em}
+	\begin{equation*}
+	F(z) = z^4 - 2z^3 + 2z^2 - 2 z + 1 = 0.
+	\vspace{-0.5em}
+	\end{equation*}
+	The zeros of $F(z)$ are ($j=\sqrt{-1}$):
+	\vspace{-0.5em}
+	\begin{equation*}
+	z_1 = j, \quad z_2 = -j, \quad z_{3, 4} = 1.
+	\vspace{-0.5em}
+	\end{equation*}
+	These zeros correspond to the following basis functions $t$:
+	\vspace{-0.5em}
+	\begin{equation*}
+	 e^{jt}, \quad e^{-jt}, \quad e^t, \quad te^t.
+	\end{equation*}
+\end{example}
 \end{frame}
 
 \section{Laplace transform}
 
 \begin{frame}
 \frametitle{The Laplace transform}
+
+\begin{definition}
 The Laplace transform of $f(t)$, for all real numbers $t\geq 0$:
 \begin{equation*}
 F(s) = \mathcal{L}\big\{f(t)\big\} = \int_0^\infty e^{-st} f(t) dt.
 \end{equation*}
 The parameter $s = \sigma + j\omega$ is the complex number frequency.\\
+\end{definition}
+
+\vspace{1em}
 The initial value theorem states $f(0^+) = \lim_{s\rightarrow\infty} sF(s)$. \\
 The final value theorem states $f(\infty) = \lim_{s\rightarrow0} sF(s)$, \\
 if all poles of $sF(s)$ are in the left half plane (i.e. real part $<0$).
@@ -136,13 +149,15 @@ time shifting	& $f(t-a)u(t-a)$	& $e^{-as} F(s)$ \\
 with $u(t)=\int_\infty^t \delta(t)dt$ (Heaviside) and $\delta(t)$ the Dirac delta.
 \end{frame}
 
-
 \begin{frame}
 \frametitle{Inverse Laplace transform}
+\begin{definition}
 The inverse Laplace transform converts $s$-domain to time domain:
 \begin{equation*}
 f(t) = \mathcal{L}^{-1}\{F(s)\} = \frac{1}{j2\pi}\int_{\gamma-jT}^{\gamma+jT} e^{st} F(s) ds.
 \end{equation*}
+\end{definition}
+\vspace{1em}
 Practically, the inverse Laplace transform takes two steps:
 \begin{enumerate}
 \item write $F(s)$ in terms of partial fractions
@@ -201,7 +216,9 @@ The solution in the time domain is obtained via the inverse Laplace transform: $
 
 \begin{frame}
 \frametitle{Observability}
-A measure of how well a system's internal states $\mathbf{x}$ can be inferred by knowledge of its outputs $\mathbf{y}$. \\
+\begin{definition}
+A measure of how well a system's internal states $\mathbf{x}$ can be inferred by knowledge of its outputs $\mathbf{y}$. 
+\end{definition}
 Formally, a system is said to be observable if, for any possible sequence of state and control vectors, the current state can be determined in finite time using only the outputs. \\
 This holds for linear, time-invariant systems with $n$ states if:
 \begin{equation*}
@@ -212,7 +229,9 @@ rank(\mathcal{O}) = n,\quad \mathcal{O} = \begin{bmatrix} \mathbf{C} \\ \mathbf{
 
 \begin{frame}
 \frametitle{Controllability}
-A measure of the ability to move a system around in its entire configuration space using only certain admissible manipulations. \\
+\begin{definition}
+A measure of the ability to move a system around in its entire configuration space using only certain admissible manipulations.
+\end{definition}
 A system is controllable if its state can be moved from any initial state $\mathbf{x}_0$ to any final state $\mathbf{x}_f$ via some finite sequence of inputs $\mathbf{u}_0$\ldots$\mathbf{u}_f$. \\
 A linear, time-invariant system with $n$ states is controllable if:
 \begin{equation*}
@@ -229,10 +248,12 @@ where $\mathcal{C}$ is called the \textbf{controllability matrix}.
 
 \begin{frame}
 \frametitle{Transfer function}
+\begin{definition}
 The transfer function of input $i$ to output $j$ is defined as:
 \begin{equation*}
 H_{i,j}(s) = \frac{Y_j(s)}{U_i(s)},\quad \mathbf{U}(s) = \mathcal{L}\{u(t)\},\quad \mathbf{Y}(s) = \mathcal{L}\{y(t)\}.
 \end{equation*}
+\e
 MIMO systems with $n$ inputs and $m$ outputs have $n\times m$ transfer functions, one for each input-output pair.\\
 The complex Laplace variable can be rewritten: $s = \sigma + j\omega$. \\
 The frequency response of a system can be analyzed via $\mathbf{H}(j\omega)$:
@@ -271,19 +292,19 @@ Poles and zeros may cancel, i.e. if $D(s)=N(s)=0$ for some $s$.
 The output of a linear time-invariant system consists of:
 \begin{itemize}
 \item a steady-state output $y_{ss}(t)$, with the same period as $u(t)$ \\
-$\rightarrow$ $y_{ss}$ comprises the same frequencies as $u(t)$ \\
+$\rightarrow$ $y_{ss}$ comprises the same frequencies as $u(t)$; \\
 \item a transient output $y_{tr}(t)$ \\
 $\rightarrow$ if the system is stable, then $\lim_{t\rightarrow\infty} y_{tr}(t) = 0$  \\
-$\rightarrow$ $y_{tr}(t)$ depends on the initial state $\mathbf{x}_0(t)$ of the system
+$\rightarrow$ $y_{tr}(t)$ depends on the initial state $\mathbf{x}_0(t)$ of the system.
 \end{itemize}
 If we apply an input $u(t) = cos(\alpha t + \theta)$, then:
 \begin{equation*}
-y_{ss}(t) = |H(j\alpha)|cos(\alpha t + \theta + \angle H(j\alpha))
+y_{ss}(t) = |H(j\alpha)|cos(\alpha t + \theta + \angle H(j\alpha)).
 \end{equation*}
 The steady-state output $y_{ss}(t)$ of a linear time invariant system:
 \begin{itemize}
-\item consists of signals of same frequencies as the input signal $u(t)$
-\item which may have been magnified and/or phase changed
+\item consists of signals of same frequencies as the input signal $u(t)$;
+\item which may have been magnified and/or phase changed.
 \end{itemize}
 \end{frame}
 
@@ -291,8 +312,10 @@ The steady-state output $y_{ss}(t)$ of a linear time invariant system:
 
 \begin{frame}
 \frametitle{Impulse response}
-The impulse response $h(t)$ of input $i$ to output $j$ is the output $y_j(t)$ of a system when an impulse $\delta(t)$ is applied at input $u_i(t)$.\\
+\begin{definition}
+	The impulse response $h(t)$ of input $i$ to output $j$ is the output $y_j(t)$ of a system when an impulse $\delta(t)$ is applied at input $u_i(t)$.\\
 The impulse response is the inverse Laplace transform of the transfer function $h(t) = \mathcal{L}^{-1}\{H(s)\}$.\\ 
+\end{definition}
 For stable continuous time systems the impulse response always converges to $0$:
 \begin{equation*}
 \lim_{t\rightarrow\infty} h(t) = 0, \text{ because } \mathbf{D}=0 \text{ and }\lim_{t\rightarrow\infty} \mathbf{x}(t) = 0.
@@ -302,11 +325,14 @@ The speed of convergence depends on the position of the poles.
 
 \begin{frame}
 \frametitle{Time constant}
-The transfer function of first order systems can be written as:
-\begin{equation*}
-H(s) = \frac{K}{\tau s + 1}\quad \leftrightarrow \quad h(t) = \frac{K}{\tau} e^{-t/\tau},
-\end{equation*}
-where $\tau$ is called the system's \textbf{time constant}.\\
+\begin{definition}
+	The transfer function of first order systems can be written as:
+	\begin{equation*}
+	H(s) = \frac{K}{\tau s + 1}\quad \leftrightarrow \quad h(t) = \frac{K}{\tau} e^{-t/\tau},
+	\end{equation*}
+	where $\tau$ is called the system's \textbf{time constant}.\\
+\end{definition}
+\vspace{1em}
 The time constant summarizes the speed of a system's dynamics:
 \begin{itemize}
 \item after $\tau$ seconds, the impulse response reaches $h(0)/e$.
@@ -324,10 +350,10 @@ The time constant summarizes the speed of a system's dynamics:
 
 \begin{frame}
 \frametitle{Step response $H(s)=5/(5s+1) \leftrightarrow h(t)=exp(-t/5)$}
-\begin{figure}
-\centering
-\includegraphics[width=0.8\textwidth]{time-constant-step.png}
-\end{figure}
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{time-constant-step.png}
+	\end{figure}
 \end{frame}
 
 \subsection{Relationship between state space and transfer functions}
@@ -366,13 +392,13 @@ $H(s)$ cannot be computed when $(s\mathbf{I}-\mathbf{A})^{-1}$ does not exist, i
 \begin{align*}
 \det(s\mathbf{I}-\mathbf{A}) = 0
 \end{align*}
-The determinant is zero if $s$ is an eigenvalue of $\mathbf{A}$.\\ \pause
-$\rightarrow$ {\color{blue}all poles of $\mathbf{H}(s)$ are eigenvalues of $\mathbf{A}$}
+The determinant is zero if $s$ is an eigenvalue of $\mathbf{A}$.\\ 
+$\rightarrow$ {\color{blue}all poles of $\mathbf{H}(s)$ are eigenvalues of $\mathbf{A}$}.
 \end{frame}
 
 \begin{frame}
 \frametitle{Relationship between poles and eigenvalues of $\mathbf{A}$ 2/2}
-Transfer functions only capture what is relevant to describe an input-output relationship, but not all states necessarily contribute.\pause\\
+Transfer functions only capture what is relevant to describe an input-output relationship, but not all states necessarily contribute.\\
 $\rightarrow$ \emph{unobservable} modes of $\mathbf{A}$ are not poles in $\mathbf{H}(s)$. \\
 Consider the following SISO system with 2 states:
 \begin{align*}
@@ -390,120 +416,115 @@ $\rightarrow$ {\color{blue}not all eigenvalues of $\mathbf{A}$ are poles in tran
 
 \begin{frame}
 \frametitle{Transient Response}
-The time response of a control system can be written as:
-\begin{align*}
-y(t) = y_{tr}(t) + y_{ss}(t)
-\end{align*}
-\\Where $y_{tr}(t)$ is the transient response and $y_{ss}(t)$ is the steady state response.
-The most important characteristic of a dynamic system is absolute stability.
-\begin{itemize}
-\item A system is stable when it returns to equilibrium, if subject to initial condition
-\item A system is critically stable when oscillations of the output continue forever
-\item A system is unstable when the output diverges without bound from equilibrium, if subject to initial condition
-\end{itemize}
-Transient response: when the input of a system changes, the output does not change immediately but takes time to go to steady state.
+The time response of a control system can be written as:\\
+\begin{center}
+	$y(t) = y_{tr}(t) + y_{ss}(t)$
+\end{center}
+where $y_{tr}(t)$ is the transient response and $y_{ss}(t)$ is the steady state response.\\
+\begin{definition}
+	The transient response of a system is the time-difference between the change of the inputs and the change of the outputs: when the input of a system changes, the output does not change immediately but takes time to go to steady state.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\frametitle{First order systems: stability}
+	The most important characteristic of a dynamic system is absolute stability.
+	\begin{itemize}
+		\item A system is stable when it returns to equilibrium, if subject to initial condition
+		\item A system is critically stable when oscillations of the output continue forever
+		\item A system is unstable when the output diverges without bound from equilibrium, if subject to initial condition
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{First order systems}
-E.g. RC circuit, thermal system, ...
-\vspace{0.15cm}
-\\ \includegraphics[width=0.6\linewidth]{Afbeelding1}
-\vspace{0.15cm}
-\\Transfer function is given by: $\frac{Y(s)}{U(s)} = \frac{1}{\tau s +1}$
-\vspace{0.15cm}
-\\Unit step response
-\begin{itemize}
-\vspace{0.15cm}
-\item Laplace of unit-step is $\frac{1}{s}$ $\rightarrow$ substituting $U(s)= \frac{1}{s}$ \\
-\vspace{0.15cm}
-into equation $Y(s) = \frac{1}{s}\frac{1}{\tau s +1}$
-\vspace{0.15cm}
-\item Expanding into partial fractions gives
-\vspace{0.15cm}
-\\ $Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$
-\end{itemize}
+\begin{example}
+	Unit step response of RC circuit, thermal system, ...
+	\vspace{-0.8em}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{Afbeelding1}
+	\end{figure}
+	\vspace{-0.8em}
+	\\The transfer function is given by: $\frac{Y(s)}{U(s)} = \frac{1}{\tau s +1}$
+	\begin{itemize}
+		\item Laplace of unit-step is $\frac{1}{s}$ $\rightarrow$ substituting $U(s)= \frac{1}{s}$: $Y(s) = \frac{1}{s}\frac{1}{\tau s +1}$;
+		\item Expanding into partial fractions gives $Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$.
+	\end{itemize}
+\end{example}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit step transient response}
-\begin{enumerate}
-\item$Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$
-\vspace{0.2cm}
-\item Taking the inverse Laplace transform
-\vspace{0.2cm}
-\\ $y(t) = 1 - e^{-\frac{t}{\tau}}$, for $t\ge 0$ 
-\vspace{0.2cm}
-\item At $t=0$, the output $y(t)=0$
-\vspace{0.2cm}
-\item At $t=\tau$, the output $y(t)=0.632$, or $y(t)$ has reached $63.2\% $ 
-\vspace{0.01cm} 
-\\ of its total change $y(\tau)= 1 - e^{-1} = 0.632$
-\vspace{0.2cm}
-\item Slope at time $t=0$ is $\frac{1}{\tau}$
-\vspace{0.2cm}
-\\ $\frac{dy}{dt}|_{t=0} = \frac{1}{\tau}e^{-\frac{t}{\tau}}|_{t=0} = \frac{1}{\tau}$
-\vspace{0.2cm}
-\\ Where $\tau$ is called the system time constant
+	\begin{enumerate}
+	\item$Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = 	\frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$;
+	\item Taking the inverse Laplace transform
+	\\ $y(t) = 1 - e^{-\frac{t}{\tau}}$, for $t\ge 0$;
+	\item At $t=0$, the output $y(t)=0$;
+	\item At $t=\tau$, the output $y(t)=0.632$, or $y(t)$ has reached $63.2\% $ of its total change $y(\tau)= 1 - e^{-1} = 0.632$;
+	\item Slope at time $t=0$ is $\frac{1}{\tau}$
+	\\ $\frac{dy}{dt}|_{t=0} = \frac{1}{\tau}e^{-\frac{t}{\tau}}|_{t=0} = \frac{1}{\tau}$,
+	\\ where $\tau$ is called the system time constant.
 \end{enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit step transient response}
-\includegraphics[width=0.8\linewidth]{Afbeelding2}
+\vspace{-0.5em}
+\begin{center}
+	\begin{figure}
+		\includegraphics[width=0.75\linewidth]{Afbeelding2}
+	\end{figure}
+\end{center}
+
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit ramp transient response}
 \begin{enumerate}
-\vspace{0.2cm}
 \item Laplace transform of unit ramp is $\frac{1}{s^2}$
-\vspace{0.1cm}
-\\ $Y(s) = \frac{1}{\tau s +1} \frac{1}{s^2}$
-\vspace{0.2cm}
+\\ $Y(s) = \frac{1}{\tau s +1} \frac{1}{s^2}$;
 \item Expanding into partial fractions gives
-\vspace{0.1cm}
-\\ $Y(s)= \frac{1}{s^2} - \frac{\tau}{s} + \frac{\tau^2}{\tau s +1}$
-\vspace{0.2cm}
+\\ $Y(s)= \frac{1}{s^2} - \frac{\tau}{s} + \frac{\tau^2}{\tau s +1}$;
 \item Taking the inverse Laplace transform 
-\vspace{0.1cm}
-\\ $y(t) = t -\tau + \tau e^{-\frac{t}{\tau}}$, for $t\ge 0$
-\vspace{0.2cm}
+\\ $y(t) = t -\tau + \tau e^{-\frac{t}{\tau}}$, for $t\ge 0$;
 \item The error signal $e(t)$ is then
-\vspace{0.1cm}
-\\ $e(t)=u(t) -y(t) = \tau(1-e^{-\frac{t}{\tau}})$
-\vspace{0.2cm}
+\\ $e(t)=u(t) -y(t) = \tau(1-e^{-\frac{t}{\tau}})$;
 \item For $t$ approaching infinity, $e(t)$ approaches $\tau$
-\vspace{0.1cm}
-\\ $e(\infty) = \tau$
+\\ $e(\infty) = \tau$.
 \end {enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit ramp transient response}
-\includegraphics[width=0.6\linewidth]{Afbeelding4}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{Afbeelding4}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit-Impulse Response}
-For a unit-impulse input, $U(s)=1$ and the output is
+For a unit-impulse input, $U(s)=1$ and the output is:
 \vspace{0.15cm}
 \begin{align*}
-Y(s)=\frac{1}{\tau s +1}
+Y(s)=\frac{1}{\tau s +1}.
 \end{align*}
 \vspace{0.15cm}
-The inverse Laplace transform gives
+The inverse Laplace transform gives:
 \vspace{0.15cm}
 \begin{align*}
-y(t)= \frac{1}{\tau}e^{-\frac{t}{\tau}} ,\text{ for } t \ge 0
+y(t)= \frac{1}{\tau}e^{-\frac{t}{\tau}} ,\text{ for } t \ge 0.
 \end{align*}
 \vspace{0.15cm}
-For $t\rightarrow +\infty$, $y(t)\rightarrow 0$
+For $t\rightarrow +\infty$, $y(t)\rightarrow 0$.
 \end{frame}
 
 \begin{frame}
 \frametitle{Unit-Impulse Response}
-\includegraphics[width=0.8\linewidth]{Afbeelding5}
+	\begin{center}
+		\begin{figure}
+			\includegraphics[width=0.7\linewidth]{Afbeelding5}
+		\end{figure}
+	\end{center}
 \end{frame}
 
 \subsection{Second order systems} 
@@ -511,23 +532,21 @@ For $t\rightarrow +\infty$, $y(t)\rightarrow 0$
 \begin{frame}
 \frametitle{Second order systems}
 A second order system can generally be written as:
-\vspace{0.4cm}
 \begin{align*}
 \frac{Y(s)}{U(s)}=H(s)=\frac{as^2+ bs+ c}{ds^2+ es+ f}
 \end{align*}
-\vspace{0.2cm}
-A system where the closed-loop transfer function possesses two poles is called a second-order system
-\vspace{0.4cm}
+A system where the closed-loop transfer function possesses two poles is called a second-order system.\\
+\vspace{1em}
 If the transfer function has two real poles, the frequency response can be found by combining the effects of both poles
 \end{frame}
 
 \begin{frame}{Second order systems} 
 \vspace{-0.5cm}
-Sometimes the transfer function has two complex conjugate poles. In that case we have to find a different solution for finding the frequency response.
-\vspace{1cm}
-In order to study the transient behaviour, let us first consider the following simplified example of a second order system
+Sometimes the transfer function has two complex conjugate poles. In that case we have to find a different solution for finding the frequency response.\\
+\vspace{1em}
+In order to study the transient behaviour, let us first consider the following simplified example of a second order system:
 \begin{align*}
-H(s) = \frac{c}{ds^2+es+c}
+H(s) = \frac{c}{ds^2+es+c}.
 \end{align*}
 \vspace{-0.5cm}
 \end{frame}
@@ -535,58 +554,33 @@ H(s) = \frac{c}{ds^2+es+c}
 \begin{frame}
 \frametitle{Step response second order system}
 \begin{enumerate}
-\item $H(s) = \frac{c}{ds^2+es+c}$
-\vspace{0.25cm}
+\item $H(s) = \frac{c}{ds^2+es+c}$;
 \item The transfer function can be rewritten as:
-\vspace{-0.35cm}
 \begin{align*}
 H(s) &= \frac{\frac{c}{d}}{s^2+\frac{e}{d}s+\frac{c}{d}}
-\vspace{-0.1cm}\\ &= \frac{\frac{c}{d}}{\Big[s+\frac{e}{2d}+\sqrt{\big(\frac{e}{2d}\big)^2-\frac{c}{d}}\Big]\Big[s+\frac{e}{2d}-\sqrt{\big(\frac{e}{2d}\big)^2-\frac{c}{d}}\Big]}
+\vspace{-0.1cm}\\ &= \frac{\frac{c}{d}}{\Big[s+\frac{e}{2d}+\sqrt{\big(\frac{e}{2d}\big)^2-\frac{c}{d}}\Big]\Big[s+\frac{e}{2d}-\sqrt{\big(\frac{e}{2d}\big)^2-\frac{c}{d}}\Big]};
 \end{align*}
-\item The poles are complex conjugates if
-\vspace{-0.5cm}
-\begin{align*}
-e^2 -4dc <0
-\end{align*}
-\vspace{-0.45cm}
-\item The poles are real if
-\vspace{-0.45cm}
-\begin{align*}
-e^2 -4dc\ge 0
-\end{align*}
+\item The poles are complex conjugates if $e^2 -4dc <0$;
+\item The poles are real if $e^2 -4dc\ge 0$.
 \end{enumerate}
 \end{frame}
 
 \begin{frame}
 \frametitle{Step response second order system}
 
-To simplify the transient analysis, it is convenient to write
-\\ 
-\begin{align*}
-\frac{f}{d} = \omega_n ^2\text{, } \frac{e}{d}=2\zeta\omega_n=2\sigma
-\end{align*}
-Where 
-\vspace{0.15cm}
-$\sigma$ is the attenuation 
-\vspace{0.3cm}
-$\omega_n$ is the natural frequency 
-\vspace{0.3cm}
-$\zeta$ is the damping ratio
-\vspace{0.25cm}
-\end{frame}
+To simplify the transient analysis, it is convenient to write:
+\begin{itemize}
+\item $\frac{f}{d} = \omega_n ^2\text{, }$
+\item $\frac{e}{d}=2\zeta\omega_n=2\sigma$
+\end{itemize}
+where $\sigma$ is the attenuation, $\omega_n$ is the natural frequency and $\zeta$ is the damping ratio.\\
+\vspace{0.5em}
+The transfer function can now be rewritten as\\
+\begin{center}
+$H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}$ (= standard form).\\
+\end{center}
 
-\begin{frame}
-\frametitle{Step response second order system}
-The transfer function can now be rewritten as
-\vspace{-0.5cm}
-\begin{align*}
-H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}
-\end{align*}
-\vspace{0.2cm}
-Which is called the standard form of the second-order system.
-\vspace{0.25cm}
-\vspace{0.3cm}
-The dynamic behavior of the second-order system can then be described in terms of only two parameters $\zeta$ and $\omega_n$ 
+The dynamic behavior of the second-order system can then be described in terms of only two parameters $\zeta$ and $\omega_n$.
 \end{frame}
 
 \begin{frame}
@@ -594,35 +588,26 @@ The dynamic behavior of the second-order system can then be described in terms o
 If $0<\zeta<1$, the poles are complex conjugates and lie in the left-half $s$-plane
 \begin{itemize}
 \item The system is then called \textbf{underdamped}
-\vspace{0.15cm}
 \item The \textbf{transient response is oscillatory}
 \end{itemize}
-\vspace{0.35cm}
-If $\zeta=0$, the \textbf{transient response doesn't die out}
-\vspace{0.35cm}
-If $\zeta=1$, the system is called \textbf{critically damped}
-\vspace{0.35cm}
-If $\zeta>1$, the system is called \textbf{overdamped}
-\vspace{0.35cm}
-We will now look at the unit step response for each of these cases
+\vspace{0.15cm}
+If $\zeta=0$, the \textbf{transient response doesn't die out}. If $\zeta=1$, the system is called \textbf{critically damped}. If $\zeta>1$, the system is called \textbf{overdamped}. We will now look at the unit step response for each of these cases.
 \end{frame}
 
 \begin{frame}
 \frametitle{Underdamped system}
-For the underdamped case $(0< \zeta< 1)$, the transfer function can be written as
+For the underdamped case $(0< \zeta< 1)$, the transfer function can be written as:
 \vspace{-0.25cm}
 \begin{align*}
 H(s)=\frac{\omega_n ^2}{(s+\zeta\omega_n+j\omega_d)(s+\zeta\omega_n-j\omega_d)}
 \end{align*}
-Where $\omega_d$ is called the damped natural frequency\\ 
-\begin{align*}
-\omega_d = \omega_n\sqrt{1-\zeta^2}
-\end{align*}
-\vspace{-0.15cm}
+Where $\omega_d$ is called the damped natural frequency 
+$\omega_d = \omega_n\sqrt{1-\zeta^2}$.\\
+\vspace{1em}
 For a unit-step input we can write
 \vspace{-0.25cm} 
 \begin{align*}
-Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}
+Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}.
 \end{align*}
 \end{frame}
 
@@ -632,28 +617,29 @@ Which can be rewritten as partial fractions\\
 \vspace{-0.5cm}
 \begin{align*}
 Y(s)&=\frac{1}{s} -\frac{s+2\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} \\ \vspace{2cm}
-&= \frac{1}{s} -\frac{s+\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} -\frac{\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2}
+&= \frac{1}{s} -\frac{s+\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2} -\frac{\zeta\omega_n}{s^2+2\zeta\omega_n s+ \omega_n ^2}.
 \end{align*}
-It can be shown that\\ 
+It can be shown that\\
+\vspace{-1em} 
 \begin{align*}
 \mathcal{L}^{-1}\Big[\frac{s+\zeta\omega_n}{(s+\zeta\omega_n)^2+\omega_d ^2}\Big]&= e^{-\zeta\omega_n t}cos(\omega_d t)\\  \vspace{2cm}
-\mathcal{L}^{-1}\Big[\frac{\omega_d}{(s+\zeta\omega_n)^2+\omega_d ^2}\Big]&= e^{-\zeta\omega_n t}sin(\omega_d t)
+\mathcal{L}^{-1}\Big[\frac{\omega_d}{(s+\zeta\omega_n)^2+\omega_d ^2}\Big]&= e^{-\zeta\omega_n t}sin(\omega_d t).
 \end{align*}
 \end{frame}
-
 
 
 \begin{frame}
 \frametitle{Underdamped system}
 Therefore:\\ 
-\vspace{0.25cm}
-$\mathcal{L}^{-1}\Big[Y(s)\Big]=y(t)$
-\vspace{0.35cm}
-$ = 1 - e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))$
-\vspace{0.25cm}
-$ = 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}sin(\omega_d t+ tan^{-1}(\frac{\sqrt{1-\zeta^2}}{\zeta}))$
-\vspace{0.4cm}
-It can be seen that the frequency of the transient oscillation is the damped natural frequency $\omega_d$ and thus varies with the damping ratio $\zeta$
+\vspace{-0.5em}
+\begin{align*}
+\mathcal{L}^{-1}\{Y(s)\} & =y(t)\\
+& = 1 - e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))\\
+& = 1 - \frac{e^{-\zeta\omega_n t}}{\sqrt{1-\zeta^2}}sin(\omega_d t+ tan^{-1}(\frac{\sqrt{1-\zeta^2}}{\zeta})).\\
+\end{align*}
+\\
+\vspace{-1em}
+It can be seen that the frequency of the transient oscillation is the damped natural frequency $\omega_d$ and thus varies with the damping ratio $\zeta$.
 \end{frame}
 
 \begin{frame}
@@ -663,91 +649,77 @@ The error signal is the difference between input and output
 e(t)&= y(t) -u(t)\\
 &= e^{-\zeta\omega_n t}(cos(\omega_d t)+\frac{\zeta}{\sqrt{1 - \zeta^2}}sin(\omega_d t))
 \end{align*}
-The error signal exhibits a damped sinusoidal oscillation
-\vspace{0.8cm}
-At steady state, or at $t=\infty$, the error goes to zero
+The error signal exhibits a damped sinusoidal oscillation.
+At steady state, or at $t=\infty$, the error goes to zero.
 \end{frame}
 
 \begin{frame}
 \frametitle{Underdamped system}
 If damping $\zeta=0$, the response becomes \textbf{undamped}
 \begin{itemize}
-\vspace{0.25cm}
-\item Oscillations continue indefinitely
-\vspace{0.25cm}
-\item Filling in $\zeta=0$ into the equation for y(t) gives us\\
-$y(t) = 1 -cos(\omega_n t)$, for $t\ge 0$
-\vspace{0.25cm}
-\item We see that the system now oscillates at the natural frequency $\omega_n$
-\vspace{0.25cm}
-\item If a linear system has any amount of damping, the undamped natural frequency cannot be observed experimentally, only $\omega_d$ can be observed
-\vspace{0.25cm}
-\item $\omega_d$ is always lower than $\omega_n$
+\item Oscillations continue indefinitely;
+\item Filling in $\zeta=0$ into the equation for y(t) gives us:\\
+$y(t) = 1 -cos(\omega_n t)$, for $t\ge 0$;
+\item We see that the system now oscillates at the natural frequency $\omega_n$;
+\item If a linear system has any amount of damping, the undamped natural frequency cannot be observed experimentally, only $\omega_d$ can be observed;
+\item $\omega_d$ is always lower than $\omega_n$.
 \end{itemize} 
 \end{frame}
 
 \begin{frame}
 \frametitle{Critically damped system}
-If the two poles of the system are equal, the system is critically damped and $\zeta=1$
-\vspace{0.75cm}
-For a unit-step, $R(s)=\frac{1}{s}$ and we can write
+If the two poles of the system are equal, the system is critically damped and $\zeta=1$. For a unit-step, $R(s)=\frac{1}{s}$ and we can write:
 \begin{align*}
-Y(s) =\frac{\omega_n ^2}{(s+\omega_n)^2 s}
+Y(s) =\frac{\omega_n ^2}{(s+\omega_n)^2 s}.
 \end{align*}
-The inverse Laplace transform gives us
+The inverse Laplace transform gives us:
 \begin{align*}
-y(t) = 1 - e^{-\omega_n t}(1+\omega_n t) \text{ for } t\ge 0
+y(t) = 1 - e^{-\omega_n t}(1+\omega_n t) \text{ for } t\ge 0.
 \end{align*}         
 \end{frame}
 
 \begin{frame}
 \frametitle{Overdamped system}
-A system is overdamped ($\zeta>1$) when the two poles are negative, real and unequal
+A system is overdamped ($\zeta>1$) when the two poles are negative, real and unequal.
 \vspace{0.25cm}
 For a unit-step $R(s)=\frac{1}{s}$, $Y(s)$ can be written as
 \vspace{-0.5cm}
 \begin{align*}
-Y(s) = \frac{\omega_n ^2}{(s+\zeta\omega_n + \omega_n ^2\sqrt{\zeta^2 -1})(s+\zeta\omega_n - \omega_n ^2\sqrt{\zeta^2 -1})}
+Y(s) = \frac{\omega_n ^2}{(s+\zeta\omega_n + \omega_n ^2\sqrt{\zeta^2 -1})(s+\zeta\omega_n - \omega_n ^2\sqrt{\zeta^2 -1})}.
 \end{align*} 
 The inverse Laplace transform is
 \vspace{-0.5cm}
 \begin{align*}
-y(t) = 1 +\frac{w_n}{2\sqrt{\zeta^2-1}}(\frac{e^{-s_1 t}}{s1} - \frac{e^{-s_2 t}}{s2})\text{, for } t\ge 0
+y(t) = 1 +\frac{w_n}{2\sqrt{\zeta^2-1}}(\frac{e^{-s_1 t}}{s1} - \frac{e^{-s_2 t}}{s2})\text{, for } t\ge 0.
 \end{align*}
 Where
 \vspace{-0.5cm}
 \begin{align*}
-s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n\text{ and } s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n
+s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n\text{ and } s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n.
 \end{align*}
 \end{frame}
 
 \begin{frame}
 \frametitle{Overdamped system}
 $s_1 = (\zeta +\sqrt{\zeta^2 -1})\omega_n$ and $s_2 = (\zeta -\sqrt{\zeta^2 -1})\omega_n$
-\vspace{0.3cm}
 \\ Thus $y(t)$ includes two decaying exponential terms
 \begin{itemize}
-\vspace{0.2cm}
-\item When $\zeta >> 1$, one of the two decreases much faster than the other, and then the faster decaying exponential may be neglected
-\vspace{0.2cm}
-\item If $-s_2$ is located much closer to the $j\omega$ axis than $-s_1$ ($|s_2|>>|s_1|$), then $-s_1$ may be neglected
-\vspace{0.3cm}
-\item Once the faster decaying exponential term has disappeared, the response is similar to that of a first-order system
-\vspace{0.3cm}
-\item In that case, $H(s)$ can be approximated by 
+\item When $\zeta >> 1$, one of the two decreases much faster than the other, the faster decaying exponential may be neglected;
+\item If $-s_2$ is located much closer to the $j\omega$ axis than $-s_1$ ($|s_2|>>|s_1|$), then $-s_1$ may be neglected;
+\item Once the faster decaying exponential term has disappeared, the response is similar to that of a first-order system:
 \begin{align*}
-H(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1}}=\frac{s_2}{s+s_2}
+H(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1}}=\frac{s_2}{s+s_2}.
 \end{align*}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Overdamped system}
-With the approximate transfer function, the unit-step response becomes
+With the approximate transfer function, the unit-step response becomes:
 \begin{align*}
  Y(s) = \frac{\zeta\omega_n - \omega_n\sqrt{\zeta^2-1}}{(s+\zeta\omega_n -\omega_n\sqrt{\zeta^2-1})s}
 \end{align*}
-The time response for the approximate transfer function is then given as\\ 
+The time response for the approximate transfer function is then given as:\\ 
 \begin{align*}
 y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \end{align*}
@@ -756,62 +728,64 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \begin{frame}
 \frametitle{Second order systems – unit step response curves}
 Response on a step function
-\vspace{1cm} 
-\includegraphics[width=0.8\linewidth]{Afbeelding6}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Afbeelding6}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Second order systems - characteristics}
-Overshoot: Highest amplitude above steady state.\\ 
-$M_p = e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}}$
-\vspace{0.12cm}
-Rise Time: Time needed to reach the steady state for the first time. $t_r = \frac{1.8}{\omega_n}$
-\vspace{0.12cm}
-Peak Time: Time to reach overshoot.\\$t_p =\frac{\pi}{\omega_d}$
-\vspace{-0.2cm} 
-\begin{figure}
-\centering{\includegraphics[width=0.3\linewidth]{Afbeelding7}}
-\end{figure}
+\begin{itemize}
+	\item Overshoot: Highest amplitude above steady state:  $M_p = e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}}$;
+	\item Rise Time: Time needed to reach the steady state for the first time. $t_r = \frac{1.8}{\omega_n}$;
+	\item Peak Time: Time to reach overshoot.\\$t_p =\frac{\pi}{\omega_d}$;
+	\item Settling Time: Time needed to approximate the steady state: $t_s = \frac{4.6}{\zeta\omega_n}$. Important note: this formulas can only be used when  $0<\zeta<1$!
+\end{itemize} 
 \end{frame}
 
 \begin{frame}
 \frametitle{Second order systems - characteristics}
-Settling Time: Time needed to approximate the steady state.\\
-$t_s = \frac{4.6}{\zeta\omega_n}$
-\\ Important: this formulas are only useable for $0<\zeta<1$!
-\vspace{0.12cm}
-For: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$
-\vspace{0.12cm}
-We find:
-\vspace{-0.6cm}
-\begin{align*}
- e^{-\zeta\omega_n T_s} &< 0.02\\
- T_s &= \frac{4}{\omega_n\zeta}
-\end{align*}
-\vspace{-1cm}
-\includegraphics[width=0.3\linewidth]{Afbeelding7}
+
+\begin{columns}
+\hspace{-2em}
+	\begin{column}{0.6\textwidth}
+		\begin{figure}
+			\vspace{-1em}
+			\includegraphics[width=0.9\linewidth]{Afbeelding7}
+		\end{figure}
+	\end{column}
+		
+	\begin{column}{0.4\textwidth}
+		\vspace{-0.5em}
+		\begin{example}
+			Given: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$\\
+			We find a settling time of:
+			\begin{align*}
+			e^{-\zeta\omega_n t_s} &< 0.02\\
+			t_s &= \frac{4}{\omega_n\zeta}
+			\end{align*}
+		\end{example}
+	\end{column}
+
+\end{columns}
 \end{frame}
 
 \begin{frame}
-\frametitle{Second order systems - resonace}
-The resonance frequency is the frequency at which the systems output has a larger amplitude than at other frequencies. This happens when underdamped functions oscillate at a greater magnitude than the input.
+\frametitle{Second order systems - resonance}
+The resonance frequency is the frequency at which the systems output has a larger amplitude than at other frequencies. This happens when underdamped functions oscillate at a greater magnitude than the input. An input with this frequency can sometime have catastrophic effects.\\
 \vspace{0.35cm}
-An input with this frequency can sometime have catastrophic effects.
-\vspace{0.35cm}
-A different view on the Tacoma bridge disaster: \url{https://www.youtube.com/watch?v=6ai2QFxStxo}
+A different view on the Tacoma bridge disaster: \url{https://www.youtube.com/watch?v=6ai2QFxStxo}\\
 \vspace{0.35cm}
 In fact the collapse was a result of a number of effects like Aerodynamic flutter and vortices. Read the full article here: \url{http://www.ketchum.org/billah/Billah-Scanlan.pdf}
 \end{frame}
 
 \begin{frame}
 \frametitle{Second order systems - resonance}
-The resonance frequency is: $\omega_r = \omega_n\sqrt{1-\zeta^2}$
+The resonance frequency is: $\omega_r = \omega_n\sqrt{1-\zeta^2}$.\\
 \vspace{0.35cm}
-Systems with a damping $>0.707$ do not resonate
+Systems with a damping $>0.707$ do not resonate. The resonance frequency and the natural frequency are equal when a system has no damping.\\
 \vspace{0.35cm}
-The resonance frequency and the natural frequency are equal when a system has no damping.
-\vspace{0.35cm}
-Another phenomenon with bridges and resonance is that many people marching with the same rhythm can cause a bridge to start resonating like the Angers bridge in $1850$. A more recent example is the Millennium bridge in London who started resonating.
+Another phenomenon with bridges and resonance is that many people marching with the same rhythm can cause a bridge to start resonating like the Angers bridge in $1850$. A more recent example is the Millennium bridge in London which started resonating.
 \end{frame}
 
 \begin{frame}
