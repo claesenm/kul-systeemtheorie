@@ -1,7 +1,7 @@
-from control import *
 from control import bode as cbode
+from control import *
 from math import tan,exp
-from scipy import signal
+from scipy import signal as signal
 from numpy import *
 import matplotlib
 import matplotlib.pyplot as plt
@@ -22,6 +22,7 @@ def init():
             Denom[k] = float(Denom[k])
         except:
             Denom[k] = [1]
+    print Num,Denom
     return Num,Denom
 
 def check():
@@ -81,7 +82,8 @@ def draw_bode(sys,sysd,freq,Ts):
     start = 10**(-4)
     stop = math.pi/Ts
     step = 10**(-1)
-    mag,phase,omega = cbode(sys,dB=True,Hz=False)
+    stop_cont = 10**(ceil(log10(stop)))
+    mag,phase,omega = cbode(sys,dB=True,Hz=False,omega=arange(start,stop_cont,step))
     mag2,phase2,omega2 = cbode(sysd,dB=True,Hz=False,omega=arange(start,stop,step))
     plt.subplot(3,2,3)
     plt.semilogx(omega, mag,color='blue')
@@ -109,10 +111,11 @@ def step_response(sys,sysd,Ts):
     sysden = asarray(sys.den)[0][0]
     sysdnum = asarray(sysd.num)[0][0]
     sysdden = asarray(sysd.den)[0][0]
+    x = arange(0,100,0.1)
     syslti = signal.lti(sysnum,sysden)
     sysdlti = signal.lti(sysdnum,sysdden)
-    t,s = signal.step(syslti)
-    t2,s2 = signal.dstep((sysdnum,sysdden,Ts))
+    t,s = signal.step(syslti,T=x)
+    t2,s2 = signal.dstep((sysdnum,sysdden,Ts),t=x)
     ax = plt.subplot(3,2,4)
     plt.plot(t, s,color='blue',label='Continuous-time')
     plt.plot(t2, s2[0],color='red',label='Discrete-time')
@@ -125,7 +128,7 @@ def step_response(sys,sysd,Ts):
 # Bilinear transform with prewarping ------------------
 
 def find_sysd_prew(sys,f,Ts):
-    #Construct continuous time system so we can substitute s with factor (z-1)/(z+1)
+    #Construct continuous time system so we can substitute s with factor*(z-1)/(z+1)
     s = Symbol('s')
     zer = sys.zero()
     pol = sys.pole()
@@ -146,12 +149,10 @@ def find_sysd_prew(sys,f,Ts):
     steller = simplify((K*teller).subs(s,factor*(z-1)/(z+1)))
     snoemer = simplify(noemer.subs(s,factor*(z-1)/(z+1)))
     ssys = simplify(steller/snoemer)
+    omgekeerd = simplify(1/ssys)
     #Compute zeros and poles
-    zeros = solve(steller, z)
-    poles = solve(snoemer,z)
-    check = ssys
-    a = steller.subs(z,-1.00)
-    b = snoemer.subs(z,-1.00)
+    zeros = solve(ssys, z)
+    poles = solve(omgekeerd,z)
     k = 0
     while k<5:
         if (snoemer.subs(z,-1.00) == zoo):
@@ -176,7 +177,7 @@ def find_sysd_prew(sys,f,Ts):
             den[k] = float(den[k])
         except:
             den[k] = den[k]
-    system = TransferFunction(num,den)
+    system = TransferFunction(num,den,Ts)
     gain = sys.horner(0)[0][0]/(system.horner(1)[0][0])
     #Convert it to a transferfunction
     num,den = signal.zpk2tf(zeros,poles,gain)
@@ -192,7 +193,7 @@ def find_sysd_prew(sys,f,Ts):
             den[k] = float(den[k])
         except:
             den[k] = den[k]
-    system = TransferFunction(num,den)
+    system = TransferFunction(num,den,Ts)
     return system
 
 # Impulse invariant method  --------------------
@@ -277,7 +278,7 @@ def find_sysd_impulse(Ts,sys):
             den[k] = float(den[k])
         except:
             den[k] = den[k]
-    sysd = TransferFunction(num,den)
+    sysd = TransferFunction(num,den,Ts)
     return sysd
     
 # Zero-pole matching  --------------------

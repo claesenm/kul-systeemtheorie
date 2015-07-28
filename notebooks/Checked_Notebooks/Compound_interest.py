@@ -31,7 +31,7 @@ def input_handler_u(x_k,y_k):
 def input_handler_keep_going():
     keep_going = None
     # Blijf prompten tot correcte input
-    while keep_going in("Y","y","n","N"):
+    while keep_going not in("Y","y","n","N"):
         keep_going = raw_input("Do you want to keep going(Y/N)? ")
     if keep_going in("N","n"):
         return False

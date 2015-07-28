@@ -7,11 +7,15 @@ from math import *
 def draw_lines(gm, pm, Wcg, Wcp):
     hold(True)
     subplot(2,1,1)
-    plot([Wcp,Wcp],[-100,100],'g')
-    plot([10**-1,10],[-20*log10(gm),-20*log10(gm)],'r')
+    ymin,ymax = ylim()
+    plot([Wcp,Wcp],[ymin,ymax],'g')
+    xmin,xmax = xlim()
+    plot([xmin,xmax],[-20*log10(gm),-20*log10(gm)],'r')
     subplot(2,1,2)
-    plot([Wcp,Wcp],[-300,0],'g')
-    plot([10**-1,10],[-180,-180],'r')
+    ymin,ymax = ylim()
+    plot([Wcp,Wcp],[ymin,ymax],'g')
+    xmin,xmax = xlim()
+    plot([xmin,xmax],[-180,-180],'r')
 
 def draw_unit_circle():
     hold(True)
