@@ -84,9 +84,10 @@ xmin = None
 xmax = None
 fmin = None
 fmax = None
-
-def plotter(t,y,x_min,x_max,f_min,f_max):
-    global t_signal,y_signal,xmin,xmax,fmin,fmax
+left = False
+def plotter(t,y,x_min,x_max,f_min,f_max,left_in = False):
+    global t_signal,y_signal,xmin,xmax,fmin,fmax,left
+    left = left_in
     plt.close() 
     t_signal = t
     y_signal = y
@@ -140,9 +141,9 @@ def generate_block_train(height,frequency):
     plotter(t,np.asarray(y[:int(N)]),-N/(2.*Fs),N/(2.*Fs),-1,1)
 
 def generate_damped_ocilation(frequency,damping):
-    t= np.linspace(0,N/Fs,N)
+    t= np.linspace(1/Fs,N/Fs,N)
     y = np.exp(-damping*t)*np.sin(2*np.pi * frequency *t)
-    plotter(t,y,0,1,-2*frequency,2*frequency)
+    plotter(t,y,0,1,-2*frequency,2*frequency,True)
     
 def generate_carrier_signal(carrier,signal):
     t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
