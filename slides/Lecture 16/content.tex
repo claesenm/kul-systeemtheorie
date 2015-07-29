@@ -24,7 +24,7 @@
 	We will discuss two different \textbf{graphical representations} to design compensators in the frequency domain:
 	\begin{itemize}
 		\item Nyquist stability diagram and Nyquist plots
-		\item Bode plots (for the design of lead, lag and lead-lag compensators)
+		\item Bode plots (for the design of lead, lag and lead-lag compensators: next lecture)
 	\end{itemize}
 \end{frame}
 
@@ -47,7 +47,7 @@
 	The system is stable if all the roots remain in the left half plane.\\
 	\medskip
 	We are however not interested in the positions of the poles.\\
-	We only need to know whether there are poles in the right half plane.\\
+	We only need to know whether there \textit{are} poles in the right half plane.\\
 	\medskip
 	There is a cheaper alternative: \textbf{the Nyquist stability criterion}.
 \end{frame}
@@ -55,11 +55,11 @@
 \begin{frame}
 	\frametitle{Stability: Nyquist criterion}
 	\vspace{-5ex}
-	The Nyquist stability criterion avoids determining the roots of $1+P(s)C(s)$ exactly (expensive). It only determines the number of roots in the right half plane.\\
+	The Nyquist stability criterion avoids determining the roots of $1+P(s)C(s)$ exactly (expensive). It only determines the \textit{number} of roots in the right half plane.\\
 	\medskip
-	It uses a theorem from complex calculus that finds the difference between the number of poles and the number of zeros within a contour (a closed curve).\\
+	It uses a theorem from complex calculus that finds the difference between the number of poles and the number of zeros within a \textbf{contour} (a closed curve).\\
 	\medskip
-	We will apply this theorem to $1+P(s)C(s)$ (which can be seen as a complex function) and the contour will encircle the entire right half plane (= the Nyquist contour).
+	We will apply this theorem to $1+P(s)C(s)$ (which can be seen as a complex function) and the contour will encircle the entire right half plane (= \textbf{the Nyquist contour}).
 \end{frame}
 
 \section{Cauchy's argument principle}
@@ -97,9 +97,9 @@
 	\vspace{-7ex}
 	This is the engine behind the Nyquist stability criterion.\\
 	\medskip
-	If a contour $\Gamma$ in the s-plane circles Z zeros and P poles $f(s)$ in clockwise rotation, then the contour $\Gamma'$, which is the image of $\Gamma$ as mapped by $f(s)$, circles the origin (in the $\omega$-plane) Z-P times in the clockwise direction.\\
+	If a contour $\Gamma$ in the s-plane circles Z zeros and P poles of $f(s)$ in clockwise rotation, the contour $\Gamma'$, which is the image of $\Gamma$ as mapped by $f(s)$, circles the origin (in the $\omega$-plane) $Z-P$ times in the clockwise direction.\\
 	\medskip
-	So the only thing we are looking at is the encirclements of the origin. \\
+	So the only thing we are looking at is the \textbf{number of encirclements} of the origin. \\
 	On the next slides, we will prove this.
 \end{frame}
 
@@ -110,11 +110,11 @@
 	\medskip
 	If we would apply this function to a complex number c, this comes down to multiplying factors $c-z_i = A_{z_{i}}e^{j\theta_{z_{i}}}$ and $\frac{1}{c-p_i}=\frac{1}{A_{p_{i}}}e^{-j\theta_{p_{i}}}$.\\
 	\medskip
-	So the modulus of $f(c)$ can be easily found by evaluating $\frac{A_{z_{1}}A_{z_{2}}A_{z_{3}}...}{A_{p_{1}}A_{p_{2}}A_{p_{3}}...}$;\\
+	So the \textbf{modulus} of $f(c)$ can be easily found by evaluating $\frac{A_{z_{1}}A_{z_{2}}A_{z_{3}}...}{A_{p_{1}}A_{p_{2}}A_{p_{3}}...}$;\\
 	\medskip
 	This might help if you want to map a point, but it is not important for us.\\
 	\medskip
-	The evaluation of the argument of $f(c)$ is what will be interesting; $\angle f(c) = \theta_{z_{1}}+\theta_{z_{2}}+\theta_{z_{3}}+...-\theta_{p_{1}}-\theta_{p_{2}}-\theta_{p_{3}}-...$
+	The evaluation of the \textbf{argument} of $f(c)$ is what will be interesting: $\angle f(c) = \theta_{z_{1}}+\theta_{z_{2}}+\theta_{z_{3}}+...-\theta_{p_{1}}-\theta_{p_{2}}-\theta_{p_{3}}-...$
 \end{frame}
 
 \begin{frame}
@@ -146,7 +146,7 @@
 	\medskip
 	This follows from the sign of their effect: $\angle f(c) = \theta_{z_{1}}+\theta_{z_{2}}+\theta_{z_{3}}+...-\theta_{p_{1}}-\theta_{p_{2}}-\theta_{p_{3}}-...$\\
 	\bigskip
-	It is also possible that the origin is encircled when there are no poles or zeros in the contour (in the s-plane). But then the amount of clockwise encirclements equals the amount of counterclockwise encirclements hence no net encirclements.
+	It is also possible that the origin is encircled when there are no poles or zeros in the contour (in the s-plane). But then the amount of clockwise encirclements equals the amount of counterclockwise encirclements, hence no net encirclements.
 \end{frame}
 
 \subsection{Examples}
@@ -183,7 +183,7 @@
 
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
-	If we apply Cauchy's argument principle to the following contour (the Nyquist contour), the amount of clockwise encirclements around the origin of the image of this contour (called the Nyquist plot) in the $\omega$-plane equals $Z-P$ of the right half plane (RHP).
+	If we apply Cauchy's argument principle to the following contour (the \textbf{Nyquist contour}), the amount of clockwise encirclements around the origin of the mapping of this contour (the \textbf{Nyquist plot}) in the $\omega$-plane equals $Z-P$ of the right half plane (RHP).
 	\vspace{-1ex}
 	\begin{figure}
 		\includegraphics[width=0.53\linewidth]{nyquist}
@@ -192,7 +192,7 @@
 
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
-	That way we will find the difference between the number of poles and zeros of $1+P(s)C(s)$ in the RHP: $N=Z-P$.\\
+	That way, we will find the difference between the number of poles and zeros of $1+P(s)C(s)$ in the RHP: $N=Z-P$.\\
 	\medskip
 	So if we know P (the number of poles in the RHP of $1+P(s)C(s)$), we know how many zeros of $1+P(s)C(s)$ there are in the RHP.
 	\begin{figure}
@@ -203,9 +203,9 @@
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
 	\vspace{-10ex}
-	Luckily this last aspect is simple, since the poles of $1+P(s)C(s)$ equal those of $P(s)C(s)$. Hence the amount of RHP poles is equal (the connection between the zeros is not clear).\\
+	Luckily this last aspect is simple, since the poles of $1+P(s)C(s)$ equal those of $P(s)C(s)$. Hence the amount of RHP poles is equal (the connection between the zeros is not as clear).\\
 	\bigskip
-	So if we assume the number of RHP poles of $P(s)C(s)$ is known (which we'll assume), we know whether the system with unity (negative) feedback is stable.
+	So if the number of RHP poles of $P(s)C(s)$ is known (which we'll assume), we know whether the system with unity (negative) feedback is stable.
 \end{frame}
 
 \begin{frame}
@@ -214,8 +214,7 @@
 	However, the Nyquist stability criterion uses $P(s)C(s)$.
 	\begin{itemize}
 		\item The zeros of $1+P(s)C(s)$ and the poles and zeros of $P(s)C(s)$ are hard to relate.
-		\item This is in sharp contrast with how easily the Nyquist plots relate.
-		\item The Nyquist plot of $P(s)C(s)$ equals the one of $(1+P(s)C(s)$, after it has been moved to the right over a distance 1.
+		\item This is in sharp contrast with how easily the Nyquist plots relate: the Nyquist plot of $P(s)C(s)$ equals the one of $(1+P(s)C(s)$, after it has been moved to the right over a distance 1.
 		\item To find $Z-P$, one has to count the number of clockwise encirclements of the image of $P(s)C(s)$ around the point $(-1,0)$, since this equals the number of clockwise encirclements of the image of $1+P(s)C(s)$ around the origin.
 	\end{itemize}
 \end{frame}
@@ -241,10 +240,10 @@
 	\vspace{-1ex}
 	\begin{columns}
 		\column{0.5\textwidth}
-		\begin{itemize}
+		\begin{enumerate}
 			\item For physically realizable systems (i.e. relevant systems to engineers) the circle bow will be mapped on a point.
 			\item The image of the positive imaginary axis is the mirror image of the negative imaginary axis
-		\end{itemize}
+		\end{enumerate}
 		\column{0.5\textwidth}
 		\vspace{-2ex}
 		\begin{figure}
@@ -256,7 +255,7 @@
 \begin{frame}
 	\frametitle{Nyquist plot: physically realizable systems}
 	\vspace{-8ex}
-	Where does the very convenient property of physically realizable systems come from?
+	Where does the very convenient property of \textbf{physically realizable systems} come from?
 	\begin{enumerate}
 		\item Every physically realizable system is causal
 		\item Every causal system has a transfer function with an order of the denominator that is larger than or equal to the order of the numerator
@@ -375,7 +374,7 @@
 		\begin{itemize}
 			\item Instead of going through the poles, we will evade them by an infinitesimally small amount (see figure)
 			\item That way we do not have the problem of an undetermined mapping at the pole
-			\item Since we avoid them by an infinitesimally small amount, we also know we will not wrongly avoid a pole the lies in the right half plane
+			\item Since we avoid them by an infinitesimally small amount, we also know we will not wrongly avoid a pole that lies in the right half plane
 		\end{itemize}
 		\column{0.3\textwidth}
 		\begin{figure}
@@ -389,9 +388,9 @@
 
 \begin{frame}
 	\frametitle{Discrete-time case}
-	The Cauchy argument principle still applies, since $P(z)C(z)$ also has the shape of a rational polynomial.\\
+	The Cauchy argument principle still applies for discrete-time systems, since $P(z)C(z)$ also has the shape of a rational polynomial.\\
 	The contour will have to encircle the entire complex plane except for the unity circle:
-	\vspace{-2ex}
+	\vspace{-4ex}
 	\begin{figure}
 		\includegraphics[width=0.55\linewidth]{discrete}
 	\end{figure}
@@ -483,7 +482,7 @@
 	\vspace{-4ex}
 	Consider the process $$P(s)=\frac{1}{s(s+2)}.$$\\
 	We derive the argument as a function of $\omega$: $$\angle P(j\omega)=-tan^{-1}(\frac{\omega}{0})-tan^{-1}(\frac{\omega}{2})=-90^{\circ}-tan^{-1}(\frac{\omega}{2}).$$\\
-	For this to equal to $-180^{\circ}$, it requires $\omega \rightarrow \infty$.\\ This makes $P(j\omega)=0$ and this means the gain margin is infinite.
+	For this to equal to $-180^{\circ}$, it requires $\omega_\pi \rightarrow \infty$.\\ This makes $P(j\omega)=0$ and this means the gain margin is infinite.
 \end{frame}
 
 \begin{frame}
@@ -502,7 +501,7 @@
 \begin{frame}
 	\frametitle{Phase margin}
 	The phase margin is how much you can rotate the Nyquist diagram before $-1$ is crossed.
-	\vspace{-4ex}
+	\vspace{-3ex}
 	\begin{columns}
 		\column{0.05\textwidth}
 		
@@ -527,9 +526,9 @@
 	\frametitle{Phase margin: example}
 	Consider the process \vspace{-2ex} $$P(s)=\frac{1}{s(s+2)}.$$
 	We derive the modulus as a function of $\omega$: $$\big|P(j\omega)\big|=\frac{1}{\omega}\frac{1}{\sqrt{\omega^2+4}}.$$
-	For this to equal to 1, we find $\sqrt{\omega^4+4\omega^2}=1$ or $\omega=\sqrt{\sqrt{5}-2}=0.486$.\\
-	Now we need to find $\theta$ so $\angle(P(j\omega)e^{j\theta})=-180^{\circ}$.\\
-	This results in $\theta = -180^{\circ}+tan^{-1}(\frac{\omega}{0})+tan^{-1}(\frac{\omega}{2})=-76.34^{\circ}$. \\
+	For this to equal to 1, we find $\sqrt{\omega^4+4\omega^2}=1$ or $\omega_0=\sqrt{\sqrt{5}-2}=0.486$.\\
+	Now we need to find $\theta$ so $\angle(P(j\omega_0)e^{j\theta})=-180^{\circ}$.\\
+	This results in $\theta = -180^{\circ}+tan^{-1}(\frac{\omega_0}{0})+tan^{-1}(\frac{\omega_0}{2})=-76.34^{\circ}$. \\
 	This means the phase margin is $76.34^{\circ}$.
 \end{frame}
 
@@ -601,7 +600,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Recapitulation}
+	\frametitle{Summary}
 	\vspace{-6ex}
 	\begin{itemize}
 		\item The Nyquist stability criterion came to existence as a cheap alternative to determine stability of a closed loop system with unity feedback
