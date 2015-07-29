@@ -37,4 +37,43 @@ describe('num tests', function() {
         });
     
     });
+
+    describe('logspace', function() {
+        it('correct defaults', function() {
+            var ls = num.logspace(0, 1);
+            assert.equal(ls.length, 50);
+            assert.equal(ls[0], 1);
+            assert.equal(ls[ls.length - 1], 10);
+        });
+
+        it('non-default length', function() {
+            var ls = num.logspace(0, 1, 1000);
+            assert.equal(ls.length, 1000);
+        });
+
+        it('not inclusive', function() {
+            var ls = num.logspace(0, 1, 1000, false);
+            assert.notEqual(ls[999], 10);
+        });
+
+        it('correct sequence inclusive', function() {
+            var ls = num.logspace(0, 1, 3);
+            assert.deepEqual(ls, [1, 3.162277660168379, 10]);
+        });
+
+        it('correct sequence not inclusive', function() {
+            var ls = num.logspace(0, 1, 2, false);
+            assert.deepEqual(ls, [1, 3.162277660168379]);
+        });
+
+        it('descending sequence', function() {
+            var ls = num.logspace(0, -2, 3);
+            assert.deepEqual(ls, [1, 0.1, 0.01]);
+        });
+
+        it('non-default base', function() {
+            var ls = num.logspace(0, 3, 4, true, 2);
+            assert.deepEqual(ls, [1, 2, 4, 8]);
+        });
+    });
 });
