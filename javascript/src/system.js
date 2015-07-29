@@ -30,7 +30,10 @@ define(['underscore', 'mathjs'], function(_, math){
      * @returns {(Complex|Number)} - The result of the evaluation.
      */
     System.evalzorp = function(a, s) {
-        return _.reduce(_.map(a, function(val){ return math.subtract(s, val);} ), function(memo, val){ return math.multiply(memo, val); });
+        return _.chain(a)
+               .map(function(val){ return math.subtract(s, val);} )
+               .reduce(function(memo, val){ return math.multiply(memo, val); })
+               .value();
     };
 
 
