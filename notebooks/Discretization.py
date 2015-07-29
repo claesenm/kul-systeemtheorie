@@ -142,27 +142,15 @@ def find_sysd_prew(sys,f,Ts):
     val1 = sys.horner(0)[0][0]
     val2 = sys_cont.subs(s,0)
     K = val1/val2
-    sys_cont = K*teller/noemer
+    sys_cont = simplify(K*teller/noemer)
     #Substitute s
     z = Symbol('z')
     factor = float(f)/(math.tan(float(f)*Ts/2))
-    steller = simplify((K*teller).subs(s,factor*(z-1)/(z+1)))
-    snoemer = simplify(noemer.subs(s,factor*(z-1)/(z+1)))
-    ssys = simplify(steller/snoemer)
+    ssys = simplify(sys_cont.subs(s,factor*(z-1)/(z+1)))
     omgekeerd = simplify(1/ssys)
     #Compute zeros and poles
     zeros = solve(ssys, z)
     poles = solve(omgekeerd,z)
-    k = 0
-    while k<5:
-        if (snoemer.subs(z,-1.00) == zoo):
-            if  (steller.subs(z,-1.00) == zoo):
-                steller = steller*(z+1)
-                snoemer = snoemer*(z+1)
-            else:
-                zeros.append(-1.00)
-                steller = steller/(z+1.00)
-        k = k+1
     #Compute gain
     num,den = signal.zpk2tf(zeros,poles,1)
     num = num.tolist()
