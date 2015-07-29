@@ -92,10 +92,14 @@ def plotter(t,y,x_min,x_max,f_min,f_max,left_in = False):
     plt.close() 
     t_signal = t
     y_signal = y
+    ymin,ymax = np.amin(y),np.amax(y)
+    ymin,ymax = ymin - 0.5*(ymax-ymin),ymin + 0.5*(ymax-ymin)
+    print ymin,ymax
     xmin,xmax,fmin,fmax = x_min,x_max,f_min,f_max
     ax = plt.subplot(1,1,1)
     ax.plot(t,y)
     plt.xlim(x_min,x_max)
+    plt.ylim(ymin,ymax)
     plt.xlabel('t')
     plt.ylabel('y(t)')
     plt.show()
