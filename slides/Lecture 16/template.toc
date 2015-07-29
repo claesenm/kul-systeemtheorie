@@ -7,9 +7,9 @@
 \beamer@sectionintoc {4}{Nyquist stability criterion}{20}{0}{4}
 \beamer@sectionintoc {5}{Nyquist plot}{26}{0}{5}
 \beamer@subsectionintoc {5}{1}{Nyquist plot}{27}{0}{5}
-\beamer@subsectionintoc {5}{2}{Poles on the imaginary axis}{37}{0}{5}
-\beamer@subsectionintoc {5}{3}{Discrete-time}{40}{0}{5}
-\beamer@sectionintoc {6}{Margins}{43}{0}{6}
-\beamer@subsectionintoc {6}{1}{Gain margin}{47}{0}{6}
-\beamer@subsectionintoc {6}{2}{Phase margin}{53}{0}{6}
-\beamer@subsectionintoc {6}{3}{Design example}{60}{0}{6}
+\beamer@subsectionintoc {5}{2}{Poles on the imaginary axis}{36}{0}{5}
+\beamer@subsectionintoc {5}{3}{Discrete-time}{39}{0}{5}
+\beamer@sectionintoc {6}{Margins}{42}{0}{6}
+\beamer@subsectionintoc {6}{1}{Gain margin}{46}{0}{6}
+\beamer@subsectionintoc {6}{2}{Phase margin}{52}{0}{6}
+\beamer@subsectionintoc {6}{3}{Design example}{59}{0}{6}

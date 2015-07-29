@@ -3,7 +3,7 @@
 \begin{frame}
 	\frametitle{Introduction}
 	\vspace{-10ex}
-	The root-locus method dealt with the s- and z-domain and the location of the poles and zeros formed the basis for that method.\\
+	The root-locus method dealt with the s- and z-domains and the location of the poles and zeros formed the basis for that method.\\
 	\medskip
 	For the \textbf{frequency domain}, we use the following substitution: $s=j\omega$, which means we will only regard perfect oscillations.\\
 	\medskip
@@ -23,7 +23,7 @@
 	\bigskip
 	We will discuss two different \textbf{graphical representations} to design compensators in the frequency domain:
 	\begin{itemize}
-		\item Nyquist stability diagram and Nyquist plots
+		\item Nyquist plots
 		\item Bode plots (for the design of lead, lag and lead-lag compensators: next lecture)
 	\end{itemize}
 \end{frame}
@@ -55,7 +55,7 @@
 \begin{frame}
 	\frametitle{Stability: Nyquist criterion}
 	\vspace{-5ex}
-	The Nyquist stability criterion avoids determining the roots of $1+P(s)C(s)$ exactly (expensive). It only determines the \textit{number} of roots in the right half plane.\\
+	The Nyquist stability criterion avoids determining the roots of $1+P(s)C(s)$ exactly. It only determines the \textit{number} of roots in the right half plane.\\
 	\medskip
 	It uses a theorem from complex calculus that finds the difference between the number of poles and the number of zeros within a \textbf{contour} (a closed curve).\\
 	\medskip
@@ -97,7 +97,7 @@
 	\vspace{-7ex}
 	This is the engine behind the Nyquist stability criterion.\\
 	\medskip
-	If a contour $\Gamma$ in the s-plane circles Z zeros and P poles of $f(s)$ in clockwise rotation, the contour $\Gamma'$, which is the image of $\Gamma$ as mapped by $f(s)$, circles the origin (in the $\omega$-plane) $Z-P$ times in the clockwise direction.\\
+	If a contour $\Gamma$ in the s-plane encircles Z zeros and P poles of $f(s)$ in clockwise direction, the contour $\Gamma'$, which is the image of $\Gamma$ as mapped by $f(s)$, encircles the origin (in the w-plane) $Z-P$ times in the clockwise direction.\\
 	\medskip
 	So the only thing we are looking at is the \textbf{number of encirclements} of the origin. \\
 	On the next slides, we will prove this.
@@ -110,9 +110,7 @@
 	\medskip
 	If we would apply this function to a complex number c, this comes down to multiplying factors $c-z_i = A_{z_{i}}e^{j\theta_{z_{i}}}$ and $\frac{1}{c-p_i}=\frac{1}{A_{p_{i}}}e^{-j\theta_{p_{i}}}$.\\
 	\medskip
-	So the \textbf{modulus} of $f(c)$ can be easily found by evaluating $\frac{A_{z_{1}}A_{z_{2}}A_{z_{3}}...}{A_{p_{1}}A_{p_{2}}A_{p_{3}}...}$;\\
-	\medskip
-	This might help if you want to map a point, but it is not important for us.\\
+	So the \textbf{modulus} of $f(c)$ can be easily found by evaluating $\frac{A_{z_{1}}A_{z_{2}}A_{z_{3}}...}{A_{p_{1}}A_{p_{2}}A_{p_{3}}...}$.	This might help if you want to map a point, but it is not important for us.\\
 	\medskip
 	The evaluation of the \textbf{argument} of $f(c)$ is what will be interesting: $\angle f(c) = \theta_{z_{1}}+\theta_{z_{2}}+\theta_{z_{3}}+...-\theta_{p_{1}}-\theta_{p_{2}}-\theta_{p_{3}}-...$
 \end{frame}
@@ -126,7 +124,7 @@
 
 \begin{frame}
 	\frametitle{Cauchy's argument principle}
-	When does the image of a contour in the $\omega$-plane encircle the origin?\\
+	When does the image of a contour in the w-plane encircle the origin?\\
 	\medskip
 	That happens when the argument of the image of the contour at the beginning and the end differ by $2\pi$.\\
 	\medskip
@@ -157,7 +155,7 @@
 		\item Two encircled poles (the x's): $P=2$
 		\item Four encircled zeros (the o's): $Z=4$
 		\item Hence: $N = Z-P = 2$
-		\item Indeed, the image of the contour encircles the origin twice in the $\omega$-plane (in clockwise direction).
+		\item Indeed, the image of the contour encircles the origin twice in the w-plane (in clockwise direction).
 	\end{itemize}
 	\vspace{-2ex}
 	\begin{figure}
@@ -171,7 +169,7 @@
 		\item Two encircled poles: $P = 2$
 		\item One encircled zero: $Z=1$
 		\item Hence: $N=Z-P=-1$
-		\item Indeed, the image of the contour encircles the origin once in the $\omega$-plane (in counterclockwise direction).
+		\item Indeed, the image of the contour encircles the origin once in the w-plane (in counterclockwise direction).
 	\end{itemize}
 	\vspace{-2ex}
 	\begin{figure}
@@ -183,10 +181,10 @@
 
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
-	If we apply Cauchy's argument principle to the following contour (the \textbf{Nyquist contour}), the amount of clockwise encirclements around the origin of the mapping of this contour (the \textbf{Nyquist plot}) in the $\omega$-plane equals $Z-P$ of the right half plane (RHP).
+	If we apply Cauchy's argument principle to the following contour (the \textbf{Nyquist contour}), the amount of clockwise encirclements around the origin of the mapping of this contour (the \textbf{Nyquist plot}) in the w-plane equals $Z-P$ of the right half plane (RHP).
 	\vspace{-1ex}
 	\begin{figure}
-		\includegraphics[width=0.53\linewidth]{nyquist}
+		\includegraphics[width=0.35\linewidth]{nyquist_plot}
 	\end{figure}
 \end{frame}
 
@@ -194,7 +192,7 @@
 	\frametitle{Nyquist stability criterion}
 	That way, we will find the difference between the number of poles and zeros of $1+P(s)C(s)$ in the RHP: $N=Z-P$.\\
 	\medskip
-	So if we know P (the number of poles in the RHP of $1+P(s)C(s)$), we know how many zeros of $1+P(s)C(s)$ there are in the RHP.
+	So if we know P (the number of poles in the RHP of $1+P(s)C(s)$), we know how many roots of $1+P(s)C(s)$ there are in the RHP.
 	\begin{figure}
 		\includegraphics[width=0.8\linewidth]{pz}
 	\end{figure}
@@ -203,9 +201,9 @@
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
 	\vspace{-10ex}
-	Luckily this last aspect is simple, since the poles of $1+P(s)C(s)$ equal those of $P(s)C(s)$. Hence the amount of RHP poles is equal (the connection between the zeros is not as clear).\\
+	Luckily this last aspect is simple, since the roots of $1+P(s)C(s)$ equal those of $P(s)C(s)$. Hence the amount of RHP poles is equal (the connection between the zeros is not as clear).\\
 	\bigskip
-	So if the number of RHP poles of $P(s)C(s)$ is known (which we'll assume), we know whether the system with unity (negative) feedback is stable.
+	So if the number of RHP poles of $P(s)C(s)$ is known (which is assumed), we know whether the system with unity (negative) feedback is stable.
 \end{frame}
 
 \begin{frame}
@@ -222,8 +220,7 @@
 \begin{frame}
 	\frametitle{Nyquist stability criterion}
 	\begin{block}{Nyquist stability criterion}
-		If the open loop system $P(s)C(s)$ has $\ell$ poles in the open right half plane (of the s-plane),\\
-		then the system with unity feedback is stable if and only if the Nyquist plot encircles the point (-1,0) $\ell$ times in the counter clockwise direction.
+		If the open loop system $P(s)C(s)$ has $\ell$ poles in the right half plane (of the s-plane), then the system with unity feedback is stable if and only if the Nyquist plot encircles the point (-1,0) $\ell$ times in the counter clockwise direction.
 	\end{block}
 \end{frame}
 
@@ -247,20 +244,9 @@
 		\column{0.5\textwidth}
 		\vspace{-2ex}
 		\begin{figure}
-			\includegraphics[width=1\linewidth]{nyquist_plot}
+			\includegraphics[width=0.7\linewidth]{nyquist_plot}
 		\end{figure}
 	\end{columns}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Nyquist plot: physically realizable systems}
-	\vspace{-8ex}
-	Where does the very convenient property of \textbf{physically realizable systems} come from?
-	\begin{enumerate}
-		\item Every physically realizable system is causal
-		\item Every causal system has a transfer function with an order of the denominator that is larger than or equal to the order of the numerator
-		\item From this shape of the transfer function, we can easily show that the circle bow maps onto a point
-	\end{enumerate}
 \end{frame}
 
 \newcounter{sauvegardeenumi}
@@ -272,11 +258,12 @@
 	\begin{enumerate}
 		\item \textbf{Every physically realizable system is causal}\\
 		This is logical: you cannot build a system that knows the future
-		\item \textbf{Every causal system has a transfer function with an order of the denominator that is larger than or equal to the order of the numerator}\\
-		This can be easily understood in the discrete time case:
-		$$a_0y_n + a_1y_{n-1}+a_2y_{n-2}+...=b_0u_n+b_1u_{n-1}+b_2u_{n-2}+...$$
-		Apply the z-transformation:
-		$$\frac{Y(z)}{U(z)}=H(z)=\frac{b_0+b_1z^{-1}+b_2z^{-2}+...}{a_0+a_1z^{-1}+a_2z^{-2}+...}$$
+		\item \textbf{Every causal system has a transfer function with a degree of the denominator that is larger than or equal to the degree of the numerator}\\
+		Take for example the following transfer function:
+		$$H(z)=\frac{b_2z^2+b_1z+b_0}{a_0z+a_1}$$
+		The corresponding difference equation is: 
+		$$a_0y_{n-1}+a_1y_n=b_0u_{n-1}+b_1u_n+b_2u_{n+2}$$
+		It is non-causal, because the output depends on future input.
 		\asuivre
 	\end{enumerate}
 \end{frame}
@@ -286,11 +273,11 @@
 	\vspace{-8ex}
 	\begin{enumerate}
 		\suite
-		\item \textbf{From this shape of the transfer function, we can easily show that the circle bow maps onto a point, in the case of physically realizable systems}\\
+		\item \textbf{From the transfer function, we can easily show that the circle bow maps onto a point.}\\
 		\begin{itemize}
-			\item If the order of the denominator is strictly higher than the order of the numerator:\\
+			\item If the degree of the denominator is strictly higher than the degree of the numerator:\\
 			If $s\rightarrow \infty$, then $P(s)C(s)\rightarrow 0$
-			\item If the order of the denominator is equal to the order of the numerator:\\
+			\item If the degree of the denominator is equal to the degree of the numerator:\\
 			If $s\rightarrow \infty$, then $P(s)C(s)\rightarrow c$, a real number
 		\end{itemize}
 	\end{enumerate}
@@ -319,7 +306,7 @@
 \begin{frame}
 	\frametitle{Nyquist plot}
 	\vspace{-6ex}
-	Extracting the number of times $(-1,0)$ is circled isn't that difficult anymore:
+	Extracting the number of times $(-1,0)$ is encircled isn't that difficult anymore:
 	\begin{itemize}
 		\item You search for the image of $j0^+$
 		\item You search for the image of $j\infty$
@@ -399,7 +386,7 @@
 \begin{frame}
 	\frametitle{Discrete-time case}
 	However, this is not a contour, but it can be solved with the following trick:\\
-	The two horizontal pieces are both infinitely close to the real axis, that way they are identical but with opposite signs. They will cancel each other out.
+	the two horizontal pieces are both infinitely close to the real axis, that way they are identical but with opposite signs. They will cancel each other out.
 	\vspace{-2ex}
 	\begin{figure}
 		\includegraphics[width=0.5\linewidth]{discrete2}
@@ -412,9 +399,9 @@
 	\frametitle{Margins}
 	\vspace{-6ex}
 	The Nyquist plot allows us to determine the stability of the system\\
-	We know the stability changes when $1+P(s)C(s)$ has an imaginary zero (then the system is marginally stable).\\
+	We know the stability changes when $1+P(s)C(s)$ has an imaginary root (then the system is marginally stable).\\
 	\medskip
-	We can see such a zero in the Nyquist plot of $P(s)C(s)$.\\ After all, the Nyquist plot is the image of the imaginary axis, so if there is a zero on the imaginary axis, the Nyquist plot of $1+P(s)C(s)$ would go through 0 and the Nyquist plot of $P(s)C(s)$ would go through -1.
+	We can see such a root in the Nyquist plot of $P(s)C(s)$.\\ After all, the Nyquist plot is the image of the imaginary axis, so if there is a root on the imaginary axis, the Nyquist plot of $1+P(s)C(s)$ would go through 0 and the Nyquist plot of $P(s)C(s)$ would go through -1.
 \end{frame}
 
 \begin{frame}
@@ -444,7 +431,7 @@
 		\column{0.5\textwidth}
 		The gain margin is the amount of extra gain allowed before the system becomes unstable (or how much larger the gain has to be, before the system becomes unstable).\\
 		\medskip
-		The gain margin is \textbf{multiplicative}, so it is the factor you have to multiply the gain with, so the Nyquist plot goes through -1 in the $\omega$-plane.\\
+		The gain margin is \textbf{multiplicative}, so it is the factor you have to multiply the gain with, so the Nyquist plot goes through -1 in the w-plane.\\
 		It will be expressed in dB $(20log_{10}K)$.
 		\column{0.5\textwidth}
 		\vspace{-4ex}
@@ -500,7 +487,7 @@
 
 \begin{frame}
 	\frametitle{Phase margin}
-	The phase margin is how much you can rotate the Nyquist diagram before $-1$ is crossed.
+	The phase margin is that amount of additional phase lag to bring the system to the verge of instability. 
 	\vspace{-3ex}
 	\begin{columns}
 		\column{0.05\textwidth}
@@ -517,7 +504,7 @@
 	This can be interpreted as multiplying $P(s)$ with $e^{j\theta}$ until $-1$ is crossed, so $P(s)e^{j\theta}=-1$ for an imaginary $s=j\omega$.\\
 	\medskip
 	This requires $\big|P(j\omega)e^{j\theta}\big|=\big|P(j\omega)\big|$ to equal $1$. This $\omega_0$ is called the \textbf{Phase Crossover Frequency (PCF)}.\\
-	$\big|\theta\big|$ then has to be set such that $$\angle(P(s)e^{j\theta})=\angle P(s) + \theta = -180^{\circ}.$$\\
+	$\theta$ then has to be set such that $$\angle(P(s)e^{j\theta})=\angle P(s) + \theta = -180^{\circ}.$$\\
 	The gain margin is defined as positive, but that doesn't matter, because of the symmetry with respect to the real axis.\\
 	If a rotation of $\theta$ degrees results in a crossing of $-1$, then a rotation of $-\theta$ does the same.
 \end{frame}
@@ -546,7 +533,7 @@
 	Phase margin:
 	\begin{itemize}
 		\item This is more subtle than the gain margin
-		\item If it is too small, instability might occur due to practicalities
+		\item If it is too small, instability might occur due to practicalities, the model is not perfect
 		\item If it is too small, we get large overshoots and large oscillations that fade away very slowly
 		\item Sometimes a good value is 60$^{\circ}$, but it is highly case-dependent
 	\end{itemize}
@@ -601,11 +588,10 @@
 
 \begin{frame}
 	\frametitle{Summary}
-	\vspace{-6ex}
+	\vspace{-10ex}
 	\begin{itemize}
 		\item The Nyquist stability criterion came to existence as a cheap alternative to determine stability of a closed loop system with unity feedback
 		\item It also shows the phase margin and the gain margin, which are used to measure the stability of the system
 		\item It is relevant as a design tool, as shown in the last example
-		\item Bode plots make up a similar tool, yet the Nyquist stability criterion is (slightly) more generally applicable
 	\end{itemize}
 \end{frame}
