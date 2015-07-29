@@ -4,6 +4,10 @@ var _ = require('underscore');
 var math = require('mathjs');
 var num = require('./num');
 
+/**
+ * A module containing methods for plotting.
+ * @module
+ */
 module.exports = {
 
     /**

@@ -5,6 +5,7 @@ var math = require('mathjs');
  * Module related to System object.
  * @module
  */
+
 /**
  * Constructs a System object
  * @constructor
@@ -24,7 +25,7 @@ function System() {
  * Evaluates a list of (Complex) numbers in s as is they are zeros/poles.
  * @param {Array<(Complex|Number)>} a - the array of numbers.
  * @param {(Complex|Number)} s - The point in which to evaluate.
- * @returns {(Complex|Number)} - The result of the evaluation.
+ * @returns {(Complex|Number)} The result of the evaluation.
  */
 System.evalzorp = function(a, s) {
     return _.chain(a)
@@ -37,7 +38,7 @@ System.evalzorp = function(a, s) {
 /**
  * Evaluates the transfer function of this system in s.
  * @param {Complex|Number} s
- * @return {Complex|Number} - The value of the tf of this system evaluated in s.
+ * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  */
 System.prototype.eval = function(s) {
     var num = System.evalzorp(this.z, s);
