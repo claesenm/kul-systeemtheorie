@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.fft as fourier
 from math import *
+import scipy.signal as sig
 
 
 
@@ -14,11 +15,11 @@ options = {"sine":0,"cosine":1,"sinc":2,"block":3,"impulse":4,"blocktrain":5,"da
 
 # Extra options for sine
 select_sine_amplitude = widgets.IntSlider(min = 1, max = 5, description = "Amplitude:")
-select_sine_frequency = widgets.IntSlider(min = 100, max = 200 ,step = 10, description = "Frequency:")
+select_sine_frequency = widgets.IntSlider(min = 1., max = 200. ,step = 20., description = "Frequency:")
 box_sine = widgets.Box(children=[select_sine_amplitude,select_sine_frequency],visible = True)
 # Extra options for cosine
 select_cosine_amplitude = widgets.IntSlider(min = 1,max = 5,description = "Amplitude:")
-select_cosine_frequency = widgets.IntSlider(min = 100.0,max = 200.0,step = 10.0, description = "Frequency:")
+select_cosine_frequency = widgets.IntSlider(min = 1.0,max = 200.0,step = 20.0, description = "Frequency:")
 box_cosine = widgets.Box(children =[select_cosine_amplitude,select_cosine_frequency],visible = False)
 # Extra options for sinc
 select_sinc_frequency = widgets.IntSlider(min = 100,max =200,step =10, description = "Frequency:")
@@ -34,7 +35,7 @@ select_blocktrain_height = widgets.IntSlider(min=1,max=5,description ="Height:")
 select_blocktrain_frequency = widgets.FloatSlider(min = 0.1, max = 1.0,description = "Frequency: ")
 box_blocktrain = widgets.Box(children = [select_blocktrain_height,select_blocktrain_frequency],visible=False)
 # Extra options for damped oscillation
-select_damped_oscilation_frequency = widgets.IntSlider(min = 100,max = 200,step = 10,description = "Frequency: ")
+select_damped_oscilation_frequency = widgets.IntSlider(min = 1.,max = 200.,step = 20,description = "Frequency: ")
 select_damped_oscilation_damping = widgets.IntSlider(min = 1,max=10,description = "Damping")
 box_damped_oscilation = widgets.Box(children = [select_damped_oscilation_frequency,select_damped_oscilation_damping],visible = False)
 # Extra options for carrier + signal
@@ -91,10 +92,14 @@ def plotter(t,y,x_min,x_max,f_min,f_max,left_in = False):
     plt.close() 
     t_signal = t
     y_signal = y
+    ymin,ymax = np.amin(y),np.amax(y)
+    ymin,ymax = ymin - 0.5*(ymax-ymin),ymin + 0.5*(ymax-ymin)
+    print ymin,ymax
     xmin,xmax,fmin,fmax = x_min,x_max,f_min,f_max
     ax = plt.subplot(1,1,1)
     ax.plot(t,y)
     plt.xlim(x_min,x_max)
+    plt.ylim(ymin,ymax)
     plt.xlabel('t')
     plt.ylabel('y(t)')
     plt.show()
@@ -104,12 +109,12 @@ def plotter(t,y,x_min,x_max,f_min,f_max,left_in = False):
 def generate_sine(amplitude,frequency):
     t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     y = amplitude * np.sin(2*np.pi*frequency*t)
-    plotter(t,y,-5/100.0,5/100.0,-2*frequency,2*frequency)
+    plotter(t,y,-1./frequency,1./frequency,-2*frequency,2*frequency)
 
 def generate_cosine(amplitude,frequency):
     t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
     y = amplitude * np.cos(2*np.pi*frequency*t)
-    plotter(t,y,-5/100.0,5/100.0,-2*frequency,2*frequency)
+    plotter(t,y,-1./frequency,1./frequency,-2*frequency,2*frequency)
     
 def generate_sinc(frequency):
     t = np.linspace(-N/(2.*Fs),N/(2.*Fs),N)
@@ -161,14 +166,12 @@ f_bem = None
 
 def sampling_dirac(f_s):
     global t_dirac,y_dirac,t_diracf,y_diracf,f_bem
-    f_bem = f_s
-    Period = 1/f_s
-    stap = int(Period*Fs)
-    y_dirac = np.zeros(N)
-    i = 0
-    while i < N:
-        y_dirac[i] = 1
-        i += stap
+    ## !!!!!!!!! Make sure the distance between 2 impulse is power of 2 !!!!!!!!!
+    f_bem = 2.**f_s
+    assert(log(Fs/f_bem,2) - round(log(Fs/f_bem,2)) < 10**-16)
+    print f_bem, 'Hz'
+    Period = 1/f_bem
+    y_dirac = np.arange(0,N,1) % int(Fs/f_bem) == 0
     t_dirac = np.linspace(-N/(2*Fs),N/(2*Fs),N)
     plt.plot(t_dirac,y_dirac)
     plt.xlim(-30*Period,30*Period)
