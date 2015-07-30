@@ -1,0 +1,60 @@
+<p><strong>1. Discretization:</strong>&nbsp;Make discretization of continuous time system using different discretization methods.</p>
+
+<p><br />
+&nbsp;Methods:</p>
+
+<p style="margin-left:40px"><br />
+- forward Euler<br />
+- backward Euler&nbsp;<br />
+- bilinear transform (with/without prewarping + give prewarping freq.)&nbsp;<br />
+- impulse invariant method&nbsp;<br />
+- step invariant method<br />
+- pole-zero matching&nbsp;</p>
+
+<p><br />
+Parameters:&nbsp;</p>
+
+<p style="margin-left:40px"><br />
+- sampling time (slider)&nbsp;</p>
+
+<p><br />
+Plots:&nbsp;</p>
+
+<p style="margin-left:40px"><br />
+- plot poles and zeros in complex plane for continuous and discrete system&nbsp;<br />
+- Bode plots&nbsp;</p>
+
+<p><br />
+<strong>2. Fourier transform:</strong>&nbsp;You can create a signal with a wide number of frequencies (low to high, in time domain). Then you can plot the Fourier spectrum of this signal. For some signals you can apply a low pass filter to this signal, of which the cut-off frequency can be increased.&nbsp;</p>
+
+<p><br />
+<strong>3. Sampling:</strong>&nbsp;You can create a signal with a wide number of frequencies (low to high, in time domain). Then you can plot the Fourier spectrum of this signal. Sample the signal with a train of dirac impulses (at multiple sampling speeds). You can see the effect in the frequency domain and in the time domain .&nbsp;</p>
+
+<p><br />
+<strong>4. Convolution:</strong>&nbsp;&nbsp;You can use this application to get a better understanding of the idea of convolution. Also included is a&nbsp;</p>
+
+<p><br />
+<strong>5. 3D plot of the magnitude of a transfer function:</strong>&nbsp;&nbsp;Enter a transfer function &nbsp;and see a 3d plot of the transfer function. Also explaining the link between transfer function and bode diagram.</p>
+
+<p><br />
+<strong>6. Manual Tuning of a PID controller: Provide the transfer function of the process to control</strong>. Change the values of Kp, Ki and Kd and see the effect on a step input (peak time, rise time, maximum overshoot, settling time).&nbsp;</p>
+
+<p><br />
+<strong>7. Effect of the position of the poles on the time-response of a first order and second order systems:&nbsp;</strong>&nbsp;For the first order system the user should provide the pole &nbsp;by using a slider. For the second order system the user should provide the position of the poles using sliders (real and imaginary part).&nbsp;</p>
+
+<p><br />
+<strong>8. Root Locus of an (open-loop) Transfer function:</strong>&nbsp;The user should provide a transfer function. &nbsp;With a slider the user is able to change the value of the proportional gain K. &nbsp;The notebook return the root locus (highlighting the current position of the closed-loop poles for the current K), the step response of the closed-loop system&nbsp;</p>
+
+<p><br />
+<strong>9. Effect of the damping ratio and natural frequency on the time-response and the frequency response of a second order system and effect of the time constant on the time-response and the frequency response of a first order system:&nbsp;</strong>You can change the values of Click and drag to move and see the effect on a step input.<br />
+&nbsp;</p>
+
+<p><strong>10. Bode and Nyquist Plots :&nbsp;</strong>&nbsp;The user provides a transfer function, and the frequency and amplitude of a sinusoidal signal. -The notebook returns:&nbsp;<br />
+o The bode Nyquist plots with a highlighted point which corresponds to the frequency provided by the user&nbsp;<br />
+o A time response plot showing the input signal (u(t)=A.sin(w.t) ) and the output signal.&nbsp;<br />
+&nbsp;</p>
+
+<p><strong>11. Design of lead and lag compensators using bode plot: </strong>In this notebook you can play around with lead an lag compensators to see their effect on the bode plot and the root locus. Some simple exercises will guide you to proficiency in the use of lead and lag compensators.&nbsp;<br />
+&nbsp;</p>
+
+<p><strong>12. Compound interest problem:</strong>&nbsp;Simulate the effect of the interest on a saving account. Example of solving a DT system using simulation.</p>
