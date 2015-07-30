@@ -38,6 +38,9 @@ module.exports = {
 
         var common_options = {
             legend: 'follow',
+            labelsDivStyles: {
+                backgroundColor:  "rgba(0, 0, 0, 0)"
+            },
             axes: {
                 x: {
                     logscale: true,
