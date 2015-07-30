@@ -1,59 +1,54 @@
 %pseudo code here defined with macro because else tabs won't reamin
 
-
-
 \section{Introduction}
 
 \begin{frame}
 	\frametitle{What is a PID controller?}
 	\small{
 	\begin{definition}
-		A \textbf{P}roportional \textbf{I}ntegral \textbf{D}eriviative controller is a loop feedback controller with continuous time equation:
+		A \textbf{P}roportional \textbf{I}ntegral \textbf{D}eriviative controller is a control
+		loop feedback mechanism (controller) widely used in process industry.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{img/PID}
+		\end{figure}
 		\vspace{-1em}
+		Continuous-time text book equation:
 		\begin{equation*}
 			u(t) = 	\underbrace{\vphantom{\int^t_0e(\tau)d\tau}K_p e(t)}_\text{Proportional Action} 
 					+ \underbrace{K_i\int^t_0e(\tau)d\tau}_\text{Integral Action} 
 					+ \underbrace{\vphantom{\int^t_0e(\tau)d\tau} K_d \frac{de(t)}{dt}}_\text{Derivative Action}
 		\end{equation*}
 		\vspace{-1.5em}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{img/PID}
-		\end{figure}
+		
 	\end{definition}
 	
-	More than 90\% of all closed loop controllers are PID.\\
-	Also controllers where the integral or derivative function is omitted exist. These are called PI or PD controllers respectively.}
+	\textbf{Note:} More than 90\% of all closed loop controllers are PID.\\
+}
 \end{frame}
 
 \begin{frame}
 	\frametitle{What is a PID controller?}
 	\small{
 	\begin{itemize}
-		\item \textbf{P}roportional action $K_p e(t)$: Action depends on the instaneous value of the control error. All advantages of a high loop gain
+		\item \textbf{P}roportional action $u_p(t) = K_p e(t)$: Action depends on the instaneous value of the control error. 
 			\begin{itemize}
 				\pro Reduces rise time
-				\pro Improves robustness: $K \rightarrow \infty \Rightarrow S^T_P \rightarrow 0$
 				\con Reduces but \textbf{does not eliminate steady-state error}: Only when $K \rightarrow \infty , \text{error} \rightarrow 0$
 				 (unless plant has pole(s) at $s=0$)
-				\con \textbf{Mind stability}: limit on gain
 			\end{itemize}
-		\item \textbf{I}ntegral action $K_i\int_0^t e(\tau)d\tau$: Gives a controller output that is proportional to the accumulated error. Reacts on constant errors
+		\item \textbf{I}ntegral action $u_i(t) =K_i\int_0^t e(\tau)d\tau$: Gives a controller output that is proportional to the accumulated error. Reacts on constant errors
 			\begin{itemize}
-				\pro Augments the type of $P(s)C(s)$ by one, thus \textbf{can eliminate steady state error} in some cases
+				\pro  \textbf{Can eliminate steady state error} in some cases
 				\con Makes transient response slower 
 			\end{itemize}
 	
-	\end{itemize}}
-\end{frame}
-\begin{frame}
-	\begin{itemize}
-			\item \textbf{D}erivative action $K_d \frac{de(t)}{dt}$: Acts on the rate of change of the control error. Reacts on quick variations
+		\item \textbf{D}erivative action $u_d(t) = K_d \frac{de(t)}{dt}$: Acts on the rate of change of the control error. 
 			\begin{itemize}
 				\pro Damping effect: reduces overshoot, improves transient response
 				\con Sensitive for noise, amplifies it if present
 			\end{itemize}
-	\end{itemize}
+	\end{itemize}}
 \end{frame}
 \section{Analog and Digital formulations}
 
@@ -63,56 +58,54 @@
 	
 	Continuous:
 	\begin{equation*}
-		u_p(t) = K_p e(t) \quad \leftrightarrow \quad \frac{U_p(s)}{E(s)} = K_p 
+		u_p(t) = K_p e(t) \quad \rightarrow \quad \frac{U_p(s)}{E(s)} = K_p 
 	\end{equation*}
 	Discrete:
 	\begin{equation*}
-		u_p[k] = K_p e[k] \quad \leftrightarrow \quad \frac{U_p(z)}{E(z)} = K_p 
-	\end{equation*}
+		u_p[k] = K_p e[k] \quad \rightarrow \quad \frac{U_p(z)}{E(z)} = K_p 
+	\end{equation*}µ
+	where e(t) or e[k] is the error signal.
 \end{frame}
 
 \begin{frame}
 	\frametitle{Derrivative Control}
-	Discretization can be done with \textbf{backward Euler}, applying $\dot{y} \approx \frac{y[k]-y[k-1]}{T}$ or $s = \frac{z - 1}{Tz}$ \\
 	Continuous:
 	\begin{equation*}
-		u_d(t) = K_d \frac{de(t)}{dt} \quad \leftrightarrow \quad \frac{U_d(s)}{E(s)} = K_d s 
+		u_d(t) = K_d \frac{de(t)}{dt} \quad \rightarrow \quad \frac{U_d(s)}{E(s)} = K_d s 
 	\end{equation*}
-	Discrete:
+	Discrete (using \textbf{backward Euler}):
 	\begin{equation*}
-	u_d[k] = K_d \frac{ e[k] - e[k-1]}{T} \quad \leftrightarrow \quad \frac{U_d(z)}{E(z)} = K_d \frac{z - 1}{T_sz}
+	u_d[k] = K_d \frac{ e[k] - e[k-1]}{T_s} \quad \rightarrow \quad \frac{U_d(z)}{E(z)} = K_d \frac{z - 1}{T_sz}
 	\end{equation*}
 	with $T_s$ the sampling time.
-	
-	Other discretization methods can be used, but forward Euler can introduce instability.
+
 \end{frame}
 
 \begin{frame}
 	\frametitle{Integral Control}
-	Discretization can be done with \textbf{backward Euler}, applying $\dot{y} \approx \frac{y[k]-y[k-1]}{T}$ or $s = \frac{z - 1}{Tz}$ \\
 	The continuous equation is:
 	\begin{equation*}
-		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \leftrightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
+		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \rightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
 	\end{equation*}
-	Differentiating this gives:
+	Differentiating this gives :
 	\begin{equation*}
 		\dot{u_i} = K_i e(t)
 	\end{equation*}
 	
 	Then applying backward Euler:
 	\begin{equation*}
-	u_i[k] = u[k-1] + K_i T e[k] \quad \leftrightarrow \quad \frac{U_i(z)}{E(z)} = K_i \frac{z T_s}{z - 1}
+	u_i[k] = u[k-1] + K_i T e[k] \quad \rightarrow \quad \frac{U_i(z)}{E(z)} = K_i \frac{z T_s}{z - 1}
 	\end{equation*}
 	with $T_s$ the sampling time.
 	
-	Other discretization methods can be used, here is no significant difference.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Digital formulation combined}
-	
-	
-	\begin{block}{Digital PID controller}
+	\frametitle{Digital formulation (conventional version)}
+	\vspace{-1em}
+	\small{
+	\begin{block}{Digital PID controller (conventional version)}
+			\vspace{-1em}
 			%Difference equations
 			\begin{align*}
 			u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
@@ -126,13 +119,24 @@
 			\end{equation*}
 			where $\frac{K_d}{T_s}$ and $K_iT_s$  are the new derivative and gains.
 	\end{block}
-	
+	\begin{columns}
+		\begin{column}{0.5 \textwidth}
+			\begin{block}{Digital PI controller}
+				$$\frac{U(z)}{E(z)} = K_p + K_i T \frac{z}{z-1} $$
+			\end{block}
+		\end{column}
+		\begin{column}{0.5 \textwidth}
+			\begin{block}{Digital PD controller}
+				$$\frac{U(z)}{E(z)} = K_p + \frac{K_d}{T}\frac{z-1}{z} $$
+			\end{block}
+		\end{column}
+	\end{columns}}
 	%\vspace{1em}
 	 
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alternative Digital PID controller }
+	\frametitle{Alternative Digital PID controller}
 	We can also discretize using the \textbf{bilinear transformation}:
 	\begin{align*}
 		\frac{U(z)}{E(z)} &=  
@@ -147,7 +151,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action}
+	\frametitle{Alterantive Derivative Action(Continous time)}
 		\begin{columns}
 			\begin{column}{0.7\linewidth}
 				Imagine a jumping set point or rapidly changing signal. 
@@ -167,7 +171,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action}
+	\frametitle{Alterantive Derivative Action(Continous time)}
 	\begin{equation*}
 		\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
 	\end{equation*}
@@ -183,23 +187,30 @@
 	This can also be discretized, but the bilinear method then introduces \emph{ringing}, i.e. large oscillations in transient response.
 \end{frame}
 \section{Implementation Examples}
-
+\begin{frame}{Analog PI Motor Speed Control}
+	\begin{figure}
+\centering
+\includegraphics[width=0.4\linewidth]{img/feedback_motor}
+\end{figure}
+\url{https://youtu.be/6W3PLiVIcmE}
+\end{frame}
 \begin{frame}
 	\frametitle{Analog Implementation}
-	The key building block in the op-amp
+	The key building block is the operational amplifier (op-amp).
 	\begin{columns}
-		\begin{column}{0.6\linewidth}
+		\begin{column}{0.7 \textwidth}
 			\begin{figure}
-				\centering
-				\includegraphics[width=1.1\linewidth]{img/Principles_of_Feedback_Control_Fig_079}
+				\includegraphics[width=1\linewidth]{img/Principles_of_Feedback_Control_Fig_079}
 			\end{figure}
 		\end{column}
-		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item PV - Process Variable $y(t)$
-				\item SP - Set Point $r(t)$
-				\item Output - Control action $u(t)$
-			\end{itemize}
+		\begin{column}{0.3 \textwidth}
+			\footnotesize{
+				\begin{itemize}
+					\item PV - Process Variable $y(t)$
+					\item SP - Set Point $r(t)$
+					\item Output - Control action $u(t)$
+				\end{itemize}
+			}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -224,20 +235,36 @@
 
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
-	The difference equations are typically implemented in a micro controller or FPGA:
+	\small{
+	The difference equations are typically implemented in a micro controller or FPGA (field-programmable gate array):
 		\begin{align*}
 		u[k] &= K_p e[k] + \frac{K_d}{T}(e[k] - e[k-1])+u_i[k] \\
 		&\text{with } u_i[k] = u_i[k-1] + K_i T e[k]
 		\end{align*}
-	Steps to be implemented:
-	\begin{enumerate}
-		\item Wait for clock interrupt
-		\item Read analog input
-		\item Compute control signal
-		\item Set analog output
-		\item Update controller variables
-		\item Go to 1
-	\end{enumerate}
+	Steps to be implemented:}
+\begin{lstlisting}[
+basicstyle=\scriptsize
+]
+previous_error = 0
+integral = 0
+Start:
+	error = setpoint - measured_value
+	proportional = K_P * error
+	integral = integral + K_i*sampling_time*error
+	derivative = K_d*(error-previous_error)/sampling_time
+	output = proportional + integral + derivative
+	previous_error = error
+	wait(sampling_time)
+	goto Start
+	\end{lstlisting}
+%	\begin{enumerate}
+%		\item Wait for clock interrupt
+%		\item Read analog input
+%		\item Compute control signal
+%		\item Set analog output
+%		\item Update controller variables
+%		\item Go to 1
+%	\end{enumerate}
 \end{frame}
 
 \begin{frame}
@@ -265,7 +292,35 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+\begin{frame}{PLC}
+	\textbf{P}rogrammable \textbf{L}ogic \textbf{C}ontroller is a digital computer used for automation of typically industrial processes. 
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{img/PLC_1}
+\end{figure}
 
+		\end{column}
+		\begin{column}{0.5\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{img/PLC_2}
+
+\end{figure}
+
+		\end{column}
+	\end{columns}
+	
+\end{frame}
+\begin{frame}{What is a PLC? Basics of PLCs}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{img/what_is_a_plc}
+\end{figure}
+
+	\url{https://youtu.be/iWgHqqunsyE}
+\end{frame}
 \section{PID Tuning}
 
 \begin{frame}
@@ -301,7 +356,7 @@
 
 
 \begin{frame}
-	\frametitle{Heuristic Methods: Ziegler-Nichols rule}
+	\frametitle{Heuristic Methods: Ziegler-Nichols tunig rule}
 		This method relies on empirically determining two parameters of the system (should again be practical possible):
 		\begin{enumerate}
 			\item Set the integral and derivative gains to 0
@@ -312,7 +367,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Heuristic Methods: Ziegler-Nichols rule}
+	\frametitle{Heuristic Methods: Ziegler-Nichols tunig rule}
 	With $K_u$ and $T_u$ determined like in the previous slide, a starting point for the parameters can be determined:
 	\vspace{1em}
 	
@@ -328,8 +383,9 @@
 		No overshoot	&	$0.2K_u$	&	$2K_p/T_u$		&	$K_pT_u/3$	\\
 	\end{tabular}
 \end{frame}
-\begin{frame}{Heuristic Methods: Ziegler-Nichols rule(example)}
-	\small{
+\begin{frame}{Heuristic Methods: Ziegler-Nichols tuning rule(example)}
+	\vspace{-1em}
+	\footnotesize{
 	\begin{example}
 		Consider a plant with a given model:\\
 		\vspace{-0.5em}
@@ -337,18 +393,31 @@
 			\vspace{-0.7em}
 			\begin{itemize}
 				\item We compute the critical gain $K_c$. This is the value of $K_p$ for which $\angle (K_p P(s)) = - 180^\circ$. On the Nyquist plot this the value of $K_p$ for which $K_p P(s)$ passes through $(-1,0)$.\\
-				\vspace{-1.5em}
-				\begin{align*}
-					K_cP(j\omega_c) = -1 \Leftrightarrow K_c &= -(j\omega_c + 1)^3 \\
-					& = (3\omega_c^2-1)+j(\omega_c^3 - 3\omega_c)
-				\end{align*}
-				\vspace{-1.5em}
-					$$ \omega_c^3-3\omega_c = 0 \Rightarrow \omega_c = \sqrt{3}$$\\
-					\vspace{-1.5em}
-					$$K_c = 8 $$\\
-					\vspace{-1.5em}
-					$$K_p = 4.8, K_I = 0.551  K_p, K_d =  0.45 K_p$$
 			\end{itemize}
+				\vspace{-1.5em}
+				\begin{columns}
+					\begin{column}{0.5 \textwidth}
+							\begin{align*}
+							K_cP(j\omega_c) &= -1 \\ \Leftrightarrow K_c &= 	-(j\omega_c + 1)^3 \\
+								& = (3\omega_c^2-1)+j(\omega_c^3 - 3\omega_c)
+							\end{align*}
+								\vspace{-1.5em}
+								$$ \omega_c^3-3\omega_c = 0 \Rightarrow \omega_c = \sqrt{3}$$\\
+								\vspace{-1.5em}
+								$$K_c = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
+								\vspace{-1.5em}
+								$$K_p = 4.8, K_I = 0.551  K_p, K_d =  0.45 K_p$$
+						
+					\end{column}
+					\begin{column}{0.4 \textwidth}
+						\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{img/Z_N_PID_example}
+\end{figure}
+
+					\end{column}
+				\end{columns}
+			
 	\end{example}}
 \end{frame}
 \begin{frame}
@@ -367,18 +436,19 @@
 	
 \end{frame}
 \begin{frame}{Some Software Tools}
-	\begin{tabular}{|p{3cm}|p{6cm}|}
+	\small{
+	\begin{tabular}{|p{3cm}|p{7cm}|}
 		\hline Software Tool  & Brief Description  \\ 
 		\hline pidtool / pidTuner
 		 & It is a Matlab tool to interactively design a SISO PID controller in the feed-forward path of single-loop, unity-feedback control configuration \\ 
 		\hline Pidpy
-		 & It is a modular PID control library for python that supports PID auto tuning.
+		 & It is a modular PID control library for python that supports PID auto tuning. \url{https://pypi.python.org/pypi/pypid/}
 		  \\ 
 		\hline INCA PID Tuner
-		 & It is a commercial tuning tool developed by IPCOS. It has a vast library of PID structures for DCS and PLC  Systems including Siemens, ABB, Honeywell, Emerson, etc. 
+		 & It is a commercial tuning tool developed by IPCOS. It has a vast library of PID structures for DCS and PLC  Systems including Siemens, ABB, Honeywell, Emerson, etc. \url{http://www.ipcos.com/advancedprocesscontrol/advanced-process-control/pid-tuning-software/inca-pid-tuning/}
 		   \\ 
 		\hline 
-	\end{tabular} 
+	\end{tabular}}
 \end{frame}
 \begin{frame}{pidtool /pidTuner - Demo}
 	\begin{figure}
