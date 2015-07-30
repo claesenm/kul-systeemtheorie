@@ -403,12 +403,27 @@ It is very important to understand the background of root loci: how they take th
 	\begin{block}{STEP 6: Estimate the location of multiple roots and determine their arrival and departure angles}
 		
 	\end{block}
+	
+	TO BE CONTINUED
 \end{frame}
 
 \subsection{Rules of thumb for a quick drawing}
 
 \begin{frame}
-	INCLUDE SLIDES FROM PREVIOUS PRESENTATION
+	\begin{enumerate}
+		\item The root locus hax max($\#$poles of $G(s)$, $\#$ zeros of $G(s)$) branches;
+		\item Each branch starts at an open loop pole of $G(s)$ (for $K=0$) and ends at a closed loop zero of $G(s)$ (for $K \rightarrow \infty$). If $\#$poles of $G(s)$ $\neq$ $\#$zeros of $G(s)$ the extra branches go to/come from a zero/pole in infinity;
+	\end{enumerate}
+	
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			$\frac{s +1}{s+3}$
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			$\frac{s + 1}{(s + 3)(s + 4)}$
+		\end{column}
+	\end{columns}
+	
 \end{frame}
 
 \section{Root Loci and MATLAB}
