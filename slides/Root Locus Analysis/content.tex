@@ -157,7 +157,6 @@ It is very important to understand the background of root loci: how they take th
 	\begin{block}{Definition II}
 		The root locus of $G(s)$ is the set of points in the s-plane where the phase of $G(s)$ is $180^{\circ}$.	
 	\end{block}
-	
 \end{frame}
 
 \begin{frame}
@@ -171,7 +170,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Overview of the guidelines}
-	Drawing the root loci yourself can be done by following the next steps:
+	Drawing the root locus yourself can be done by following the next steps:
 	\vspace{0.5em}
 	\begin{enumerate}
 		\item Mark poles with $\times$ and zeros with $\circ$;
@@ -248,7 +247,7 @@ It is very important to understand the background of root loci: how they take th
 		\vspace{-0.5em}
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.6\linewidth]{how_to_draw_ex2}
+			\includegraphics[width=0.5\linewidth]{how_to_draw_ex2}
 		\end{figure}
 	\end{block}
 \end{frame}
@@ -353,8 +352,6 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{Guidelines in practice}
 	\begin{block}{STEP 3: asymptotes for large values of K}
-		Resulting in the following figure
-		\vspace{-0.5em}
 		\begin{figure}
 			\centering
 			\includegraphics[width=0.6\linewidth]{how_to_draw_ex3}
@@ -396,36 +393,98 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Guidelines in practice}	
-	\begin{block}{STEP 5: Estimate the points of the locus on the imaginary axis}
+	\begin{block}{STEP 5: points where the locus crosses the imaginary axis}
 		We will not discuss this since it is not always necessary and it becomes very difficult for fourth- or higher-order systems.
 	\end{block}
-	
-	\begin{block}{STEP 6: Estimate the location of multiple roots and determine their arrival and departure angles}
-		
+	\begin{block}{STEP 6: location of multiple roots and their arrival and departure angles}
+		\begin{itemize}
+		\item Two locus segments coming together at any point in the s-plane will always approach at at relative angle of $180^{\circ}$ and then break away with a $90^{\circ}$ change in direction; 
+		\item Three locus segments coming together will always approach at $120^{\circ}$ angles that are rotated $60^{\circ}$ relative to the arrival angles.
+	\end{itemize}
 	\end{block}
-	
-	TO BE CONTINUED
+\end{frame}
+
+\begin{frame}
+\frametitle{Guidelines in practice}	
+	\begin{block}{STEP 7: Complete the sketch}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{how_to_draw_ex5}
+		\end{figure}
+	\end{block}
 \end{frame}
 
 \subsection{Rules of thumb for a quick drawing}
 
 \begin{frame}
+\frametitle{Quick and dirty method}
 	\begin{enumerate}
 		\item The root locus hax max($\#$poles of $G(s)$, $\#$ zeros of $G(s)$) branches;
 		\item Each branch starts at an open loop pole of $G(s)$ (for $K=0$) and ends at a closed loop zero of $G(s)$ (for $K \rightarrow \infty$). If $\#$poles of $G(s)$ $\neq$ $\#$zeros of $G(s)$ the extra branches go to/come from a zero/pole in infinity;
 	\end{enumerate}
-	
+	\vspace{-1em}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
-			$\frac{s +1}{s+3}$
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.8\linewidth]{how_to_draw_easy_ex1}
+			\end{figure}
 		\end{column}
 		\begin{column}{0.5\textwidth}
-			$\frac{s + 1}{(s + 3)(s + 4)}$
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.8\linewidth]{how_to_draw_easy_ex2}
+			\end{figure}
 		\end{column}
 	\end{columns}
-	
 \end{frame}
 
+\begin{frame}
+\frametitle{Quick and dirty method}
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item Complex roots of $1 + KG(s)$ (closed loop poles) always occur in conjugate pairs;
+		\item A branch will never cross over itself;
+		\item The portion of the real axis to the left of an odd number (counted from the right) of open loop poles and zeros are part of the loci (same as the general guidelines);
+		\item Branches leave and enter the real axis at $90^{\circ}$ (this is not a $100\%$ general rule, but it is true in most cases);
+		\item The branches that go to infinity do so along asymptotes, can be easily extracted from the poles and zeros of the system: 
+		\begin{itemize}
+			\item Angles of asymptotes equal:
+			$\frac{(2n + 1)180^{\circ}}{\# poles - \# zeros}$ with n=0,1,2,...,($\#$ poles - $\#$ zeros -1);
+			\item The centroid point equals: $\frac{\Sigma p_i - \Sigma z_i}{\# poles - \# zeros}$.
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\section{Design criteria}
+
+\begin{frame}
+\frametitle{Root locus method: design criteria}
+	If you are able to express your design criteria in terms of the poles ($\alpha + j\beta$, with $\alpha < 0$ and $\beta>0$), you can find out if there are any $K$-values appropriate and which ones.\\
+	\begin{block}{Criteria}
+	\begin{itemize}
+		\item The damping ratio: $\zeta = \frac{\beta}{\mid \alpha + j\beta\mid}$ ($0 \leq \zeta \leq 1$);
+		\item The natural frequency: $\omega_n = -\frac{\alpha}{\zeta} = \frac{\beta}{\sqrt{1 - \zeta^2}}$;
+		\item The rise time: $t_r \cong \frac{1.8}{\omega_n}$;
+		\item The settling time: $t_s = \frac{4.6}{\zeta \omega_n}$;
+		\item The peak time: $t_p =\frac{\pi}{\omega_d}$, with $\omega_d = \omega_n \sqrt{1 - \zeta^2} $;
+		\item The overshoot: $M_p = e^{-\pi \frac{\zeta}{\sqrt{1 - \zeta^2}}}$.
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Root locus method: design criteria}
+	The possible design criteria for second order systems are very useful since they represent physically important measures in terms of the poles.\\
+	\begin{alertblock}{Second order approximation}
+		For most of the time only one or two poles dominate the behavior of the system. These are called the dominant poles. Consequently many system behave more or less as if they are of second order.
+	\end{alertblock}
+	\begin{itemize}
+		\item A single pole at position $-a$ results in a $e^{-at}$ term in the output. So after some time, the poles with the largest real part will dominate the behavior;
+		\item A single pole at position $Ae^{j\omega}$ results in a $A^ke^{j\omega k}$ term in the output. So after some time the poles with the largest modulus will dominate. 
+	\end{itemize}
+\end{frame}
+	
 \section{Root Loci and MATLAB}
 
 \begin{frame}
