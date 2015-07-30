@@ -1,21 +1,8 @@
-var requirejs = require('requirejs');
 var assert = require('assert');
-requirejs.config({
-    baseUrl: './src',
-    nodeRequire: require
-});
+var math = require('mathjs');
+var system = require('../src/system');
 
 describe('System testing', function() {
-    var math;
-    var system;
-    before(function(done){
-        requirejs(['mathjs', './system'], function(mathjs, sys){
-            math = mathjs;
-            system = sys;
-            done();
-        });
-    });
-
 
     describe('constructor', function() {
         it('default values', function() {
