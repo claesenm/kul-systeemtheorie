@@ -224,7 +224,6 @@ This holds for linear, time-invariant systems with $n$ states if:
 \begin{equation*}
 rank(\mathcal{O}) = n,\quad \mathcal{O} = \begin{bmatrix} \mathbf{C} \\ \mathbf{CA} \\ \vdots \\ \mathbf{CA}^{n-1} \end{bmatrix}, \quad \mathcal{O}: \textbf{observability matrix}
 \end{equation*}
-
 \end{frame}
 
 \begin{frame}
@@ -253,7 +252,7 @@ The transfer function of input $i$ to output $j$ is defined as:
 \begin{equation*}
 H_{i,j}(s) = \frac{Y_j(s)}{U_i(s)},\quad \mathbf{U}(s) = \mathcal{L}\{u(t)\},\quad \mathbf{Y}(s) = \mathcal{L}\{y(t)\}.
 \end{equation*}
-\e
+\end{definition}
 MIMO systems with $n$ inputs and $m$ outputs have $n\times m$ transfer functions, one for each input-output pair.\\
 The complex Laplace variable can be rewritten: $s = \sigma + j\omega$. \\
 The frequency response of a system can be analyzed via $\mathbf{H}(j\omega)$:
@@ -445,7 +444,7 @@ where $y_{tr}(t)$ is the transient response and $y_{ss}(t)$ is the steady state 
 		\includegraphics[width=0.6\linewidth]{Afbeelding1}
 	\end{figure}
 	\vspace{-0.8em}
-	\\The transfer function is given by: $\frac{Y(s)}{U(s)} = \frac{1}{\tau s +1}$
+	The transfer function is given by: $\frac{Y(s)}{U(s)} = \frac{1}{\tau s +1}$
 	\begin{itemize}
 		\item Laplace of unit-step is $\frac{1}{s}$ $\rightarrow$ substituting $U(s)= \frac{1}{s}$: $Y(s) = \frac{1}{s}\frac{1}{\tau s +1}$;
 		\item Expanding into partial fractions gives $Y(s)= \frac{1}{s} - \frac{\tau}{\tau s +1} = \frac{1}{s} - \frac{1}{s+\frac{1}{\tau}}$.
@@ -552,7 +551,7 @@ H(s) = \frac{c}{ds^2+es+c}.
 \end{frame}
 
 \begin{frame}
-\frametitle{Step response second order system}
+\frametitle{Step response of a second order system}
 \begin{enumerate}
 \item $H(s) = \frac{c}{ds^2+es+c}$;
 \item The transfer function can be rewritten as:
@@ -566,7 +565,7 @@ H(s) &= \frac{\frac{c}{d}}{s^2+\frac{e}{d}s+\frac{c}{d}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Step response second order system}
+\frametitle{Step response of a second order system}
 
 To simplify the transient analysis, it is convenient to write:
 \begin{itemize}
@@ -579,12 +578,19 @@ The transfer function can now be rewritten as\\
 \begin{center}
 $H(s) = \frac{\omega_n ^2}{s^2+2\zeta\omega s +\omega_n ^2}$ (= standard form).\\
 \end{center}
-
 The dynamic behavior of the second-order system can then be described in terms of only two parameters $\zeta$ and $\omega_n$.
 \end{frame}
 
 \begin{frame}
-\frametitle{Step response second order system}
+\frametitle{Poles of the system}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{poles_system}
+\end{figure}
+$$\alpha=-\zeta\omega_n, \beta=\omega_n\sqrt{1-\zeta^2}$$
+\end{frame}
+
+\begin{frame}
+\frametitle{Step response of a second order system}
 If $0<\zeta<1$, the poles are complex conjugates and lie in the left-half $s$-plane
 \begin{itemize}
 \item The system is then called \textbf{underdamped}
@@ -612,7 +618,6 @@ Y(s)=\frac{\omega_n ^2}{(s^2+2\zeta\omega_n s+\omega_n ^2)s}.
 \end{frame}
 
 \begin{frame}{Underdamped system}
-
 Which can be rewritten as partial fractions\\
 \vspace{-0.5cm}
 \begin{align*}
