@@ -78,7 +78,7 @@ def draw_zp(sys,sysd): #Draw the zero-pole plots for the continuous-time and dis
     plt.xlabel('Real')
     plt.ylabel('Imaginary')
     
-def draw_bode(sys,sysd,freq): #Draw the bode plots for the continuous-time and discrete-time systems
+def draw_bode(sys,sysd,freq,Ts): #Draw the bode plots for the continuous-time and discrete-time systems
     print 'The continuous-time transfer function is :', sys
     print 'and the discrete-time transfer function is: ', sysd
     start = 10**(-4)
