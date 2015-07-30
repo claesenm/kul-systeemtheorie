@@ -7,7 +7,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from sympy import *
 
-def init():
+# ----------------------- INITIALIZATION -----------------------
+
+def init(): #Initalize the demo and input the transfer function
     Num = raw_input("Give the coefficients of the numerator of the transfer function (a_n, a_n-1, ... , a_1, a_0): ")
     Num = Num.split(',')
     for k in range(len(Num)):
@@ -25,14 +27,14 @@ def init():
     print Num,Denom
     return Num,Denom
 
-def check():
+def check(): #Check whether this is the correct transfer function
     go = raw_input('Is this the transfer function you want to work with? (Y/N) ')
     if go == 'Y' or go == 'y':
         return True
     else:
         return False
     
-def getTs():
+def getTs(): #Enter the desired sampling time
     av = raw_input('Enter the sampling time you want to work around (take a small fraction of any time constant in the system): ')
     av = float(av)
     if av >= 100:
@@ -55,28 +57,28 @@ def getTs():
         Ts1 = 0.01
         Ts2 = 2*av
         Ts_step = 0.01
-    return Ts1,Ts2,Ts_step    
+    return Ts1,Ts2,Ts_step   
+
+# ---------------------- PLOTS ----------------------
     
-def draw_zp_plot(sys):
+def draw_zp_plot(sys): #Draw the zero-pole plot for a certain system
     pzmap.pzmap(sys)
     fig = plt.gcf()
     fig.set_size_inches(15,5)
     
-def draw_zp(sys,sysd):
+def draw_zp(sys,sysd): #Draw the zero-pole plots for the continuous-time and discrete-time systems
     plt.subplot(3,2,1)
     draw_zp_plot(sys)
     plt.title('Zero-pole plot: Continuous time')
     plt.xlabel('Real')
     plt.ylabel('Imaginary')
-    #plt.tight_layout(w_pad = 3.0)
     plt.subplot(3,2,2)
     draw_zp_plot(sysd)
     plt.title('Zero-pole plot: Discrete time')
     plt.xlabel('Real')
     plt.ylabel('Imaginary')
-    #plt.tight_layout(w_pad = 3.0)
     
-def draw_bode(sys,sysd,freq,Ts):
+def draw_bode(sys,sysd,freq): #Draw the bode plots for the continuous-time and discrete-time systems
     print 'The continuous-time transfer function is :', sys
     print 'and the discrete-time transfer function is: ', sysd
     start = 10**(-4)
@@ -106,7 +108,7 @@ def draw_bode(sys,sysd,freq,Ts):
     plt.tight_layout(w_pad = 3.0)
     ax.legend(loc='center left', bbox_to_anchor=(1.18, 0.5),fancybox=True, shadow=True)
     
-def step_response(sys,sysd,Ts):
+def step_response(sys,sysd,Ts): #Draw the step response for the continuous-time and discrete-time systems
     sysnum = asarray(sys.num)[0][0]
     sysden = asarray(sys.den)[0][0]
     sysdnum = asarray(sysd.num)[0][0]
@@ -125,10 +127,10 @@ def step_response(sys,sysd,Ts):
     plt.tight_layout(w_pad = 3.0)
     plt.show()
     
-# Bilinear transform with prewarping ------------------
+# ---------------------- DISCRETE TIME TRANSFER FUNCTIONS ----------------------
 
-def find_sysd_prew(sys,f,Ts):
-    #Construct continuous time system so we can substitute s with factor*(z-1)/(z+1)
+def find_sysd_prew(sys,f,Ts): #Find the discrete-time transfer function for the Bilinear transform with prewarping
+    #Convert the continuous time system to a form so we can substitute s with factor*(z-1)/(z+1)
     s = Symbol('s')
     zer = sys.zero()
     pol = sys.pole()
@@ -184,10 +186,10 @@ def find_sysd_prew(sys,f,Ts):
     system = TransferFunction(num,den,Ts)
     return system
 
-# Impulse invariant method  --------------------
+# ------------------------------------
 
-def find_sysd_impulse(Ts,sys):
-    #Partial fraction decomposition
+def find_sysd_impulse(Ts,sys): #Find the discrete-time transfer function for the impulse invariant method
+    #Partial Fraction Decomposition
     N = sys.num[0][0].tolist()
     D = sys.den[0][0].tolist()
     R,P,k = signal.residue(N,D)
@@ -269,9 +271,9 @@ def find_sysd_impulse(Ts,sys):
     sysd = TransferFunction(num,den,Ts)
     return sysd
     
-# Zero-pole matching  --------------------
+# ------------------------------------
 
-def find_sysd_matched(Ts,sys):
+def find_sysd_matched(Ts,sys): #Find the discrete-time transfer function using zero-pole matchin
     sysd = sys.sample(Ts,'matched')
     K = sys.horner(0)[0][0]/sysd.horner(1)[0][0]
     sysd = K*sysd
