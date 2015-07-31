@@ -86,7 +86,6 @@ module.exports = {
         custom_legend.style.right = '0px';
         custom_legend.style.top = '0px';
         custom_legend.style['z-index'] = 1;
-        console.log(custom_legend);
         container.appendChild(custom_legend);
 
 
@@ -96,9 +95,10 @@ module.exports = {
         plot_div.style.height = container.offsetHeight + "px";
         container.appendChild(plot_div);
 
+
+        // Prepare the data for dygraphs
         var zeros = sys.getZeros();
         var poles = sys.getPoles();
-
         var data = [];
         for (var i = 0; i < zeros.length; ++i) {
             var zero = zeros[i];
@@ -109,25 +109,55 @@ module.exports = {
             data.push([math.re(pole), NaN, math.im(pole)]);
         }
 
+        // Has to be sorted on x (because of how dygraphs determines its bounds)
         data = _.sortBy(data, function(el) { return el[0]; });
 
+
         var options = {
-            labelsDivWidth: 0,
-            highlightCallback: function(event, x, points, row, seriesName) {
+            labelsDivWidth: 0, // Hide the default legend
+            highlightCallback: function(event, x, points, row, seriesName) { // Used to update the custom legend
                 var im = points[seriesName == 'zeros' ? 0 : 1].yval;
-                var op = im >= 0 ? '+' : '';
-                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.round(im, 5) + 'j';
+                var op = im >= 0 ? '+' : '-';
+                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.abs(math.round(im, 5)) + 'j';
+            },
+            unhighlightCallback: function() { // Empty the legend on unhighlight
+                custom_legend.innerHtml = '';
+            },
+            underlayCallback: function(context, area, graph) {
+                // Use canvas drawing to render only the axes, instead of a grid
+                context.save();
+                context.lineWidth = 2.0;
+                var path = new Path2D();
+
+                // Y axis
+                var xRange = graph.xAxisRange();
+                if (xRange[0] < 0 && xRange[1] > 0) {
+                    var x = graph.toDomXCoord(0);
+                    path.moveTo(x, 0);
+                    path.lineTo(x, context.canvas.offsetHeight);
+                }
+
+                // X axis
+                var yRange = graph.yAxisRange();
+                if (yRange[0] < 0 && yRange[1] > 0) {
+                    var y = graph.toDomYCoord(0);
+                    path.moveTo(0, y);
+                    path.lineTo(context.canvas.offsetWidth, y);
+                }
+                context.stroke(path);
+                context.restore();
             },
             drawGrid: false,
-            labels: ['real', 'zeros', 'poles'],
+            labels: ['real', 'zeros', 'poles'], // Used to refer to these series
             drawPoints: true,
             pointSize: 5,
             xlabel: "Re",
             ylabel: "Im",
             xRangePad: 50,
             yRangePad: 50,
-            strokeWidth: 0.0,
+            strokeWidth: 0.0, // Don't draw connecting lines
             series: {
+                // Set appropriate shapes for zeros/poles
                 zeros: {
                     drawPointCallback: shapes.CIRCLE,
                     drawHighlightPointCallback: shapes.CIRCLE
@@ -137,19 +167,46 @@ module.exports = {
                     drawHighlightPointCallback: shapes.EX
                 }
             },
-            axes: {
-                y: {
-                    valueFormatter: function(num) {
-                        return math.round(num, 5) + "j";
-                    }
-                }
-            },
+            // This somehow makes it possible to take the y coördinate into account to highlight a series
+            // instead of just the x coördinate
             highlightSeriesOpts: {
                 strokeBorderWidth: 1,
                 highlightCircleSize: 5
+            },
+            interactionModel: {
+                startZoom: function(){},
             }
         };
-        return new Dygraph(plot_div, data, options);
+
+        var graph = new Dygraph(plot_div, data, options);
+
+        function scale_interval(scale, interval) {
+            var mid = (interval[0] + interval[1]) / 2;
+            return [(interval[0] - mid)*scale + mid, (interval[1] - mid)*scale + mid];
+        }
+
+        graph.ready(function() {
+            var starting_value_range = graph.yAxisRange(0);
+            // Zoom using the scroll wheel
+            container.addEventListener('wheel', function(event) {
+                var scale = math.pow(1.5, event.deltaY / 100);
+                console.log(scale);
+                graph.updateOptions({
+                    dateWindow: scale_interval(scale, graph.xAxisRange()),
+                    valueRange: scale_interval(scale, graph.yAxisRange(0))
+                });
+                event.preventDefault();
+            }, false);
+
+            // Reset zoom on right click
+            container.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                graph.updateOptions({valueRange: starting_value_range});
+                graph.resetZoom();
+            });
+        });
+
+        return graph;
     },
 
     /**
