@@ -13,14 +13,14 @@ Workflow
 --------
 All of the following instructions assume you have a terminal open in javascript/  
 
-- Creating documentation:  
+- #### Creating documentation:  
   Execute `jsdoc ./src -d doc`
 
-- Running tests:  
+- #### Running tests:  
   Execute `mocha test` if this is the first time you run them, otherwise
   `mocha` should suffice.
 
-- Package the library into a standalone file:  
+- #### Package the library into a standalone file:  
   Execute `browserify control.js -s control -o build/control.js`
   This creates a complete file in build/ called control.js.
   This file can be used in different projects using the regular browser
