@@ -21,7 +21,7 @@ All of the following instructions assume you have a terminal open in javascript/
   `mocha` should suffice.
 
 - #### Package the library into a standalone file:  
-  Execute `browserify control.js -s control -o build/control.js`
+  Execute `browserify src/control.js -s control -o build/control.js`
   This creates a complete file in build/ called control.js.
   This file can be used in different projects using the regular browser
   conventions as a global object called 'control', as an AMD module using
