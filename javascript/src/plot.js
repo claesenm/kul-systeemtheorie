@@ -16,7 +16,7 @@ module.exports = {
      * Plots a bode plot of the given system in container.
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
-     * @param {Array<Number>} omega_bounds - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
+     * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
      * @returns {Array<Dygraph>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
     bode: function(container, system, omega_bounds) {
@@ -79,9 +79,26 @@ module.exports = {
      * @returns {Dygraph} A reference to the created plot
      */
     pzmap: function(container, sys) {
+        // Create an html element to display a custom legend.
+        container.style.position = 'relative';
+        var custom_legend = document.createElement('div');
+        custom_legend.style.position = 'absolute';
+        custom_legend.style.right = '0px';
+        custom_legend.style.top = '0px';
+        custom_legend.style['z-index'] = 1;
+        container.appendChild(custom_legend);
+
+
+        // Create new div for plot itself
+        var plot_div = document.createElement('div');
+        plot_div.style.width = container.offsetWidth + "px";
+        plot_div.style.height = container.offsetHeight + "px";
+        container.appendChild(plot_div);
+
+
+        // Prepare the data for dygraphs
         var zeros = sys.getZeros();
         var poles = sys.getPoles();
-
         var data = [];
         for (var i = 0; i < zeros.length; ++i) {
             var zero = zeros[i];
@@ -92,19 +109,55 @@ module.exports = {
             data.push([math.re(pole), NaN, math.im(pole)]);
         }
 
+        // Has to be sorted on x (because of how dygraphs determines its bounds)
+        data = _.sortBy(data, function(el) { return el[0]; });
+
+
         var options = {
-            legend: 'follow',
-            labelsDivStyles: {
-                'background-color':  'rgba(0, 0, 0, 0)'
+            labelsDivWidth: 0, // Hide the default legend
+            highlightCallback: function(event, x, points, row, seriesName) { // Used to update the custom legend
+                var im = points[seriesName == 'zeros' ? 0 : 1].yval;
+                var op = im >= 0 ? '+' : '-';
+                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.abs(math.round(im, 5)) + 'j';
             },
-            labels: ['real', 'zeros', 'poles'],
+            unhighlightCallback: function() { // Empty the legend on unhighlight
+                custom_legend.innerHtml = '';
+            },
+            underlayCallback: function(context, area, graph) {
+                // Use canvas drawing to render only the axes, instead of a grid
+                context.save();
+                context.lineWidth = 2.0;
+                var path = new Path2D();
+
+                var xRange = graph.xAxisRange();
+                if (xRange[0] < 0 && xRange[1] > 0) {
+                    var x = graph.toDomXCoord(0);
+                    // Y axis
+                    path.moveTo(x, 0);
+                    path.lineTo(x, context.canvas.offsetHeight);
+                }
+
+                var yRange = graph.yAxisRange();
+                if (yRange[0] < 0 && yRange[1] > 0) {
+                    // X axis
+                    var y = graph.toDomYCoord(0);
+                    path.moveTo(0, y);
+                    path.lineTo(context.canvas.offsetWidth, y);
+                }
+                context.stroke(path);
+                context.restore();
+            },
+            drawGrid: false,
+            labels: ['real', 'zeros', 'poles'], // Used to refer to these series
             drawPoints: true,
             pointSize: 5,
             xlabel: "Re",
             ylabel: "Im",
-            strokeWidth: 0.0,
-            dateWindow: [-11, 11],
+            xRangePad: 50,
+            yRangePad: 50,
+            strokeWidth: 0.0, // Don't draw connecting lines
             series: {
+                // Set appropriate shapes for zeros/poles
                 zeros: {
                     drawPointCallback: shapes.CIRCLE,
                     drawHighlightPointCallback: shapes.CIRCLE
@@ -114,16 +167,42 @@ module.exports = {
                     drawHighlightPointCallback: shapes.EX
                 }
             },
-            axes: {
-                y: {
-                    valueRange: [-2, 2],
-                    valueFormatter: function(num) {
-                        return math.round(num, 5) + "j";
-                    }
-                }
+            // This somehow makes it possible to take the y coördinate into account to highlight a series
+            // instead of just the x coördinate
+            highlightSeriesOpts: {
+                strokeBorderWidth: 1,
+                highlightCircleSize: 5
             }
         };
-        return new Dygraph(container, data, options);
+
+        var graph = new Dygraph(plot_div, data, options);
+
+        function scale_interval(scale, interval) {
+            var mid = (interval[0] + interval[1]) / 2;
+            return [(interval[0] - mid)*scale + mid, (interval[1] - mid)*scale + mid];
+        }
+
+        graph.ready(function() {
+            var starting_value_range = graph.yAxisRange(0);
+            // Zoom using the scroll wheel
+            container.addEventListener('wheel', function(event) {
+                var scale = math.pow(1.5, event.deltaY / 100);
+                graph.updateOptions({
+                    dateWindow: scale_interval(scale, graph.xAxisRange()),
+                    valueRange: scale_interval(scale, graph.yAxisRange(0))
+                });
+                event.preventDefault();
+            }, false);
+
+            // Reset zoom on right click
+            container.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                graph.updateOptions({valueRange: starting_value_range});
+                graph.resetZoom();
+            });
+        });
+
+        return graph;
     },
 
     /**

@@ -38,7 +38,7 @@ describe('num tests', function() {
     
     });
 
-    describe('logspace', function() {
+    describe('logspace()', function() {
         it('correct defaults', function() {
             var ls = num.logspace(0, 1);
             assert.equal(ls.length, 50);
@@ -74,6 +74,36 @@ describe('num tests', function() {
         it('non-default base', function() {
             var ls = num.logspace(0, 3, 4, true, 2);
             assert.deepEqual(ls, [1, 2, 4, 8]);
+        });
+    });
+
+    describe('evalzorp()', function() {
+        it('regular numbers', function() {
+            var zeros = [2, -3];
+            assert.equal(num.evalzorp(zeros, 2), 0);
+            assert.equal(num.evalzorp(zeros, 7), 50);
+            assert.deepEqual(num.evalzorp(zeros, math.complex(1, -1)), math.complex(-5, -3));
+        });
+
+        it('complex numbers', function() {
+            var zeros = [math.complex(-1.6, 1.9), math.complex(0, 4.4)];
+            assert(math.equal(num.evalzorp(zeros, -3.2), math.complex(-3.24, 13.12)));
+            assert(math.equal(num.evalzorp(zeros, math.complex(0.7, -3.1)), math.complex(-35.89, -20.75)));
+        });
+    });
+
+    describe('eval_poly()', function() {
+        it('regular numbers', function() {
+            var poly = [2, -3];
+            assert.equal(num.eval_poly(poly, 2), 1);
+            assert.equal(num.eval_poly(poly, 7), 11);
+            assert.deepEqual(num.eval_poly(poly, math.complex(1, -1)), math.complex(-1, -2));
+        });
+
+        it('complex numbers', function() {
+            var poly = [math.complex(-1.6, 1.9), math.complex(0, 4.4)];
+            assert(math.equal(num.eval_poly(poly, -3.2), math.complex(5.12, -1.68)));
+            assert(math.equal(num.eval_poly(poly, math.complex(0.7, -3.1)), math.complex(4.77, 10.69)));
         });
     });
 });

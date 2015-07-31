@@ -1,0 +1,26 @@
+{
+  "name": "control",
+  "version": "0.0.1",
+  "description": "A utility library for control theory.",
+  "main": "control.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "dependencies": {
+    "dygraphs": "^1.1.1",
+    "mathjs": "^2.0.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "control",
+    "system",
+    "bode"
+  ],
+  "author": "",
+  "license": "ISC"
+}
