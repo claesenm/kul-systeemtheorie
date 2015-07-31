@@ -129,17 +129,17 @@ module.exports = {
                 context.lineWidth = 2.0;
                 var path = new Path2D();
 
-                // Y axis
                 var xRange = graph.xAxisRange();
                 if (xRange[0] < 0 && xRange[1] > 0) {
                     var x = graph.toDomXCoord(0);
+                    // Y axis
                     path.moveTo(x, 0);
                     path.lineTo(x, context.canvas.offsetHeight);
                 }
 
-                // X axis
                 var yRange = graph.yAxisRange();
                 if (yRange[0] < 0 && yRange[1] > 0) {
+                    // X axis
                     var y = graph.toDomYCoord(0);
                     path.moveTo(0, y);
                     path.lineTo(context.canvas.offsetWidth, y);
@@ -172,9 +172,6 @@ module.exports = {
             highlightSeriesOpts: {
                 strokeBorderWidth: 1,
                 highlightCircleSize: 5
-            },
-            interactionModel: {
-                startZoom: function(){},
             }
         };
 
@@ -190,7 +187,6 @@ module.exports = {
             // Zoom using the scroll wheel
             container.addEventListener('wheel', function(event) {
                 var scale = math.pow(1.5, event.deltaY / 100);
-                console.log(scale);
                 graph.updateOptions({
                     dateWindow: scale_interval(scale, graph.xAxisRange()),
                     valueRange: scale_interval(scale, graph.yAxisRange(0))
