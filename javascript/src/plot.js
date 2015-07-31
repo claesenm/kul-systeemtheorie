@@ -86,7 +86,6 @@ module.exports = {
         custom_legend.style.right = '0px';
         custom_legend.style.top = '0px';
         custom_legend.style['z-index'] = 1;
-        console.log(custom_legend);
         container.appendChild(custom_legend);
 
 
@@ -96,9 +95,9 @@ module.exports = {
         plot_div.style.height = container.offsetHeight + "px";
         container.appendChild(plot_div);
 
+        // Prepare the data for dygraphs
         var zeros = sys.getZeros();
         var poles = sys.getPoles();
-
         var data = [];
         for (var i = 0; i < zeros.length; ++i) {
             var zero = zeros[i];
@@ -109,25 +108,31 @@ module.exports = {
             data.push([math.re(pole), NaN, math.im(pole)]);
         }
 
+        // Has to be sorted on x (because of how dygraphs determines its bounds)
         data = _.sortBy(data, function(el) { return el[0]; });
 
+
         var options = {
-            labelsDivWidth: 0,
-            highlightCallback: function(event, x, points, row, seriesName) {
+            labelsDivWidth: 0, // Hide the default legend
+            highlightCallback: function(event, x, points, row, seriesName) { // Used to update the custom legend
                 var im = points[seriesName == 'zeros' ? 0 : 1].yval;
-                var op = im >= 0 ? '+' : '';
-                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.round(im, 5) + 'j';
+                var op = im >= 0 ? '+' : '-';
+                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.abs(math.round(im, 5)) + 'j';
+            },
+            unhighlightCallback: function() { // Empty the legend on unhighlight
+                custom_legend.innerHtml = '';
             },
             drawGrid: false,
-            labels: ['real', 'zeros', 'poles'],
+            labels: ['real', 'zeros', 'poles'], // Used to refer to these series
             drawPoints: true,
             pointSize: 5,
             xlabel: "Re",
             ylabel: "Im",
             xRangePad: 50,
             yRangePad: 50,
-            strokeWidth: 0.0,
+            strokeWidth: 0.0, // Don't draw connecting lines
             series: {
+                // Set appropriate shapes for zeros/poles
                 zeros: {
                     drawPointCallback: shapes.CIRCLE,
                     drawHighlightPointCallback: shapes.CIRCLE
@@ -137,13 +142,8 @@ module.exports = {
                     drawHighlightPointCallback: shapes.EX
                 }
             },
-            axes: {
-                y: {
-                    valueFormatter: function(num) {
-                        return math.round(num, 5) + "j";
-                    }
-                }
-            },
+            // This somehow makes it possible to take the y coördinate into account to highlight a series
+            // instead of just the x coördinate
             highlightSeriesOpts: {
                 strokeBorderWidth: 1,
                 highlightCircleSize: 5
