@@ -149,7 +149,15 @@
 	where $\alpha_2, \alpha_1, \alpha_0$ are design parameters.
 	
 \end{frame}
+\begin{frame}
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{img/PID_video}
 
+\end{figure}
+
+	\url{https://www.youtube.com/watch?v=JEpWlTl95Tw}
+\end{frame}
 \begin{frame}
 	\frametitle{Alterantive Derivative Action(Continous time)}
 		\begin{columns}
@@ -187,13 +195,7 @@
 	This can also be discretized, but the bilinear method then introduces \emph{ringing}, i.e. large oscillations in transient response.
 \end{frame}
 \section{Implementation Examples}
-\begin{frame}{Analog PI Motor Speed Control}
-	\begin{figure}
-\centering
-\includegraphics[width=0.4\linewidth]{img/feedback_motor}
-\end{figure}
-\url{https://youtu.be/6W3PLiVIcmE}
-\end{frame}
+
 \begin{frame}
 	\frametitle{Analog Implementation}
 	The key building block is the operational amplifier (op-amp).
@@ -232,7 +234,13 @@
 		\textbf{FOXBORO 62H-4E-OH M/62H}
 	\end{center}
 \end{frame}
-
+\begin{frame}{Analog PI Motor Speed Control}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\linewidth]{img/feedback_motor}
+	\end{figure}
+	\url{https://youtu.be/6W3PLiVIcmE}
+\end{frame}
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
 	\small{
@@ -293,13 +301,13 @@ Start:
 	\end{columns}
 \end{frame}
 \begin{frame}{PLC}
-	\textbf{P}rogrammable \textbf{L}ogic \textbf{C}ontroller is a digital computer used for automation of typically industrial processes. 
+	\textbf{P}rogrammable \textbf{L}ogic \textbf{C}ontroller is a digital computer used for automation in the process industry. 
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{img/PLC_1}
-\end{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{img/PLC_1}
+			\end{figure}
 
 		\end{column}
 		\begin{column}{0.5\textwidth}
@@ -344,7 +352,7 @@ Start:
 
 \begin{frame}
 	\frametitle{Manual Tuning}
-	In case the controller can be tuned while connected to the plant, following routine can be used:
+	The controller can be tuned while connected to the plant. Following routine can be used:
 	\begin{enumerate}
 		\item Set $K_i$ and $K_d$ equal to 0
 		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error in small
@@ -357,7 +365,7 @@ Start:
 
 \begin{frame}
 	\frametitle{Heuristic Methods: Ziegler-Nichols tunig rule}
-		This method relies on empirically determining two parameters of the system (should again be practical possible):
+		This method relies on empirically determining two parameters of the system:
 		\begin{enumerate}
 			\item Set the integral and derivative gains to 0
 			\item Increase the proportional gain $K_p$ until the output of the control loop starts oscillating with at constant amplitude. The value of $K_p$ at this point is referred to as ultimate gain $K_u \triangleq K_p$
@@ -410,9 +418,9 @@ Start:
 						
 					\end{column}
 					\begin{column}{0.4 \textwidth}
-						\begin{figure}
+\begin{figure}
 \centering
-\includegraphics[width=0.7\linewidth]{img/Z_N_PID_example}
+\includegraphics[width=1\linewidth]{img/Z_N_PID_example}
 \end{figure}
 
 					\end{column}

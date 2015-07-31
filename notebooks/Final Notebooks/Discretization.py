@@ -87,12 +87,13 @@ def draw_bode(sys,sysd,freq,Ts): #Draw the bode plots for the continuous-time an
     stop_cont = 10**(ceil(log10(stop)))
     mag,phase,omega = cbode(sys,dB=True,Hz=False,omega=arange(start,stop_cont,step))
     mag2,phase2,omega2 = cbode(sysd,dB=True,Hz=False,omega=arange(start,stop,step))
-    plt.subplot(3,2,3)
+    ax = plt.subplot(3,2,3)
     plt.semilogx(omega, mag,color='blue')
     plt.semilogx(omega2,mag2,color='red')
     plt.title('Bode plot')
     plt.xlabel('Frequency w [rad/s]')
     plt.ylabel('Magnitude [dB]')
+    ax.set_ylim([min(min(mag)-3,min(mag2)-3),max(max(mag) + 3,max(mag2)+3)])
     a,b,c,d = plt.axis()
     if freq != None:
         plt.plot([freq, freq], [c, d], 'g-')
@@ -102,6 +103,7 @@ def draw_bode(sys,sysd,freq,Ts): #Draw the bode plots for the continuous-time an
     plt.semilogx(omega2,phase2,color='red',label='Discrete-time')
     plt.xlabel('Frequency w [rad/s]')
     plt.ylabel('Phase [degree]')
+    ax.set_ylim([-185,185])
     a,b,c,d = plt.axis()
     if freq != None:
         plt.plot([freq, freq], [c, d], 'g-',label='Prewarping frequency')
@@ -206,7 +208,7 @@ def find_sysd_impulse(Ts,sys): #Find the discrete-time transfer function for the
     poles = []
     while k < len(p):
         b = p[k]
-        a = exp(b*Ts)
+        a = simplify(exp(b*Ts))
         number = p.count(b)
         for t in range(number):
             poles.append(a)
@@ -233,12 +235,12 @@ def find_sysd_impulse(Ts,sys): #Find the discrete-time transfer function for the
             new = (Ts*c1*z)/(z-a) + ((Ts**2)*c2*a*z)/(z**2 -2*a*z+a**2) + ((Ts**3)*c3*a*(z**2)*(1/2) + (Ts**3)*(1/2)*c3*(a**2)*z)/((z**3)-a*(z**2)+(a**2)*z-(a**3)) + ((Ts**4)*(1/6)*c4*a*(z**3)+4*(Ts**4)*(1/6)*c4*(a**2)*(z**2)+(Ts**4)*(1/6)*c4*(a**3)*z)/((z**4)-4*a*(z**3)+6*(a**2)*(z**2)-4*z*(a**3)+(a**4))
             sysd = sysd + new
         k = k + number
-    func = sysd
-    gfun = sysd
-    #Compute gain
-    for n in range(len(poles)):
-        func = func * (z-poles[n])
+    func = simplify(sysd)
+    omgekeerd = simplify(1/sysd)
+    #Compute zeros and poles
     zeros = solve(func, z)
+    poles = solve(omgekeerd,z)
+    #Compute gain
     num,den = signal.zpk2tf(zeros,poles,1)
     num = num.tolist()
     den = den.tolist()
@@ -252,9 +254,9 @@ def find_sysd_impulse(Ts,sys): #Find the discrete-time transfer function for the
             den[k] = float(den[k])
         except:
             den[k] = den[k]
-    sysd = TransferFunction(num,den)
-    gain = gfun.subs(z,1)/sysd.horner(1)[0][0]
-    #Construct final version
+    system = TransferFunction(num,den,Ts)
+    gain = func.subs(z,1)/(system.horner(1)[0][0])
+    #Convert it to a transferfunction
     num,den = signal.zpk2tf(zeros,poles,gain)
     num = num.tolist()
     den = den.tolist()
