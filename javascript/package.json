@@ -10,8 +10,7 @@
   "dependencies": {
     "dygraphs": "^1.1.1",
     "mathjs": "^2.0.0",
-    "underscore": "^1.8.3",
-    "requirejs": "^2.1.20"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "scripts": {
