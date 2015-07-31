@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var math = require('mathjs');
+var num = require('./num');
 
 /**
  * Module related to System object.
@@ -21,18 +22,6 @@ function System() {
     this.k = 1;
 }
 
-/**
- * Evaluates a list of (Complex) numbers in s as is they are zeros/poles.
- * @param {Array<(Complex|Number)>} a - the array of numbers.
- * @param {(Complex|Number)} s - The point in which to evaluate.
- * @returns {(Complex|Number)} The result of the evaluation.
- */
-System.evalzorp = function(a, s) {
-    return _.chain(a)
-        .map(function(val){ return math.subtract(s, val);} )
-        .reduce(function(memo, val){ return math.multiply(memo, val); })
-        .value();
-};
 
 
 /**
@@ -41,9 +30,9 @@ System.evalzorp = function(a, s) {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  */
 System.prototype.eval = function(s) {
-    var num = System.evalzorp(this.z, s);
-    var denom = System.evalzorp(this.p, s);
-    var quotient = math.divide(num, denom);
+    var numerator = num.evalzorp(this.z, s);
+    var denom = num.evalzorp(this.p, s);
+    var quotient = math.divide(numerator, denom);
     return math.multiply(this.k, quotient);
 };
 
