@@ -527,9 +527,87 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{MATLAB Commands}
-	You can choose the desired poles on the locus in MATLAB by using the \textbf{"rlocfind(sys)"} command. This will allow you to select a point on your root locus plot. MATLAB will tell you the precise point you selected, will tell you what the gain is at that point and will tell you the poles of the system with that gain.\\
+	You can choose the desired poles on the locus in MATLAB by using the \textbf{"rlocfind(sys)"}-command. This will allow you to select a point on your root locus plot. MATLAB will tell you the precise point you selected, will tell you what the gain is at that point and will tell you the poles of the system with that gain.\\
 	\vspace{1em}
 	MATLAB can also calculate the closed-loop transfer function. You can do this by using the \textbf{"feedback(K*sys,1)"} command. You only need to specify the value of $K$ if you haven't yet used the \textbf{"rlocfind"} command.
+\end{frame}
+
+\begin{frame}
+	\begin{example}
+		We will now design a controller using MATLAB, the system has the following transfer function: $H(s) = \frac{s+7}{s(s+5)(s+15)(s+20)}$\\
+		and must meet the following design criteria: 
+		\begin{itemize}
+			\item overshoot must be less than $5\%$;
+			\item rise time = $1s$
+		\end{itemize}
+		MATLAB commands:\\
+		s = tf ('s') \\
+		H = (s+7)/(s*(s+5)*(s+15)*(s+20)) \textcolor{gray}{we define the system H by its transfer function} \\
+		rlocus(H) \textcolor{gray}{we command MATLAB to draw the root locus} \\
+		axis([-22 3 15 15])	\textcolor{gray}{we adjust the axis} \\
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+		Which results in the following plot:
+		\vspace{-0.5em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{matlab_ex1}
+		\end{figure}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+		Next we translate the design criteria into requirements for $\zeta$ and $\omega_n$:
+		\begin{itemize}
+			\item $\zeta = 0.7$;
+			\item $\omega_n = 1.8$.
+		\end{itemize}
+		\vspace{1em}
+		We can visualize these requirement using the \textbf{"sgrid(requirement1, requirement2,...)"}-command.\\
+		\vspace{1em}
+		MATLAB commands:\\
+		Zeta = 0.7\\
+		Wn = 1.8\\
+		sgrid(Zeta, Wn)\\
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+		Which results in the following plot:
+		\vspace{-0.5em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{matlab_ex2}
+		\end{figure}
+	\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}
+	\begin{exampleblock}{}
+		Going back to our problem, to make the overshoot less than $5\%$, the poles have to be in between the two white dotted lines, and to make the rise time shorter than 1 second, the poles have to be outside of the white dotted semicircle.\\
+		\vspace{1em}
+		From the plot above we see that there is part of the root locus inside the desired region. So in this case, we need only a proportional controller to move the poles to the desired region. You can select a point on the root locus plot that meets the requirement by using the \textbf{"rlocfind(sys)"}-command.\\
+		\vspace{1em}
+		MATLAB command:\\
+		[k,poles] = rlocfind(H)
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+		In the next figure, the \textcolor{red}{$+$}-sings indicate the selected points. MATLAB will return the gain and the poles of the system you have created by selecting these points.
+		\vspace{-0.5em}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{matlab_ex3}
+		\end{figure}
+	\end{exampleblock}
 \end{frame}
 
 \subsection{SISOTOOL}
