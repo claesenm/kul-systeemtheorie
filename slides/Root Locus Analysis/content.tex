@@ -1,4 +1,4 @@
-\section{Concept of Root Loci}
+\section{Concept of Root Locus}
 
 \begin{frame}
 \frametitle{Concept of the method}
@@ -37,18 +37,26 @@ It is very important to understand the background of root loci: how they take th
 		The root locus is the set of values of s for which $1 + KG(s) = 0$ is statisfied as the real parameter $K$ varies from $0$ to $+\infty$. Often $G(s)$ is the open-loop transfer function of a system; in this case, roots on the locus are closed-loop poles of that system.
 	\end{block}
 	\begin{block}{Use of root loci}
-		The root loci method provides a tool not only for selecting the gain but for designing the dynamic compensations as well.
+		The root locus method provides a tool not only for selecting the gain but for designing the dynamic compensations as well.
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Concept of the technique}
+	For the further derivation, we assume that the system's open-loop transfer function $K_GG(s)$ is a rational function whose numerator is $K_Gb(s)$ and whose denominator is $a(s)$. $b(s)$ is a monic polynomial of degree $m$ and $a(s)$ is a monic polynomial of degree $n$. We will also assume: $K = K_AK_G$.
+	\begin{block}{All positive values of $K$}
+		As $K \rightarrow 0$, the poles of the closed-loop system are $a(s) = 0$ or the poles of $H(s)$. As $K \rightarrow \infty$, the poles of the closed-loop system are $b(s) = 0$ or the zeros of $H(s)$.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Concept of the technique}
-	For the further derivation, we assume that the system's open-loop transfer function $K_GG(s)$ is a rational function whose numerator is $K_Gb(s)$ and whose denominator is $a(s)$.$b(s)$ is a monic polynomial of degree $m$ and $a(s)$ is a monic polynomial of degree $n$ such that $n \geq m$.\\
-	\vspace{1em}
-	We assume the plant gain $K_G$ to be positive and define the root-locus parameter K as:
-	\begin{center}
-		$K = K_AK_G$
-	\end{center}
+	If $H(s)$ has more poles than zeros ($m < n$) we say that $H(s)$ has zeros at infinity. In this case, the limit of $H(s)$ as $s \rightarrow \infty$ is zero. The number of zeros at infinity is $n-m$, the number of poles minus the number of zeros, and is the number of branches of the root locus that go to infinity (asymptotes).
+	
+	\begin{alertblock}{Open-loop vs Closed-loop}
+		The root-locus method can be thought of as a method for inferring properties of the closed-loop system given the open-loop transfer function $KG(s)$.
+	\end{alertblock}
 \end{frame}
 
 \begin{frame}
@@ -63,10 +71,6 @@ It is very important to understand the background of root loci: how they take th
 		G(s) & = -\frac{1}{K}.
 	\end{align*}
 \end{block}
-
-\begin{alertblock}{Open-loop vs Closed-loop}
-	The root-locus method can be thought of as a method for inferring properties of the closed-loop system given the open-loop transfer function $KG(s)$.
-\end{alertblock}
 \end{frame}
 
 \begin{frame}
@@ -146,7 +150,7 @@ It is very important to understand the background of root loci: how they take th
 		\end{exampleblock}
 \end{frame}
 
-\section{How To Draw Root Loci}
+\section{How To Draw Root Locus}
 
 \subsection{General Approach}
 
@@ -161,15 +165,16 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{General approach}
-	Since the phase remains unchanged if an integral multiple of $360^{\circ}$ is added, we can express Definition 2 as: $\angle G(s) = 180^{\circ} + 360^{\circ}$, where $l$ is any integer. While it is very difficult to solve a high-order polynomial, computing the phase is relatively easy.\\
+	Since the phase remains unchanged if an integral multiple of $360^{\circ}$ is added, we can express Definition 2 as: $\angle G(s) = 180^{\circ} + 360^{\circ}l$, where $l$ is any integer. While it is very difficult to solve a high-order polynomial, computing the phase is relatively easy.\\
 	\vspace{1em}
 	The usual case is when $K$ is real and positive; we call this case the \textbf{positive or $180^{\circ}$ locus}. When $K$ is real and negative, $G(s)$ must be real and positive of $s$ to be on the locus. Therefor, the phase of $G(s)$ must be $0^{\circ}$. This special case is called a \textbf{negative or $0^{\circ}$ locus}.\\
 	\vspace{1em}
-	Measuring the phase is easy but measuring the phase at every point in the $s$-plane is hardly practical. It would be better if there would exist some general guidelines we can use for determining where the root locus is.
+	Although measuring the phase is easy, measuring the phase at every point in the $s$-plane is hardly practical. It would be better if there would exist some general guidelines we can use for determining where the root locus is situated.
 \end{frame}
 
 \begin{frame}
 \frametitle{Overview of the guidelines}
+	\begin{block}{}
 	Drawing the root locus yourself can be done by following the next steps:
 	\vspace{0.5em}
 	\begin{enumerate}
@@ -178,15 +183,17 @@ It is very important to understand the background of root loci: how they take th
 		\item Draw the asymptotes, centered at $\alpha$ and leaving at angles $\phi_l$, where:
 		\vspace{-0.5em}
 		\begin{align*}
-			n - m &= $ number of asymptotes$\\
+			n - m &=  \# asymptotes\\
 			\alpha &= \frac{\varSigma p_i - \varSigma z_i}{n-m}\\
 			\phi_l &= \frac{180^{\circ} + 360^{\circ}(l - 1)}{n - m}, l = 1,2,...,n-m.
 		\end{align*}
 	\end{enumerate}
+	\end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Overview of the guidelines}
+	\begin{block}{}
 	\begin{enumerate}
 	\setcounter{enumi}{3}
 	\item Compute locus departure angles from te poles and arrival angles at the zeros:
@@ -195,223 +202,194 @@ It is very important to understand the background of root loci: how they take th
 	q\psi_{arr} &= \varSigma\phi_i - \varSigma\psi_i + 180^{\circ} + 360^{\circ}l,
 	\end{align*}
 	where $q$ is the order of the pole or zero and $l$ takes on $q$ integer values so that the angles are between $\pm180^{\circ}$. $\Sigma \phi_i$ is the sum of the angles of the (remaining) poles and $\Sigma \psi_i$ is the sum of the angles of the (remaining) zeros.
-	
 	\end{enumerate}
+	\end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Overview of the guidelines}
+	\begin{block}{}
 	\begin{enumerate}
 	\setcounter{enumi}{4}
 	\item If further refinement is required at the stability boundary: Assume $s_0 = j\omega_0$ and compute the point(s) where the locus crosses the imaginary axis for positive values of $K$, and/or use Routh's stability criterion. (This step may not be necessary).
 	\item Use the results from the study of multiple roots to help in sketching how locus segments come together and break away: two segments come together at $180^{\circ}$ and break away at $\pm 90^{\circ}$, three locus segments approach each other at relative angles of $120^{\circ}$ and depart at angles rotated by $60^{\circ}$.
 	\item Complete the locus, using the facts developed in the previous steps and making reference to the illustrative loci for guidance. The locus branches start at poles and at zeros or infinity.
 	\end{enumerate}
+	\end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Guidelines in practice}
-	\begin{block}{ }
-		We will now apply the guidelines on an example transfer function, to indicate how the guidelines must be used.\\
-		\vspace{0.5em}
-		Transfer function:
-		\vspace{-0.5em}
-		\begin{equation}
-		G(s) = \frac{1}{s[(s+4)^{2} + 16]}
-		\vspace{-0.5em}
-		\end{equation}
-		Using Definition II, we can check whether a point $s_0$ lies on the root locus for some value of $K$ by checking if the following expression is valid: 
-		\vspace{-0.5em}
-		\begin{equation}
-		\angle 1 - \angle s_0 -\angle [(s_0 + 4)^2 + 16] = 180^{\circ} + 360^{\circ}l
-		\vspace{-0.5em}
-		\end{equation}
-		but as already mentioned, it is not practical to do this for every point $\rightarrow$ we will use the general guidelines. 
-	\end{block}
+	We will now apply the guidelines on an example transfer function, to indicate how they must be used.\\
+	\vspace{0.5em}
+	Transfer function:
+	\vspace{-0.5em}
+	\begin{equation}
+	G(s) = \frac{1}{s[(s+4)^{2} + 16]}
+	\vspace{-0.5em}
+	\end{equation}
+	Using Definition II, we can check whether a point $s_0$ lies on the root locus for some value of $K$ by checking if the following expression is valid: 
+	\vspace{-0.5em}
+	\begin{equation}
+	\angle 1 - \angle s_0 -\angle [(s_0 + 4)^2 + 16] = 180^{\circ} + 360^{\circ}l
+	\vspace{-0.5em}
+	\end{equation}
+	but as already mentioned, it is not practical to do this for every point. So we will now use the general guidelines. 
 \end{frame}	
 
 \begin{frame}
-\frametitle{Guidelines in practice}
-	\begin{block}{STEP 1: the open-loop $\times's$ and $\circ's$}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.6\linewidth]{how_to_draw_ex1}
-		\end{figure}
-	\end{block}
+\frametitle{STEP 1: the open-loop $\times's$ and $\circ's$}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{how_to_draw_ex1}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-\frametitle{Guidelines in practice}
-	\begin{block}{STEP 2: locus on real axis}
-		The portion of the real axis to the left of an odd number (counted from the right) of open loop poles and zeros are part of the loci:
-		\vspace{-0.5em}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.5\linewidth]{how_to_draw_ex2}
-		\end{figure}
-	\end{block}
+\frametitle{STEP 2: locus on real axis}
+	The portion of the real axis to the left of an odd number (counted from the right) of open loop poles and zeros are part of the loci:
+	\vspace{-0.5em}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{how_to_draw_ex2}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		As K approaches $\infty$, the equation $G(s) = -\frac{1}{K}$ can be satisfied only if $G(s) = 0$ where $G(s) = \frac{b(s)}{a(s)}$.\\
-		\vspace{1em}
-		We can now substitute this in $1 + KG(s) = 0$, resulting in following equation:
-		\begin{equation}
-		1 + K\frac{b(s)}{a(s)} = 1 + K\frac{s^m + b_1s^{m-1} + ... + b_m}{s^n + a_1s^{n-1} + ... + a_n} = 0
-		\end{equation}
-		Since $n < m$, $G(s) = 0$ can occur when: 
+\frametitle{STEP 3: asymptotes for large values of K}
+	As K approaches $\infty$, the equation $G(s) = -\frac{1}{K}$ can be satisfied only if $G(s) = 0$ where $G(s) = \frac{b(s)}{a(s)}$.\\
+	\vspace{1em}
+	We can now substitute this in $1 + KG(s) = 0$, resulting in the following equation:
+	\begin{equation}
+	1 + K\frac{b(s)}{a(s)} = 1 + K\frac{s^m + b_1s^{m-1} + ... + b_m}{s^n + a_1s^{n-1} + ... + a_n} = 0
+	\end{equation}
+	Since $n < m$, $G(s) = 0$ can occur when: 
 	\begin{itemize}
-			\item $b(s) = 0$;
-			\item $s \rightarrow \infty$.
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		We now look closer to the second condition: $G(s) = 0$ when $s \rightarrow \infty$.\\
-		\vspace{1em}
-		For very large values of $s$, the highest-order power of $s$ in Eq.(8) predominates. We can divide $a(s)$ by $b(s)$ and match the dominant two terms (highest powers in s) to the expansion $(s-\alpha)^{n-m}$, resulting in the following approximation:
-		\begin{equation}
-			1 + K\frac{1}{(s-\alpha)^{n-m}}
-		\end{equation}
-		We need to find the locus for the asymptotic system (Eq.(8)) and $\alpha$.
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		To find the locus, we choose $s_0 = Re^{j\phi}$ for some large value of $R$ and some variable $\phi$.\\
-		\vspace{1em}
-		Since all poles of Eq.(9) are in the same place, the angle of its transfer function is $180^{\circ}$ if all $n-m$ angles, each equal to $\phi_l$, sum to $180^{\circ}$. Therefor, $\phi_l$ is given by: 
-		\begin{equation}
-		\phi_l = \frac{180^{\circ} + 360^{\circ}l}{n-m}, l = 1,2,...,n-m
-		\end{equation}
-		For our system: $n-m=3$, thus $\phi_1, \phi_2, \phi_3 = 60^{\circ}, 180^{\circ}, 300^{\circ}$.
-		All the lines of the asymptotic locus come from $s_0 = \alpha$.
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		To determine $\alpha$ we use a simple property of polynomials. Suppose we have a monic polynomial with coefficients $a_i$ and roots $p_i$ and we equate the polynomial form with the factored form:
-		\begin{center}
-			$s^n + a_1s^{n-1} + a_2s^{n-2} + ... + a_n = (s-p_1)(s-p_2)...(s-p_n).$
-		\end{center}
-		If we multiply out the factors on the right side of this equation, we can see that the coefficient of $s^{n-1}$ is $-p_1 - p_2 - ... - p_n$. On the left side of the equation we see that this term is $a_1$.\\
-		\vspace{1em}
-		Consequently $a_1 = -\Sigma p_i$, the coefficient of the second-highest term in a monic polynomial is the negative sum of its roots (the poles of $G(s)$). The same can be concluded for $b_1 = -\Sigma z_i$.
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		Applying these results in the closed-loop characteristic polynomial, leads to:
-		\begin{center}
-			$s^n + a_1 s^{n-1} + ... + a_n + K(s^m + b_1 s^{m-1} + ... + b_m) = 0$.
-		\end{center}
-		The negative of the sum of the poles is the coefficient of $s^{n-1}$ and is independent of $K$ if $m < n-1$. However, since this is the closed-loop characteristic equation, this coefficient is the negative of the sum of the roots of the closed-loop system $\Sigma r_i$, hence
-		\begin{itemize}
-			\item the center point of the roots does not change with $K$ if $m < n-1$;
-			\item $-\Sigma r_i = -\Sigma p_i$.
-		\end{itemize}
-		\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		For large values of $K$, $m$ of the roots $r_i$ are approximately equal to the zeros $z_i$ and $n-m$ of the roots are from the asymptotic $\frac{1}{(s-\alpha)^{n-m}}$ system, whose poles add up to $(n-m)\alpha$. Combining these results we conclude that the sum of all the roots equals the sum of those roots that go to infinity plus the sum of those roots that go to the zeros of $G(s)$:
-		\begin{center}
-			$+\Sigma r_i = + (n-m)\alpha + \Sigma z_i = +\Sigma p_i$.
-		\end{center}
-		Solving for $\alpha$ we get 
-		\begin{center}
-			$\alpha = \frac{\Sigma p_i - \Sigma z_i}{n-m}$.
-		\end{center}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		Complex poles and zeros always occur in complex conjugate pairs, consequently in the sums $\Sigma p_i$ and $\Sigma z_i$ the imaginary parts will always add to zero.\\
-		\vspace{1em}
-		For our system: $\alpha = \frac{-4-4+0}{3-0} = -2.67.$\\
-		\vspace{1em}
-		We can now use the results for $\phi_1, \phi_2, \phi_3 and \alpha$ to draw the asymptotes. 
-	\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Guidelines in practice}
-	\begin{block}{STEP 3: asymptotes for large values of K}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.6\linewidth]{how_to_draw_ex3}
-		\end{figure}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 4: departure and arrival angles}
-		We know that the locus begins at the $\times's$ and that it goes to either $\circ's$ or to infinity along the radial asymptotic lines.\\
-		\vspace{1em}
-		We next compute the angle by which a branch of the locus departs from one of the poles. We take a test point $s_0$ very near pole 2 at $-4+4j$ and compute the angle of $G(s_0)$ (illustration see next slide). We select the test point close enough to pole 2 that the angles $\phi_1$ and $\phi_3$ to the test point can be considered the same as those angles to pole 2: $\phi_1 = 90^{\circ}$ and $\phi_3 = 135^{\circ}$. 
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Guidelines in practice}
-	\begin{block}{STEP 4: departure and arrival angles}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.6\linewidth]{how_to_draw_ex4}
-		\end{figure}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Guidelines in practice}	
-	\begin{block}{STEP 4: departure and arrival angles}
-		We can calculate $\phi_2$ from the angle condition:
-		\begin{center}
-			$-90^{\circ} - \phi_2 - 135^{\circ} = +180^{\circ} + 360^{\circ}l$
-		\end{center}
-		where $l$ is chosen so that $-180^{\circ} < \phi_2 < +180^{\circ}$. If we take $l = -1$, then $\phi_2 = -45^{\circ}$.\\
-		\vspace{1em}
-		By the complex conjugate symmetry of the plots, the angle of departure of the locus near pole 1 at $-4 - 4j$ will be $+45^{\circ}$. The angle of departure from pole 3 at the origin is $180^{\circ}$.
-	\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Guidelines in practice}	
-	\begin{block}{STEP 5: points where the locus crosses the imaginary axis}
-		We will not discuss this since it is not always necessary and it becomes very difficult for fourth- or higher-order systems.
-	\end{block}
-	\begin{block}{STEP 6: location of multiple roots and their arrival and departure angles}
-		\begin{itemize}
-		\item Two locus segments coming together at any point in the s-plane will always approach at at relative angle of $180^{\circ}$ and then break away with a $90^{\circ}$ change in direction; 
-		\item Three locus segments coming together will always approach at $120^{\circ}$ angles that are rotated $60^{\circ}$ relative to the arrival angles.
+		\item $b(s) = 0$;
+		\item $s \rightarrow \infty$.
 	\end{itemize}
-	\end{block}
 \end{frame}
 
 \begin{frame}
-\frametitle{Guidelines in practice}	
-	\begin{block}{STEP 7: Complete the sketch}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.6\linewidth]{how_to_draw_ex5}
-		\end{figure}
-	\end{block}
+\frametitle{STEP 3: asymptotes for large values of K}
+	We now look closer to the second condition: $G(s) = 0$ when $s \rightarrow \infty$.\\
+	\vspace{1em}
+	For very large values of $s$, the highest-order power of $s$ in Eq.(8) predominates. We can divide $a(s)$ by $b(s)$ and match the dominant two terms (highest powers in s) to the expansion $(s-\alpha)^{n-m}$, resulting in the following approximation:
+	\begin{equation}
+		1 + K\frac{1}{(s-\alpha)^{n-m}}
+	\end{equation}
+	We need to find the locus for the asymptotic system (Eq.(8)) and $\alpha$.
+\end{frame}
+
+\begin{frame}	
+\frametitle{STEP 3: asymptotes for large values of K}
+	To find the locus, we choose $s_0 = Re^{j\phi}$ for some large value of $R$ and some variable $\phi$.\\
+	\vspace{1em}
+	Since all poles of Eq.(9) are in the same place, the angle of its transfer function is $180^{\circ}$ if all $n-m$ angles, each equal to $\phi_l$, sum to $180^{\circ}$. Therefor, $\phi_l$ is given by: 
+	\begin{equation}
+	\phi_l = \frac{180^{\circ} + 360^{\circ}l}{n-m}, l = 1,2,...,n-m
+	\end{equation}		For our system: $n-m=3$, thus $\phi_1, \phi_2, \phi_3 = 60^{\circ}, 180^{\circ}, 300^{\circ}$.
+	All the lines of the asymptotic locus come from $s_0 = \alpha$.
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 3: asymptotes for large values of K}
+	To determine $\alpha$ we use a simple property of polynomials. Suppose we have a monic polynomial with coefficients $a_i$ and roots $p_i$ and we equate the polynomial form with the factored form:
+	\begin{center}
+		$s^n + a_1s^{n-1} + a_2s^{n-2} + ... + a_n = (s-p_1)(s-p_2)...(s-p_n).$
+	\end{center}
+	If we multiply out the factors on the right side of this equation, we can see that the coefficient of $s^{n-1}$ is $-p_1 - p_2 - ... - p_n$. On the left side of the equation we see that this term is $a_1$.\\
+	\vspace{1em}
+	Consequently $a_1 = -\Sigma p_i$, the coefficient of the second-highest term in a monic polynomial is the negative sum of its roots (the poles of $G(s)$). The same can be concluded for $b_1 = -\Sigma z_i$.
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 3: asymptotes for large values of K}
+	Applying these results in the closed-loop characteristic polynomial, leads to:
+	\begin{center}
+		$s^n + a_1 s^{n-1} + ... + a_n + K(s^m + b_1 s^{m-1} + ... + b_m) = 0$.
+	\end{center}
+	The negative of the sum of the poles is the coefficient of $s^{n-1}$ and is independent of $K$ if $m < n-1$. However, since this is the closed-loop characteristic equation, this coefficient is the negative of the sum of the roots of the closed-loop system $\Sigma r_i$, hence
+	\begin{itemize}
+		\item the center point of the roots does not change with $K$ if $m < n-1$;
+		\item $-\Sigma r_i = -\Sigma p_i$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 3: asymptotes for large values of K}
+	For large values of $K$, $m$ of the roots $r_i$ are approximately equal to the zeros $z_i$ and $n-m$ of the roots are from the asymptotic $\frac{1}{(s-\alpha)^{n-m}}$ system, whose poles add up to $(n-m)\alpha$. Combining these results we conclude that the sum of all the roots equals the sum of those roots that go to infinity plus the sum of those roots that go to the zeros of $G(s)$:
+	\begin{center}
+		$+\Sigma r_i = + (n-m)\alpha + \Sigma z_i = +\Sigma p_i$.
+	\end{center}
+	Solving for $\alpha$ we get 
+	\begin{center}
+		$\alpha = \frac{\Sigma p_i - \Sigma z_i}{n-m}$.
+	\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 3: asymptotes for large values of K}
+	Complex poles and zeros always occur in complex conjugate pairs, consequently in the sums $\Sigma p_i$ and $\Sigma z_i$ the imaginary parts will always add to zero.\\
+	\vspace{1em}
+	For our system: $\alpha = \frac{-4-4+0}{3-0} = -2.67.$\\
+	\vspace{1em}
+	We can now use the results for $\phi_1, \phi_2, \phi_3 and \alpha$ to draw the asymptotes. 
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 3: asymptotes for large values of K}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{how_to_draw_ex3}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 4: departure and arrival angles}
+	We know that the locus begins at the $\times's$ and that it goes to either $\circ's$ or to infinity along the radial asymptotic lines.\\
+	\vspace{1em}
+	We next compute the angle by which a branch of the locus departs from one of the poles. We take a test point $s_0$ very near pole 2 at $-4+4j$ and compute the angle of $G(s_0)$ (illustration see next slide). We select the test point close enough to pole 2 that the angles $\phi_1$ and $\phi_3$ to the test point can be considered the same as those angles to pole 2: $\phi_1 = 90^{\circ}$ and $\phi_3 = 135^{\circ}$. 
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 4: departure and arrival angles}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.6\linewidth]{how_to_draw_ex4}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 4: departure and arrival angles}	
+	We can calculate $\phi_2$ from the angle condition:
+	\begin{center}
+		$-90^{\circ} - \phi_2 - 135^{\circ} = +180^{\circ} + 360^{\circ}l$
+	\end{center}
+	where $l$ is chosen so that $-180^{\circ} < \phi_2 < +180^{\circ}$. If we take $l = -1$, then $\phi_2 = -45^{\circ}$.\\
+	\vspace{1em}
+	By the complex conjugate symmetry of the plots, the angle of departure of the locus near pole 1 at $-4 - 4j$ will be $+45^{\circ}$. The angle of departure from pole 3 at the origin is $180^{\circ}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 5: points where the locus crosses the imaginary axis}	
+	We will not discuss this since it is not always necessary and it becomes very difficult for fourth- or higher-order systems.
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 6: location of multiple roots and their arrival and departure angles}
+	\begin{itemize}
+	\item Two locus segments coming together at any point in the s-plane will always approach at at relative angle of $180^{\circ}$ and then break away with a $90^{\circ}$ change in direction; 
+	\item Three locus segments coming together will always approach at $120^{\circ}$ angles that are rotated $60^{\circ}$ relative to the arrival angles.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{STEP 7: Complete the sketch}	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{how_to_draw_ex5}
+	\end{figure}
 \end{frame}
 
 \subsection{Rules of thumb for a quick drawing}
@@ -460,7 +438,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Root locus method: design criteria}
-	If you are able to express your design criteria in terms of the poles ($\alpha + j\beta$, with $\alpha < 0$ and $\beta>0$), you can find out if there are any $K$-values appropriate and which ones.\\
+	If you are able to express your design criteria in terms of the poles ($\alpha + j\beta$, with $\alpha < 0$ and $\beta>0$), you can find out if there are any $K$-values appropriate and, more importantly, which $K$-values.\\
 	\begin{block}{Criteria}
 	\begin{itemize}
 		\item The damping ratio: $\zeta = \frac{\beta}{\mid \alpha + j\beta\mid}$ ($0 \leq \zeta \leq 1$);
@@ -477,7 +455,7 @@ It is very important to understand the background of root loci: how they take th
 \frametitle{Root locus method: design criteria}
 	The possible design criteria for second order systems are very useful since they represent physically important measures in terms of the poles.\\
 	\begin{alertblock}{Second order approximation}
-		For most of the time only one or two poles dominate the behavior of the system. These are called the dominant poles. Consequently many system behave more or less as if they are of second order.
+		For most of the time only one or two poles dominate the behavior of the system. These are called the dominant poles. Consequently many systems behave more or less as if they are of second order. 
 	\end{alertblock}
 	\begin{itemize}
 		\item A single pole at position $-a$ results in a $e^{-at}$ term in the output. So after some time, the poles with the largest real part will dominate the behavior;
@@ -485,8 +463,35 @@ It is very important to understand the background of root loci: how they take th
 	\end{itemize}
 \end{frame}
 	
-\section{Root Loci and MATLAB}
+\section{Root Locus and MATLAB}
+
+\subsection{Root Locus}
 
 \begin{frame}
-	INCLUDE SLIDES WITH MATLAB EXAMPLES
+\frametitle{MATLAB Commands}
+	MATLAB provides a function to plot the root locus and the zero-pole map of a system:
+	\begin{itemize}
+		\item root locus: \textbf{"rlocus(sys)"}
+		\item zero pole: \textbf{"pzmap(sys)"}
+	\end{itemize} 
+	\vspace{1em}
+	Most of the time you want to use the plot of the root locus to decide which value of $K$ you need to satisfy the requirements. To visualize these requirement, you can use the command \textbf{"sgrid(requirement1, requirement2,...)"}. This will result in a grid that envisions the requirements.\\
+	\vspace{1em}
+	You can also just include a grid (\textbf{"grid"}) in your root locus plot which can help you locate the poles.
+\end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	You can choose the desired poles on the locus in MATLAB by using the \textbf{"rlocfind(sys)"} command. This will allow you to select a point on your root locus plot. MATLAB will tell you the precise point you selected, will tell you what the gain is at that point and will tell you the poles of the system with that gain.\\
+	\vspace{1em}
+	MATLAB can also calculate the closed-loop transfer function. You can do this by using the \textbf{"feedback(K*sys,1)"} command. You only need to specify the value of $K$ if you haven't yet used the \textbf{"rlocfind"} command.
+\end{frame}
+
+\subsection{SISOTOOL}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	Another way to visualize the root locus, is by using the interactive MATLAB GUI called sisotool. The SISO design tool is an interactive graphical user interface that facilitates the design of compensator for single-input, single-output (SISO) feedback loops.
+	\vspace{1em}
+	First you need to define your system in MATLAB and then you use the sisotool function on your system: \textbf{"sisotool(sys)"}. An interactive user face will pop up in which you can select you plant, the plots you would like to see and many other options. Check out the video and the MATLAB webpage in the additional material.	
 \end{frame}

@@ -79,6 +79,23 @@ module.exports = {
      * @returns {Dygraph} A reference to the created plot
      */
     pzmap: function(container, sys) {
+        // Create an html element to display a custom legend.
+        container.style.position = 'relative';
+        var custom_legend = document.createElement('div');
+        custom_legend.style.position = 'absolute';
+        custom_legend.style.right = '0px';
+        custom_legend.style.top = '0px';
+        custom_legend.style['z-index'] = 1;
+        console.log(custom_legend);
+        container.appendChild(custom_legend);
+
+
+        // Create new div for plot itself
+        var plot_div = document.createElement('div');
+        plot_div.style.width = container.offsetWidth + "px";
+        plot_div.style.height = container.offsetHeight + "px";
+        container.appendChild(plot_div);
+
         var zeros = sys.getZeros();
         var poles = sys.getPoles();
 
@@ -92,18 +109,24 @@ module.exports = {
             data.push([math.re(pole), NaN, math.im(pole)]);
         }
 
+        data = _.sortBy(data, function(el) { return el[0]; });
+
         var options = {
-            legend: 'follow',
-            labelsDivStyles: {
-                'background-color':  'rgba(0, 0, 0, 0)'
+            labelsDivWidth: 0,
+            highlightCallback: function(event, x, points, row, seriesName) {
+                var im = points[seriesName == 'zeros' ? 0 : 1].yval;
+                var op = im >= 0 ? '+' : '';
+                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.round(im, 5) + 'j';
             },
+            drawGrid: false,
             labels: ['real', 'zeros', 'poles'],
             drawPoints: true,
             pointSize: 5,
             xlabel: "Re",
             ylabel: "Im",
+            xRangePad: 50,
+            yRangePad: 50,
             strokeWidth: 0.0,
-            dateWindow: [-11, 11],
             series: {
                 zeros: {
                     drawPointCallback: shapes.CIRCLE,
@@ -116,14 +139,17 @@ module.exports = {
             },
             axes: {
                 y: {
-                    valueRange: [-2, 2],
                     valueFormatter: function(num) {
                         return math.round(num, 5) + "j";
                     }
                 }
+            },
+            highlightSeriesOpts: {
+                strokeBorderWidth: 1,
+                highlightCircleSize: 5
             }
         };
-        return new Dygraph(container, data, options);
+        return new Dygraph(plot_div, data, options);
     },
 
     /**
