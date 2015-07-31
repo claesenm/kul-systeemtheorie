@@ -95,6 +95,7 @@ module.exports = {
         plot_div.style.height = container.offsetHeight + "px";
         container.appendChild(plot_div);
 
+
         // Prepare the data for dygraphs
         var zeros = sys.getZeros();
         var poles = sys.getPoles();
@@ -122,6 +123,30 @@ module.exports = {
             unhighlightCallback: function() { // Empty the legend on unhighlight
                 custom_legend.innerHtml = '';
             },
+            underlayCallback: function(context, area, graph) {
+                // Use canvas drawing to render only the axes, instead of a grid
+                context.save();
+                context.lineWidth = 2.0;
+                var path = new Path2D();
+
+                // Y axis
+                var xRange = graph.xAxisRange();
+                if (xRange[0] < 0 && xRange[1] > 0) {
+                    var x = graph.toDomXCoord(0);
+                    path.moveTo(x, 0);
+                    path.lineTo(x, context.canvas.offsetHeight);
+                }
+
+                // X axis
+                var yRange = graph.yAxisRange();
+                if (yRange[0] < 0 && yRange[1] > 0) {
+                    var y = graph.toDomYCoord(0);
+                    path.moveTo(0, y);
+                    path.lineTo(context.canvas.offsetWidth, y);
+                }
+                context.stroke(path);
+                context.restore();
+            },
             drawGrid: false,
             labels: ['real', 'zeros', 'poles'], // Used to refer to these series
             drawPoints: true,
@@ -147,9 +172,41 @@ module.exports = {
             highlightSeriesOpts: {
                 strokeBorderWidth: 1,
                 highlightCircleSize: 5
+            },
+            interactionModel: {
+                startZoom: function(){},
             }
         };
-        return new Dygraph(plot_div, data, options);
+
+        var graph = new Dygraph(plot_div, data, options);
+
+        function scale_interval(scale, interval) {
+            var mid = (interval[0] + interval[1]) / 2;
+            return [(interval[0] - mid)*scale + mid, (interval[1] - mid)*scale + mid];
+        }
+
+        graph.ready(function() {
+            var starting_value_range = graph.yAxisRange(0);
+            // Zoom using the scroll wheel
+            container.addEventListener('wheel', function(event) {
+                var scale = math.pow(1.5, event.deltaY / 100);
+                console.log(scale);
+                graph.updateOptions({
+                    dateWindow: scale_interval(scale, graph.xAxisRange()),
+                    valueRange: scale_interval(scale, graph.yAxisRange(0))
+                });
+                event.preventDefault();
+            }, false);
+
+            // Reset zoom on right click
+            container.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                graph.updateOptions({valueRange: starting_value_range});
+                graph.resetZoom();
+            });
+        });
+
+        return graph;
     },
 
     /**
