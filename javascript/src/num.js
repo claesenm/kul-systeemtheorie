@@ -67,7 +67,7 @@ module.exports = {
      * @param {(Number|Complex)} s - The value in which to evaluate the polynomial.
      * @returns {(Number|Complex)} Returns the result of evaluating the polynomial in s
      */
-    eval_poly: function(p, s) {
+    polyval: function(p, s) {
         var s_power = 1;
         var result = 0;
         for (var i = p.length - 1; i >= 0; --i) {

@@ -42,7 +42,7 @@ System.prototype.eval = function(s) {
         var quotient = math.divide(numerator, denom);
         result = math.multiply(this.k, quotient);
     } else if (this.numerator !== undefined && this.denominator !== undefined) {
-        result = math.divide(num.eval_poly(this.numerator, s), num.eval_poly(this.denominator, s));
+        result = math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
     } else {
         throw new Error('This is not a valid system.');
     }

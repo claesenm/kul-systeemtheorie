@@ -95,18 +95,18 @@ describe('num tests', function() {
         });
     });
 
-    describe('eval_poly()', function() {
+    describe('polyval()', function() {
         it('regular numbers', function() {
             var poly = [2, -3];
-            assert.equal(num.eval_poly(poly, 2), 1);
-            assert.equal(num.eval_poly(poly, 7), 11);
-            assert.deepEqual(num.eval_poly(poly, math.complex(1, -1)), math.complex(-1, -2));
+            assert.equal(num.polyval(poly, 2), 1);
+            assert.equal(num.polyval(poly, 7), 11);
+            assert.deepEqual(num.polyval(poly, math.complex(1, -1)), math.complex(-1, -2));
         });
 
         it('complex numbers', function() {
             var poly = [math.complex(-1.6, 1.9), math.complex(0, 4.4)];
-            assert(math.equal(num.eval_poly(poly, -3.2), math.complex(5.12, -1.68)));
-            assert(math.equal(num.eval_poly(poly, math.complex(0.7, -3.1)), math.complex(4.77, 10.69)));
+            assert(math.equal(num.polyval(poly, -3.2), math.complex(5.12, -1.68)));
+            assert(math.equal(num.polyval(poly, math.complex(0.7, -3.1)), math.complex(4.77, 10.69)));
         });
     });
 
