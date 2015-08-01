@@ -80,10 +80,17 @@ module.exports = {
 
     /**
      * Finds all the (complex) roots of a polynomial with real coëfficients.
-     * @param {Array<(Number|Complex)>} poly - The polynomial.
+     * @param {Array<Number>} poly - The polynomial.
      * @returns {Array<(Number|Complex)>} The roots of the polynomial
      */
     roots: function(poly) {
+
+        // Check for valid poly
+        if (poly.length <= 1) {
+            return [];
+        }
+
+
         var end = poly.length;
         // Remove trailing zeros and add them as roots
         while (math.equal(poly[end-1], 0)) {
