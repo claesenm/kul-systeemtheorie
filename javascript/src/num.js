@@ -80,7 +80,7 @@ module.exports = {
 
     /**
      * Finds all the (complex) roots of a polynomial with real coëfficients.
-     * @param {Array<(Number|Complex)} poly - The polynomial.
+     * @param {Array<(Number|Complex)>} poly - The polynomial.
      * @returns {Array<(Number|Complex)>} The roots of the polynomial
      */
     roots: function(poly) {
