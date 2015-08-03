@@ -1,5 +1,7 @@
-var math = require('mathjs');
-var _ = require('underscore');
+math = require('mathjs');
+_ = require('underscore');
+
+var numeric = require('numeric');
 
 /**
  * Numeric utilities
@@ -65,13 +67,85 @@ module.exports = {
      * @param {(Number|Complex)} s - The value in which to evaluate the polynomial.
      * @returns {(Number|Complex)} Returns the result of evaluating the polynomial in s
      */
-    eval_poly: function(p, s) {
+    polyval: function(p, s) {
         var s_power = 1;
         var result = 0;
         for (var i = p.length - 1; i >= 0; --i) {
             result = math.add(result, math.multiply(p[i], s_power));
             s_power = math.multiply(s_power, s);
         }
+        return result;
+    },
+
+
+    /**
+     * Finds all the (complex) roots of a polynomial with real coëfficients.
+     * @param {Array<Number>} poly - The polynomial.
+     * @returns {Array<(Number|Complex)>} The roots of the polynomial
+     */
+    roots: function(poly) {
+
+        // Check for valid poly
+        if (poly.length <= 1) {
+            return [];
+        }
+
+
+        var end = poly.length;
+        // Remove trailing zeros and add them as roots
+        while (math.equal(poly[end-1], 0)) {
+            end -= 1;
+        }
+        var c = poly.slice(0, end);
+
+
+        var d = c.slice(1, c.length).map(function(coeff) {
+            return math.unaryMinus(math.divide(coeff, poly[0]));
+        });
+
+
+        // Build companion matrix
+        var len = c.length;
+        var a = new Array(len - 1);
+        for (var i = 1; i < a.length; ++i) {
+            a[i] = new Array(c.length - 1);
+            for (var j = 0; j < a[i].length; ++j) {
+                a[i][j] = 0;
+            } 
+            a[i][i-1] = 1;
+        }
+        a[0] = d;
+
+
+        // Prepare for numeric
+        //var reals = new Array(a.length);
+        //var imaginaries = new Array(a.length);
+        //for (var k = 0; k < a.length; ++k) {
+            //reals[k] = new Array(a.length);
+            //imaginaries[k] = new Array(a.length);
+
+            //for (var l = 0; l < a.length; ++l) {
+                //if (_.isNumber(a[k][l])) {
+                    //reals[k][l] = a[k][l];
+                    //imaginaries[k][l] = 0;
+                //} else {
+                    //reals[k][l] = a[k][l].re;
+                    //imaginaries[k][l] = a[k][l].im;
+                //}
+            //}
+        //}
+        //a = new numeric.T(reals, imaginaries);
+        
+        
+        var eigs = numeric.eig(a).lambda;
+        var result = [];
+        _.map(eigs.x, function(e, i) {
+            if (eigs.y === undefined || math.equal(eigs.y[i], 0)) {
+                result.push(e);
+            } else {
+                result.push(math.complex(e, eigs.y[i]));
+            }
+        });
         return result;
     }
 };

@@ -3,7 +3,8 @@ Setup
 -----
 1. Download and install nodejs
 2. Open terminal/cmd in this directory (javascript/)
-    1. Execute `npm install`. This installs the packages used by the library.
+    1. Execute `npm install`. This installs the packages used by the library.  
+       If this somehow fails try to install these packages using npm `numeric dygraphs mathjs underscore`
     2. Execute `npm install -g mocha browserify jsdoc`.
     3. Try to execute `browserify --version`. If it complains
        that it can't be found, restart terminal/cmd. If it still

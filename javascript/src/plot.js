@@ -16,7 +16,7 @@ module.exports = {
      * Plots a bode plot of the given system in container.
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
-     * @param {Array<Number>} omega_bounds - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
+     * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
      * @returns {Array<Dygraph>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
     bode: function(container, system, omega_bounds) {

@@ -7,9 +7,11 @@ describe('System testing', function() {
     describe('constructor', function() {
         it('default values', function() {
             var s = new system.System();
-            assert.deepEqual(s.z, []);
-            assert.deepEqual(s.p, []);
-            assert.deepEqual(s.k, 1);
+            assert.deepEqual(s.getZeros(), null);
+            assert.deepEqual(s.getPoles(), null);
+            assert.deepEqual(s.getK(), null);
+            assert.deepEqual(s.getNumerator(), null);
+            assert.deepEqual(s.getDenominator(), null);
         });
     });
 
