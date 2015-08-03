@@ -618,3 +618,46 @@ It is very important to understand the background of root loci: how they take th
 	\vspace{1em}
 	First you need to define your system in MATLAB and then you use the sisotool function on your system: \textbf{"sisotool(sys)"}. An interactive user face will pop up in which you can select you plant, the plots you would like to see and many other options. Check out the video and the MATLAB webpage in the additional material.	
 \end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	\begin{example}
+		We can also design the same controller as done above but instead of using separate commands, we will now make use of the sisotool. 
+		Same transfer function: $H(s) = \frac{s+7}{s(s+5)(s+15)(s+20)}$\\
+		and the same design criteria: 
+		\begin{itemize}
+			\item overshoot must be less than $5\%$;
+			\item rise time = $1s$
+		\end{itemize}
+		MATLAB commands:
+		s = tf('s')\\
+		plant = (s+7)/(s*(s+5)*(s+15)*(s+20)) \textcolor{gray}{we define the system H by its transfer function} \\
+		sisotool(plant) \textcolor{gray}{we summon the sisotool, an interactive user face will pop up}\\ 
+	\end{example}
+\end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	\begin{exampleblock}{}
+		In the \textbf{Control and Estimation Tools Manager} you can select the tab labeled \textbf{Graphical Tuning}. In this tab: 
+		\begin{itemize}
+			\item turn \textbf{Plot 2} off
+			\item make sure \textbf{Plot 1} is the root locus
+		\end{itemize}
+		Now you can click the button labeled \textbf{Show Design Plot} and then a tunable plot will appear. In this root locus plot, you can drag the closed-loop poles along the locus to adjust the loop gain. 
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	\begin{exampleblock}{}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{matlab_ex4}
+		\end{figure}
+		\end{column}
+	\end{columns}
+	\end{exampleblock}
+\end{frame}
