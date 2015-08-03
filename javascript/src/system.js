@@ -10,106 +10,44 @@ var num = require('./num');
 /**
  * Constructs a System object
  * @constructor
+ * @abstract
  */
 function System() {
-    /** @private */
-    this.z = null;
-
-    /** @private */
-    this.p = null;
-
-    /** @private */
-    this.k = null;
-
-    /** @private */
-    this.numerator = null;
-
-    /** @private */
-    this.denominator = null;
 }
 
-/**
- * Returns whether or not this system has valid zpk internals.
- * @private
- */
-System.prototype.hasZPK = function() {
-    return (this.z !== null && this.p !== null && this.k !== null);
-};
-
-
-/**
- * Returns whether or not this system has valid numerator/denominator internals.
- * @private
- */
-System.prototype.hasNumDenom = function() {
-    return (this.numerator !== null && this.denominator !== null);
-};
 
 /**
  * Evaluates the transfer function of this system in s.
  * @param {Complex|Number} s
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
+ * @abstract
  */
 System.prototype.eval = function(s) {
     throw new Error('This is not a valid system.');
-    /* Implementation is in the different constructor functions */
-};
-
-
-/**
- * Sets up this system to return zeros, poles and/or k.
- * @private
- */
-System.prototype.fillZPK = function() {
-    if (this.hasNumDenom()) {
-        this.setZeros(num.roots(this.numerator));
-        this.setPoles(num.roots(this.denominator));
-        this.setK(this.numerator[0]);
-    } else {
-        throw new Error('This is not a valid system.');
-    }
+    /* Implementation is defined in the children. */
 };
 
 /**
- * Guarantees there's an internal ZPK (as long as the system is valid)
- * @private
+ * Creates a system with a zero-pole-gain representation.
+ * @param {Array<(Number|Complex)>} z - The zeros of the transfer function.
+ * @param {Array<(Number|Complex)>} p - The poles of the transfer function.
+ * @param {Number|Complex} k - The gain of the transfer function.
+ * @constructor
+ * @augments System
  */
-System.prototype.guaranteeZPK = function() {
-    if (!this.hasZPK()) {
-        this.fillZPK();
-    }
-};
-
-/**
- * Sets up this system to return numerator and/or denominator.
- * @private
- */
-System.prototype.fillNumDenom = function() {
-    if (this.hasZPK()) {
-        this.setNumerator(num.conv([this.k], this.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); })));
-        this.setDenominator(this.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); }));
-    } else {
-        throw new Error('This is not a valid system.');
-    }
-};
-
-/**
- * Guarantees there's an internal numerator/denominator (as long as the system is valid)
- * @private
- */
-System.prototype.guaranteeNumDenom = function() {
-    if (!this.hasNumDenom()) {
-        this.fillNumDenom();
-    }
-};
-
+function Zpk(z, p, k) {
+    this.z = z;
+    this.p = p;
+    this.k = k;
+}
+Zpk.prototype = new System();
 
 /**
  * Sets the zeros of the system's tf.
  * @param {Array<(Complex|Number)>} z - The zeros of the new tf.
  * @private
  */
-System.prototype.setZeros = function(z) {
+Zpk.prototype.setZeros = function(z) {
     this.z = z;
 };
 
@@ -118,8 +56,7 @@ System.prototype.setZeros = function(z) {
  * Returns the zeros of this system's transfer function.
  * @returns {Array<(Complex|Number)>}
  */
-System.prototype.getZeros = function() {
-    this.guaranteeZPK();
+Zpk.prototype.getZeros = function() {
     return this.z;
 };
 
@@ -128,7 +65,7 @@ System.prototype.getZeros = function() {
  * @param {Array<(Complex|Number)>} p - The poles of the new tf.
  * @private
  */
-System.prototype.setPoles = function(p) {
+Zpk.prototype.setPoles = function(p) {
     this.p = p;
 };
 
@@ -136,8 +73,7 @@ System.prototype.setPoles = function(p) {
  * Returns the poles of this system's transfer function.
  * @returns {Array<(Complex|Number)>}
  */
-System.prototype.getPoles = function() {
-    this.guaranteeZPK();
+Zpk.prototype.getPoles = function() {
     return this.p;
 };
 
@@ -146,7 +82,7 @@ System.prototype.getPoles = function() {
  * @param {Complex|Number} k - The k of the new tf.
  * @private
  */
-System.prototype.setK = function(k) {
+Zpk.prototype.setK = function(k) {
     this.k = k;
 };
 
@@ -155,18 +91,40 @@ System.prototype.setK = function(k) {
  * Returns the k of this system's transfer function.
  * @returns {(Complex|Number)}
  */
-System.prototype.getK = function() {
-    this.guaranteeZPK();
+Zpk.prototype.getK = function() {
     return this.k;
 };
 
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.eval = function(s) {
+    var numerator = num.evalzorp(this.z, s);
+    var denom = num.evalzorp(this.p, s);
+    var quotient = math.divide(numerator, denom);
+    return math.multiply(this.k, quotient);
+};
+
+/**
+ * Creates a system with a transfer function representation.
+ * @param {Array<(Number|Complex)>} num - The numerator of the transfer function.
+ * @param {Array<(Number|Complex)>} denom - The denominator of the transfer function.
+ * @constructor
+ * @augments System
+ */
+function Tf(num, denom) {
+    this.numerator = num;
+    this.denominator = denom;
+}
+Tf.prototype = new System();
 
 /**
  * Sets the numerator of the tf of the system.
  * @param {Array<(Number|Complex)>} n - The numerator of the tf.
  * @private
  */
-System.prototype.setNumerator = function(n) {
+Tf.prototype.setNumerator = function(n) {
     this.numerator = n;
 };
 
@@ -174,8 +132,7 @@ System.prototype.setNumerator = function(n) {
 /**
  *  @returns {Array<(Number|Complex)>} the numerator of the transfer function.
  */
-System.prototype.getNumerator = function() {
-    this.guaranteeNumDenom();
+Tf.prototype.getNumerator = function() {
     return this.numerator;
 };
 
@@ -185,17 +142,42 @@ System.prototype.getNumerator = function() {
  * @param {Array<(Number|Complex)>} d - The denominator of the tf.
  * @private
  */
-System.prototype.setDenominator = function(d) {
+Tf.prototype.setDenominator = function(d) {
     this.denominator = d;
 };
 
 /**
  *  @returns {Array<(Number|Complex)>} the denominator of the transfer function.
  */
-System.prototype.getDenominator = function() {
-    this.guaranteeNumDenom();
+Tf.prototype.getDenominator = function() {
     return this.denominator;
 };
+
+/**
+ * @inheritdoc
+ */
+Tf.prototype.eval = function(s) {
+    return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
+};
+
+/**
+ * Creates a system with a state-space representation.
+ * @param {Array<Array<(Number|Complex)>>} A - The A matrix
+ * @param {Array<Array<(Number|Complex)>>} B - The B matrix
+ * @param {Array<Array<(Number|Complex)>>} C - The C matrix
+ * @param {Array<Array<(Number|Complex)>>} D - The D matrix
+ * @constructor
+ * @augments System
+ */
+function Ss(A, B, C, D) {
+    this.A = A;
+    this.B = B;
+    this.C = C;
+    this.D = D;
+}
+
+Ss.prototype = new System();
+
 
 module.exports = {
     System: System,
@@ -208,19 +190,16 @@ module.exports = {
      * @returns {System}
      */
     zpk: function(z, p, k) {
-        var sys = new System();
-        sys.setZeros(z);
-        sys.setPoles(p);
-        sys.setK(k);
-
-        sys.eval = function(s) {
-            var numerator = num.evalzorp(this.z, s);
-            var denom = num.evalzorp(this.p, s);
-            var quotient = math.divide(numerator, denom);
-            return math.multiply(this.k, quotient);
-        };
-
-        return sys;
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Tf to Zpk
+            if (sys instanceof Tf) {
+                z = num.roots(sys.numerator);
+                p = num.roots(sys.denominator);
+                k = sys.numerator[0];
+            }
+        }
+        return new Zpk(z, p, k);
     },
 
 
@@ -231,15 +210,14 @@ module.exports = {
      * @return {System} A system with the given transfer function.
      */
     tf: function(numerator, denom) {
-        var sys = new System();
-        sys.setNumerator(numerator);
-        sys.setDenominator(denom);
-
-
-        sys.eval = function(s) {
-            return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
-        };
-
-        return sys;
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Zpk to Tf
+            if (sys instanceof Zpk) {
+                numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); }));
+                 denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); });
+            }
+        }
+        return new Tf(numerator, denom);
     }
 };
