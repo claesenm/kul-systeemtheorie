@@ -4,18 +4,6 @@ var system = require('../src/system');
 
 describe('System testing', function() {
 
-    describe('constructor', function() {
-        it('default values', function() {
-            var s = new system.System();
-            assert.deepEqual(s.z, null);
-            assert.deepEqual(s.p, null);
-            assert.deepEqual(s.k, null);
-            assert.deepEqual(s.numerator, null);
-            assert.deepEqual(s.denominator, null);
-        });
-    });
-
-
     describe('zpk', function() {
         it('correct construction', function() {
             var z = [1, math.complex(1, 1)];

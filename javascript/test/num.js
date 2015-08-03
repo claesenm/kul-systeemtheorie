@@ -116,6 +116,10 @@ describe('num tests', function() {
             assert.deepEqual(num.roots([1, 2.3]), [-2.3]);
         });
 
+        it('complex roots', function() {
+            assert(math.deepEqual(num.roots([1, 0, 1]), [math.complex(0, 1), math.complex(0, -1)]));
+        });
+
         it('no roots', function() {
             assert.deepEqual(num.roots([5]), []);
         });
@@ -146,6 +150,25 @@ describe('num tests', function() {
         it('different length', function() {
             assert.deepEqual(num.conv([2, 1], [0.5]), [1, 0.5]);
             assert.deepEqual(num.conv([0.5], [2, 1]), [1, 0.5]);
+        });
+    });
+
+
+    describe('diag()', function() {
+        it('default', function() {
+            assert.deepEqual(num.diag(math.ones(2)), [[1, 0], [0, 1]]);
+        });
+
+        it('negative index', function() {
+            assert.deepEqual(num.diag(math.ones(2), -1), [[0, 0, 0], [1, 0, 0], [0, 1, 0]]);
+        });
+
+        it('positive index', function() {
+            assert.deepEqual(num.diag(math.ones(2), 1), [[0, 1, 0], [0, 0, 1], [0, 0, 0]]);
+        });
+
+        it('non-unit vector', function() {
+            assert.deepEqual(num.diag([2, 3]), [[2, 0], [0, 3]]);
         });
     });
 });

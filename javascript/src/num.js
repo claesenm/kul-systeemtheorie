@@ -1,4 +1,5 @@
 math = require('mathjs');
+math.config({matrix: 'array'});
 _ = require('underscore');
 
 var numeric = require('numeric');
@@ -90,6 +91,11 @@ module.exports = {
             return [];
         }
 
+        // Do simple case here
+        if (poly.length === 2) {
+            return [math.divide(math.unaryMinus(poly[1]), poly[0])];
+        }
+
 
         var end = poly.length;
         // Remove trailing zeros and add them as roots
@@ -105,41 +111,13 @@ module.exports = {
 
 
         // Build companion matrix
-        var len = c.length;
-        var a = new Array(len - 1);
-        for (var i = 1; i < a.length; ++i) {
-            a[i] = new Array(c.length - 1);
-            for (var j = 0; j < a[i].length; ++j) {
-                a[i][j] = 0;
-            } 
-            a[i][i-1] = 1;
-        }
+        var a = this.diag(math.ones(c.length - 2), -1);
         a[0] = d;
 
-
-        // Prepare for numeric
-        //var reals = new Array(a.length);
-        //var imaginaries = new Array(a.length);
-        //for (var k = 0; k < a.length; ++k) {
-            //reals[k] = new Array(a.length);
-            //imaginaries[k] = new Array(a.length);
-
-            //for (var l = 0; l < a.length; ++l) {
-                //if (_.isNumber(a[k][l])) {
-                    //reals[k][l] = a[k][l];
-                    //imaginaries[k][l] = 0;
-                //} else {
-                    //reals[k][l] = a[k][l].re;
-                    //imaginaries[k][l] = a[k][l].im;
-                //}
-            //}
-        //}
-        //a = new numeric.T(reals, imaginaries);
-        
-        
+        // Convert to mathjs.
         var eigs = numeric.eig(a).lambda;
         var result = [];
-        _.map(eigs.x, function(e, i) {
+        eigs.x.map(function(e, i) {
             if (eigs.y === undefined || math.equal(eigs.y[i], 0)) {
                 result.push(e);
             } else {
@@ -192,4 +170,26 @@ module.exports = {
 
         return intermediates.reduce(this.polyadd);
     },
+
+    /**
+     * Creates a square matrix with v as its diagonal.
+     * @param {Array<(Number|Complex)>} v - The diagonal of the matrix.
+     * @param {Number} [n=0] - The number of the diagonal to put v on.
+     * @returns {Array<Array<(Number|Complex)>>} The created matrix.
+     */
+    diag: function(v, n) {
+        n = n || 0;
+        var dim = v.length + math.abs(n),
+            mat = math.zeros(dim, dim),
+            start = n > 0 ? [0, n] : [-n, 0],
+            pos = start;
+
+        v.forEach(function(val) {
+            mat[pos[0]][pos[1]] = val;
+            pos[0] += 1;
+            pos[1] += 1;
+        });
+
+        return mat;
+    }
 };
