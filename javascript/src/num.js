@@ -147,5 +147,39 @@ module.exports = {
             }
         });
         return result;
+    },
+
+
+    /**
+     * Multiplies 2 polynomials together.
+     * @param {Array<(Number|Complex)>} poly1 - The first polynomial.
+     * @param {Array<(Number|Complex)>} poly2 - The second polynomial.
+     * @returns {Array<(Number|Complex)>} The product of the given polynomials.
+     */
+    conv: function() {
+    },
+
+    /**
+     * Adds 2 polynomials together.
+     * @param {Array<(Number|Complex)>} poly1 - The first polynomial.
+     * @param {Array<(Number|Complex)>} poly2 - The second polynomial.
+     * @returns {Array<(Number|Complex)>} The sum of the given polynomials.
+     */
+    polyadd: function(poly1, poly2) {
+        var smallest,
+            biggest;
+
+        if (poly1.length <= poly2.length) {
+            smallest = poly1;
+            biggest = poly2;
+        } else {
+            biggest = poly1;
+            smallest = poly2;
+        }
+
+        var padding = Array.apply(null, Array(biggest.length - smallest.length)).map(function() { return 0; });
+        var smallest_padded = padding.concat(smallest);
+
+        return smallest_padded.map(function(e1, index){ return math.add(e1, biggest[index]); });
     }
 };
