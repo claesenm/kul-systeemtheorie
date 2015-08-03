@@ -28,6 +28,22 @@ function System() {
     this.denominator = null;
 }
 
+/**
+ * Returns whether or not this system has valid zpk internals.
+ * @private
+ */
+System.prototype.hasZPK = function() {
+    return (this.z !== null && this.p !== null && this.k !== null);
+};
+
+
+/**
+ * Returns whether or not this system has valid numerator/denominator internals.
+ * @private
+ */
+System.prototype.hasNumDenom = function() {
+    return (this.numerator !== null && this.denominator !== null);
+};
 
 
 /**
@@ -36,12 +52,12 @@ function System() {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  */
 System.prototype.eval = function(s) {
-    if (this.z !== undefined && this.p !== undefined && this.k !== undefined) {
+    if (this.hasZPK()) {
         var numerator = num.evalzorp(this.z, s);
         var denom = num.evalzorp(this.p, s);
         var quotient = math.divide(numerator, denom);
         result = math.multiply(this.k, quotient);
-    } else if (this.numerator !== undefined && this.denominator !== undefined) {
+    } else if (this.hadNumDenom()) {
         result = math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
     } else {
         throw new Error('This is not a valid system.');
