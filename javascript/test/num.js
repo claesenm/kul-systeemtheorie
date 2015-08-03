@@ -2,7 +2,7 @@ var assert = require('assert');
 var math = require('mathjs');
 var num = require('../src/num');
 
-math.config({epsilon: 1e-2});
+math.config({epsilon: 1e-7});
 
 
 describe('num tests', function() {
@@ -118,6 +118,34 @@ describe('num tests', function() {
 
         it('no roots', function() {
             assert.deepEqual(num.roots([5]), []);
+        });
+    });
+
+
+    describe('polyadd()', function() {
+        it('real same length', function() {
+            assert.deepEqual(num.polyadd([2, 3], [-1, 0.5]), [1, 3.5]);
+        });
+
+        it('complex same length', function() {
+            assert(math.deepEqual(num.polyadd([math.complex(1, 1.2), math.complex(0, 0)], [math.complex(-0.7, 10), math.complex(-3.3, 1.9)]), [math.complex(0.3, 11.2), math.complex(-3.3, 1.9)]));
+        });
+
+        it('different lengths', function() {
+            assert.deepEqual(num.polyadd([1, 2], [3]), [1, 5]);
+        });
+    });
+
+
+    describe('conv()', function() {
+        it('same length', function() {
+            assert.deepEqual(num.conv([0.5, -1], [2, 1]), [1, -1.5, -1]);
+        });
+
+
+        it('different length', function() {
+            assert.deepEqual(num.conv([2, 1], [0.5]), [1, 0.5]);
+            assert.deepEqual(num.conv([0.5], [2, 1]), [1, 0.5]);
         });
     });
 });

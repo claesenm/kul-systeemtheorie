@@ -28,7 +28,22 @@ function System() {
     this.denominator = null;
 }
 
+/**
+ * Returns whether or not this system has valid zpk internals.
+ * @private
+ */
+System.prototype.hasZPK = function() {
+    return (this.z !== null && this.p !== null && this.k !== null);
+};
 
+
+/**
+ * Returns whether or not this system has valid numerator/denominator internals.
+ * @private
+ */
+System.prototype.hasNumDenom = function() {
+    return (this.numerator !== null && this.denominator !== null);
+};
 
 /**
  * Evaluates the transfer function of this system in s.
@@ -36,19 +51,56 @@ function System() {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  */
 System.prototype.eval = function(s) {
-    if (this.z !== undefined && this.p !== undefined && this.k !== undefined) {
-        var numerator = num.evalzorp(this.z, s);
-        var denom = num.evalzorp(this.p, s);
-        var quotient = math.divide(numerator, denom);
-        result = math.multiply(this.k, quotient);
-    } else if (this.numerator !== undefined && this.denominator !== undefined) {
-        result = math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
+    throw new Error('This is not a valid system.');
+    /* Implementation is in the different constructor functions */
+};
+
+
+/**
+ * Sets up this system to return zeros, poles and/or k.
+ * @private
+ */
+System.prototype.fillZPK = function() {
+    if (this.hasNumDenom()) {
+        this.setZeros(num.roots(this.numerator));
+        this.setPoles(num.roots(this.denominator));
+        this.setK(this.numerator[0]);
     } else {
         throw new Error('This is not a valid system.');
     }
+};
 
+/**
+ * Guarantees there's an internal ZPK (as long as the system is valid)
+ * @private
+ */
+System.prototype.guaranteeZPK = function() {
+    if (!this.hasZPK()) {
+        this.fillZPK();
+    }
+};
 
-    return result;
+/**
+ * Sets up this system to return numerator and/or denominator.
+ * @private
+ */
+System.prototype.fillNumDenom = function() {
+    if (this.hasZPK()) {
+        this.setNumerator(num.conv([this.k], this.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); })));
+        this.setDenominator(this.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); }));
+    } else {
+        throw new Error('This is not a valid system.');
+    }
+};
+
+/**
+ * Guarantees there's an internal numerator/denominator (as long as the system is valid)
+ * @private
+ */
+System.prototype.guaranteeNumDenom = function() {
+    if (!this.hasNumDenom()) {
+        this.fillNumDenom();
+    }
 };
 
 
@@ -67,6 +119,7 @@ System.prototype.setZeros = function(z) {
  * @returns {Array<(Complex|Number)>}
  */
 System.prototype.getZeros = function() {
+    this.guaranteeZPK();
     return this.z;
 };
 
@@ -84,6 +137,7 @@ System.prototype.setPoles = function(p) {
  * @returns {Array<(Complex|Number)>}
  */
 System.prototype.getPoles = function() {
+    this.guaranteeZPK();
     return this.p;
 };
 
@@ -102,6 +156,7 @@ System.prototype.setK = function(k) {
  * @returns {(Complex|Number)}
  */
 System.prototype.getK = function() {
+    this.guaranteeZPK();
     return this.k;
 };
 
@@ -120,6 +175,7 @@ System.prototype.setNumerator = function(n) {
  *  @returns {Array<(Number|Complex)>} the numerator of the transfer function.
  */
 System.prototype.getNumerator = function() {
+    this.guaranteeNumDenom();
     return this.numerator;
 };
 
@@ -137,6 +193,7 @@ System.prototype.setDenominator = function(d) {
  *  @returns {Array<(Number|Complex)>} the denominator of the transfer function.
  */
 System.prototype.getDenominator = function() {
+    this.guaranteeNumDenom();
     return this.denominator;
 };
 
@@ -155,6 +212,14 @@ module.exports = {
         sys.setZeros(z);
         sys.setPoles(p);
         sys.setK(k);
+
+        sys.eval = function(s) {
+            var numerator = num.evalzorp(this.z, s);
+            var denom = num.evalzorp(this.p, s);
+            var quotient = math.divide(numerator, denom);
+            return math.multiply(this.k, quotient);
+        };
+
         return sys;
     },
 
@@ -169,6 +234,12 @@ module.exports = {
         var sys = new System();
         sys.setNumerator(numerator);
         sys.setDenominator(denom);
+
+
+        sys.eval = function(s) {
+            return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
+        };
+
         return sys;
     }
 };
