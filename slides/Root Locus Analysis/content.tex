@@ -2,7 +2,7 @@
 
 \begin{frame}
 \frametitle{Concept of the method}
-In this chapter the Root Locus Method is presented. This technique shows how changes in the system's feedback characteristics and other parameters influence the poles locations. The method permits us to plot the locus of a closed-loop pole location in the s-plane as a parameter varies, which will produce a root locus (hence the name of the technique).\\
+In this chapter the Root Locus Method is presented. This technique shows how changes in the system's feedback characteristics and other parameters influence the pole locations. The method permits us to plot the locus of the closed-loop pole locations in the s-plane as a parameter varies, which will produce a root locus (hence the name of the technique).\\
 \vspace{1em}
 It is very important to understand the background of root loci: how they take their shape, why they are useful, ... Therefore, we start this chapter by explaining the concept of the Root Locus Technique. Next we explain how to sketch a root locus. Finally we will give some examples in MATLAB.
 \end{frame}
@@ -45,6 +45,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{Concept of the technique}
 	For the further derivation, we assume that the system's open-loop transfer function $G(s)$ is a rational function whose numerator is $b(s)$ and whose denominator is $a(s)$. $b(s)$ is a monic polynomial of degree $m$ and $a(s)$ is a monic polynomial of degree $n$. 
+	\vspace{1em}
 	\begin{block}{All positive values of $K$}
 		As $K \rightarrow 0$, the poles of the closed-loop system are $a(s) = 0$ or the poles of $H(s)$. As $K \rightarrow \infty$, the poles of the closed-loop system are $b(s) = 0$ or the zeros of $H(s)$.
 	\end{block}
@@ -141,7 +142,7 @@ It is very important to understand the background of root loci: how they take th
 		\begin{itemize}
 		\item For $0\leq K \leq \frac{1}{4}$, the roots are real between $-1$ and $0$;
 		\item At $K = \frac{1}{4}$ there are two roots at $-\frac{1}{2}$;
-		\item For $K>\frac{1}{4}$ the roots become complex, with a real part of $-\frac{1}{2}$ and an imaginary part that increases essentially in proportion to the square root of K
+		\item For $K>\frac{1}{4}$ the roots become complex, with a real part of $-\frac{1}{2}$ and an imaginary part that increases essentially in proportion to the square root of K.
 		\end{itemize}
 	\end{exampleblock}
 \end{frame}
@@ -237,7 +238,7 @@ It is very important to understand the background of root loci: how they take th
 \frametitle{STEP 3: asymptotes for large values of K}
 	To find the locus, we choose $s_0 = Re^{j\phi}$ for some large value of $R$ and some variable $\phi$.\\
 	\vspace{1em}
-	Since all poles of Eq.(9) are in the same place, the angle of its transfer function is $180^{\circ}$ if all $n-m$ angles ()$\phi_l$) sum to $180^{\circ}$. Therefore, $\phi_l$ is given by: 
+	Since all poles of Eq.(9) are in the same place, the angle of its transfer function is $180^{\circ}$ if all $n-m$ angles ($\phi_l$) sum to $180^{\circ}$. Therefore, $\phi_l$ is given by: 
 	\begin{equation}
 	\phi_l = \frac{180^{\circ} + 360^{\circ}l}{n-m}, l = 1,2,...,n-m
 	\end{equation}	
@@ -274,7 +275,9 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{STEP 3: asymptotes for large values of K}
-	For large values of $K$, $m$ of the roots $r_i$ are approximately equal to the zeros $z_i$ and $n-m$ of the roots are from the asymptotic $\frac{1}{(s-\alpha)^{n-m}}$ system, whose poles add up to $(n-m)\alpha$. Combining these results we conclude that the sum of all the roots equals the sum of those roots that go to infinity plus the sum of those roots that go to the zeros of $G(s)$:
+	For large values of $K$, $m$ of the roots $r_i$ are approximately equal to the zeros $z_i$ and $n-m$ of the roots are from the asymptotic $\frac{1}{(s-\alpha)^{n-m}}$ system, whose poles add up to $(n-m)\alpha$.\\
+	\vspace{1em}
+	Combining these results we conclude that the sum of all the roots equals the sum of those roots that go to infinity plus the sum of those roots that go to the zeros of $G(s)$:
 	\begin{center}
 		$+\Sigma r_i = + (n-m)\alpha + \Sigma z_i = +\Sigma p_i$.
 	\end{center}
@@ -287,7 +290,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{STEP 3: asymptotes for large values of K}
 	Complex poles and zeros always occur in complex conjugate pairs, consequently in the sums $\Sigma p_i$ and $\Sigma z_i$ the imaginary parts will always add to zero.\\
-	\vspace{1em}
+	\vspace{0.5em}
 	\begin{exampleblock}{}
 	For our system: $\alpha = \frac{-4-4+0}{3-0} = -2.67.$\\
 	\vspace{1em}
@@ -344,7 +347,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 6: location of multiple roots and their arrival and departure angles}
+\frametitle{STEP 5: location of multiple roots and their arrival and departure angles}
 	\begin{itemize}
 	\item Two locus segments coming together at any point in the s-plane will always approach at at relative angle of $180^{\circ}$ and then break away with a $90^{\circ}$ change in direction; 
 	\item Three locus segments coming together will always approach at $120^{\circ}$ angles that are rotated $60^{\circ}$ relative to the arrival angles.
@@ -355,7 +358,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 7: Complete the sketch}
+\frametitle{STEP 6: Complete the sketch}
 	\begin{exampleblock}{}	
 		\begin{figure}
 			\centering
@@ -430,7 +433,7 @@ It is very important to understand the background of root loci: how they take th
 	\begin{alertblock}{}
 		\begin{enumerate}
 		\setcounter{enumi}{4}
-			\item Each branch starts at an open loop pole of $G(s)$ (for $K=0$) and ends at a closed loop zero of $G(s)$ (for $K \rightarrow \infty$). If $\#$poles of $G(s)$ $\neq$ $\#$zeros of $G(s)$ the extra branches go to/come from a zero/pole in infinity;
+			\item Each branch starts at an open loop pole of $G(s)$ (for $K=0$) and ends at a closed loop zero of $G(s)$ (for $K \rightarrow \infty$). If $\#$poles of $G(s)$ $\neq$ $\#$zeros of $G(s)$ the extra branches go to/come from a zero/pole in infinity.
 		\end{enumerate}
 	\vspace{-1em}
 	\begin{columns}
@@ -613,9 +616,9 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{MATLAB Commands}
-	Another way to visualize the root locus, is by using the interactive MATLAB GUI called sisotool. The SISO design tool is an interactive graphical user interface that facilitates the design of compensator for single-input, single-output (SISO) feedback loops.
+	Another way to visualize the root locus, is by using the interactive MATLAB GUI called sisotool. The SISO design tool is an interactive graphical user interface that facilitates the design of compensator for single-input, single-output (SISO) feedback loops.\\
 	\vspace{1em}
-	First you need to define your system in MATLAB and then you use the sisotool function on your system: \textbf{"sisotool(sys)"}. An interactive user face will pop up in which you can select you plant, the plots you would like to see and many other options. Check out the video and the MATLAB webpage in the additional material.	
+	First you need to define your system in MATLAB and then you use the sisotool function on your system: \textbf{"sisotool(sys)"}. An interactive user face will pop up in which you can select you plant, the plots you would like to see and many other options.	
 \end{frame}
 
 \begin{frame}
@@ -640,8 +643,8 @@ It is very important to understand the background of root loci: how they take th
 	\begin{exampleblock}{}
 		In the \textbf{Control and Estimation Tools Manager} you can select the tab labeled \textbf{Graphical Tuning}. In this tab: 
 		\begin{itemize}
-			\item turn \textbf{Plot 2} off
-			\item make sure \textbf{Plot 1} is the root locus
+			\item turn \textbf{Plot 2} off;
+			\item make sure \textbf{Plot 1} is the root locus.
 		\end{itemize}
 		Now you can click the button labeled \textbf{Show Design Plot} and then a tunable plot will appear. In this root locus plot, you can drag the closed-loop poles along the locus to adjust the loop gain. 
 	\end{exampleblock}
@@ -686,7 +689,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
-		If we complete the specification of the requirements and ajust the axis for a better view, we obtain the following figure:
+		If we complete the specification of the requirements and adjust the axis for a better view, we obtain the following figure:
 		\begin{figure}
 			\centering
 			\includegraphics[width=0.5\linewidth]{matlab_ex6}
