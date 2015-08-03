@@ -587,7 +587,6 @@ It is very important to understand the background of root loci: how they take th
 	\end{exampleblock}
 \end{frame}
 
-
 \begin{frame}
 	\begin{exampleblock}{}
 		Going back to our problem, to make the overshoot less than $5\%$, the poles have to be in between the two white dotted lines, and to make the rise time shorter than 1 second, the poles have to be outside of the white dotted semicircle.\\
@@ -651,13 +650,46 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
+		The following figures are an example of the result you get when you move the closed-loop poles.
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1\linewidth]{matlab_ex4}
-		\end{figure}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.9\linewidth]{matlab_ex4}
+			\end{figure}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.9\linewidth]{matlab_ex5}
+			\end{figure}
 		\end{column}
 	\end{columns}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	\begin{exampleblock}{}
+		We can take the design criteria into account directly in the plot. This is done by right-clicking and selecting \textbf{Design Requirements, New}. Now you can specify the different design criteria: settling time, percent overshoot, damping ratio, natural frequency, region constant.\\
+		\vspace{1em}
+		In our example we have 2 design criteria which we have already translated into requirements for $\zeta$ and $\omega_n$: 
+		\begin{itemize}
+			\item $\zeta = 0.7$;
+			\item $\omega_n = 1.8$.
+		\end{itemize}
+		\vspace{1em}
+		On the plot, any area which is still white, is an acceptable region for the poles.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{MATLAB Commands}
+	\begin{exampleblock}{}
+		If we complete the specification of the requirements and ajust the axis for a better view, we obtain the following figure:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{matlab_ex6}
+		\end{figure}
 	\end{exampleblock}
 \end{frame}
