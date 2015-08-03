@@ -184,8 +184,8 @@ module.exports = {
             start = n > 0 ? [0, n] : [-n, 0],
             pos = start;
 
-        v.forEach(function(val, i) {
-            mat[pos[0]][pos[1]] = 1;
+        v.forEach(function(val) {
+            mat[pos[0]][pos[1]] = val;
             pos[0] += 1;
             pos[1] += 1;
         });
