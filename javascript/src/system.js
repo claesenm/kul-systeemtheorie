@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var math = require('mathjs');
+math.config({matrix: 'array'});
 var num = require('./num');
 
 /**
@@ -194,9 +195,7 @@ module.exports = {
             var sys = arguments[0];
             // Convert from Tf to Zpk
             if (sys instanceof Tf) {
-                z = num.roots(sys.numerator);
-                p = num.roots(sys.denominator);
-                k = sys.numerator[0];
+                return this.tf2zpk(sys);
             }
         }
         return new Zpk(z, p, k);
@@ -214,10 +213,83 @@ module.exports = {
             var sys = arguments[0];
             // Convert from Zpk to Tf
             if (sys instanceof Zpk) {
-                numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); }));
-                 denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); });
+                return this.zpk2tf(sys);
             }
         }
         return new Tf(numerator, denom);
+    },
+
+
+    /**
+     * Constructs a system from a state-space representation.
+     * @param {Array<Array<(Number|Complex)>>} A - The A matrix.
+     * @param {Array<Array<(Number|Complex)>>} B - The B matrix.
+     * @param {Array<Array<(Number|Complex)>>} C - The C matrix.
+     * @param {Array<Array<(Number|Complex)>>} D - The D matrix.
+     * @returns {Ss} The state-space system.
+     */
+    ss: function(A, B, C, D) {
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Tf to Ss
+            if (sys instanceof Tf) {
+                return this.tf2ss(sys);
+            }
+        }
+        return new Ss(A, B, C, D);
+    },
+
+    /**
+     * Converts a Tf system to a Ss system.
+     * @param {Tf} sys - The system to convert.
+     * @returns {Ss} The state-space representation of sys.
+     */
+    tf2ss: function(sys) {
+        var A, B, C, D,
+            numer = sys.getNumerator(),
+            denom = sys.getDenominator(),
+            as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
+
+        // Make numer same length as denom
+        numer = math.zeros(denom.length - numer.length).concat(numer);
+
+        A = num.diag(math.ones(as.length - 2), 1);
+        var Aend = A.length - 1;
+        as.slice(1, as.length).forEach(function(val, i) {
+            A[Aend][Aend - i] = val;
+        });
+
+        B = math.zeros(as.length - 1);
+        B[B.length - 1] = 1;
+
+        C = numer.slice(1, numer.length).map(function(b, i) { 
+            return math.subtract(numer[numer.length - 1 - i], math.multiply(as[as.length - 1 - i], numer[0]));
+        });
+
+        D = numer[0];
+        return new Ss(A, B, C, D);
+    },
+
+    /**
+     * Converts a Zpk system to a Tf system.
+     * @param {Zpk} sys - The system to convert
+     * @returns {Tf} The transfer function representation of sys.
+     */
+    zpk2tf: function(sys) {
+        var numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); })),
+            denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); });
+        return new Tf(numerator, denom);
+    },
+    
+    /**
+     * Converts a Tf system to a Zpk system.
+     * @param {Tf} sys - The system to convert
+     * @returns {Zpk} The zero-pole-gain representation of sys.
+     */
+    tf2zpk: function(sys) {
+        var z = num.roots(sys.numerator),
+            p = num.roots(sys.denominator),
+            k = sys.numerator[0];
+        return new Zpk(z, p, k);
     }
 };
