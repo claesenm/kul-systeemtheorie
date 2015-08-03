@@ -52,19 +52,8 @@ System.prototype.hasNumDenom = function() {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  */
 System.prototype.eval = function(s) {
-    if (this.hasZPK()) {
-        var numerator = num.evalzorp(this.z, s);
-        var denom = num.evalzorp(this.p, s);
-        var quotient = math.divide(numerator, denom);
-        result = math.multiply(this.k, quotient);
-    } else if (this.hadNumDenom()) {
-        result = math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
-    } else {
-        throw new Error('This is not a valid system.');
-    }
-
-
-    return result;
+    throw new Error('This is not a valid system.');
+    /* Implementation is in the different constructor functions */
 };
 
 
@@ -171,6 +160,14 @@ module.exports = {
         sys.setZeros(z);
         sys.setPoles(p);
         sys.setK(k);
+
+        sys.eval = function(s) {
+            var numerator = num.evalzorp(this.z, s);
+            var denom = num.evalzorp(this.p, s);
+            var quotient = math.divide(numerator, denom);
+            return math.multiply(this.k, quotient);
+        };
+
         return sys;
     },
 
@@ -185,6 +182,12 @@ module.exports = {
         var sys = new System();
         sys.setNumerator(numerator);
         sys.setDenominator(denom);
+
+
+        sys.eval = function(s) {
+            return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
+        };
+
         return sys;
     }
 };
