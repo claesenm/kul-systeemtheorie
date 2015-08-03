@@ -116,6 +116,10 @@ describe('num tests', function() {
             assert.deepEqual(num.roots([1, 2.3]), [-2.3]);
         });
 
+        it('complex roots', function() {
+            assert(math.deepEqual(num.roots([1, 0, 1]), [math.complex(0, 1), math.complex(0, -1)]));
+        });
+
         it('no roots', function() {
             assert.deepEqual(num.roots([5]), []);
         });
