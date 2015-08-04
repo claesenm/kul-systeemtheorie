@@ -141,132 +141,83 @@ module.exports = {
      * Plots a pole zero map of the given system.
      * @param {HTMLElement} container - The container in which to put the plot.
      * @param {System} sys - The system of which to plot the poles and zeros.
-     * @returns {Dygraph} A reference to the created plot
+     * @returns {Highcharts.Chart} A reference to the created plot
      */
     pzmap: function(container, sys) {
-        // Create an html element to display a custom legend.
-        container.style.position = 'relative';
-        var custom_legend = document.createElement('div');
-        custom_legend.style.position = 'absolute';
-        custom_legend.style.right = '0px';
-        custom_legend.style.top = '0px';
-        custom_legend.style['z-index'] = 1;
-        container.appendChild(custom_legend);
 
-
-        // Create new div for plot itself
-        var plot_div = document.createElement('div');
-        plot_div.style.width = container.offsetWidth + "px";
-        plot_div.style.height = container.offsetHeight + "px";
-        container.appendChild(plot_div);
-
-
-        // Prepare the data for dygraphs
-        var zeros = sys.getZeros();
-        var poles = sys.getPoles();
-        var data = [];
-        for (var i = 0; i < zeros.length; ++i) {
-            var zero = zeros[i];
-            data.push([math.re(zero), math.im(zero), NaN]);
-        }
-        for (var j = 0; j < poles.length; ++j) {
-            var pole = poles[j];
-            data.push([math.re(pole), NaN, math.im(pole)]);
+        // Define a cross symbol path (taken from the highcharts documentation)
+        Highcharts.SVGRenderer.prototype.symbols.cross = function (x, y, w, h) {
+            return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
+        };
+        if (Highcharts.VMLRenderer) {
+            Highcharts.VMLRenderer.prototype.symbols.cross = Highcharts.SVGRenderer.prototype.symbols.cross;
         }
 
-        // Has to be sorted on x (because of how dygraphs determines its bounds)
-        data = _.sortBy(data, function(el) { return el[0]; });
+        function complexToArray(c) {
+            return [math.re(c), math.im(c)];
+        }
 
+        // Prepare the data for Highcharts
+        var zeros = sys.getZeros().map(complexToArray),
+            poles = sys.getPoles().map(complexToArray);
 
         var options = {
-            labelsDivWidth: 0, // Hide the default legend
-            highlightCallback: function(event, x, points, row, seriesName) { // Used to update the custom legend
-                var im = points[seriesName == 'zeros' ? 0 : 1].yval;
-                var op = im >= 0 ? '+' : '-';
-                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.abs(math.round(im, 5)) + 'j';
+            chart: {
+                renderTo: container,
+                type: 'scatter',
+                panning: true,
+                panKey: 'shift',
+                zoomType: 'xy'
             },
-            unhighlightCallback: function() { // Empty the legend on unhighlight
-                custom_legend.innerHtml = '';
-            },
-            underlayCallback: function(context, area, graph) {
-                // Use canvas drawing to render only the axes, instead of a grid
-                context.save();
-                context.lineWidth = 2.0;
-                var path = new Path2D();
-
-                var xRange = graph.xAxisRange();
-                if (xRange[0] < 0 && xRange[1] > 0) {
-                    var x = graph.toDomXCoord(0);
-                    // Y axis
-                    path.moveTo(x, 0);
-                    path.lineTo(x, context.canvas.offsetHeight);
-                }
-
-                var yRange = graph.yAxisRange();
-                if (yRange[0] < 0 && yRange[1] > 0) {
-                    // X axis
-                    var y = graph.toDomYCoord(0);
-                    path.moveTo(0, y);
-                    path.lineTo(context.canvas.offsetWidth, y);
-                }
-                context.stroke(path);
-                context.restore();
-            },
-            drawGrid: false,
-            labels: ['real', 'zeros', 'poles'], // Used to refer to these series
-            drawPoints: true,
-            pointSize: 5,
-            xlabel: "Re",
-            ylabel: "Im",
-            xRangePad: 50,
-            yRangePad: 50,
-            strokeWidth: 0.0, // Don't draw connecting lines
-            series: {
-                // Set appropriate shapes for zeros/poles
-                zeros: {
-                    drawPointCallback: shapes.CIRCLE,
-                    drawHighlightPointCallback: shapes.CIRCLE
-                },
-                poles: {
-                    drawPointCallback: shapes.EX,
-                    drawHighlightPointCallback: shapes.EX
+            series: [{
+                data: zeros,
+                name: 'zeros',
+                marker: {
+                    fillColor: '#fff',
+                    lineColor: '#00bbbb',
+                    lineWidth: 2
                 }
             },
-            // This somehow makes it possible to take the y coördinate into account to highlight a series
-            // instead of just the x coördinate
-            highlightSeriesOpts: {
-                strokeBorderWidth: 1,
-                highlightCircleSize: 5
+            {
+                data: poles,
+                name: 'poles',
+                marker: {
+                    symbol: 'cross',
+                    lineWidth: 2,
+                    lineColor: '#00bbbb',
+                }
+            }],
+            xAxis: {
+                minPadding: 0.05,
+                maxPadding: 0.05,
+                title: {
+                    text: 'Re'
+                }
+            },
+            yAxis: {
+                minPadding: 0.05,
+                maxPadding: 0.05,
+                title: {
+                    text: 'Im'
+                }
+            },
+            title: {
+                text: '',
+                y: 0
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<b>{point.x} + {point.y}j</b>'
             }
         };
 
-        var graph = new Dygraph(plot_div, data, options);
-
-        function scale_interval(scale, interval) {
-            var mid = (interval[0] + interval[1]) / 2;
-            return [(interval[0] - mid)*scale + mid, (interval[1] - mid)*scale + mid];
-        }
-
-        graph.ready(function() {
-            var starting_value_range = graph.yAxisRange(0);
-            // Zoom using the scroll wheel
-            container.addEventListener('wheel', function(event) {
-                var scale = math.pow(1.5, event.deltaY / 100);
-                graph.updateOptions({
-                    dateWindow: scale_interval(scale, graph.xAxisRange()),
-                    valueRange: scale_interval(scale, graph.yAxisRange(0))
-                });
-                event.preventDefault();
-            }, false);
-
-            // Reset zoom on right click
-            container.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-                graph.updateOptions({valueRange: starting_value_range});
-                graph.resetZoom();
-            });
-        });
-
+        var graph = new Highcharts.Chart(options);
         return graph;
     },
 
