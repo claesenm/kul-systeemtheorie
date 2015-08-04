@@ -554,6 +554,7 @@
 
 \begin{frame}
 	\frametitle{Problem Statement}
+	\justify
 	The ideas of block-diagram analysis can be extended so that we can use them to compute the transforms of output signals of systems that contain sampling operations in various places, including feedback loops. This is necessary to analyze feedback systems that contain a digital computer.\\
 	\vspace{1em}
 	The technique is a simple expansion of the block-diagram analysis of systems that are all continuous or all discrete. However a couple of rules need to be carefully observed. 
@@ -561,6 +562,7 @@
 
 \begin{frame}
 	\frametitle{Block-diagram analysis}
+	\justify
 	To obtain the block-diagram analysis of sampled-date systems, we represent the process of sampling a continuous signal and holding it by impulse modulation followed by low-pass filtering. We will use the following system: 
 	\vspace{1em}
 	\begin{figure}
@@ -579,6 +581,7 @@
 \begin{frame}
 	\frametitle{Block-diagram analysis}
 	\begin{block}{Most important relation for the block-diagram analysis}
+		\justify
 		If the transform of the signal to be sampled is a product of a transform that is already periodic of period $\frac{2\pi}{T}$, and one that is not, as in $U(s) = E^{*}(s)G(s)$, where $E^{*}(s)$ is periodic and $G(s)$ is not, we can show that $E^{*}(s)$ comes out as a factor, resulting in the following rule: 
 		\begin{equation}
 		U^{*}(s) = \big(E^{*}(s)G(s)\big)^{*} = E^{*}(s)G^{*}(s)
@@ -613,10 +616,7 @@
 	&= E^{*}(s)
 	\end{split}
 	\end{equation}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Proof of $U^{*}(s) = \big(E^{*}(s)G(s)\big)^{*} = E^{*}(s)G^{*}(s)$}
+	\justify
 	In other words, because $E^{*}$ is already periodic, shifting it an integral number of periods leaves it unchanged. Substituting Eq.(7) into Eq.(4) yiels
 	\begin{equation}
 	\begin{split}
@@ -624,13 +624,14 @@
 	&= E^{*}(s)G^{*}(s)
 	\end{split}
 	\end{equation}
-	\vspace{-1em}
-	\begin{alertblock}{Note what is not true}
-		If $U(s) = E(s)G(s)$, then $U^{*}(s) \neq E^{*}(s) G^{*}(s)$ but rather $U^{*}(s) = (EG)^{*}(s)$. The periodic character of $E^{*}$ in Eq.(3) is crucial.
-	\end{alertblock}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Block diagram analysis}
+	\begin{alertblock}{Note what is not true}
+		If $U(s) = E(s)G(s)$, then $U^{*}(s) \neq E^{*}(s) G^{*}(s)$ but rather $U^{*}(s) = (EG)^{*}(s)$. The periodic character of $E^{*}$ in Eq.(3) is crucial.
+	\end{alertblock}
+	\justify
 	The final result we require is that, given a sampled-signal transform such as $U^{*}(s)$, we can find the corresponding $\mathcal{Z}$-transform simply by letting $e^{sT} = z$ or $U(z) = U^{*}(s)_{e^{sT} = z}$.
 \end{frame}
+
