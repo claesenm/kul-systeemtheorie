@@ -47,7 +47,7 @@ It is very important to understand the background of root loci: how they take th
 	For the further derivation, we assume that the system's open-loop transfer function $G(s)$ is a rational function whose numerator is $b(s)$ and whose denominator is $a(s)$. $b(s)$ is a monic polynomial of degree $m$ and $a(s)$ is a monic polynomial of degree $n$. 
 	\vspace{1em}
 	\begin{block}{All positive values of $K$}
-		As $K \rightarrow 0$, the poles of the closed-loop system are $a(s) = 0$ or the poles of $H(s)$. As $K \rightarrow \infty$, the poles of the closed-loop system are $b(s) = 0$ or the zeros of $H(s)$.
+		As $K \rightarrow 0$, the closed-loop poles of system are the roots of $a(s) = 0$ or the open-loop poles. As $K \rightarrow \infty$, the closed-loop poles of the system are the roots of $b(s) = 0$ or the open-loop zeros.
 	\end{block}
 \end{frame}
 
@@ -608,7 +608,7 @@ It is very important to understand the background of root loci: how they take th
 		From the plot above we see that there is part of the root locus inside the desired region. So in this case, we need only a proportional controller to move the poles to the desired region. You can select a point on the root locus plot that meets the requirement by using the \textbf{"rlocfind(sys)"}-command.\\
 		\vspace{1em}
 		MATLAB command:\\
-		[k,poles] = rlocfind(H)
+		$[k,poles] = rlocfind(H)$
 	\end{exampleblock}
 \end{frame}
 
