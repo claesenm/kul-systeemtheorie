@@ -179,6 +179,53 @@ function Ss(A, B, C, D) {
 
 Ss.prototype = new System();
 
+/**
+ * Calculates the step response of the given system.
+ * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
+ */
+Ss.prototype.step = function(epsilon) {
+    epsilon = epsilon || 1e-7;
+    var A = this.A,
+        B = this.B,
+        C = this.C,
+        D = this.D;
+
+    function eps(t) {
+        if (t < 0) return 0;
+        if (t === 0) return 1/2;
+        return 1;
+    }
+
+    function dx(t, x){
+        return math.add(math.multiply(A, x), math.multiply(B, eps(t)));
+    }
+
+    function sol(t, x) {
+        return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
+    }
+
+    function err(t, x) {
+        return math.abs(sol(t, x) - eps(t));
+    }
+
+    
+    var prevError = Infinity;
+    function terminate(t, x) {
+        var currentError = err(t, x);
+        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-7) {
+            return 1;
+        }
+        return -1;
+    }
+
+    var response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminate);
+    var response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
+    return {t: response.x, x: response_val};
+};
+
 
 module.exports = {
     System: System,
@@ -253,19 +300,23 @@ module.exports = {
         // Make numer same length as denom
         numer = math.zeros(denom.length - numer.length).concat(numer);
 
+        // Matrix
         A = num.diag(math.ones(as.length - 2), 1);
         var Aend = A.length - 1;
         as.slice(1, as.length).forEach(function(val, i) {
             A[Aend][Aend - i] = val;
         });
 
+        // Column vector
         B = math.zeros(as.length - 1);
         B[B.length - 1] = 1;
 
-        C = numer.slice(1, numer.length).map(function(b, i) { 
+        // Row vector
+        C = [numer.slice(1, numer.length).map(function(b, i) { 
             return math.subtract(numer[numer.length - 1 - i], math.multiply(as[as.length - 1 - i], numer[0]));
-        });
+        })];
 
+        // Scalar
         D = numer[0];
         return new Ss(A, B, C, D);
     },
