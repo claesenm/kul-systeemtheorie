@@ -1,11 +1,39 @@
+// CAN ONLY BE USED IN THE BROWSER, HAVING INCLUDED HIGHCHARTS
 var Dygraph = require('dygraphs');
 var synchronize = require('../lib/dygraph-extras/synchronizer');
 var shapes = require('../lib/dygraph-extras/shapes');
 var _ = require('underscore');
 var math = require('mathjs');
-var system = require('./system');
-var num = require('./num');
 
+var control = require('./control');
+var system = control.system;
+var num = control.num;
+
+function recursiveClone(obj) {
+    var r = {};
+    for (var prop in obj) {
+        if (_.isObject(obj[prop]) && !_.isArray(obj[prop])) {
+            r[prop] = recursiveClone(obj[prop]);
+        } else {
+            r[prop] = obj[prop];
+        }
+    }
+    return r;
+}
+
+function recursiveExtend(target, source) {
+    for (var prop in source) {
+        if (prop in target) {
+            recursiveExtend(target[prop], source[prop]);
+        } else {
+            target[prop] = source[prop];
+        }
+    }
+    return target;
+}
+
+
+control.plot =
 /**
  * A module containing methods for plotting.
  * @module
@@ -17,7 +45,7 @@ module.exports = {
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
      * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
-     * @returns {Array<Dygraph>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
+     * @returns {Array<Highcharts.Chart>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
     bode: function(container, system, omega_bounds) {
         function div_half_height() {
@@ -31,44 +59,81 @@ module.exports = {
         var magnitude_div = div_half_height(container);
         var phase_div = div_half_height(container);
 
-        omega_bounds = omega_bounds || this.interesting_region_logspace(system);
-        var omegas = num.logspace(omega_bounds[0], omega_bounds[1], 1000);
+        omega_exp_bounds = omega_bounds || this.interesting_region_logspace(system);
+        var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
 
 
-        var evaluated_omegas = _.map(omegas, function(omega) { return system.eval(math.complex(0, omega)); });
-        var magnitudes_data = _.zip(omegas, _.map(evaluated_omegas, function(H) { return 20 * math.log10(math.abs(H)); }));
-        var phases_data = _.zip(omegas, _.map(evaluated_omegas, function(omega) { return 180 / math.pi * math.arg(omega); }));
+        var evaluated_omegas = omegas.map(function(omega) { return system.eval(math.complex(0, omega)); });
+        var magnitudes_data = _.zip(omegas, evaluated_omegas.map(function(H) { return 20 * math.log10(math.abs(H)); }));
+        var phases_data = _.zip(omegas, evaluated_omegas.map(function(omega) { return 180 / math.pi * math.arg(omega); }));
+
 
         var options = {
-            legend: 'follow',
-            labelsDivStyles: {
-                'background-color':  'rgba(0, 0, 0, 0)'
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: '',
+                    y: 0
+                },
+                xAxis: {
+                    type: 'logarithmic',
+                    min: math.pow(10, omega_exp_bounds[0]),
+                    max: math.pow(10, omega_exp_bounds[1]),
+                    minorTickInterval: 0.1,
+                },
+                yAxis: {
+                    startOnTick: false,
+                    minPadding: 0.01,
+                    endOnTick: false,
+                    maxPadding: 0.01
+                },
+                legend: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                tooltip: {
+                    crosshairs: [true, false],
+                    headerFormat: '',
+                    pointFormat: '<b>{point.y}</b>'
+                }
             },
-            axes: {
-                x: {
-                    logscale: true,
-                    valueFormatter: function(num) {
-                        return math.round(num, 5);
+            magnitude_options = {
+                chart: {
+                    renderTo: magnitude_div
+                },
+                series: [{
+                    data: magnitudes_data
+                }],
+                yAxis: {
+                    title: {
+                        text: 'Magnitude (dB)'
                     }
                 }
-            }
-        };
+            },
+            phase_options = {
+                chart: {
+                    renderTo: phase_div
+                },
+                series: [{
+                    data: phases_data
+                }],
+                yAxis: {
+                    title: {
+                        text: 'Phase (degrees)'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: 'Omega (rad/s)'
+                    }
+                }
+            };
 
-        var magnitude_options = {
-            labels: ['Pulsation', 'Magnitude'],
-            xlabel: '',
-            ylabel: 'Magnitude (dB)',
-        };
-        
-        var phase_options = {
-            labels: ['Pulsation', 'Phase'],
-            xlabel: 'Pulsation (rad/s)',
-            ylabel: 'Phase (degrees)'
-        };
-
-        var graphs = [new Dygraph(magnitude_div, magnitudes_data, _.extend(options, magnitude_options)),
-                      new Dygraph(phase_div, phases_data, _.extend(options, phase_options))];
-        synchronize(graphs, {zoom: true, selection: true, range: false });
+        var graphs = [new Highcharts.Chart(recursiveExtend(recursiveClone(options), magnitude_options)),
+                      new Highcharts.Chart(recursiveExtend(recursiveClone(options), phase_options))];
         return graphs;
     },
 
