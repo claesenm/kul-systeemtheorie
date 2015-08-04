@@ -1,11 +1,36 @@
-var Dygraph = require('dygraphs');
-var synchronize = require('../lib/dygraph-extras/synchronizer');
-var shapes = require('../lib/dygraph-extras/shapes');
+// CAN ONLY BE USED IN THE BROWSER, HAVING INCLUDED HIGHCHARTS
 var _ = require('underscore');
 var math = require('mathjs');
-var system = require('./system');
-var num = require('./num');
 
+var control = require('./control');
+var system = control.system;
+var num = control.num;
+
+function recursiveClone(obj) {
+    var r = {};
+    for (var prop in obj) {
+        if (_.isObject(obj[prop]) && !_.isArray(obj[prop])) {
+            r[prop] = recursiveClone(obj[prop]);
+        } else {
+            r[prop] = obj[prop];
+        }
+    }
+    return r;
+}
+
+function recursiveExtend(target, source) {
+    for (var prop in source) {
+        if (prop in target) {
+            recursiveExtend(target[prop], source[prop]);
+        } else {
+            target[prop] = source[prop];
+        }
+    }
+    return target;
+}
+
+
+control.plot =
 /**
  * A module containing methods for plotting.
  * @module
@@ -17,7 +42,7 @@ module.exports = {
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
      * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
-     * @returns {Array<Dygraph>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
+     * @returns {Array<Highcharts.Chart>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
     bode: function(container, system, omega_bounds) {
         function div_half_height() {
@@ -31,44 +56,104 @@ module.exports = {
         var magnitude_div = div_half_height(container);
         var phase_div = div_half_height(container);
 
-        omega_bounds = omega_bounds || this.interesting_region_logspace(system);
-        var omegas = num.logspace(omega_bounds[0], omega_bounds[1], 1000);
+        omega_exp_bounds = omega_bounds || this.interesting_region_logspace(system);
+        var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
 
 
-        var evaluated_omegas = _.map(omegas, function(omega) { return system.eval(math.complex(0, omega)); });
-        var magnitudes_data = _.zip(omegas, _.map(evaluated_omegas, function(H) { return 20 * math.log10(math.abs(H)); }));
-        var phases_data = _.zip(omegas, _.map(evaluated_omegas, function(omega) { return 180 / math.pi * math.arg(omega); }));
+        var evaluated_omegas = omegas.map(function(omega) { return system.eval(math.complex(0, omega)); });
+        var magnitudes_data = _.zip(omegas, evaluated_omegas.map(function(H) { return 20 * math.log10(math.abs(H)); }));
+        var phases_data = _.zip(omegas, evaluated_omegas.map(function(omega) { return 180 / math.pi * math.arg(omega); }));
+
 
         var options = {
-            legend: 'follow',
-            labelsDivStyles: {
-                'background-color':  'rgba(0, 0, 0, 0)'
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: '',
+                    y: 0
+                },
+                xAxis: {
+                    type: 'logarithmic',
+                    min: math.pow(10, omega_exp_bounds[0]),
+                    max: math.pow(10, omega_exp_bounds[1]),
+                    minorTickInterval: 0.1,
+                },
+                yAxis: {
+                    startOnTick: false,
+                    minPadding: 0.01,
+                    endOnTick: false,
+                    maxPadding: 0.01
+                },
+                legend: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                tooltip: {
+                    crosshairs: [true, false],
+                    headerFormat: '',
+                    pointFormat: '<b>{point.y}</b>'
+                }
             },
-            axes: {
-                x: {
-                    logscale: true,
-                    valueFormatter: function(num) {
-                        return math.round(num, 5);
+            magnitude_options = {
+                chart: {
+                    renderTo: magnitude_div
+                },
+                series: [{
+                    data: magnitudes_data
+                }],
+                yAxis: {
+                    title: {
+                        text: 'Magnitude (dB)'
                     }
                 }
-            }
+            },
+            phase_options = {
+                chart: {
+                    renderTo: phase_div
+                },
+                series: [{
+                    data: phases_data
+                }],
+                yAxis: {
+                    title: {
+                        text: 'Phase (degrees)'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: 'Omega (rad/s)'
+                    }
+                }
+            };
+
+        var graphs = [new Highcharts.Chart(recursiveExtend(recursiveClone(options), magnitude_options)),
+                      new Highcharts.Chart(recursiveExtend(recursiveClone(options), phase_options))];
+
+        // Synch the charts
+        container.addEventListener('mousemove', function(e) {
+            graphs.forEach(function(chart) {
+                e = chart.pointer.normalize(e);
+                var point = chart.series[0].searchPoint(e, true);
+
+                if (point) {
+                    point.onMouseOver();
+                    chart.tooltip.refresh(point);
+                    chart.xAxis[0].drawCrosshair(e, point);
+                }
+            });
+        });
+
+        // Hides both pointers when the mouse leaves the graph
+        var resetFunc = Highcharts.Pointer.prototype.reset;
+        Highcharts.Pointer.prototype.reset = function() {
+            graphs.forEach(function(graph) {
+                resetFunc.call(graph.pointer);
+            });
         };
 
-        var magnitude_options = {
-            labels: ['Pulsation', 'Magnitude'],
-            xlabel: '',
-            ylabel: 'Magnitude (dB)',
-        };
-        
-        var phase_options = {
-            labels: ['Pulsation', 'Phase'],
-            xlabel: 'Pulsation (rad/s)',
-            ylabel: 'Phase (degrees)'
-        };
-
-        var graphs = [new Dygraph(magnitude_div, magnitudes_data, _.extend(options, magnitude_options)),
-                      new Dygraph(phase_div, phases_data, _.extend(options, phase_options))];
-        synchronize(graphs, {zoom: true, selection: true, range: false });
         return graphs;
     },
 
@@ -76,132 +161,83 @@ module.exports = {
      * Plots a pole zero map of the given system.
      * @param {HTMLElement} container - The container in which to put the plot.
      * @param {System} sys - The system of which to plot the poles and zeros.
-     * @returns {Dygraph} A reference to the created plot
+     * @returns {Highcharts.Chart} A reference to the created plot
      */
     pzmap: function(container, sys) {
-        // Create an html element to display a custom legend.
-        container.style.position = 'relative';
-        var custom_legend = document.createElement('div');
-        custom_legend.style.position = 'absolute';
-        custom_legend.style.right = '0px';
-        custom_legend.style.top = '0px';
-        custom_legend.style['z-index'] = 1;
-        container.appendChild(custom_legend);
 
-
-        // Create new div for plot itself
-        var plot_div = document.createElement('div');
-        plot_div.style.width = container.offsetWidth + "px";
-        plot_div.style.height = container.offsetHeight + "px";
-        container.appendChild(plot_div);
-
-
-        // Prepare the data for dygraphs
-        var zeros = sys.getZeros();
-        var poles = sys.getPoles();
-        var data = [];
-        for (var i = 0; i < zeros.length; ++i) {
-            var zero = zeros[i];
-            data.push([math.re(zero), math.im(zero), NaN]);
-        }
-        for (var j = 0; j < poles.length; ++j) {
-            var pole = poles[j];
-            data.push([math.re(pole), NaN, math.im(pole)]);
+        // Define a cross symbol path (taken from the highcharts documentation)
+        Highcharts.SVGRenderer.prototype.symbols.cross = function (x, y, w, h) {
+            return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
+        };
+        if (Highcharts.VMLRenderer) {
+            Highcharts.VMLRenderer.prototype.symbols.cross = Highcharts.SVGRenderer.prototype.symbols.cross;
         }
 
-        // Has to be sorted on x (because of how dygraphs determines its bounds)
-        data = _.sortBy(data, function(el) { return el[0]; });
+        function complexToArray(c) {
+            return [math.re(c), math.im(c)];
+        }
 
+        // Prepare the data for Highcharts
+        var zeros = sys.getZeros().map(complexToArray),
+            poles = sys.getPoles().map(complexToArray);
 
         var options = {
-            labelsDivWidth: 0, // Hide the default legend
-            highlightCallback: function(event, x, points, row, seriesName) { // Used to update the custom legend
-                var im = points[seriesName == 'zeros' ? 0 : 1].yval;
-                var op = im >= 0 ? '+' : '-';
-                custom_legend.innerHTML = math.round(x, 5) + ' ' + op + ' ' + math.abs(math.round(im, 5)) + 'j';
+            chart: {
+                renderTo: container,
+                type: 'scatter',
+                panning: true,
+                panKey: 'shift',
+                zoomType: 'xy'
             },
-            unhighlightCallback: function() { // Empty the legend on unhighlight
-                custom_legend.innerHtml = '';
-            },
-            underlayCallback: function(context, area, graph) {
-                // Use canvas drawing to render only the axes, instead of a grid
-                context.save();
-                context.lineWidth = 2.0;
-                var path = new Path2D();
-
-                var xRange = graph.xAxisRange();
-                if (xRange[0] < 0 && xRange[1] > 0) {
-                    var x = graph.toDomXCoord(0);
-                    // Y axis
-                    path.moveTo(x, 0);
-                    path.lineTo(x, context.canvas.offsetHeight);
-                }
-
-                var yRange = graph.yAxisRange();
-                if (yRange[0] < 0 && yRange[1] > 0) {
-                    // X axis
-                    var y = graph.toDomYCoord(0);
-                    path.moveTo(0, y);
-                    path.lineTo(context.canvas.offsetWidth, y);
-                }
-                context.stroke(path);
-                context.restore();
-            },
-            drawGrid: false,
-            labels: ['real', 'zeros', 'poles'], // Used to refer to these series
-            drawPoints: true,
-            pointSize: 5,
-            xlabel: "Re",
-            ylabel: "Im",
-            xRangePad: 50,
-            yRangePad: 50,
-            strokeWidth: 0.0, // Don't draw connecting lines
-            series: {
-                // Set appropriate shapes for zeros/poles
-                zeros: {
-                    drawPointCallback: shapes.CIRCLE,
-                    drawHighlightPointCallback: shapes.CIRCLE
-                },
-                poles: {
-                    drawPointCallback: shapes.EX,
-                    drawHighlightPointCallback: shapes.EX
+            series: [{
+                data: zeros,
+                name: 'zeros',
+                marker: {
+                    fillColor: '#fff',
+                    lineColor: '#00bbbb',
+                    lineWidth: 2
                 }
             },
-            // This somehow makes it possible to take the y coördinate into account to highlight a series
-            // instead of just the x coördinate
-            highlightSeriesOpts: {
-                strokeBorderWidth: 1,
-                highlightCircleSize: 5
+            {
+                data: poles,
+                name: 'poles',
+                marker: {
+                    symbol: 'cross',
+                    lineWidth: 2,
+                    lineColor: '#00bbbb',
+                }
+            }],
+            xAxis: {
+                minPadding: 0.05,
+                maxPadding: 0.05,
+                title: {
+                    text: 'Re'
+                }
+            },
+            yAxis: {
+                minPadding: 0.05,
+                maxPadding: 0.05,
+                title: {
+                    text: 'Im'
+                }
+            },
+            title: {
+                text: '',
+                y: 0
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<b>{point.x} + {point.y}j</b>'
             }
         };
 
-        var graph = new Dygraph(plot_div, data, options);
-
-        function scale_interval(scale, interval) {
-            var mid = (interval[0] + interval[1]) / 2;
-            return [(interval[0] - mid)*scale + mid, (interval[1] - mid)*scale + mid];
-        }
-
-        graph.ready(function() {
-            var starting_value_range = graph.yAxisRange(0);
-            // Zoom using the scroll wheel
-            container.addEventListener('wheel', function(event) {
-                var scale = math.pow(1.5, event.deltaY / 100);
-                graph.updateOptions({
-                    dateWindow: scale_interval(scale, graph.xAxisRange()),
-                    valueRange: scale_interval(scale, graph.yAxisRange(0))
-                });
-                event.preventDefault();
-            }, false);
-
-            // Reset zoom on right click
-            container.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-                graph.updateOptions({valueRange: starting_value_range});
-                graph.resetZoom();
-            });
-        });
-
+        var graph = new Highcharts.Chart(options);
         return graph;
     },
 

@@ -7,12 +7,11 @@
     "doc": "doc",
     "test": "test"
   },
-  "dependencies": {
-    "dygraphs": "^1.1.1",
+  "devDependencies": {
+    "numeric": "^1.2.6",
     "mathjs": "^2.0.0",
     "underscore": "^1.8.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "mocha"
   },
