@@ -131,6 +131,29 @@ module.exports = {
 
         var graphs = [new Highcharts.Chart(recursiveExtend(recursiveClone(options), magnitude_options)),
                       new Highcharts.Chart(recursiveExtend(recursiveClone(options), phase_options))];
+
+        // Synch the charts
+        container.addEventListener('mousemove', function(e) {
+            graphs.forEach(function(chart) {
+                e = chart.pointer.normalize(e);
+                var point = chart.series[0].searchPoint(e, true);
+
+                if (point) {
+                    point.onMouseOver();
+                    chart.tooltip.refresh(point);
+                    chart.xAxis[0].drawCrosshair(e, point);
+                }
+            });
+        });
+
+        // Hides both pointers when the mouse leaves the graph
+        var resetFunc = Highcharts.Pointer.prototype.reset;
+        Highcharts.Pointer.prototype.reset = function() {
+            graphs.forEach(function(graph) {
+                resetFunc.call(graph.pointer);
+            });
+        };
+
         return graphs;
     },
 
