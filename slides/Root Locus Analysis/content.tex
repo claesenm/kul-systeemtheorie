@@ -1,14 +1,17 @@
 \section{Concept of Root Locus}
 
 \begin{frame}
-\frametitle{Concept of the method}
-In this chapter the Root Locus Method is presented. This technique shows how changes in the system's feedback characteristics and other parameters influence the pole locations. The method permits us to plot the locus of the closed-loop pole locations in the s-plane as a parameter varies, which will produce a root locus (hence the name of the technique).\\
+\frametitle{Concept of the technique}
+\justify
+In this chapter the Root Locus Method is presented. This technique shows how changes in the system's feedback characteristics and other parameters influence the pole locations. The method permits us to plot the locus of the closed-loop poles in the s-plane as a function of a varying parameter.\\
 \vspace{1em}
 It is very important to understand the background of root loci: how they take their shape, why they are useful, ... Therefore, we start this chapter by explaining the concept of the Root Locus Technique. Next we explain how to sketch a root locus. Finally we will give some examples in MATLAB.
+
 \end{frame}
 
 \begin{frame}
 \frametitle{Concept of the technique}
+\justify
 	We begin with the basic feedback system, shown in the figure below:
 	\begin{figure}
 		\centering
@@ -22,11 +25,12 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Concept of the technique}
-	Looking at this transfer function, we can conclude that the closed-loop roots depend on the gain $K$. We can now plot the locus of all possible roots of the characteristic equation: 
+\justify
+	Looking at this transfer function, we can see that the closed-loop poles depend on the gain $K$. We can now plot the locus of all possible roots of the characteristic equation: 
 	\begin{equation}
 		1 + KG(s) = 0 \hspace{1em}
 	\end{equation}
-	as $K$ varies form $0$ to $\infty$. This results in a graph which can help us in selecting the best value of $K$.\\
+	as $K$ varies from $0$ to $\infty$. This results in a graph which can help us in selecting the best value of $K$.\\
 	\vspace{1em}
 	Furthermore, by studying the effects of additional poles and zeros, we can determine the consequences of additional dynamics in the loop. We can also extend this technique to examine the effect of other plant-parameter changes in order to achieve the best overall control design.
 \end{frame}
@@ -37,13 +41,13 @@ It is very important to understand the background of root loci: how they take th
 		The root locus is the set of values of $s$ for which $1 + KG(s) = 0$ is statisfied as the real parameter $K$ varies from $0$ to $+\infty$. Often $G(s)$ is the open-loop transfer function of a system; in this case, roots on the locus are closed-loop poles of that system.
 	\end{block}
 	\begin{block}{Use of root locus}
-		The root locus method provides a tool not only for selecting the gain but for designing the dynamic compensations as well.
+		The root locus method provides a tool not only for selecting the gain but for designing lead and lag compensators, PID controllers, etc.
 	\end{block}
-	
 \end{frame}
 
 \begin{frame}
 \frametitle{Concept of the technique}
+\justify
 	For the further derivation, we assume that the system's open-loop transfer function $G(s)$ is a rational function whose numerator is $b(s)$ and whose denominator is $a(s)$. $b(s)$ is a monic polynomial of degree $m$ and $a(s)$ is a monic polynomial of degree $n$. 
 	\vspace{1em}
 	\begin{block}{All positive values of $K$}
@@ -53,6 +57,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Concept of the technique}
+\justify
 	If $H(s)$ has more poles than zeros ($m < n$) we say that $H(s)$ has zeros at infinity. In this case, the limit of $H(s)$ as $s \rightarrow \infty$ is zero. The number of zeros at infinity is $n-m$, the number of poles minus the number of zeros, and is the number of branches of the root locus that go to infinity (asymptotes).
 	
 	\begin{alertblock}{Open-loop vs Closed-loop}
@@ -62,16 +67,18 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Concept of the technique}
+\justify
 \begin{block}{Root-Locus form}
 	We can express Eq. (1) in different equivalent ways:
-	\vspace{-1em}
-	\begin{align*}
-		1 + KG(s) &= 0,\\
-		1 + K\frac{b(s)}{a(s)} &= 0,\\
-		a(s) + Kb(s) &=0,\\
-		G(s) & = -\frac{1}{K}.
-	\end{align*}
-	These different presentation are called the root-locus forms.
+	\vspace{1em}
+	\begin{itemize}
+	\item $1 + KG(s) = 0$;\\
+	\item $1 + K\frac{b(s)}{a(s)} = 0$;\\
+	\item $a(s) + Kb(s) =0$;\\
+	\item $G(s) = -\frac{1}{K}$.
+	\end{itemize}
+	\vspace{1em}
+	These different presentations are called the root-locus forms.
 \end{block}
 \end{frame}
 
@@ -81,7 +88,7 @@ It is very important to understand the background of root loci: how they take th
 		\begin{equation}
 		G(s) = \frac{1}{s(s+1)}.
  		\end{equation}
- 		Solve for the locus of roots with respect to the proportional gain $K$ of the closed-loop system created by feeding back the output as shown in the figure:
+ 		Find the locus of roots with respect to the proportional gain $K$ of the closed-loop system created by feeding back the output as shown in the figure:
  		\begin{figure}
  			\centering
  			\includegraphics[width=0.8\linewidth]{closed_loop_diagram}
@@ -101,16 +108,11 @@ It is very important to understand the background of root loci: how they take th
 				n &=2,
 				\end{align*}
 			\end{column}
+			\hspace{-2cm}
 			\begin{column}{0.2\textwidth}
 				\begin{align*}
-				K_G =1,\\
-				K_A =K,
-				\end{align*}
-			\end{column}
-			\begin{column}{0.2\textwidth}
-				\begin{align*}
-				b(s) =1,\\
-				a(s) = s(s+1).
+				b(s) &=1,\\
+				a(s) &= s(s+1).
 				\end{align*}
 			\end{column}
 		\end{columns}
@@ -120,7 +122,7 @@ It is very important to understand the background of root loci: how they take th
 		\begin{equation}
 		s^2 + s + K = 0
 		\end{equation}
-		has roots:
+		which has the following roots:
 		\begin{equation}
 		r_1,r_2 = -\frac{1}{2} \pm \frac{\sqrt{1 - 4K}}{2}.
 		\end{equation}
@@ -153,6 +155,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{General approach}
+\justify
 	Now look at the equation: $G(s) = -\frac{1}{K}$. If $K$ is to be real and positive, $G(s)$ must be real and negative. This means that if we arrange G(s) in polar form as magnitude and phase, $G(s)$ must have the opposite phase of $K$ in order to satisfy the equation above. We can thus define a root locus in terms of this phase condition:  
 	\vspace{0.5em}
 	\begin{block}{Definition II}
@@ -162,6 +165,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{General approach}
+\justify
 	Since the phase remains unchanged if an integral multiple of $360^{\circ}$ is added, we can express Definition II as: $\angle G(s) = 180^{\circ} + 360^{\circ}l$, where $l$ is any integer. While it is very difficult to solve a high-order polynomial, computing the phase is relatively easy.\\
 	\vspace{1em}
 	The usual case is when $K$ is real and positive; we call this case the \textbf{positive or $180^{\circ}$ locus}. When $K$ is real and negative, $G(s)$ must be real and positive of $s$ to be on the locus. Therefore, the phase of $G(s)$ must be $0^{\circ}$. This special case is called a \textbf{negative or $0^{\circ}$ locus}.\\
@@ -171,6 +175,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Guidelines in practice}
+\justify
 	We will now sketch the root locus of a system with transfer function:\\
 	\begin{exampleblock}{}
 		\begin{equation}
@@ -187,7 +192,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}	
 
 \begin{frame}
-\frametitle{STEP 1: the open-loop $\times's$ and $\circ's$}
+\frametitle{STEP 1: The open-loop $\times's$ and $\circ's$}
 	Calculate and plot the open-loop poles and zero's:
 	\begin{exampleblock}{}
 		\begin{figure}
@@ -198,7 +203,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 2: locus on real axis}
+\frametitle{STEP 2: Locus on the real axis}
 	The portion of the real axis to the left of an odd number (counted from the right) of open loop poles and zeros are part of the locus:
 	\begin{exampleblock}{}
 		\begin{figure}
@@ -209,7 +214,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	As K approaches $\infty$, the equation $G(s) = -\frac{1}{K}$ can be satisfied only if $G(s) = 0$ where $G(s) = \frac{b(s)}{a(s)}$.\\
 	\vspace{1em}
 	We can now substitute this in $1 + KG(s) = 0$, resulting in the following equation:
@@ -224,7 +230,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	We now look closer to the second condition: $G(s) = 0$ when $s \rightarrow \infty$.\\
 	\vspace{1em}
 	For very large values of $s$, the highest-order power of $s$ in Eq.(8) predominates. We can divide $a(s)$ by $b(s)$ and match the dominant two terms (highest powers in $s$) to the expansion $(s-\alpha)^{n-m}$, resulting in the following approximation:
@@ -235,7 +242,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}	
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	To find the locus, we choose $s_0 = Re^{j\phi}$ for some large value of $R$ and some variable $\phi$.\\
 	\vspace{1em}
 	Since all poles of Eq.(9) are in the same place, the angle of its transfer function is $180^{\circ}$ if all $n-m$ angles ($\phi_l$) sum to $180^{\circ}$. Therefore, $\phi_l$ is given by: 
@@ -250,7 +258,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	To determine $\alpha$ we use a simple property of polynomials. Suppose we have a monic polynomial with coefficients $a_i$ and roots $p_i$ and we equate the polynomial form with the factored form:
 	\begin{center}
 		$s^n + a_1s^{n-1} + a_2s^{n-2} + ... + a_n = (s-p_1)(s-p_2)...(s-p_n).$
@@ -261,7 +270,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	Applying these results in the closed-loop characteristic polynomial, leads to:
 	\begin{center}
 		$s^n + a_1 s^{n-1} + ... + a_n + K(s^m + b_1 s^{m-1} + ... + b_m) = 0$.
@@ -274,7 +284,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	For large values of $K$, $m$ of the roots $r_i$ are approximately equal to the zeros $z_i$ and $n-m$ of the roots are from the asymptotic $\frac{1}{(s-\alpha)^{n-m}}$ system, whose poles add up to $(n-m)\alpha$.\\
 	\vspace{1em}
 	Combining these results we conclude that the sum of all the roots equals the sum of those roots that go to infinity plus the sum of those roots that go to the zeros of $G(s)$:
@@ -288,7 +299,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
+\justify
 	Complex poles and zeros always occur in complex conjugate pairs, consequently in the sums $\Sigma p_i$ and $\Sigma z_i$ the imaginary parts will always add to zero.\\
 	\vspace{0.5em}
 	\begin{exampleblock}{}
@@ -299,7 +311,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 3: asymptotes for large values of K}
+\frametitle{STEP 3: Asymptotes for large values of K}
 	\begin{exampleblock}{}
 		\begin{figure}
 			\centering
@@ -309,14 +321,15 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 4: departure and arrival angles}
+\frametitle{STEP 4: Departure and arrival angles}
+\justify
 	We know that the locus begins at the $\times's$ and that it goes to either $\circ's$ or to infinity along the radial asymptotic lines.\\
 	\vspace{1em}
-	We next compute the angle by which a branch of the locus departs from one of the poles. We take a test point $s_0$ very near pole 2 at $-4+4j$ and compute the angle of $G(s_0)$ (illustration see next slide). We select the test point close enough to pole 2 that the angles $\phi_1$ and $\phi_3$ to the test point can be considered the same as those angles to pole 2: $\phi_1 = 90^{\circ}$ and $\phi_3 = 135^{\circ}$. 
+	We next compute the angle by which a branch of the locus departs from one of the poles. We take a test point $s_0$ very near pole 2 at $-4+4j$ and compute the angle of $G(s_0)$ (for illustration see next slide). We select the test point close enough to pole 2 that the angles $\phi_1$ and $\phi_3$ to the test point can be considered the same as those angles to pole 2: $\phi_1 = 90^{\circ}$ and $\phi_3 = 135^{\circ}$. 
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 4: departure and arrival angles}
+\frametitle{STEP 4: Departure and arrival angles}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\linewidth]{how_to_draw_ex4}
@@ -324,7 +337,7 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 4: departure and arrival angles}	
+\frametitle{STEP 4: Departure and arrival angles}	
 	\begin{exampleblock}{}
 	We can calculate $\phi_2$ from the angle condition:
 	\begin{center}
@@ -332,12 +345,12 @@ It is very important to understand the background of root loci: how they take th
 	\end{center}
 	where $l$ is chosen so that $-180^{\circ} < \phi_2 < +180^{\circ}$. If we take $l = -1$, then $\phi_2 = -45^{\circ}$.\\
 	\vspace{1em}
-	By the complex conjugate symmetry of the plots, the angle of departure of the locus near pole 1 at $-4 - 4j$ will be $+45^{\circ}$. The angle of departure from pole 3 at the origin is $180^{\circ}$.
+	Due to the complex conjugate symmetry of the plots, the angle of departure of the locus near pole 1 at $-4 - 4j$ will be $+45^{\circ}$. The angle of departure from pole 3 at the origin is $180^{\circ}$.
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 4: departure and arrival angles}	
+\frametitle{STEP 4: Departure and arrival angles}	
 	\begin{exampleblock}{}
 		\begin{figure}
 			\centering
@@ -347,7 +360,8 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{STEP 5: location of multiple roots and their arrival and departure angles}
+\frametitle{STEP 5: Location of multiple roots and their arrival and departure angles}
+\justify
 	\begin{itemize}
 	\item Two locus segments coming together at any point in the s-plane will always approach at at relative angle of $180^{\circ}$ and then break away with a $90^{\circ}$ change in direction; 
 	\item Three locus segments coming together will always approach at $120^{\circ}$ angles that are rotated $60^{\circ}$ relative to the arrival angles.
@@ -367,10 +381,11 @@ It is very important to understand the background of root loci: how they take th
 	\end{exampleblock}
 \end{frame}
 
-\subsection{Rules of thumb for sketching the root locus}
+\subsection{Summary of the rules for sketching the root locus}
 
 \begin{frame}
-	\frametitle{Overview of the guidelines}
+\frametitle{Overview of the guidelines}
+\justify
 	\begin{block}{}
 		Drawing the root locus yourself can be done by following the next steps:
 		\vspace{0.5em}
@@ -393,7 +408,7 @@ It is very important to understand the background of root loci: how they take th
 	\begin{block}{}
 		\begin{enumerate}
 			\setcounter{enumi}{3}
-			\item Compute locus departure angles from te poles and arrival angles at the zeros:
+			\item Compute locus departure angles from the poles and arrival angles at the zeros:
 			\begin{align*}
 			q\phi_{dep} &= \varSigma\psi_i - \varSigma\phi_i - 180^{\circ} - 360^{\circ}l,\\
 			q\psi_{arr} &= \varSigma\phi_i - \varSigma\psi_i + 180^{\circ} + 360^{\circ}l,
@@ -409,19 +424,26 @@ It is very important to understand the background of root loci: how they take th
 		\begin{enumerate}
 			\setcounter{enumi}{4}
 			\item Use the results from the study of multiple roots to help in sketching how locus segments come together and break away: two segments come together at $180^{\circ}$ and break away at $\pm 90^{\circ}$, three locus segments approach each other at relative angles of $120^{\circ}$ and depart at angles rotated by $60^{\circ}$.
-			\item Complete the locus, using the facts developed in the previous steps and making reference to the illustrative loci for guidance. The locus branches start at poles and at zeros or infinity.
+			\item Complete the locus, using the facts developed in the previous steps and making reference to the illustrative loci for guidance. The branches start at the pole locations and end at the zero locations.
 		\end{enumerate}
 	\end{block}
-		If further refinement is required at the stability boundary, you can also estimate the points where the root locus crosses the imaginary axis. This is done by using Routh's stability criterion. We don't discuss it in this course, but you can find an explanation for it in the additional material of this chapter.  
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview of the guidelines}
+	\justify
+		If further refinement is required at the stability boundary, you can also estimate the points where the root locus crosses the imaginary axis. This is done by using Routh's stability criterion. We do not discuss it in this course, but you can find an explanation for it in the additional material of this chapter.\\
+		\vspace{1em}
+		If you want to do this, include this between step 4 and step 5.
 \end{frame}
 
 \begin{frame}
 \frametitle{Important to remember!}
 	\begin{alertblock}{}
-		While you are sketching your root locus, keep the following things in mind:
+		While you are sketching your root locus, keep in mind the following things:
 		\begin{enumerate}
-			\item The root locus hax max($\#$poles of $G(s)$, $\#$ zeros of $G(s)$) branches;
-			\item Complex roots of $1 + KG(s)$ (closed loop poles) always occur in conjugate pairs;
+			\item The root locus has max($\#$poles of $G(s)$, $\#$ zeros of $G(s)$) branches;
+			\item Complex roots of $1 + KG(s)$ (closed-loop poles) always occur in conjugate pairs;
 			\item A branch will never cross over itself;
 			\item Branches leave and enter the real axis at $90^{\circ}$ (this is not a $100\%$ general rule, but it is true in most cases);
 		\end{enumerate}
@@ -468,17 +490,18 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{Second order system}
-	Recall from chapter 5 that the dynamic behavior of the second-order system can be described in terms of only two parameters $\zeta$ and $\omega_n$.
-	\vspace{-1em}
+\justify
+	Recall from chapter 5 that the dynamic behavior of the second-order system can be described in terms of only two parameters $\zeta$ and $\omega_n$, where $\alpha = -\zeta \omega_n$ and $\beta = \omega_n \sqrt{1 - \zeta^2} $.
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.6\linewidth]{poles_system}
+		\includegraphics[width=0.5\linewidth]{poles_system}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Root locus method: design criteria}
-	If you are able to express your design criteria in terms of the poles ($\alpha + j\beta$, with $\alpha < 0$ and $\beta>0$), you can find out if there are any $K$-values appropriate and, more importantly, which $K$-values.\\
+\justify
+	If you are able to express your design criteria in terms of the poles ($\alpha + j\beta$, with $\alpha < 0$ and $\beta>0$), you can find out if there are some appropriate $K$-values and more importantly, which $K$-values.\\
 	\begin{block}{Criteria}
 	\begin{itemize}
 		\item The damping ratio: $\zeta = \frac{\beta}{\mid \alpha + j\beta\mid}$ ($0 \leq \zeta \leq 1$);
@@ -492,26 +515,44 @@ It is very important to understand the background of root loci: how they take th
 \end{frame}
 
 \begin{frame}
-\frametitle{Example design criteria}
+\frametitle{Root locus method: design criteria}
 	\begin{example}
-		We will now apply a design criteria on a system from a previous example which we discussed in the first subsection:
+	\justify
+		Let's go back to the problem of the DC motor discussed in the first subsection, whose transfer function is:
 		\vspace{-0.5em}
 		\begin{equation}
 		G(s) = \frac{1}{s(s+1)}.
 		\vspace{-0.5em}
 		\end{equation}
-		We can now compute K at the point where the locus crosses $\zeta = 0.5$: we know that if $\zeta = 0.5$, then $\theta = 30^{\circ}$ and the magnitude of the imaginary part of the root is $\sqrt{3}$ times the magnitude of the real part. The magnitude of the real part is $\frac{1}{2}$ and thus, we have:
+		For this particular case, we are interested in finding a gain K for which the poles of the closed-loop system has a damping ratio equal to 0.5.\\
+		\vspace{1em}
+		We want to design a proportional controller K that leads the closed-loop systems to have  damping-ratio = 0.5.
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Root locus method: design criteria}
+	\begin{exampleblock}{}
+		\justify
+		We know that if $\zeta = 0.5$, then $\theta = 30^{\circ}$ and the magnitude of the imaginary part of the root is $\sqrt{3}$ times the magnitude of the real part. 
+		Previously, we already found the following equation and its roots:
+		\begin{center}
+		$s^2 + s + K = 0$\\
+		$r_1,r_2 = -\frac{1}{2} \pm \frac{\sqrt{1 - 4K}}{2}$
+		\end{center}
+		The magnitude of the real part is $\frac{1}{2}$ and thus, we have:
 		\vspace{-0.5em}
 		\begin{equation}
 		\frac{\sqrt{4K - 1}}{2} = \frac{\sqrt{3}}{2}
 		\vspace{-0.5em}
 		\end{equation}
 		and therefore, $K = 1$.
-	\end{example}
+	\end{exampleblock}
 \end{frame}
 
 \begin{frame}
 \frametitle{Root locus method: design criteria}
+\justify
 	The possible design criteria for second order systems are very useful since they represent physically important measures in terms of the poles.\\
 	\begin{alertblock}{Second order approximation}
 		For most of the time only one or two poles dominate the behavior of the system. These are called the dominant poles. Consequently many systems behave more or less as if they are of second order. 
@@ -528,6 +569,7 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{MATLAB Commands}
+	\justify
 	MATLAB provides a function to plot the root locus and the zero-pole map of a system:
 	\begin{itemize}
 		\item root locus: \textbf{"rlocus(sys)"}
@@ -541,9 +583,10 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 \frametitle{MATLAB Commands}
+\justify
 	You can choose the desired poles on the locus in MATLAB by using the \textbf{"rlocfind(sys)"}-command. This will allow you to select a point on your root locus plot. MATLAB will tell you the precise point you selected, will tell you what the gain is at that point and will tell you the poles of the system with that gain.\\
 	\vspace{1em}
-	MATLAB can also calculate the closed-loop transfer function. You can do this by using the \textbf{"feedback(K*sys,1)"} command. You only need to specify the value of $K$ if you haven't yet used the \textbf{"rlocfind"} command.
+	MATLAB can also calculate the closed-loop transfer function. You can do this by using the \textbf{"feedback(K*sys,1)"} command. You only need to specify the value of $K$ if you have not yet used the \textbf{"rlocfind"} command.
 \end{frame}
 
 \begin{frame}
@@ -577,8 +620,8 @@ It is very important to understand the background of root loci: how they take th
 	\begin{exampleblock}{}
 		Next we translate the design criteria into requirements for $\zeta$ and $\omega_n$:
 		\begin{itemize}
-			\item $\zeta = 0.7$;
-			\item $\omega_n = 1.8$.
+			\item $M_p = e^{-\pi \frac{\zeta}{\sqrt{1 - \zeta^2}}} < 0.05 \rightarrow \zeta \leq 0.7$;
+			\item $t_r \cong \frac{1.8}{\omega_n} \leq 1s \rightarrow \omega_n \geq 1.8$.
 		\end{itemize}
 		\vspace{1em}
 		We can visualize these requirement using the \textbf{"sgrid(requirement1, requirement2,...)"}-command.\\
@@ -603,9 +646,10 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 	\begin{exampleblock}{}
-		Going back to our problem, to make the overshoot less than $5\%$, the poles have to be in between the two white dotted lines, and to make the rise time shorter than 1 second, the poles have to be outside of the white dotted semicircle.\\
+		\justify
+		Going back to our problem, to make the overshoot less than $5\%$, the poles have to be in between the two black dotted lines, and to make the rise time shorter than 1 second, the poles have to be outside of the black semicircle.\\
 		\vspace{1em}
-		From the plot above we see that there is part of the root locus inside the desired region. So in this case, we need only a proportional controller to move the poles to the desired region. You can select a point on the root locus plot that meets the requirement by using the \textbf{"rlocfind(sys)"}-command.\\
+		From the previous plot we see that there is part of the root locus inside the desired region. So in this case, we need only a proportional controller to move the poles to the desired region. You can select a point on the root locus plot that meets the requirement by using the \textbf{"rlocfind(sys)"}-command.\\
 		\vspace{1em}
 		MATLAB command:\\
 		$[k,poles] = rlocfind(H)$
@@ -614,19 +658,57 @@ It is very important to understand the background of root loci: how they take th
 
 \begin{frame}
 	\begin{exampleblock}{}
+		\justify
 		In the next figure, the \textcolor{red}{$+$}-sings indicate the selected points. MATLAB will return the gain and the poles of the system you have created by selecting these points.
-		\vspace{-0.5em}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.6\linewidth]{matlab_ex3}
+			\includegraphics[width=0.9\linewidth]{matlab_ex3}
 		\end{figure}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			MATLAB will return the numerical result for the point\\ you selected. E.g.:
+			\begin{itemize}
+				\item Selected point: $-12.4325 + 0.0000j$;
+				\item Gain: $K = 330.4944$;
+				\item Poles:\\ $-21.9209 + 0.0000j$, $-12.4325 + 0.0000j$, $-2.8233 + 0.7196j$, $-2.8233 - 0.7196j$.
+			\end{itemize}
+		\end{column}
+	\end{columns}
 	\end{exampleblock}
 \end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+		\justify
+		To corroborate that the design specifications have been met, you should plot the step response of the closed-loop system you designed. You can do that with MATLAB by using the command \textbf{step(sys)}.\\
+		\vspace{1em}
+		First we need to specify the closed-loop system in MATLAB. Based on the previous results, we choose a gain of $K = 350$, next we use the \textbf{feedback}-command.\\
+		\vspace{1em}
+		MATLAB commands:\\
+		K = 350\\
+		Hcl = feedback(K*H,1)
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{}
+	Finally we plot the step-response: 
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{matlab_ex7}
+	\end{figure}
+	\end{exampleblock}
+\end{frame}
+		
 
 \subsection{SISOTOOL}
 
 \begin{frame}
 \frametitle{MATLAB Commands}
+	\justify
 	Another way to visualize the root locus, is by using the interactive MATLAB GUI called sisotool. The SISO design tool is an interactive graphical user interface that facilitates the design of compensator for single-input, single-output (SISO) feedback loops.\\
 	\vspace{1em}
 	First you need to define your system in MATLAB and then you use the sisotool function on your system: \textbf{"sisotool(sys)"}. An interactive user face will pop up in which you can select you plant, the plots you would like to see and many other options.	
@@ -635,8 +717,9 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{example}
+		\justify
 		We can also design the same controller as done above but instead of using separate commands, we will now make use of the sisotool. 
-		Same transfer function: $H(s) = \frac{s+7}{s(s+5)(s+15)(s+20)}$\\
+		Same transfer function: $H(s) = \frac{s+7}{s(s+5)(s+15)(s+20)}$
 		and the same design criteria: 
 		\begin{itemize}
 			\item overshoot must be less than $5\%$;
@@ -645,13 +728,14 @@ It is very important to understand the background of root loci: how they take th
 		MATLAB commands:
 		s = tf('s')\\
 		plant = (s+7)/(s*(s+5)*(s+15)*(s+20)) \textcolor{gray}{we define the system H by its transfer function} \\
-		sisotool(plant) \textcolor{gray}{we summon the sisotool, an interactive user face will pop up}\\ 
+		sisotool(plant) \textcolor{gray}{we execute the sisotool. An interactive user face will pop up}\\ 
 	\end{example}
 \end{frame}
 
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
+		\justify
 		In the \textbf{Control and Estimation Tools Manager} you can select the tab labeled \textbf{Graphical Tuning}. In this tab: 
 		\begin{itemize}
 			\item turn \textbf{Plot 2} off;
@@ -664,6 +748,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
+		\justify
 		The following figures are an example of the result you get when you move the closed-loop poles.
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
@@ -685,6 +770,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
+		\justify
 		We can take the design criteria into account directly in the plot. This is done by right-clicking and selecting \textbf{Design Requirements, New}. Now you can specify the different design criteria: settling time, percent overshoot, damping ratio, natural frequency, region constant.\\
 		\vspace{1em}
 		In our example we have 2 design criteria which we have already translated into requirements for $\zeta$ and $\omega_n$: 
@@ -700,6 +786,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 \frametitle{MATLAB Commands}
 	\begin{exampleblock}{}
+		\justify
 		If we complete the specification of the requirements and adjust the axis for a better view, we obtain the following figure:
 		\begin{figure}
 			\centering
