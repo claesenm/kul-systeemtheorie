@@ -1,7 +1,4 @@
 // CAN ONLY BE USED IN THE BROWSER, HAVING INCLUDED HIGHCHARTS
-var Dygraph = require('dygraphs');
-var synchronize = require('../lib/dygraph-extras/synchronizer');
-var shapes = require('../lib/dygraph-extras/shapes');
 var _ = require('underscore');
 var math = require('mathjs');
 
