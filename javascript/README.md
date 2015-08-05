@@ -22,12 +22,12 @@ All of the following instructions assume you have a terminal open in javascript/
   `mocha` should suffice.
 
 - #### Package the library into a standalone file:  
-  Execute `browserify src/control.js -s control -o build/control.js`
+  Execute `browserify src/control.js -s control -o build/control.js --no-builtins`
   This creates a complete file in build/ called control.js.
   This file can be used in different projects using the regular browser
   conventions as a global object called 'control', as an AMD module using
   requirejs or as a CommonJS module for Node etc.
-  For the plots module execute `browserify src/plot.js -s plot -o build/control.js`.
+  For the plots module execute `browserify src/plot.js -s plot -o build/control.js --no-builtins`.
 
 Usage
 -----

@@ -22,9 +22,97 @@ function System() {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  * @abstract
  */
-System.prototype.eval = function(s) {
+System.prototype.evalS = function(s) {
     throw new Error('This is not a valid system.');
     /* Implementation is defined in the children. */
+};
+
+/**
+ * Calculates values for a bode plot.
+ * @param {Array<Number>} [omega_exp_bounds] - The boundaries for omega in logspace.
+ * @returns {Object} bode - An object containing three arrays with the values.
+ * @config {Array<Number>} bode.omegas - The array of used omegas.
+ * @config {Array<Number>} bode.dBs - The array with the values in dB.
+ * @config {Array<Number>} bode.degrees - The array of degrees.
+ */
+System.prototype.bode = function(omega_exp_bounds) {
+    var sys = this;
+    omega_exp_bounds = omega_exp_bounds || num.interesting_region_logspace(sys);
+    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
+
+
+    var evaluated_omegas = omegas.map(function(omega) { return sys.evalS(math.complex(0, omega)); });
+    var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
+    var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
+    return {
+        'omegas': omegas,
+        dBs: magnitudes_data,
+        degrees: phases_data
+    };
+};
+
+
+/**
+ * Calculates the step response of the given system.
+ * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
+ */
+System.prototype.step = function(epsilon) {
+    return module.exports.ss(this).step(epsilon);
+};
+
+
+/**
+ * Calculates the impulse reponse of the system.
+ * @returns {Object} response - An object containing the impulse response of the system.
+ * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
+ * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
+ */
+System.prototype.impulse = function() {
+    var step = this.step(),
+        len = step.t.length,
+        diffs = new Array(len);
+    for (var i = 0 ; i < len - 1; ++i) {
+        var dt = math.subtract(step.t[i+1], step.t[i]),
+            dx = math.subtract(step.x[i+1], step.x[i]);
+        diffs[i] = math.divide(dx, dt);
+    }
+    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
+    return {
+        t: step.t,
+        x: diffs
+    };
+};
+
+
+/**
+ * Returns a list of all the breakpoints of this system's transfer function.
+ * The breakpoints are the zeros and the poles combined.
+ * @returns {Array<(Number|Complex)>} The breakpoints.
+ */
+System.prototype.getBreakPoints = function() {
+    return module.exports.zpk(this).getBreakPoints();
+};
+
+
+
+/**
+ * Returns the zeros of this system's transfer function.
+ * @returns {Array<(Complex|Number)>}
+ */
+System.prototype.getZeros = function() {
+    return module.exports.zpk(this).getZeros();
+};
+
+
+/**
+ * Returns the poles of this system's transfer function.
+ * @returns {Array<(Complex|Number)>}
+ */
+System.prototype.getPoles = function() {
+    return module.exports.zpk(this).getPoles();
 };
 
 /**
@@ -53,8 +141,7 @@ Zpk.prototype.setZeros = function(z) {
 
 
 /**
- * Returns the zeros of this system's transfer function.
- * @returns {Array<(Complex|Number)>}
+ * @inheritdoc
  */
 Zpk.prototype.getZeros = function() {
     return this.z;
@@ -70,8 +157,7 @@ Zpk.prototype.setPoles = function(p) {
 };
 
 /**
- * Returns the poles of this system's transfer function.
- * @returns {Array<(Complex|Number)>}
+ * @inheritdoc
  */
 Zpk.prototype.getPoles = function() {
     return this.p;
@@ -99,11 +185,20 @@ Zpk.prototype.getK = function() {
 /**
  * @inheritdoc
  */
-Zpk.prototype.eval = function(s) {
+Zpk.prototype.evalS = function(s) {
     var numerator = num.evalzorp(this.z, s);
     var denom = num.evalzorp(this.p, s);
     var quotient = math.divide(numerator, denom);
     return math.multiply(this.k, quotient);
+};
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.getBreakPoints = function() {
+    var zeros = this.getZeros(),
+        poles = this.getPoles();
+    return zeros.concat(poles);
 };
 
 /**
@@ -156,7 +251,7 @@ Tf.prototype.getDenominator = function() {
 /**
  * @inheritdoc
  */
-Tf.prototype.eval = function(s) {
+Tf.prototype.evalS = function(s) {
     return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
 };
 
@@ -214,7 +309,7 @@ Ss.prototype.step = function(epsilon) {
     var prevError = Infinity;
     function terminate(t, x) {
         var currentError = err(t, x);
-        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-7) {
+        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-3) {
             return 1;
         }
         return -1;
@@ -224,6 +319,7 @@ Ss.prototype.step = function(epsilon) {
     var response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
     return {t: response.x, x: response_val};
 };
+
 
 
 module.exports = {
@@ -326,8 +422,8 @@ module.exports = {
      * @returns {Tf} The transfer function representation of sys.
      */
     zpk2tf: function(sys) {
-        var numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); })),
-            denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); });
+        var numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); }, [1])),
+            denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); }, [1]);
         return new Tf(numerator, denom);
     },
     

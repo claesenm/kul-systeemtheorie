@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Step Response</title>
+        <script type="text/javascript" src="../../lib/Highcharts-4.1.7/js/adapters/standalone-framework.js"></script>
+        <script type="text/javascript" src="../../lib/Highcharts-4.1.7/js/highcharts.js"></script>
+        <script type="text/javascript" src="./build/control.js"></script>
+        <script type="text/javascript" src="./build/plot.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.0/math.min.js"></script>
+    </head>
+    <body>
+        <h1>Step Response</h1>
+        <div style="width: 500px; height: 400px; display:inline-block;" id="step-plot"></div>
+        <div style="width: 500px; height: 400px; display:inline-block;" id="impulse-plot"></div>
+        <br>
+        <label>omega_n: </label><label>0.01</label><input style="width: 800px;" type="range" min="0.01" max="10" value="2" step="0.01" id="omega_n"></input><label>10</label>
+        <br>
+        <label>zeta: </label><label>0.01</label><input style="width: 800px;" type="range" min="0.01" max="10" value="2" step="0.01" id="zeta"></input><label>10</label>
+        <script type="text/javascript" src="./main.js"></script>
+    </body>
+</html>
