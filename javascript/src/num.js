@@ -198,8 +198,8 @@ module.exports = {
      */
     interesting_region_logspace: function(system) {
         var points = system.getZeros().concat(system.getPoles());
-        var smallest_omega = this.extremeBy(points, Math.min, function(v){ return math.abs(v); });
-        var biggest_omega = this.extremeBy(points, Math.max, function(v){ return math.abs(v); });
+        var smallest_omega = this.extreme_by(points, Math.min, function(v){ return math.abs(v); });
+        var biggest_omega = this.extreme_by(points, Math.max, function(v){ return math.abs(v); });
 
         var log_bound_small = math.subtract(math.fix(math.log10(math.abs(smallest_omega))), 2);
         var log_bound_big = math.add(math.fix(math.log10(math.abs(biggest_omega))), 2);
@@ -214,7 +214,7 @@ module.exports = {
     * @param {Function} extreme - The function to compare with (e.g. Math.min)
     * @param {Function} on - Comparison happens on what 'on' returns. Gets called for each element.
     */
-   extremeBy: function(arr, extreme, on) {
+   extreme_by: function(arr, extreme, on) {
        var mapped = arr.map(on);
        var minVal = extreme.apply(Math, mapped);
        return arr[mapped.indexOf(minVal)];
