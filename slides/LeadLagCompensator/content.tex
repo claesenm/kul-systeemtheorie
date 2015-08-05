@@ -95,8 +95,8 @@
 	\frametitle{Lead Compensation Techniques Based on the Frequency-Response Approach}
 	\begin{block}{Step 1}
 		\begin{itemize}
-			\item Remember the steady state error for references of the shape: $\frac{At^n\epsilon(\tau)}{n!}$ with $\epsilon(t)$ the step function.
-			\item Translate your steady state requirement into another one:
+			\item Remember the steady-state error for references of the shape: $\frac{At^n\epsilon(\tau)}{n!}$ with $\epsilon(t)$ the step function.
+			\item Translate your steady-state requirement into another one:
 			\begin{itemize}
 				\item $K_p = \lim_{s \to 0} P(s)C(s)$ (n = 0, proportional)
 				\item $K_v = \lim_{s \to 0} sP(s)C(s)$ (n = 1, linear)
@@ -173,7 +173,7 @@
 \begin{frame}
 \frametitle{Example}
 \begin{block}{Example}
-	Given the system $P(s) = \frac{4}{s(s+2)}$. We want a phase margin of at least $50\,^{\circ}$ and a steady state error for slope reference of maximal $\frac{A}{20}$.
+	Given the system $P(s) = \frac{4}{s(s+2)}$. We want a phase margin of at least $50\,^{\circ}$ and a steady-state error for slope reference of maximal $\frac{A}{20}$.
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.5
@@ -186,7 +186,7 @@
 \frametitle{Example}
 \begin{block}{Step 1}
 \begin{itemize}	
-\item Steady state requirement: $K_v = \frac{20}{s}$ \\
+\item Steady-state requirement: $K_v = \frac{20}{s}$ \\
 So, $\lim_{s \to 0} sP(s)C(s) = \lim_{s \to 0} s\frac{4}{s(s+2)}K\alpha = 2K\alpha = 20$. \\
 $\Rightarrow K\alpha = 10$
 \item Would a proportional controller with gain $K\alpha$ suffice? We have a look at the Bode Diagram of $K\alpha P(s)$ (see next slide) \\
@@ -217,8 +217,8 @@ $\Rightarrow \mid K\alpha P(s) \mid = 1$
 $\Rightarrow \mid P(s) \mid = 0.1$ \\
 When substituting $s = j\omega$ and calculating the modulus of the complex number at the left side, the equation becomes: \\
 $\frac{-4\omega}{\omega (4 + \omega^2)}^2 + \frac{-8}{\omega (4 + \omega^2)}^2 = 0.01$. \\
-This equation has just one real positive solution in $\omega$, $\omega = 6.168$.\\
-Now, you have the right frequency. You find the phase margin by calculating the difference between $-180\,^{\circ}$ and the phase of $K\alpha P(6.168j)$.\\ 
+This equation has just one real positive solution: $\omega = 6.168$.\\
+Now, you have the right frequency and you can calculate the phase margin exactly. 
 \item We want a phase margin of at least $50\,^{\circ}$
 $\Rightarrow \phi = 32\,^{\circ}$
 \end{itemize}
@@ -256,7 +256,7 @@ $\Rightarrow \phi = 32\,^{\circ}$
 		$\tau = \frac{1}{\omega_m\sqrt{\alpha}} = 0.23$
 	\end{block}
 	\begin{block}{Step 7}
-	We verify whether or not our solution is correct. We ask the Bode diagram of $K \frac{4}{s(s+2)} \frac{s+\frac{1}{\tau}}{s+\frac{1}{\alpha\tau}}$ with $\alpha$, $\tau$ and K the results of our calculations. (see next slide) \\
+	We verify whether or not our solution is correct. We ask the Bode Diagram of $K \frac{4}{s(s+2)} \frac{s+\frac{1}{\tau}}{s+\frac{1}{\alpha\tau}}$ with $\alpha$, $\tau$ and K the results of our calculations. (see next slide) \\
 	We see that: 
 	\begin{itemize}
 		\item the phase margin is indeed more than $32\,^{\circ}$ 
@@ -338,7 +338,7 @@ $\Rightarrow \phi = 32\,^{\circ}$
 
 \begin{frame}
 \frametitle{Lag compensators}
-\begin{block}{Impact of lag compensators: Bode diagram}
+\begin{block}{Impact of lag compensators: Bode Diagram}
 	Blue: non-compensated system \\
 	Green: compensated system
 	\begin{figure}
@@ -351,7 +351,7 @@ $\Rightarrow \phi = 32\,^{\circ}$
 
 \begin{frame}
 	\frametitle{Lag compensators}
-	\begin{block}{Impact of lag compensators: Bode diagram}
+	\begin{block}{Impact of lag compensators: Bode Diagram}
 	\begin{itemize}
 		\item Lead compensators: increase the stability and tune the steady-state error by increasing the phase at the crossover frequency.
 		\item Impact lag compensator = lead compensator, but different approach!
@@ -372,7 +372,7 @@ $\Rightarrow \phi = 32\,^{\circ}$
 			\end{itemize}
 			\item A lag compensator decreases the bandwidth/speed of response 
 			\begin{itemize}
-			\item good if your model if bad at high frequencies
+			\item good if your model is bad at high frequencies
 			\item good to reduce the impact of (mostly high-frequency) noise 
 			\end{itemize}
 		\end{itemize}
@@ -386,7 +386,7 @@ We have three degrees of freedom:
 \begin{itemize}
 	\item one to have a sufficient drop in gain
 	\item one to push the drop in the phase to lower frequencies (that way we can use $\measuredangle P(s)$ as an approximation of $\measuredangle P(s)C(s)$ reliably to some extent
-	\item one to tune the steady state error
+	\item one to tune the steady-state error
 \end{itemize}
 		
 \end{block}
@@ -411,10 +411,10 @@ We have three degrees of freedom:
 \begin{frame}
 	\frametitle{Lag compensators}
 	\begin{block}{Design with Bode plots}
-	K has to be such that the drop in magnitude is sufficient, the value of $\beta$ has make the steady state error decrease enough and the value of $\tau$ has to be such that the transfer between from $K\beta$ to $\tau$ occurs at the right frequency.
+	K has to be such that the drop in magnitude is sufficient, the value of $\beta$ has make the steady-state error decrease enough and the value of $\tau$ has to be such that the transfer between from $K\beta$ to $\tau$ occurs at the right frequency.
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.5
+		\includegraphics[width=0.45
 		\linewidth]{determinationKLagcompensator}
 	\end{figure}
 	\end{block}
@@ -484,7 +484,7 @@ We have three degrees of freedom:
 \frametitle{Example}
 \begin{block}{Example}
 Given the system $P(s) = \frac{1}{s(s+1)(s+2)}$. The system has a PM of $53.4\,^{\circ}$ at a frequency of $0.446\frac{rad}{s}$ and a GM of $15.6 dB$ at a frequency of $1.41\frac{rad}{s}$.
-We want that a ramp input $A\epsilon(t)$ results in a steady state error of at most $\frac{A}{5}$, or $K_v =\frac{5}{s}$ and a PM of at least $40\,^{\circ}$.
+We want that a ramp input $A\epsilon(t)$ results in a steady-state error of at most $\frac{A}{5}$, or $K_v =\frac{5}{s}$ and a PM of at least $40\,^{\circ}$.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5
@@ -497,10 +497,10 @@ We want that a ramp input $A\epsilon(t)$ results in a steady state error of at m
 \frametitle{Example}
 \begin{block}{Step 1}
 	\begin{itemize}
-	\item Steady state requirement: $K_v = \frac{5}{s}$ \\
+	\item Steady-state requirement: $K_v = \frac{5}{s}$ \\
 	$\Rightarrow \lim_{s \to 0} sP(s)C(s) = \frac{1}{2}\lim_{s \to 0} C(s) = \frac{5}{s} \Rightarrow K\beta = 10$
 	\item Would a proportional controller with gain $K\beta$ suffice? To answer this, we must have a look at the Bode plot of $K\beta P(s)$ (see next slide). \\
-	$\Rightarrow$ Does not suffice! Adding a gain of $10 = 20 dB$ to get the right steady state error, the phase gain would become negative. In other words, at the frequency where the magnitude of $K\beta P(s)$ equals 0 dB, the phase is less than $-180\,^{\circ}$ which means the system would become unstable.
+	$\Rightarrow$ Does not suffice! Adding a gain of $10 = 20 dB$ to get the right steady-state error, the phase gain would become negative. In other words, at the frequency where the magnitude of $K\beta P(s)$ equals 0 dB, the phase is less than $-180\,^{\circ}$ which means the system would become unstable.
 	\end{itemize}
 \end{block}
 \end{frame}
@@ -592,8 +592,8 @@ Green: compensated system
 \frametitle{Summary lead compensators}
 \begin{block}{Goal}
 	\begin{itemize}
-\item To decrease the magnitude in order to shift the gain crossover frequency to a frequency with a larger phase margin; the extra degree of freedom is then used to tune the steady state error.
-\item In this example: lag compensator to tune the steady state error with a minimal impact on the phase margin. \\
+\item To decrease the magnitude in order to shift the gain crossover frequency to a frequency with a larger phase margin; the extra degree of freedom is then used to tune the steady-state error.
+\item In this example: lag compensator to tune the steady-state error with a minimal impact on the phase margin. \\
 So this time we used a lag compensator to increase the DC gain but leave the gain at higher frequencies unaltered.
 \end{itemize}
 \end{block}
@@ -603,64 +603,28 @@ So this time we used a lag compensator to increase the DC gain but leave the gai
 \frametitle{Summary lead compensators}
 \begin{block}{Impact, using root locus}
 \begin{itemize}
-\item We can use lag compensators to reduce the steady state error significantly but with a marginal impact on (the relevant part of) the root locus.
+\item We can use lag compensators to reduce the steady-state error significantly but with a marginal impact on (the relevant part of) the root locus.
 \item On top of that, we still have one degree of freedom that allows us to pick any position on that root locus!
-\item This is useful if the desired closed loop poles are already on the root locus, but if a proportional controller would give a too large steady state error.
+\item This is useful if the desired closed loop poles are already on the root locus, but if a proportional controller would give a too large steady-state error.
 \end{itemize}
 \end{block}
 \end{frame}
 
-\section{Comparision lead vs lag compensators}
+
+\section{Lag-lead compensators}
 
 \begin{frame}
-\frametitle{Comparision lead vs lag compensators}
-\begin{block}{Method}
-\begin{itemize}
-\item Lead: realize phase lead in phase diagram at $\omega_m$ to guarantee suficient phase margin
-\item Lag: realize weakening in amplitude diagram to move $\omega_m$ at values with sufficient phase margin
-\end{itemize}
-\end{block}
-\begin{block}{Effect}
-\begin{itemize}
-\item Lead: increases reinforcement at higher frequencies $\Rightarrow$ increases band width
-\item Lag: decreases band width
-\end{itemize}
+\frametitle{Lag-lead compensators}
+\begin{block}{Introduction}
+	In some cases you would want to combine the effects of a lag and a lead compensator:
+	\begin{itemize}
+		\item Frequency domain: \\
+		In most cases a lead compensator is more fit to increase the phase margin and a lag compensator is better at 	decreasing the steady-state error.
+		\item Time domain: \\
+		You might want to adapt the root locus with a lead compensator, and decrease the steady-state error while leaving the new root locus unaltered with a lag 	compensator.	
+	\end{itemize}
 \end{block}
 \end{frame}
-
-\begin{frame}
-\frametitle{Comparision lead vs lag compensators}
-\begin{block}{Advantages}
-\begin{itemize}
-\item Lead: increases dynamic response
-\item Lag: reduces high-frequented noise
-\end{itemize}
-\end{block}
-\begin{block}{Disadvantages}
-\begin{itemize}
-\item Lead: needs reinforcement and is sensitive at high-frequented noise because of greater band width
-\item Lag: worsens transient respons
-\end{itemize}
-\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Comparision lead vs lag compensators}
-\begin{block}{Use}
-\begin{itemize}
-\item Lead: if you need fast transient respons
-\item Lag: for specificated regime errors
-\end{itemize}
-\end{block}
-\begin{block}{Don't use}
-\begin{itemize}
-\item Lead: if phase decreases fast at the tangent point $\omega_m$
-\item Lag: if there is no low-frequented area with sufficient phase margin
-\end{itemize}
-\end{block}
-\end{frame}
-
-\section{Lag-Lead compensators}
 
 \begin{frame}
 \frametitle{Lag-lead compensators}
@@ -695,7 +659,7 @@ $\Rightarrow$ $pole_1 \textless zero_1 \textless zero_2 \textless pole_2$
 \end{frame}
 
 \begin{frame}
-\frametitle{Lag-Lead compensators}
+\frametitle{Lag-lead compensators}
 \begin{block}{Bode diagram}
 \begin{figure}
 	\centering
@@ -706,8 +670,101 @@ $\Rightarrow$ $pole_1 \textless zero_1 \textless zero_2 \textless pole_2$
 \end{frame}
 
 \begin{frame}
-\frametitle{Lag-lead compensators}
+\frametitle{Lag-lead compensators}	\begin{block}{Bode diagram}
+	Both the good properties of a lag and a lead compensator are used:
+	\begin{itemize}
+	\item At low frequencies, the lag compensator is meant to decrease the steady-state error (see amplitude diagram).
+	\item At middle frequenties, the lag compensator is meant to increase the phase margin (see amplitude diagram).
+	\item At high frequencies, the lead compensator is meant to increase the phase margin (see phase diagram). 
+	\end{itemize}
+\end{block}
 \end{frame}
+
+\begin{frame}
+\frametitle{Lag-lead compensators}
+\begin{block}{Bode Diagram}
+	Define $\omega_l$ as the frequency at which the phase angle is zero. For any frequency less than $\omega_l$, the compensator behaves as a lag compensator. For any frequency greater than $\omega_l$, the compensator behaves as a lead compensator. \\
+	It can be proved that $\omega_l = \sqrt{\frac{1}{\tau_1 \tau_2}}$
+	Prove: pag 649 in Ogata. Necessary?
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lag-lead compensators}
+\begin{block}{Disadvantage}
+	The disadvantage of a lag-lead compensator over a lag compensator or a lead compensator is its increased complexity, and hence cost (the same way a lag or lead compensator is more complex/costly than a proportional controller).
+\end{block}
+\end{frame}
+
+\section{Comparison lead, lag and lag-lead compensators}
+
+\begin{frame}
+\frametitle{Comparison lead, lag and lag-lead compensators}
+\begin{block}{Method}
+\begin{itemize}
+\item Lead compensation achieves the desired result through the merits of its phaselead
+contribution.
+\item Lag compensation accomplishes the result through the merits of its attenuation property at high frequencies.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Comparison lead, lag and lag-lead compensators}
+\begin{block}{Band width}
+Lead compensators are commonly used for improving stability margins and yields a higher gain crossover frequency than is possible with lag compensation. The higher gain crossover frequency means a larger bandwidth.
+\begin{itemize}
+\item Advantage: reduction in the settling time $\Rightarrow$ fast response
+\item Disadvantage: it makes the system more susceptible to noise signals because of
+an increase in the high-frequency gain. 
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Comparison lead, lag and lag-lead compensators}
+\begin{block}{Gain}
+Lead compensation requires an additional increase in gain to offset the attenuation
+inherent in the lead network. \\
+$\Rightarrow$ Lead compensation will require
+a larger gain than that required by lag compensation. \\
+$\Rightarrow$ Lead compensation implies larger space, greater weight and higher cost than lag compensation.
+\end{block}
+\begin{block}{Large signals}
+The lead compensation may generate large signals in the system. Such large signals
+are not desirable because they will cause saturation in the system.
+\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Comparison lead, lag and lag-lead compensators}
+\begin{block}{High and low frequencies}
+Lag compensation reduces the system gain at higher frequencies without reducing
+the system gain at lower frequencies. Because of the reduced high-frequency
+gain, the total system gain can be increased, and thereby low-frequency gain
+can be increased and the steady-state accuracy can be improved. Also, any highfrequency
+noises involved in the system can be attenuated.
+\end{block}
+\begin{block}{Transient respons}
+Lag compensation will introduce a pole-zero combination near the origin that will
+generate a long tail with small amplitude in the transient response.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Comparison lead, lag and lag-lead compensators}
+\begin{block}{Lag-lead compensators}
+If both fast responses and good static accuracy are desired, a lag-lead compensator
+may be employed. By use of the lag-lead compensator, the low-frequency gain can
+be increased (which means an improvement in steady-state accuracy), while at the
+same time the system bandwidth and stability margins can be increased.
+\end{block}
+\begin{block}{Most important of all}
+In daily live, you will need a combination of all those techniques!
+\end{block}
+\end{frame}
+
+
 
 
 
