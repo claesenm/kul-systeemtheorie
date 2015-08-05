@@ -28,13 +28,6 @@ function recursiveExtend(target, source) {
     return target;
 }
 
-function extremeBy(arr, extreme, func) {
-    var mapped = arr.map(func);
-    var minVal = extreme.apply(Math, mapped);
-    return arr[mapped.indexOf(minVal)];
-}
-
-
 control.plot =
 /**
  * A module containing methods for plotting.
@@ -50,6 +43,7 @@ module.exports = {
      * @returns {Array<Highcharts.Chart>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
     bode: function(container, system, omega_bounds) {
+        omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
             d.style.width = container.offsetWidth + "px";
@@ -61,13 +55,9 @@ module.exports = {
         var magnitude_div = div_half_height(container);
         var phase_div = div_half_height(container);
 
-        omega_exp_bounds = omega_bounds || this.interesting_region_logspace(system);
-        var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
-
-
-        var evaluated_omegas = omegas.map(function(omega) { return system.eval(math.complex(0, omega)); });
-        var magnitudes_data = evaluated_omegas.map(function(H, i) { return [omegas[i], 20 * math.log10(math.abs(H))]; });
-        var phases_data = evaluated_omegas.map(function(H, i) { return [omegas[i], 180 / math.pi * math.arg(H)]; });
+        var bode_data = system.bode(omega_bounds);
+        var magnitudes_data = bode_data.dBs.map(function(dB, i) { return [bode_data.omegas[i], dB]; });
+        var phases_data = bode_data.degrees.map(function(degree, i) { return [bode_data.omegas[i], degree]; });
 
 
         var options = {
@@ -80,8 +70,8 @@ module.exports = {
                 },
                 xAxis: {
                     type: 'logarithmic',
-                    min: math.pow(10, omega_exp_bounds[0]),
-                    max: math.pow(10, omega_exp_bounds[1]),
+                    min: math.pow(10, omega_bounds[0]),
+                    max: math.pow(10, omega_bounds[1]),
                     minorTickInterval: 0.1,
                 },
                 yAxis: {
@@ -250,21 +240,5 @@ module.exports = {
 
         var graph = new Highcharts.Chart(options);
         return graph;
-    },
-
-    /**
-     * Determines what the interesting region is for this system in log10space.
-     * @param {System} system - The system
-     * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result [0] is the smallest exponent, result[1] is the biggest exponent.
-     */
-    interesting_region_logspace: function(system) {
-        var points = system.getZeros().concat(system.getPoles());
-        var smallest_omega = extremeBy(points, Math.min, function(v){ return math.abs(v); });
-        var biggest_omega = extremeBy(points, Math.max, function(v){ return math.abs(v); });
-
-        var log_bound_small = math.subtract(math.fix(math.log10(math.abs(smallest_omega))), 2);
-        var log_bound_big = math.add(math.fix(math.log10(math.abs(biggest_omega))), 2);
-
-        return [log_bound_small, log_bound_big];
     }
 };

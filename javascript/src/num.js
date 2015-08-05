@@ -189,5 +189,36 @@ module.exports = {
         });
 
         return mat;
-    }
+    },
+
+    /**
+     * Determines what the interesting region is for this system in log10space.
+     * @param {System} system - The system
+     * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result [0] is the smallest exponent, result[1] is the biggest exponent.
+     */
+    interesting_region_logspace: function(system) {
+        var points = system.getZeros().concat(system.getPoles());
+        var smallest_omega = this.extremeBy(points, Math.min, function(v){ return math.abs(v); });
+        var biggest_omega = this.extremeBy(points, Math.max, function(v){ return math.abs(v); });
+
+        var log_bound_small = math.subtract(math.fix(math.log10(math.abs(smallest_omega))), 2);
+        var log_bound_big = math.add(math.fix(math.log10(math.abs(biggest_omega))), 2);
+
+        return [log_bound_small, log_bound_big];
+   },
+
+
+   /**
+    * Finds an extreme of an array.
+    * @param {Array<Mixed>} arr - The array in which to search.
+    * @param {Function} extreme - The function to compare with (e.g. Math.min)
+    * @param {Function} on - Comparison happens on what 'on' returns. Gets called for each element.
+    */
+   extremeBy: function(arr, extreme, on) {
+       var mapped = arr.map(on);
+       var minVal = extreme.apply(Math, mapped);
+       return arr[mapped.indexOf(minVal)];
+   }
+
+
 };

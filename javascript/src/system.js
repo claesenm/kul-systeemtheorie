@@ -22,9 +22,33 @@ function System() {
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
  * @abstract
  */
-System.prototype.eval = function(s) {
+System.prototype.evalS = function(s) {
     throw new Error('This is not a valid system.');
     /* Implementation is defined in the children. */
+};
+
+/**
+ * Calculates values for a bode plot.
+ * @param {Array<Number>} [omega_exp_bounds] - The boundaries for omega in logspace.
+ * @returns {Object} bode - An object containing three arrays with the values.
+ * @config {Array<Number>} bode.omegas - The array of used omegas.
+ * @config {Array<Number>} bode.dBs - The array with the values in dB.
+ * @config {Array<Number>} bode.degrees - The array of degrees.
+ */
+System.prototype.bode = function(omega_exp_bounds) {
+    var sys = this;
+    omega_exp_bounds = omega_exp_bounds || num.interesting_region_logspace(sys);
+    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
+
+
+    var evaluated_omegas = omegas.map(function(omega) { return sys.evalS(math.complex(0, omega)); });
+    var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
+    var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
+    return {
+        'omegas': omegas,
+        dBs: magnitudes_data,
+        degrees: phases_data
+    };
 };
 
 /**
@@ -99,7 +123,7 @@ Zpk.prototype.getK = function() {
 /**
  * @inheritdoc
  */
-Zpk.prototype.eval = function(s) {
+Zpk.prototype.evalS = function(s) {
     var numerator = num.evalzorp(this.z, s);
     var denom = num.evalzorp(this.p, s);
     var quotient = math.divide(numerator, denom);
@@ -156,7 +180,7 @@ Tf.prototype.getDenominator = function() {
 /**
  * @inheritdoc
  */
-Tf.prototype.eval = function(s) {
+Tf.prototype.evalS = function(s) {
     return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
 };
 
