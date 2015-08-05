@@ -1,5 +1,4 @@
 // CAN ONLY BE USED IN THE BROWSER, HAVING INCLUDED HIGHCHARTS
-var _ = require('underscore');
 var math = require('mathjs');
 
 var control = require('./control');
@@ -9,7 +8,7 @@ var num = control.num;
 function recursiveClone(obj) {
     var r = {};
     for (var prop in obj) {
-        if (_.isObject(obj[prop]) && !_.isArray(obj[prop])) {
+        if ((typeof obj[prop] == 'object') && !(Object.prototype.toString.call(obj[prop]) === '[object Array]')) {
             r[prop] = recursiveClone(obj[prop]);
         } else {
             r[prop] = obj[prop];
@@ -27,6 +26,12 @@ function recursiveExtend(target, source) {
         }
     }
     return target;
+}
+
+function extremeBy(arr, extreme, func) {
+    var mapped = arr.map(func);
+    var minVal = extreme.apply(Math, mapped);
+    return arr[mapped.indexOf(minVal)];
 }
 
 
@@ -61,8 +66,8 @@ module.exports = {
 
 
         var evaluated_omegas = omegas.map(function(omega) { return system.eval(math.complex(0, omega)); });
-        var magnitudes_data = _.zip(omegas, evaluated_omegas.map(function(H) { return 20 * math.log10(math.abs(H)); }));
-        var phases_data = _.zip(omegas, evaluated_omegas.map(function(omega) { return 180 / math.pi * math.arg(omega); }));
+        var magnitudes_data = evaluated_omegas.map(function(H, i) { return [omegas[i], 20 * math.log10(math.abs(H))]; });
+        var phases_data = evaluated_omegas.map(function(H, i) { return [omegas[i], 180 / math.pi * math.arg(H)]; });
 
 
         var options = {
@@ -253,9 +258,9 @@ module.exports = {
      * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result [0] is the smallest exponent, result[1] is the biggest exponent.
      */
     interesting_region_logspace: function(system) {
-        var points = _.union(system.getZeros(), system.getPoles());
-        var smallest_omega = _.min(points, function(v){ return math.abs(v); });
-        var biggest_omega = _.max(points, function(v){ return math.abs(v); });
+        var points = system.getZeros().concat(system.getPoles());
+        var smallest_omega = extremeBy(points, Math.min, function(v){ return math.abs(v); });
+        var biggest_omega = extremeBy(points, Math.max, function(v){ return math.abs(v); });
 
         var log_bound_small = math.subtract(math.fix(math.log10(math.abs(smallest_omega))), 2);
         var log_bound_big = math.add(math.fix(math.log10(math.abs(biggest_omega))), 2);

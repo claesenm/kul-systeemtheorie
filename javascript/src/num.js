@@ -1,6 +1,5 @@
-math = require('mathjs');
+var math = require('mathjs');
 math.config({matrix: 'array'});
-_ = require('underscore');
 
 var numeric = require('numeric');
 
@@ -45,7 +44,7 @@ module.exports = {
      */
     logspace: function(start, end, num, inclusive, base) {
         base = base || 10;
-        return _.map(this.linspace(start, end, num, inclusive), function(exponent) { return math.pow(base, exponent); });
+        return this.linspace(start, end, num, inclusive).map(function(exponent) { return math.pow(base, exponent); });
     },
 
     /**
@@ -55,10 +54,9 @@ module.exports = {
      * @returns {(Complex|Number)} The result of the evaluation.
      */
     evalzorp: function(a, s) {
-        return _.chain(a)
+        return a
         .map(function(val){ return math.subtract(s, val);} )
-        .reduce(function(memo, val){ return math.multiply(memo, val); })
-        .value();
+        .reduce(function(memo, val){ return math.multiply(memo, val); });
     },
 
 

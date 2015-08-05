@@ -9,8 +9,7 @@
   },
   "devDependencies": {
     "numeric": "^1.2.6",
-    "mathjs": "^2.0.0",
-    "underscore": "^1.8.3"
+    "mathjs": "^2.0.0"
   },
   "scripts": {
     "test": "mocha"
