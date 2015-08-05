@@ -524,9 +524,7 @@ It is very important to understand the background of root loci: how they take th
 		G(s) = \frac{1}{s(s+1)}.
 		\vspace{-0.5em}
 		\end{equation}
-		For this particular case, we are interested in finding a gain K for which the poles of the closed-loop system has a damping ratio equal to 0.5.\\
-		\vspace{1em}
-		We want to design a proportional controller K that leads the closed-loop systems to have  damping-ratio = 0.5.
+		For this particular case, we are interested in finding a gain $K$ for which the poles of the closed-loop system has a damping ratio equal to 0.5.\\
 	\end{example}
 \end{frame}
 
@@ -601,7 +599,7 @@ It is very important to understand the background of root loci: how they take th
 		s = tf ('s') \\
 		H = (s+7)/(s*(s+5)*(s+15)*(s+20)) \textcolor{gray}{we define the system H by its transfer function} \\
 		rlocus(H) \textcolor{gray}{we command MATLAB to draw the root locus} \\
-		axis([-22 3 15 15])	\textcolor{gray}{we adjust the axis} \\
+		axis([-22 3 -15 15])	\textcolor{gray}{we adjust the axis} \\
 	\end{example}
 \end{frame}
 
@@ -659,20 +657,19 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 	\begin{exampleblock}{}
 		\justify
-		In the next figure, the \textcolor{red}{$+$}-sings indicate the selected points. MATLAB will return the gain and the poles of the system you have created by selecting these points.
+		In the next figure, the \textcolor{red}{$+$}-sings indicate the selected closed-loop poles. After clicking on the point $-12.4325 + 0j$, MATLAB will return the following info:
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 		\begin{figure}
-			\centering
-			\includegraphics[width=0.9\linewidth]{matlab_ex3}
+			\hbox{\hspace{2.8em}
+			\includegraphics[width=1.1\linewidth]{matlab_ex3}}
 		\end{figure}
 		\end{column}
 		
 		\begin{column}{0.5\textwidth}
-			MATLAB will return the numerical result for the point\\ you selected. E.g.:
 			\begin{itemize}
 				\item Selected point: $-12.4325 + 0.0000j$;
-				\item Gain: $K = 330.4944$;
+				\item Gain:\\ $K = 330.4944$;
 				\item Poles:\\ $-21.9209 + 0.0000j$, $-12.4325 + 0.0000j$, $-2.8233 + 0.7196j$, $-2.8233 - 0.7196j$.
 			\end{itemize}
 		\end{column}
@@ -683,7 +680,7 @@ It is very important to understand the background of root loci: how they take th
 \begin{frame}
 	\begin{exampleblock}{}
 		\justify
-		To corroborate that the design specifications have been met, you should plot the step response of the closed-loop system you designed. You can do that with MATLAB by using the command \textbf{step(sys)}.\\
+		To corroborate that the design specifications have been met, you should plot the step response of the closed-loop system. You can do this with MATLAB by using the command \textbf{step(sys)}.\\
 		\vspace{1em}
 		First we need to specify the closed-loop system in MATLAB. Based on the previous results, we choose a gain of $K = 350$, next we use the \textbf{feedback}-command.\\
 		\vspace{1em}
@@ -753,14 +750,14 @@ It is very important to understand the background of root loci: how they take th
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
-				\centering
-				\includegraphics[width=0.9\linewidth]{matlab_ex4}
+				\hbox{\hspace{1.4em}
+				\includegraphics[width=0.9\linewidth]{matlab_ex4}}
 			\end{figure}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
-				\centering
-				\includegraphics[width=0.9\linewidth]{matlab_ex5}
+				\hbox{\hspace{-0.6em}
+				\includegraphics[width=0.9\linewidth]{matlab_ex5}}
 			\end{figure}
 		\end{column}
 	\end{columns}
