@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var math = require('mathjs');
 math.config({matrix: 'array'});
 var num = require('./num');
