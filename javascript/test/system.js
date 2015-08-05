@@ -65,17 +65,17 @@ describe('System testing', function() {
         it('works with regular numbers', function() {
             var s = system.zpk([1, -1, 5.3], [-4.2], 7);
 
-            assert.deepEqual(s.eval(2), -11.177419354838708);
-            assert.deepEqual(s.eval(-3.7), -1598.94);
-            assert.deepEqual(s.eval(math.complex(0, 1)),
+            assert.deepEqual(s.evalS(2), -11.177419354838708);
+            assert.deepEqual(s.evalS(-3.7), -1598.94);
+            assert.deepEqual(s.evalS(math.complex(0, 1)),
                              math.complex('15.967811158798284 - 7.135193133047211i'));
         });
 
         it('works with complex numbers', function() {
             var s = system.zpk([math.complex(1, 1), math.complex(-3, 2.5)], [math.complex(1.2, -3)], 4);
 
-            assert.deepEqual(s.eval(2), math.complex('-8.5062240663900414938 - 5.6016597510373443983i'));
-            assert.deepEqual(s.eval(math.complex('1.5 + 0.7i')),
+            assert.deepEqual(s.evalS(2), math.complex('-8.5062240663900414938 - 5.6016597510373443983i'));
+            assert.deepEqual(s.evalS(math.complex('1.5 + 0.7i')),
                              math.complex('-2.2676342525399129173 - 2.0325108853410736i'));
         });
     });
@@ -84,16 +84,16 @@ describe('System testing', function() {
         it('works with regular numbers', function() {
             var s = system.tf([1, -1, 5.3], [-4.2]);
 
-            assert(math.equal(s.eval(2), -1.738095238));
-            assert(math.equal(s.eval(-3.7), -5.402380952));
-            assert(math.equal(s.eval(math.complex(0, 1)), math.complex(-1.023809524, 0.2380952381)));
+            assert(math.equal(s.evalS(2), -1.738095238));
+            assert(math.equal(s.evalS(-3.7), -5.402380952));
+            assert(math.equal(s.evalS(math.complex(0, 1)), math.complex(-1.023809524, 0.2380952381)));
         });
 
         it('works with complex numbers', function() {
             var s = system.tf([math.complex(1, 1), math.complex(-3, 2.5)], [math.complex(1.2, -3)]);
 
-            assert(math.equal(s.eval(2), math.complex(-1.408045977, 0.2298850575)));
-            assert(math.equal(s.eval(math.complex(1.5, 0.7)), math.complex(-1.603448276, -0.09195402299)));
+            assert(math.equal(s.evalS(2), math.complex(-1.408045977, 0.2298850575)));
+            assert(math.equal(s.evalS(math.complex(1.5, 0.7)), math.complex(-1.603448276, -0.09195402299)));
         });
     });
 });
