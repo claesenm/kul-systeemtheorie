@@ -56,7 +56,7 @@ module.exports = {
     evalzorp: function(a, s) {
         return a
         .map(function(val){ return math.subtract(s, val);} )
-        .reduce(function(memo, val){ return math.multiply(memo, val); });
+        .reduce(function(memo, val){ return math.multiply(memo, val); }, 1);
     },
 
 
@@ -166,7 +166,7 @@ module.exports = {
             intermediates[i] = intermediate.concat(Array.apply(null, Array(p1length - i - 1)).map(function() { return 0; }));
         });
 
-        return intermediates.reduce(this.polyadd);
+        return intermediates.reduce(this.polyadd, []);
     },
 
     /**

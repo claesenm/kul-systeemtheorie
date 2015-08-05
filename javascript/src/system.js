@@ -422,8 +422,8 @@ module.exports = {
      * @returns {Tf} The transfer function representation of sys.
      */
     zpk2tf: function(sys) {
-        var numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); })),
-            denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); });
+        var numerator = num.conv([sys.k], sys.z.map(function(z){ return [1, math.unaryMinus(z)]; }).reduce(function(acc, val){return num.conv(acc, val); }, [1])),
+            denom = sys.p.map(function(p) { return [1, math.unaryMinus(p)]; }).reduce(function(acc, val){ return num.conv(acc, val); }, [1]);
         return new Tf(numerator, denom);
     },
     
