@@ -552,6 +552,8 @@
 
 \section{Block-diagram analysis of sampled-data systems}
 
+\subsection{General Approach}
+
 \begin{frame}
 	\frametitle{Problem Statement}
 	\justify
@@ -580,7 +582,7 @@
 
 \begin{frame}
 	\frametitle{Block-diagram analysis}
-	\begin{block}{Most important relation for the block-diagram analysis}
+	\begin{block}{Relation I}
 		\justify
 		If the transform of the signal to be sampled is a product of a transform that is already periodic of period $\frac{2\pi}{T}$, and one that is not, as in $U(s) = E^{*}(s)G(s)$, where $E^{*}(s)$ is periodic and $G(s)$ is not, we can show that $E^{*}(s)$ comes out as a factor, resulting in the following rule: 
 		\begin{equation}
@@ -629,9 +631,124 @@
 \begin{frame}
 	\frametitle{Block diagram analysis}
 	\begin{alertblock}{Note what is not true}
+		\justify
 		If $U(s) = E(s)G(s)$, then $U^{*}(s) \neq E^{*}(s) G^{*}(s)$ but rather $U^{*}(s) = (EG)^{*}(s)$. The periodic character of $E^{*}$ in Eq.(3) is crucial.
 	\end{alertblock}
-	\justify
-	The final result we require is that, given a sampled-signal transform such as $U^{*}(s)$, we can find the corresponding $\mathcal{Z}$-transform simply by letting $e^{sT} = z$ or $U(z) = U^{*}(s)_{e^{sT} = z}$.
+	\vspace{1em}
+	\begin{block}{Relation II}
+		\justify
+		Given a sampled-signal transform such as $U^{*}(s)$, we can find the corresponding $\mathcal{Z}$-transform simply by letting $e^{sT} = z$ or $U(z) = U^{*}(s)_{e^{sT} = z}$.
+	\end{block}
 \end{frame}
 
+\subsection{Examples}
+
+\begin{frame}
+	\begin{exampleblock}{Example 1 (1/4)}
+		\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{block_analysis_2}
+		\end{figure}
+		Based on the figure, we can conclude the following:
+		\vspace{-1em} 
+		\begin{equation}
+			E(s) = R(s) - Y(s)
+			\vspace{-1em}
+		\end{equation}
+		\begin{equation}
+			Y(s) = G_p(s)D^{*}(s)E^{*}(s)
+		\end{equation}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 1 (2/4)}
+		Applying Relation I on both Eq.(9) and Eq.(10) results in:
+		\begin{equation}
+		E^{*}(s) = R^{*}(s) - Y^{*}(s)
+		\end{equation}
+		\begin{equation}
+		Y^{*}(s) = \big ( G_p(s)D^{*}(s)E^{*}(s) \big )^{*} = G_p^{*}(s)D^{*}(s)E^{*}(s)
+		\vspace{1.5em}
+		\end{equation}
+		Next we insert Eq.(11) in Eq.(12):
+		\begin{equation}
+		Y^{*}(s) = G_p^{*}(s)D^{*}(s) \big ( R^{*}(s) - Y^{*}(s) \big)
+		\end{equation}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 1 (3/4)}
+		Finally we convert Eq.(13) into a transfer function:
+		\begin{align*}
+		Y^{*}(s) &= G_p^{*}(s)D^{*}(s) \big ( R^{*}(s) - Y^{*}(s) \big)\\
+		Y^{*}(s) + G_p^{*}(s)D^{*}(s)Y^{*}(s) &= G_p^{*}(s)D^{*}(s)R^{*}(s)\\
+		Y^{*}(s) \big (1 +  G_p^{*}(s)D^{*}(s) \big) &= G_p^{*}(s)D^{*}(s)R^{*}(s)\\
+		\frac{Y^{*}(s)}{R^{*}(s)} &= \frac{G_p^{*}(s)D^{*}(s)}{1 +  G_p^{*}(s)D^{*}(s)}\\
+		\frac{Y(z)}{R(z)} &= \frac{G_p(z)D(z)}{1 +  G_p^(z)D(z)}
+		\end{align*}
+		The last expression is obtained by applying Relation II on the previous expression.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 1 (4/4)}
+		\justify		
+		We now that the resulting transfer function is also the transfer function of the following discrete-time system:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{block_analysis_3}
+		\end{figure}
+		Consequently, we have found a discrete-time equivalent of a system which contained continuous-time and sampled signals.
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 2 (1/3)}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{block_analysis_4}
+		\end{figure}
+		\vspace{-0.5em}
+			Based on the figure, we can conclude the following: 
+			\vspace{-1em}
+			\begin{equation}
+			E^{*}(s) = R^{*}(s) - Y^{*}(s)
+			\vspace{-1em}
+			\end{equation}
+			\begin{equation}
+			Y(s) = G_p(s)D^{*}(s)E^{*}(s)
+			\end{equation}
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 2 (2/3)}
+		Applying Relation I on Eq.(15), yields:
+		\begin{equation}
+		Y^{*}(s) = \big ( G_p(s)D^{*}(s)E^{*}(s) \big )^{*} = G_p^{*}(s)D^{*}(s)E^{*}(s)
+		\end{equation}
+		Next we insert Eq.(14) in Eq.(16):
+		\begin{equation}
+		Y^{*}(s) = G_p^{*}(s)D^{*}(s) \big ( R^{*}(s) - Y^{*}(s) \big)
+		\end{equation}
+		This is the exact same expression as we had for example 1. We will find the same transfer function by simplifying Eq.(17).
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Example 2 (3/3)}
+		\justify		
+		The transfer function:
+		\begin{center}
+			$\frac{Y(z)}{R(z)} = \frac{G_p(z)D(z)}{1 +  G_p^(z)D(z)}$
+		\end{center}
+		is also the transfer function of the following discrete-time system:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{block_analysis_3}
+		\end{figure}
+		Consequently, we have found a discrete-time equivalent of a system which contained continuous-time and sampled signals.
+	\end{exampleblock}
+\end{frame}
