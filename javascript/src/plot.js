@@ -108,6 +108,9 @@ module.exports = {
                     title: {
                         text: 'Magnitude (dB)'
                     }
+                },
+                tooltip: {
+                    valueSuffix: ' dB'
                 }
             },
             phase_options = {
@@ -126,6 +129,9 @@ module.exports = {
                     title: {
                         text: 'Omega (rad/s)'
                     }
+                },
+                tooltip: {
+                    valueSuffix: ' deg'
                 }
             };
 
