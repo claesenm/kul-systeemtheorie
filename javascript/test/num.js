@@ -171,4 +171,12 @@ describe('num tests', function() {
             assert.deepEqual(num.diag([2, 3]), [[2, 0], [0, 3]]);
         });
     });
+
+
+    describe('extreme_by', function(){
+        it('max on property', function() {
+            assert.deepEqual(num.extreme_by([{a: 5}, {a: 2}, {a: 7}, {a: 4}], Math.max,
+                                    function(v){return v.a;}), {a: 7});
+        });
+    });
 });
