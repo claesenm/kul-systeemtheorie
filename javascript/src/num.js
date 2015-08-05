@@ -218,6 +218,139 @@ module.exports = {
        var mapped = arr.map(on);
        var minVal = extreme.apply(Math, mapped);
        return arr[mapped.indexOf(minVal)];
+   },
+
+
+   /**
+    * Determines performance indicators of a step response.
+    * @param {Object} step - The step response of a system.
+    * @param {Number} settling_time_threshold - The threshold for the settling time.
+    * @param {Number} [y_final] - The end value of the response. The last value of step is used when y_final is undefined.
+    * @returns {Object} info - An object containing the info.
+    */
+   stepinfo: function(step, settling_time_threshold, y_final) {
+       settling_time_threshold = settling_time_threshold || 0.02;
+
+       // Finds an interpolated index of val in array
+       function find(arr, val) {
+           for (var i = 0; i < arr.length - 1; ++i) {
+               if (arr[i] < val && arr[i+1] > val) {
+                   return i + (val - arr[i]) / (arr[i+1] - arr[i]);
+               }
+           }
+           return -1;
+       }
+
+       // Finds the index of the last element for which fun is true.
+       function findLastIndex(arr, fun) {
+           var last = -1;
+           for (var i = 0; i < arr.length; ++i) {
+               if (fun(arr[i])) {
+                   last = i;
+               }
+           }
+           return last;
+       }
+
+       // Linear interpolation
+       function lerp(fst, snd, alpha) {
+           return math.add(fst, math.multiply(alpha, math.subtract(snd, fst)));
+       }
+
+       // Get element in arr at i, linearly interpolated
+       function at(arr, i) {
+           var low = math.floor(i),
+               high = math.ceil(i);
+           return lerp(arr[low], arr[high], i-low);
+       }
+
+       var len = step.t.length;
+       y_final = y_final || step.x[len - 1];
+
+       var t = step.t,
+           y = step.x,
+           rise_time_lims = [0.1, 0.9];
+
+       if (!y.every(isFinite)) {
+           return {
+               rise_time: NaN,
+               settling_time: NaN,
+               settling_min: NaN,
+               settling_max: NaN,
+               overshoot: NaN,
+               undershoot: NaN,
+               peak: NaN,
+               peak_time: NaN
+           };
+       }
+
+       // Get the peak, peak_time and y values for the rise time
+       var peak = this.extreme_by(y, Math.max, function(v){ return math.abs(v); }),
+           peak_time = t[y.indexOf(peak)],
+           y_low = y[0] + rise_time_lims[0] * (y_final - y[0]),
+           y_high = y[0] + rise_time_lims[1] * (y_final - y[0]);
+
+       // Index and time of the rise time bounds
+       var i_low = find(y, y_low),
+           i_high = find(y, y_high),
+           t_low = i_low == -1 ? NaN : at(y, i_low),
+           t_high = i_high == -1 ? NaN : at(y, i_high);
+
+       var settling_min = NaN,
+           settling_max = NaN;
+
+       if (i_high !== -1) {
+           settling_min = Math.min.apply(Math, y.slice(i_high, len));
+           settling_max = Math.max.apply(Math, y.slice(i_high, len));
+       }
+
+       var rise_time = t_high - t_low,
+           err = math.subtract(y, y_final),
+           err_reverse = err.slice(0, len),
+           tol = settling_time_threshold * Math.max.apply(Math, err);
+       err_reverse.reverse();
+
+       // Calculate index of settle in err (not err_reverse)
+       var i_settle = findLastIndex(err_reverse, function(err) { return err > tol; });
+       i_settle = i_settle == -1 ? i_settle : len - 1 - i_settle;
+
+       // Settling time
+       var settling_time;
+       if (i_settle === 0) {
+           settling_time = 0;
+       } else if (i_settle == -1) {
+           settling_time = NaN;
+       } else {
+           settling_time = t[i_settle];
+       }
+       
+       // Determine overshoot and undershoot
+       var overshoot, undershoot;
+       if (y_final === 0) {
+           overshoot = Infinity;
+           if (y.every(function(val) {return val >= 0;})) {
+               undershoot = 0;
+           } else {
+               undershoot = Infinity;
+           }
+       } else {
+           var y_rel = y.map(function(val) { return math.divide(val, y_final); });
+           overshoot = 100 * Math.max(0, Math.max.apply(Math, math.subtract(y_rel, 1)));
+           undershoot = -100 * Math.min(0, Math.min.apply(Math, y_rel));
+       }
+
+
+
+       return {
+           rise_time: rise_time,
+           settling_time: settling_time,
+           settling_min: settling_min,
+           settling_max: settling_max,
+           overshoot: overshoot,
+           undershoot: undershoot,
+           peak: peak,
+           peak_time: peak_time
+       };
    }
 
 

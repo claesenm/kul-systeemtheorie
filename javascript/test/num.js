@@ -1,6 +1,7 @@
 var assert = require('assert');
 var math = require('mathjs');
 var num = require('../src/num');
+var system = require('../src/system');
 
 math.config({epsilon: 1e-7});
 
@@ -177,6 +178,23 @@ describe('num tests', function() {
         it('max on property', function() {
             assert.deepEqual(num.extreme_by([{a: 5}, {a: 2}, {a: 7}, {a: 4}], Math.max,
                                     function(v){return v.a;}), {a: 7});
+        });
+    });
+
+
+    describe('stepinfo', function() {
+        it('matlab example', function() {
+            var s = system.tf([1], [1, 1, 10]);
+            assert.deepEqual(num.stepinfo(s.step()), {
+                rise_time: 0.3738,
+                settling_time: 7.3148,
+                settling_min: 0.0635,
+                settling_max: 0.1605,
+                overshoot: 60.4530,
+                undershoot: 0,
+                peak: 0.1605,
+                peak_time: 1.0131
+            });
         });
     });
 });
