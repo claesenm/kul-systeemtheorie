@@ -13,7 +13,7 @@ zero_el.addEventListener('input', function() {
     var sys = system.zpk([zero], [10], 1);
     var bode_data = sys.bode(bounds);
 
-    plts[0].series[0].setData(bode_data.omegas.map(function(omega, i) {return [omega, bode_data.dBs[i]];}));
+    plts[0].series[0].setData(bode_data.omegas.map(function(omega, i) {return [omega, bode_data.dBs[i]];}), true, false, true);
 
-    plts[1].series[0].setData(bode_data.omegas.map(function(omega, i) {return [omega, bode_data.degrees[i]];}));
+    plts[1].series[0].setData(bode_data.omegas.map(function(omega, i) {return [omega, bode_data.degrees[i]];}), true, false, true);
 });
