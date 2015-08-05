@@ -240,5 +240,46 @@ module.exports = {
 
         var graph = new Highcharts.Chart(options);
         return graph;
+    },
+
+
+    default_chart: function(container) {
+        var options = {
+            chart: {
+                renderTo: container,
+                type: 'line'
+            },
+            title: {
+                text: '',
+                y: 0
+            },
+            xAxis: {
+                type: 'linear',
+                title: {
+                    text: 't (s)'
+                }
+            },
+            yAxis: {
+                startOnTick: false,
+                minPadding: 0.01,
+                endOnTick: false,
+                maxPadding: 0.01,
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                crosshairs: [true, false],
+                headerFormat: '',
+                pointFormat: '<b>{point.y}</b>'
+            }
+        };
+        return new Highcharts.Chart(options);
     }
 };

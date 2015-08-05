@@ -238,7 +238,7 @@ Ss.prototype.step = function(epsilon) {
     var prevError = Infinity;
     function terminate(t, x) {
         var currentError = err(t, x);
-        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-7) {
+        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-3) {
             return 1;
         }
         return -1;
@@ -247,6 +247,29 @@ Ss.prototype.step = function(epsilon) {
     var response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminate);
     var response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
     return {t: response.x, x: response_val};
+};
+
+
+/**
+ * Calculates the impulse reponse of the system.
+ * @returns {Object} response - An object containing the impulse response of the system.
+ * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
+ * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
+ */
+System.prototype.impulse = function() {
+    var step = this.step(),
+        len = step.t.length,
+        diffs = new Array(len);
+    for (var i = 0 ; i < len - 1; ++i) {
+        var dt = math.subtract(step.t[i+1], step.t[i]),
+            dx = math.subtract(step.x[i+1], step.x[i]);
+        diffs[i] = math.divide(dx, dt);
+    }
+    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
+    return {
+        t: step.t,
+        x: diffs
+    };
 };
 
 
