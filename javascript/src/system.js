@@ -51,6 +51,42 @@ System.prototype.bode = function(omega_exp_bounds) {
     };
 };
 
+
+/**
+ * Calculates the step response of the given system.
+ * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
+ */
+System.prototype.step = function(epsilon) {
+    return module.exports.ss(this).step(epsilon);
+};
+
+
+/**
+ * Calculates the impulse reponse of the system.
+ * @returns {Object} response - An object containing the impulse response of the system.
+ * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
+ * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
+ */
+System.prototype.impulse = function() {
+    var step = this.step(),
+        len = step.t.length,
+        diffs = new Array(len);
+    for (var i = 0 ; i < len - 1; ++i) {
+        var dt = math.subtract(step.t[i+1], step.t[i]),
+            dx = math.subtract(step.x[i+1], step.x[i]);
+        diffs[i] = math.divide(dx, dt);
+    }
+    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
+    return {
+        t: step.t,
+        x: diffs
+    };
+};
+
+
 /**
  * Creates a system with a zero-pole-gain representation.
  * @param {Array<(Number|Complex)>} z - The zeros of the transfer function.
@@ -249,28 +285,6 @@ Ss.prototype.step = function(epsilon) {
     return {t: response.x, x: response_val};
 };
 
-
-/**
- * Calculates the impulse reponse of the system.
- * @returns {Object} response - An object containing the impulse response of the system.
- * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
- * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
- */
-System.prototype.impulse = function() {
-    var step = this.step(),
-        len = step.t.length,
-        diffs = new Array(len);
-    for (var i = 0 ; i < len - 1; ++i) {
-        var dt = math.subtract(step.t[i+1], step.t[i]),
-            dx = math.subtract(step.x[i+1], step.x[i]);
-        diffs[i] = math.divide(dx, dt);
-    }
-    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
-    return {
-        t: step.t,
-        x: diffs
-    };
-};
 
 
 module.exports = {
