@@ -197,7 +197,7 @@ module.exports = {
      * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result [0] is the smallest exponent, result[1] is the biggest exponent.
      */
     interesting_region_logspace: function(system) {
-        var points = system.getZeros().concat(system.getPoles());
+        var points = system.getBreakPoints();
         var smallest_omega = this.extreme_by(points, Math.min, function(v){ return math.abs(v); });
         var biggest_omega = this.extreme_by(points, Math.max, function(v){ return math.abs(v); });
 

@@ -88,6 +88,34 @@ System.prototype.impulse = function() {
 
 
 /**
+ * Returns a list of all the breakpoints of this system's transfer function.
+ * The breakpoints are the zeros and the poles combined.
+ * @returns {Array<(Number|Complex)>} The breakpoints.
+ */
+System.prototype.getBreakPoints = function() {
+    return module.exports.zpk(this).getBreakPoints();
+};
+
+
+
+/**
+ * Returns the zeros of this system's transfer function.
+ * @returns {Array<(Complex|Number)>}
+ */
+System.prototype.getZeros = function() {
+    return module.exports.zpk(this).getZeros();
+};
+
+
+/**
+ * Returns the poles of this system's transfer function.
+ * @returns {Array<(Complex|Number)>}
+ */
+System.prototype.getPoles = function() {
+    return module.exports.zpk(this).getPoles();
+};
+
+/**
  * Creates a system with a zero-pole-gain representation.
  * @param {Array<(Number|Complex)>} z - The zeros of the transfer function.
  * @param {Array<(Number|Complex)>} p - The poles of the transfer function.
@@ -113,8 +141,7 @@ Zpk.prototype.setZeros = function(z) {
 
 
 /**
- * Returns the zeros of this system's transfer function.
- * @returns {Array<(Complex|Number)>}
+ * @inheritdoc
  */
 Zpk.prototype.getZeros = function() {
     return this.z;
@@ -130,8 +157,7 @@ Zpk.prototype.setPoles = function(p) {
 };
 
 /**
- * Returns the poles of this system's transfer function.
- * @returns {Array<(Complex|Number)>}
+ * @inheritdoc
  */
 Zpk.prototype.getPoles = function() {
     return this.p;
@@ -164,6 +190,15 @@ Zpk.prototype.evalS = function(s) {
     var denom = num.evalzorp(this.p, s);
     var quotient = math.divide(numerator, denom);
     return math.multiply(this.k, quotient);
+};
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.getBreakPoints = function() {
+    var zeros = this.getZeros(),
+        poles = this.getPoles();
+    return zeros.concat(poles);
 };
 
 /**

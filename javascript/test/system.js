@@ -24,6 +24,14 @@ describe('System testing', function() {
             assert(math.equal(s.getPoles(), [math.complex(0, 1), math.complex(0, -1)]));
             assert.equal(s.getK(), 1);
         });
+
+        it('no zeros or poles', function() {
+            var s = system.zpk([], [], 1);
+
+            assert.deepEqual(s.getZeros(), []);
+            assert.deepEqual(s.getPoles(), []);
+            assert.equal(s.getK(), 1);
+        });
     });
 
     describe('tf', function() {
