@@ -48,7 +48,7 @@ describe('System testing', function() {
             var s = system.tf(system.zpk([-2], [math.complex(0, 1), math.complex(0, -1)], 3));
             
             assert.deepEqual(s.getNumerator(), [3, 6]);
-            assert.deepEqual(s.getDenominator(), [1, math.complex(0, 0), math.complex(1, 0)]);
+            assert.deepEqual(s.getDenominator(), [1, 0, 1]);
         });
     });
 
@@ -102,6 +102,51 @@ describe('System testing', function() {
 
             assert(math.equal(s.evalS(2), math.complex(-1.408045977, 0.2298850575)));
             assert(math.equal(s.evalS(math.complex(1.5, 0.7)), math.complex(-1.603448276, -0.09195402299)));
+        });
+    });
+
+
+    describe('tf2zpk()', function(){
+        it('zeros and poles', function(){
+            var sys = system.tf([3, 3], [4, 2]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), [-1]);
+            assert.deepEqual(sys_conv.getPoles(), [-0.5]);
+            assert.equal(sys_conv.getK(), 3);
+        });
+
+        it('no zeros', function() {
+            var sys = system.tf([1], [1, -1]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), []);
+            assert.deepEqual(sys_conv.getPoles(), [1]);
+            assert.equal(sys_conv.getK(), 1);
+        });
+
+        it('no zeros complex poles', function() {
+            var sys = system.tf([1],[1, 2, 1]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), []);
+            assert.equal(sys_conv.getK(), 1);
+            assert(math.deepEqual(sys_conv.getPoles(), [-1, -1]));
+
+        });
+    });
+
+
+    describe('zpk2tf()', function() {
+        it('simple', function() {
+            var sys = system.zpk([-0.5], [1, 4], -2);
+            var systf = system.zpk2tf(sys);
+            assert.deepEqual(systf.getNumerator(), [-2, -1]);
+            assert.deepEqual(systf.getDenominator(), [1, -5, 4]);
+        });
+
+        it('complex conjugate pair', function() {
+            var sys = system.zpk([-0.5], [math.complex(1, 1), math.complex(1, -1)], -2);
+            var systf = system.zpk2tf(sys);
+            assert.deepEqual(systf.getNumerator(), [-2, -1]);
+            assert.deepEqual(systf.getDenominator(), [1, -2, 2]);
         });
     });
 });

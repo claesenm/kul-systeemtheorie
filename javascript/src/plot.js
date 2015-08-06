@@ -134,7 +134,7 @@ module.exports = {
                       new Highcharts.Chart(recursiveExtend(recursiveClone(options), phase_options))];
 
         // Synch the charts
-        container.addEventListener('mousemove', function(e) {
+        function sync(e) {
             graphs.forEach(function(chart) {
                 e = chart.pointer.normalize(e);
                 var point = chart.series[0].searchPoint(e, true);
@@ -144,16 +144,17 @@ module.exports = {
                     chart.tooltip.refresh(point);
                     chart.xAxis[0].drawCrosshair(e, point);
                 }
-            });
-        });
 
-        // Hides both pointers when the mouse leaves the graph
-        var resetFunc = Highcharts.Pointer.prototype.reset;
-        Highcharts.Pointer.prototype.reset = function() {
-            graphs.forEach(function(graph) {
-                resetFunc.call(graph.pointer);
+                // Hides both pointers when the mouse leaves the graph
+                chart.pointer.reset = function() {
+                    graphs.forEach(function(graph) {
+                        Highcharts.Pointer.prototype.reset.call(graph.pointer);
+                    });
+                };
             });
-        };
+        }
+        magnitude_div.addEventListener('mousemove', sync);
+        phase_div.addEventListener('mousemove', sync);
 
         return graphs;
     },

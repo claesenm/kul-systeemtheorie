@@ -194,10 +194,15 @@ module.exports = {
     /**
      * Determines what the interesting region is for this system in log10space.
      * @param {System} system - The system
-     * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result [0] is the smallest exponent, result[1] is the biggest exponent.
+     * @returns {Array<Number>} An array of 2 elements containing the bounds in log10space. Result[0] is the smallest exponent, result[1] is the biggest exponent.
      */
     interesting_region_logspace: function(system) {
         var points = system.getBreakPoints();
+            points = points.filter(function(val) { return val !== 0; });
+
+        if (points.length === 0) {
+            return [-2, 3];
+        }
         var smallest_omega = this.extreme_by(points, Math.min, function(v){ return math.abs(v); });
         var biggest_omega = this.extreme_by(points, Math.max, function(v){ return math.abs(v); });
 
@@ -351,7 +356,19 @@ module.exports = {
            peak: peak,
            peak_time: peak_time
        };
+   },
+
+   /**
+    * Convert a (possibly) complex number to a Number if the imaginary part is smaller than threshold.
+    * @param {(Complex|Number)} c - The (possibly) complex number.
+    * @param {Number} [threshold=1e-7] - The threshold for the imaginary part.
+    * @returns {(Complex|Number)} The converted complex number, or the number itself if it wasn't converted.
+    */
+   complex_to_real_if_real: function(c, threshold) {
+       threshold = threshold || 1e-7;
+       if (c.im !== undefined && c.im <= threshold) {
+           return c.re;
+       }
+       return c;
    }
-
-
 };
