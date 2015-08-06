@@ -197,4 +197,23 @@ describe('num tests', function() {
             });
         });
     });
+
+
+    describe('complex_to_real_if_real', function() {
+        it('not real', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(5, 3)), math.complex(5, 3));
+        });
+
+        it('not complex', function() {
+            assert.equal(num.complex_to_real_if_real(math.complex(5, 0)), 5);
+        });
+
+        it('custom threshold', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(3, 1e-7), 1e-8), math.complex(3, 1e-7));
+        });
+
+        it('default threshold', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(3, 1e-7 + 1e-8)), math.complex(3, 1e-7 + 1e-8));
+        });
+    });
 });

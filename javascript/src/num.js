@@ -356,7 +356,19 @@ module.exports = {
            peak: peak,
            peak_time: peak_time
        };
+   },
+
+   /**
+    * Convert a (possibly) complex number to a Number if the imaginary part is smaller than threshold.
+    * @param {(Complex|Number)} c - The (possibly) complex number.
+    * @param {Number} [threshold=1e-7] - The threshold for the imaginary part.
+    * @returns {(Complex|Number)} The converted complex number, or the number itself if it wasn't converted.
+    */
+   complex_to_real_if_real: function(c, threshold) {
+       threshold = threshold || 1e-7;
+       if (c.im !== undefined && c.im <= threshold) {
+           return c.re;
+       }
+       return c;
    }
-
-
 };
