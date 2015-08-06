@@ -285,7 +285,9 @@ module.exports = {
                overshoot: NaN,
                undershoot: NaN,
                peak: NaN,
-               peak_time: NaN
+               peak_time: NaN,
+               rise_time_low: NaN,
+               rise_time_high: NaN
            };
        }
 
@@ -295,29 +297,29 @@ module.exports = {
            y_low = y[0] + rise_time_lims[0] * (y_final - y[0]),
            y_high = y[0] + rise_time_lims[1] * (y_final - y[0]);
 
+       //console.log(t.map(function(val, i){ return [val, y[i]]; }));
        // Index and time of the rise time bounds
        var i_low = find(y, y_low),
            i_high = find(y, y_high),
-           t_low = i_low == -1 ? NaN : at(y, i_low),
-           t_high = i_high == -1 ? NaN : at(y, i_high);
+           t_low = i_low == -1 ? NaN : at(t, i_low),
+           t_high = i_high == -1 ? NaN : at(t, i_high);
 
        var settling_min = NaN,
            settling_max = NaN;
 
+       // If i_high is -1 then the signal hasn't reached y_high yet
        if (i_high !== -1) {
-           settling_min = Math.min.apply(Math, y.slice(i_high, len));
-           settling_max = Math.max.apply(Math, y.slice(i_high, len));
+           var y_settling = y.slice(i_high, len);
+           settling_min = Math.min.apply(Math, y_settling);
+           settling_max = Math.max.apply(Math, y_settling);
        }
 
        var rise_time = t_high - t_low,
-           err = math.subtract(y, y_final),
-           err_reverse = err.slice(0, len),
+           err = math.subtract(y, y_final).map(function(v){ return math.abs(v); }),
            tol = settling_time_threshold * Math.max.apply(Math, err);
-       err_reverse.reverse();
 
-       // Calculate index of settle in err (not err_reverse)
-       var i_settle = findLastIndex(err_reverse, function(err) { return err > tol; });
-       i_settle = i_settle == -1 ? i_settle : len - 1 - i_settle;
+       // Calculate index of settle in err
+       var i_settle = findLastIndex(err, function(err) { return err > tol; });
 
        // Settling time
        var settling_time;
@@ -354,7 +356,9 @@ module.exports = {
            overshoot: overshoot,
            undershoot: undershoot,
            peak: peak,
-           peak_time: peak_time
+           peak_time: peak_time,
+           rise_time_low: t_low,
+           rise_time_high: t_high
        };
    },
 
