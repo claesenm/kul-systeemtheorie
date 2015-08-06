@@ -175,13 +175,41 @@ module.exports = {
             Highcharts.VMLRenderer.prototype.symbols.cross = Highcharts.SVGRenderer.prototype.symbols.cross;
         }
 
-        function complexToArray(c) {
+        function complex_to_array(c) {
             return [math.re(c), math.im(c)];
         }
 
+        function draw_major_axes(event) {
+            var renderer = this.renderer,
+                xAxis = this.axes[0],
+                yAxis = this.axes[1],
+                xposy = yAxis.toPixels(0),
+                yposx = xAxis.toPixels(0),
+                attributes = {
+                'stroke-width': 1,
+                stroke: 'black',
+                'stroke-dasharray': [1, 3]
+            };
+
+            // Draw xAxis
+            if (yAxis.min < 0 && yAxis.max > 0) {
+                var xAxis_svg = renderer
+                .path(['M', xAxis.toPixels(xAxis.min), xposy, 'L', xAxis.toPixels(xAxis.max), xposy])
+                .attr(attributes)
+                .add();
+            }
+
+            if (xAxis.min < 0 && xAxis.max > 0) {
+                var yAxis_svg = renderer
+                .path(['M', yposx, yAxis.toPixels(yAxis.min), 'L', yposx, yAxis.toPixels(yAxis.max)])
+                .attr(attributes)
+                .add();
+            }
+        }
+
         // Prepare the data for Highcharts
-        var zeros = sys.getZeros().map(complexToArray),
-            poles = sys.getPoles().map(complexToArray);
+        var zeros = sys.getZeros().map(complex_to_array),
+            poles = sys.getPoles().map(complex_to_array);
 
         var options = {
             chart: {
@@ -189,7 +217,11 @@ module.exports = {
                 type: 'scatter',
                 panning: true,
                 panKey: 'shift',
-                zoomType: 'xy'
+                zoomType: 'xy',
+                events: {
+                    load: function() {this.redraw();},
+                    redraw: draw_major_axes
+                }
             },
             series: [{
                 data: zeros,
@@ -214,14 +246,22 @@ module.exports = {
                 maxPadding: 0.05,
                 title: {
                     text: 'Re'
-                }
+                },
+                gridLineWidth: 0,
+                tickPosition: 'inside',
+                tickWidth: 1,
+                lineWidth: 1
             },
             yAxis: {
                 minPadding: 0.05,
                 maxPadding: 0.05,
                 title: {
                     text: 'Im'
-                }
+                },
+                gridLineWidth: 0,
+                tickPosition: 'inside',
+                tickWidth: 1,
+                lineWidth: 1
             },
             title: {
                 text: '',
