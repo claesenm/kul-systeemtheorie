@@ -104,4 +104,32 @@ describe('System testing', function() {
             assert(math.equal(s.evalS(math.complex(1.5, 0.7)), math.complex(-1.603448276, -0.09195402299)));
         });
     });
+
+
+    describe('tf2zpk', function(){
+        it('zeros and poles', function(){
+            var sys = system.tf([3, 3], [4, 2]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), [-1]);
+            assert.deepEqual(sys_conv.getPoles(), [-0.5]);
+            assert.equal(sys_conv.getK(), 3);
+        });
+
+        it('no zeros', function() {
+            var sys = system.tf([1], [1, -1]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), []);
+            assert.deepEqual(sys_conv.getPoles(), [1]);
+            assert.equal(sys_conv.getK(), 1);
+        });
+
+        it('no zeros complex poles', function() {
+            var sys = system.tf([1],[1, 2, 1]);
+            var sys_conv = system.tf2zpk(sys);
+            assert.deepEqual(sys_conv.getZeros(), []);
+            assert.equal(sys_conv.getK(), 1);
+            assert(math.deepEqual(sys_conv.getPoles(), [-1, -1]));
+
+        });
+    });
 });
