@@ -557,21 +557,22 @@
 \begin{frame}
 	\frametitle{Problem Statement}
 	\justify
-	The ideas of block-diagram analysis can be extended so that we can use them to compute the transforms of output signals of systems that contain sampling operations in various places, including feedback loops. This is necessary to analyze feedback systems that contain a digital computer.\\
+	To analyse a feedback system that contains a digital controller, we need to be able to compute the transforms of output signals of systems that contain sampling operations in various places, including feedback loops, in the block diagram.\\
 	\vspace{1em}
-	The technique is a simple expansion of the block-diagram analysis of systems that are all continuous or all discrete. However a couple of rules need to be carefully observed. 
+	The technique presented in this chapter is a simple extension of the block-diagram analysis of systems that are all continuous or all discrete. However a couple of rules need to be carefully observed. 
 \end{frame}
 
 \begin{frame}
 	\frametitle{Block-diagram analysis}
 	\justify
-	To obtain the block-diagram analysis of sampled-date systems, we represent the process of sampling a continuous signal and holding it by impulse modulation followed by low-pass filtering. We will use the following system: 
+	We represent the process of sampling a continuous signal and holding it by impulse modulation followed by low-pass filtering. For example the following system: 
 	\vspace{1em}
 	\begin{figure}
 		\centering
 		\includegraphics[width=1\linewidth]{block_analysis_1}
+		\vspace{0.5em}
 	\end{figure}
-	\vspace{1em}
+	leads to:
 	\begin{equation}
 		\begin{split}
 		E(s) &= R^{*}(s)H(s)\\
@@ -637,7 +638,7 @@
 	\vspace{1em}
 	\begin{block}{Relation II}
 		\justify
-		Given a sampled-signal transform such as $U^{*}(s)$, we can find the corresponding $\mathcal{Z}$-transform simply by letting $e^{sT} = z$ or $U(z) = U^{*}(s)_{e^{sT} = z}$.
+		Given a sampled-signal transform such as $U^{*}(s)$, we can find the corresponding $\mathcal{Z}$-transform simply by letting $e^{sT} = z$ or $U(z) = U^{*}(s)|_{e^{sT} = z}$.
 	\end{block}
 \end{frame}
 
@@ -645,11 +646,13 @@
 
 \begin{frame}
 	\begin{exampleblock}{Example 1 (1/4)}
+		Let's compute the discrete-time representation of the following block diagram:
+		\vspace{-1em}
 		\begin{figure}
 		\centering
 		\includegraphics[width=1\linewidth]{block_analysis_2}
 		\end{figure}
-		Based on the figure, we can conclude the following:
+		From the diagram we have that:
 		\vspace{-1em} 
 		\begin{equation}
 			E(s) = R(s) - Y(s)
@@ -688,38 +691,40 @@
 		\frac{Y^{*}(s)}{R^{*}(s)} &= \frac{G_p^{*}(s)D^{*}(s)}{1 +  G_p^{*}(s)D^{*}(s)}\\
 		\frac{Y(z)}{R(z)} &= \frac{G_p(z)D(z)}{1 +  G_p^(z)D(z)}
 		\end{align*}
-		The last expression is obtained by applying Relation II on the previous expression.
+		The last expression is obtained by applying Relation II.
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}
 	\begin{exampleblock}{Example 1 (4/4)}
 		\justify		
-		We now that the resulting transfer function is also the transfer function of the following discrete-time system:
+		Notice that the resulting transfer function is also the transfer function of the following discrete-time system:
 		\begin{figure}
 			\centering
 			\includegraphics[width=0.8\linewidth]{block_analysis_3}
 		\end{figure}
-		Consequently, we have found a discrete-time equivalent of a system which contained continuous-time and sampled signals.
+		Consequently, we have found a discrete-time equivalent of a system which contains continuous-time and sampled signals.
 	\end{exampleblock}
 \end{frame}
 
 \begin{frame}
 	\begin{exampleblock}{Example 2 (1/3)}
+		Let's compute the discrete-time representation of the following block diagram:
+		\vspace{-1.5em}
 		\begin{figure}
 			\centering
 			\includegraphics[width=1\linewidth]{block_analysis_4}
+			\vspace{-1.5em}
 		\end{figure}
-		\vspace{-0.5em}
-			Based on the figure, we can conclude the following: 
-			\vspace{-1em}
-			\begin{equation}
-			E^{*}(s) = R^{*}(s) - Y^{*}(s)
-			\vspace{-1em}
-			\end{equation}
-			\begin{equation}
-			Y(s) = G_p(s)D^{*}(s)E^{*}(s)
-			\end{equation}
+		From the diagram we have that: 
+		\vspace{-1em}
+		\begin{equation}
+		E^{*}(s) = R^{*}(s) - Y^{*}(s)
+		\vspace{-1em}
+		\end{equation}
+		\begin{equation}
+		Y(s) = G_p(s)D^{*}(s)E^{*}(s)
+		\end{equation}
 	\end{exampleblock}
 \end{frame}
 
@@ -733,7 +738,7 @@
 		\begin{equation}
 		Y^{*}(s) = G_p^{*}(s)D^{*}(s) \big ( R^{*}(s) - Y^{*}(s) \big)
 		\end{equation}
-		This is the exact same expression as we had for example 1. We will find the same transfer function by simplifying Eq.(17).
+		This is the exact same expression as we have for example 1. We will find the same transfer function from Eq.(17).
 	\end{exampleblock}
 \end{frame}
 
@@ -749,6 +754,22 @@
 			\centering
 			\includegraphics[width=0.8\linewidth]{block_analysis_3}
 		\end{figure}
-		Consequently, we have found a discrete-time equivalent of a system which contained continuous-time and sampled signals.
+		Consequently, we have found a discrete-time equivalent of a system which contains continuous-time and sampled signals.
 	\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+	\begin{alertblock}{NOTE}
+	\begin{center}
+		$G_p^{*}(s) = \big[ \frac{(1 - e^{-Ts})}{s} G(s) \big]^{*}$
+	\end{center}
+	Taking out the periodic parts, which are those in which s appears only as $e^{Ts}$, we have that
+	\begin{center}
+		$G_p^{*}(s) = (1 - e^{-Ts}) \big[ \frac{G(s)}{s} \big]^{*}$
+	\end{center}
+	Letting $e^{Ts} = z$, we have that:
+	\begin{center}
+		$G_p(z) = (1-z^{-1}) \mathcal{Z} \big\{ \frac{G(s)}{s} \big\}$
+	\end{center}
+	\end{alertblock}
 \end{frame}
