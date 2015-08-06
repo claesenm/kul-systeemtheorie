@@ -20,7 +20,6 @@
 					+ \underbrace{\vphantom{\int^t_0e(\tau)d\tau} K_d \frac{de(t)}{dt}}_\text{Derivative Action}
 		\end{equation*}
 		\vspace{-1.5em}
-		
 	\end{definition}
 	
 	\textbf{Note:} More than 90\% of all closed loop controllers are PID.\\
@@ -50,6 +49,7 @@
 			\end{itemize}
 	\end{itemize}}
 \end{frame}
+
 \section{Analog and Digital formulations}
 
 \begin{frame}
@@ -78,7 +78,6 @@
 	u_d[k] = K_d \frac{ e[k] - e[k-1]}{T_s} \quad \rightarrow \quad \frac{U_d(z)}{E(z)} = K_d \frac{z - 1}{T_sz}
 	\end{equation*}
 	with $T_s$ the sampling time.
-
 \end{frame}
 
 \begin{frame}
@@ -91,13 +90,11 @@
 	\begin{equation*}
 		\dot{u_i} = K_i e(t)
 	\end{equation*}
-	
 	Then applying backward Euler:
 	\begin{equation*}
 	u_i[k] = u[k-1] + K_i T e[k] \quad \rightarrow \quad \frac{U_i(z)}{E(z)} = K_i \frac{z T_s}{z - 1}
 	\end{equation*}
 	with $T_s$ the sampling time.
-	
 \end{frame}
 
 \begin{frame}
@@ -110,9 +107,7 @@
 			\begin{align*}
 			u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
 			&\text{with } u_i[k] = u_i[k-1] + K_i T_s e[k]
-			\end{align*}
-			
-			
+			\end{align*}	
 			In z-domain:
 			\begin{equation*}
 			\frac{U(z)}{E(z)} = \textcolor{red}{K_p}  + \textcolor{red}{\frac{K_d}{T_s}}\frac{z-1}{z} + \textcolor{red}{K_i T_s}\frac{z}{z-1}
@@ -132,7 +127,6 @@
 		\end{column}
 	\end{columns}}
 	%\vspace{1em}
-	 
 \end{frame}
 
 \begin{frame}
@@ -145,19 +139,17 @@
 			&= K_p + \frac{K_iT(z + 1)}{2(z-1)} + \frac{2K_d(z-1)}{T(z+1)} \\
 			&= \frac{\alpha_2 z^2 + \alpha_1 z + \alpha_0}{(z-1)(z+1)}
 	\end{align*}
-	
 	where $\alpha_2, \alpha_1, \alpha_0$ are design parameters.
-	
 \end{frame}
+
 \begin{frame}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{img/PID_video}
-
 \end{figure}
-
 	\url{https://www.youtube.com/watch?v=JEpWlTl95Tw}
 \end{frame}
+
 \begin{frame}
 	\frametitle{Alterantive Derivative Action(Continous time)}
 		\begin{columns}
@@ -175,7 +167,6 @@
 			\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
 		\end{equation*}
 		With $s=j\omega$, breakpoint at $\omega=1/\tau$. This prevents amplification of high frequencies. 
-	
 \end{frame}
 
 \begin{frame}
@@ -194,6 +185,7 @@
 	
 	This can also be discretized, but the bilinear method then introduces \emph{ringing}, i.e. large oscillations in transient response.
 \end{frame}
+
 \section{Implementation Examples}
 
 \begin{frame}
@@ -234,6 +226,7 @@
 		\textbf{FOXBORO 62H-4E-OH M/62H}
 	\end{center}
 \end{frame}
+
 \begin{frame}{Analog PI Motor Speed Control}
 	\begin{figure}
 		\centering
@@ -241,6 +234,7 @@
 	\end{figure}
 	\url{https://youtu.be/6W3PLiVIcmE}
 \end{frame}
+
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
 	\small{
@@ -300,6 +294,7 @@ Start:
 		\end{column}
 	\end{columns}
 \end{frame}
+
 \begin{frame}{PLC}
 	\textbf{P}rogrammable \textbf{L}ogic \textbf{C}ontroller is a digital computer used for automation in the process industry. 
 	\begin{columns}
@@ -311,44 +306,23 @@ Start:
 
 		\end{column}
 		\begin{column}{0.5\textwidth}
-\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{img/PLC_2}
-
-\end{figure}
-
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{img/PLC_2}
+			\end{figure}
 		\end{column}
 	\end{columns}
-	
 \end{frame}
+
 \begin{frame}{What is a PLC? Basics of PLCs}
 	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{img/what_is_a_plc}
-\end{figure}
-
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/what_is_a_plc}
+	\end{figure}
 	\url{https://youtu.be/iWgHqqunsyE}
 \end{frame}
-\section{PID Tuning}
 
-\begin{frame}
-	Effects of adjusting the parameters $K_p, K_i, K_d$:
-	\vspace{1em}
-	\frametitle{Manual Tuning}
-	{
-	\small
-	\begin{tabular}{c | c | c | c | c }
-		PID gains	&	Rise Time 	&	Overshoot	&	Setlling time	&	Steady-State error \\
-		\hline
-		$K_p \uparrow$ & Decrease	&	Increase	&	Small Change	&	Decrease \\
-		$K_i \uparrow$ & Decrease	&	Increase	&	Increase		&	Eliminate \\
-		$K_d \uparrow$ & Small change &	Decrease	&	Decrease		&	No change \\
-	\end{tabular}
-	}
-	\vspace{1em}
-	
-	\textbf{Note:} Changing one parameter can influence the effect of the other two. Use this table only as an indication.
-\end{frame}
+\section{PID Tuning}
 
 \begin{frame}
 	\frametitle{Manual Tuning}
@@ -358,13 +332,38 @@ Start:
 		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error in small
 		\item Start adding some integral action in order to get rid of the steady state error. Keep in mind that too much $K_i$ can cause instability!
 		\item Add some derivative action in order to quickly react to disturbance and/or dampen the response
-		
 	\end{enumerate}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Manual Tuning}
+	\hbox{\hspace{-2.7em}
+	\begin{tabular}{c | c | c | c | c }
+		PID gains	&	Rise Time 	&	Overshoot	&	Setlling time	&	Steady-State error \\
+		\hline
+		$K_p \uparrow$ & Decrease	&	Increase	&	Small Change	&	Decrease \\
+		$K_i \uparrow$ & Decrease	&	Increase	&	Increase		&	Eliminate \\
+		$K_d \uparrow$ & Small change &	Decrease	&	Decrease		&	No change \\
+	\end{tabular}}
+	\vspace{2em}
+	\begin{alertblock}{Important note}
+	Changing one parameter can influence the effect of the other two. Use this table only as an indication.
+	\end{alertblock}
+\end{frame}
 
 \begin{frame}
-	\frametitle{Heuristic Methods: Ziegler-Nichols tunig rule}
+	\frametitle{Heuristic Methods}
+	Manual tuning is used on a plant from which we know the mathematical model.\\
+	\vspace{1em}
+	Sometimes the \textbf{mathematical model} of the plant is \textbf{not known}. In these cases we will uses the \textbf{heuristic methods}:
+	\begin{itemize}
+		\item Ziegler-Nichols tuning rule based on step response (First method)
+		\item Ziegler-Nichols tuning rule based on critical gain and critical period (Second method)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Heuristic Methods: Ziegler-Nichols tuning rule}
 		This method relies on empirically determining two parameters of the system:
 		\begin{enumerate}
 			\item Set the integral and derivative gains to 0
@@ -375,10 +374,49 @@ Start:
 \end{frame}
 
 \begin{frame}
-	\frametitle{Heuristic Methods: Ziegler-Nichols tunig rule}
-	With $K_u$ and $T_u$ determined like in the previous slide, a starting point for the parameters can be determined:
-	\vspace{1em}
-	
+	\frametitle{First Method}
+	\justify
+	In this method, the response of the plant to a unit-step input is obtained experimentally (because we do not know the mathematical model). If the plant involves neither integrators nor dominant complex-conjugate poles, then such a unit-step response curve may look S-shaped as shown in the figure on the next slide. This S-shaped curve may be characterized by two constants: delay time $L$ and time constant $T$. The delay time and the time constant are determined by drawing a tangent line at the inflection point of the S-shaped curve and determining the intersections of the tangent line with the time axis and line Amplitude = K.
+	\begin{alertblock}{}
+		If the response to a step input does not exhibit an S-shaped curve, the first method does not apply.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}
+	\frametitle{First Method}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\linewidth]{s_shaped_response}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{First Method}
+	\vbox{
+		\centering
+		\begin{tabular}{c | c | c | c}
+			Control Type & $K_P$ & $K_I$ & $K_D$\\
+			\hline
+			P & $\frac{T}{L}$ & 0 &	0\\
+			PI & $0.9\frac{T}{L}$ & $K_p \frac{0.3}{L}$ & 0\\
+			PID & $1.2\frac{T}{L}$ & $\frac{K_p}{2L}$ & $0.5 L K_P$ \\
+		\end{tabular}}
+		\vspace{0.5em}
+	The PID controller tuned by the first method of Ziegler-Nichols rules gives:
+	\vspace{-1.5em}
+	\begin{align*}
+		\frac{U(s)}{E(s)} &= K_P + \frac{K_I}{s} + K_D s\\
+		&= 1.2\frac{T}{L} \big (1 + \frac{1}{2Ls} + 0.5Ls \big)\\
+		&= 0.6 T \frac{\big (s + \frac{1}{L} \big)^2}{s}
+	\end{align*}
+	with a pole at the origin and a double zero at $s = -\frac{1}{L}$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Second Method}
+	With $K_u$ and $T_u$ defined as before, a starting point for the parameters can be determined:
+	\vbox{\vspace{0.5em}
+		\centering
 	\begin{tabular}{c | c | c | c}
 		Control Type	&	$K_p$		&	$K_i$			&	$K_d$ 	\\
 		\hline
@@ -389,60 +427,60 @@ Start:
 		Pessen Integral Rule & $0.7K_u$ &	$2.5K_p/T_u$	&	$3K_pT_u/20$\\
 		Some overshoot	&	$0.33K_u$	&	$2K_p/T_u$		&	$K_pT_u/3$	\\
 		No overshoot	&	$0.2K_u$	&	$2K_p/T_u$		&	$K_pT_u/3$	\\
-	\end{tabular}
+	\end{tabular}}
+	\begin{alertblock}{}
+		If the output does not exhibit sustained oscillations for whatever value $K_P$ may take, then the second method does not apply.
+	\end{alertblock}
 \end{frame}
-\begin{frame}{Heuristic Methods: Ziegler-Nichols tuning rule(example)}
+
+\begin{frame}{Ziegler-Nichols tuning rule(example)}
 	\vspace{-1em}
 	\footnotesize{
 	\begin{example}
 		Consider a plant with a given model:\\
 		\vspace{-0.5em}
-			$$ P(s) = \frac{1}{(s+1)^3} $$\\
-			\vspace{-0.7em}
-			\begin{itemize}
-				\item We compute the critical gain $K_c$. This is the value of $K_p$ for which $\angle (K_p P(s)) = - 180^\circ$. On the Nyquist plot this the value of $K_p$ for which $K_p P(s)$ passes through $(-1,0)$.\\
-			\end{itemize}
+		$$ P(s) = \frac{1}{(s+1)^3} $$\\
+		\vspace{-0.7em}
+		\begin{itemize}
+		\item We compute the critical gain $K_c$. This is the value of $K_p$ for which $\angle (K_p P(s)) = - 180^\circ$. On the Nyquist plot this the value of $K_p$ for which $K_p P(s)$ passes through $(-1,0)$.\\
+		\end{itemize}
+		\vspace{-1.5em}
+		\begin{columns}
+			\begin{column}{0.5 \textwidth}
+				\begin{align*}
+				K_cP(j\omega_c) &= -1 \\ \Leftrightarrow K_c &= 	-(j\omega_c + 1)^3 \\
+				& = (3\omega_c^2-1)+j(\omega_c^3 - 3\omega_c)
+				\end{align*}
 				\vspace{-1.5em}
-				\begin{columns}
-					\begin{column}{0.5 \textwidth}
-							\begin{align*}
-							K_cP(j\omega_c) &= -1 \\ \Leftrightarrow K_c &= 	-(j\omega_c + 1)^3 \\
-								& = (3\omega_c^2-1)+j(\omega_c^3 - 3\omega_c)
-							\end{align*}
-								\vspace{-1.5em}
-								$$ \omega_c^3-3\omega_c = 0 \Rightarrow \omega_c = \sqrt{3}$$\\
-								\vspace{-1.5em}
-								$$K_c = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
-								\vspace{-1.5em}
-								$$K_p = 4.8, K_I = 0.551  K_p, K_d =  0.45 K_p$$
-						
-					\end{column}
-					\begin{column}{0.4 \textwidth}
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth]{img/Z_N_PID_example}
-\end{figure}
-
-					\end{column}
-				\end{columns}
-			
+				$$ \omega_c^3-3\omega_c = 0 \Rightarrow \omega_c = \sqrt{3}$$\\
+				\vspace{-1.5em}
+				$$K_c = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
+				\vspace{-1.5em}
+				$$K_p = 4.8, K_I = 0.551  K_p, K_d =  0.45 K_p$$
+			\end{column}
+			\begin{column}{0.4 \textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=1\linewidth]{img/Z_N_PID_example}
+			\end{figure}
+			\end{column}
+		\end{columns}
 	\end{example}}
 \end{frame}
+
 \begin{frame}
 	\small{
-	\frametitle{Numeriacal Optimization Methods}
-	The tuning of a PID controller is posed as a constrained optimization problem. 
+	\frametitle{Numerical Optimization Methods}
+	The tuning of a PID controller is posed as a constrained optimization problem.  
 	\begin{itemize}
 			\item For a given set of parameters $K_p$, $K_i$ and $K_d$ run a simulation of the closed-loop system, and compute some performance parameters (e.g. setting time, rise time, etc.) and a performance index.
 			\item Optimize the performance index over the three PID gains.
 	\end{itemize}}
-\begin{figure}
-
-\includegraphics[width=0.3\linewidth]{img/PID_1}
-\end{figure}
-
-	
+	\begin{figure}
+	\includegraphics[width=0.3\linewidth]{img/PID_1}
+	\end{figure}	
 \end{frame}
+
 \begin{frame}{Some Software Tools}
 	\small{
 	\begin{tabular}{|p{3cm}|p{7cm}|}
@@ -458,18 +496,19 @@ Start:
 		\hline 
 	\end{tabular}}
 \end{frame}
+
 \begin{frame}{pidtool /pidTuner - Demo}
 	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{img/pid_tool}
-
-\end{figure}
-\url{https://www.youtube.com/watch?v=2tKe0caUv1I}
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/pid_tool}
+	\end{figure}
+	\url{https://www.youtube.com/watch?v=2tKe0caUv1I}
 \end{frame}
+
 \begin{frame}{INCA PID Tuner – Demo}
 	\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{img/inca_tunner}
-\end{figure}
-\url{https://www.youtube.com/watch?v=XH2bkq1URSg}
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/inca_tunner}
+	\end{figure}
+	\url{https://www.youtube.com/watch?v=XH2bkq1URSg}
 \end{frame}
