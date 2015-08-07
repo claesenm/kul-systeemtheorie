@@ -147,7 +147,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action (Continous-time)}
+	\frametitle{Alterative Derivative Action (Continous-time)}
 		\begin{columns}
 			\begin{column}{0.7\linewidth}
 				Imagine a step change in reference signal $r(t)$. 
@@ -181,6 +181,8 @@
 
 \section{Implementations}
 
+\subsection{Analog Implementation}
+
 \begin{frame}
 	\frametitle{Analog Implementation}
 	The key building block is the operational amplifier (op-amp).
@@ -191,10 +193,10 @@
 			\end{figure}
 		\end{column}
 		\begin{column}{0.3 \textwidth}
-			\footnotesize{
+			\tiny{
 				\begin{itemize}
 					\item PV - Process Variable $y(t)$
-					\item SP - Set Point $r(t)$
+					\item SP - Setpoint $r(t)$
 					\item Output - Control action $u(t)$
 				\end{itemize}
 			}
@@ -227,6 +229,8 @@
 	\end{figure}
 	\url{https://youtu.be/6W3PLiVIcmE}
 \end{frame}
+
+\subsection{Digital Implementation}
 
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
@@ -319,7 +323,10 @@
 	\url{https://youtu.be/iWgHqqunsyE}
 \end{frame}
 
+
 \section{PID Tuning}
+
+\subsection{Manual Tuning}
 
 \begin{frame}
 	\frametitle{Manual Tuning}
@@ -352,9 +359,12 @@
 	\end{enumerate}
 \end{frame}
 
+\subsection{Heuristic Methods}
+
 \begin{frame}
 	\frametitle{Heuristic Methods}
-	Sometimes the \textbf{mathematical model} of the plant is \textbf{not known}. In these cases we will uses the \textbf{heuristic methods}:
+	\justify
+	When the \textbf{mathematical model of a plant is unknown} or it is too complicated to obtain, an analytical approach to design a PID controller is not possible. Therefore in these cases we have to use an experimental approach to tune the PID controller.  Among the existing experimental approaches we can mention:
 	\begin{itemize}
 		\item Ziegler-Nichols tuning rule based on step response (First method)
 		\item Ziegler-Nichols tuning rule based on critical gain and critical period (Second method)
@@ -362,27 +372,16 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Heuristic Methods: Ziegler-Nichols tuning rule}
-		This method relies on empirically determining two parameters of the system:
-		\begin{enumerate}
-			\item Set the integral and derivative gains to 0
-			\item Increase the proportional gain $K_p$ until the output of the control loop starts oscillating with at constant amplitude. The value of $K_p$ at this point is referred to as ultimate gain $K_u \triangleq K_p$
-			\item Measure the period of the oscillations $T_u$ at the output
-			\item Adjust the controller parameters according the table on the next slide.
-		\end{enumerate}
-\end{frame}
-
-\begin{frame}
-	\frametitle{First Method}
+	\frametitle{Ziegler-Nichols tuning rule: First Method}
 	\justify
-	In this method, the response of the plant to a unit-step input is obtained experimentally (because we do not know the mathematical model). If the plant involves neither integrators nor dominant complex-conjugate poles, then such a unit-step response curve may look S-shaped as shown in the figure on the next slide. This S-shaped curve may be characterized by two constants: delay time $L$ and time constant $T$. The delay time and the time constant are determined by drawing a tangent line at the inflection point of the S-shaped curve and determining the intersections of the tangent line with the time axis and line Amplitude = K.
+	In this method, the response of the plant to a unit-step input is obtained experimentally. If the plant involves neither integrators nor dominant complex-conjugate poles, then such a unit-step response curve may look S-shaped as shown in the figure on the next slide. This S-shaped curve may be characterized by two constants: delay time $L$ and time constant $T$. The delay time and the time constant are determined by drawing a tangent line at the inflection point of the S-shaped curve and determining the intersections of the tangent line with the time axis and a horizontal line crossing the y-axis at point (0,K).
 	\begin{alertblock}{}
 		If the response to a step input does not exhibit an S-shaped curve, the first method does not apply.
 	\end{alertblock}
 \end{frame}
 
 \begin{frame}
-	\frametitle{First Method}
+	\frametitle{Ziegler-Nichols tuning rule: First Method}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.8\linewidth]{s_shaped_response}
@@ -390,17 +389,21 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{First Method}
-	\vbox{
+	\frametitle{Ziegler-Nichols tuning rule: First Method}
+	Ziegler and Nichols suggested to set the values of $K_p$, $K_i$, and $K_d$  according to the formulas shown in the following table:
+	\vbox{\vspace{1em}
 		\centering
 		\begin{tabular}{c | c | c | c}
 			Control Type & $K_P$ & $K_I$ & $K_D$\\
-			\hline
-			P & $\frac{T}{L}$ & 0 &	0\\
-			PI & $0.9\frac{T}{L}$ & $K_p \frac{0.3}{L}$ & 0\\
+			\hline 
+			P & $\frac{T}{L}$ & 0 &	0\\[0.5em]
+			PI & $0.9\frac{T}{L}$ & $K_p \frac{0.3}{L}$ & 0\\[0.5em]
 			PID & $1.2\frac{T}{L}$ & $\frac{K_p}{2L}$ & $0.5 L K_P$ \\
 		\end{tabular}}
-		\vspace{0.5em}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Ziegler-Nichols tuning rule: First Method}
 	The PID controller tuned by the first method of Ziegler-Nichols rules gives:
 	\vspace{-1.5em}
 	\begin{align*}
@@ -412,9 +415,19 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Second Method}
-	With $K_u$ and $T_u$ defined as before, a starting point for the parameters can be determined:
-	\vbox{\vspace{0.5em}
+	\frametitle{Ziegler-Nichols tuning rule: Second Method}
+	This method is based on the value of $K_p$ that results in marginal stability when only proportional control action is used.
+	\begin{enumerate}
+		\item Set the integral and derivative gains to zero ($K_p$ = $K_d$ =0);
+		\item Increase the proportional gain $K_p$ until the output of the control loop starts oscillating with a constant amplitude. The value of $K_p$ at this point is referred to as ultimate gain ($K_u \triangleq K_p$);
+		\item Measure the period of the oscillations $T_u$ at the output of the closed-loop system;
+		\item Use $K_u$ and $T_u$ to determine the gains of the PID controller according to the tuning rule table shown in the next slide.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Ziegler-Nichols tuning rule: Second Method}
+	\vbox{
 		\centering
 	\begin{tabular}{c | c | c | c}
 		Control Type	&	$K_p$		&	$K_i$			&	$K_d$ 	\\
@@ -430,9 +443,10 @@
 	\begin{alertblock}{}
 		If the output does not exhibit sustained oscillations for whatever value $K_P$ may take, then the second method does not apply.
 	\end{alertblock}
+	\footnotesize{Keep in mind that we are working with heuristic tuning rules, and therefore some additional fine tuning might be necessary.}
 \end{frame}
 
-\begin{frame}{Ziegler-Nichols tuning rule(example)}
+\begin{frame}{Ziegler-Nichols tuning rule: Sedond Method (example)}
 	\vspace{-1em}
 	\footnotesize{
 	\begin{example}
@@ -441,21 +455,20 @@
 		$$ P(s) = \frac{1}{(s+1)^3} $$\\
 		\vspace{-0.7em}
 		\begin{itemize}
-		\item We compute the critical gain $K_c$. This is the value of $K_p$ for which $\angle (K_p P(s)) = - 180^\circ$. On the Nyquist plot this the value of $K_p$ for which $K_p P(s)$ passes through $(-1,0)$.\\
+		\item We compute the critical gain $K_u$. This is the value of $K_p$ for which $\angle (K_p P(s)) = - 180^\circ$. On the Nyquist plot this is the value of $K_p$ for which $K_p P(s)$ passes through $(-1,0)$.\\
 		\end{itemize}
 		\vspace{-1.5em}
 		\begin{columns}
 			\begin{column}{0.5 \textwidth}
 				\begin{align*}
-				K_cP(j\omega_c) &= -1 \\ \Leftrightarrow K_c &= 	-(j\omega_c + 1)^3 \\
-				& = (3\omega_c^2-1)+j(\omega_c^3 - 3\omega_c)
+				K_uP(j\omega_u) &= -1 \\ \Leftrightarrow K_u &= 	-(j\omega_u + 1)^3 \\
+				& = (3\omega_u^2-1)+j(\omega_u^3 - 3\omega_u)
 				\end{align*}
 				\vspace{-1.5em}
-				$$ \omega_c^3-3\omega_c = 0 \Rightarrow \omega_c = \sqrt{3}$$\\
+				$$ \omega_u^3-3\omega_u = 0 \Rightarrow \omega_u = \sqrt{3}$$\\
 				\vspace{-1.5em}
-				$$K_c = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
-				\vspace{-1.5em}
-				$$K_p = 4.8, K_I = 0.551  K_p, K_d =  0.45 K_p$$
+				$$K_u = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
+				$K_p = 4.8$, $K_I = 2.6448  K_p$, $K_d =  2.16$
 			\end{column}
 			\begin{column}{0.4 \textwidth}
 			\begin{figure}
@@ -467,12 +480,14 @@
 	\end{example}}
 \end{frame}
 
+\subsection{Numericla Optimization Methoods}
+
 \begin{frame}
 	\small{
 	\frametitle{Numerical Optimization Methods}
 	The tuning of a PID controller is posed as a constrained optimization problem.  
 	\begin{itemize}
-			\item For a given set of parameters $K_p$, $K_i$ and $K_d$ run a simulation of the closed-loop system, and compute some performance parameters (e.g. setting time, rise time, etc.) and a performance index.
+			\item For a given set of parameters $K_p$, $K_i$ and $K_d$ run a simulation of the closed-loop system, and compute some performance parameters (e.g. settling time, rise time, etc.) and a performance index.
 			\item Optimize the performance index over the three PID gains.
 	\end{itemize}}
 	\begin{figure}
@@ -487,11 +502,12 @@
 		\hline pidtool / pidTuner
 		 & It is a Matlab tool to interactively design a SISO PID controller in the feed-forward path of single-loop, unity-feedback control configuration \\ 
 		\hline Pidpy
-		 & It is a modular PID control library for python that supports PID auto tuning. \url{https://pypi.python.org/pypi/pypid/}
-		  \\ 
+		 & It is a modular PID control library for python that supports PID auto tuning. {\color{blue}{\url{https://pypi.python.org/pypi/pypid/}}}
+		 \\ 
 		\hline INCA PID Tuner
-		 & It is a commercial tuning tool developed by IPCOS. It has a vast library of PID structures for DCS and PLC  Systems including Siemens, ABB, Honeywell, Emerson, etc. \url{http://www.ipcos.com/advancedprocesscontrol/advanced-process-control/pid-tuning-software/inca-pid-tuning/}
-		   \\ 
+		 & It is a commercial tuning tool developed by IPCOS. It has a vast library of PID structures for DCS and PLC  Systems including Siemens, ABB, Honeywell, Emerson, etc.
+		 {\color{blue}{\url{http://www.ipcos.com/advancedprocesscontrol/advanced-process-control/pid-tuning-software/inca-pid-tuning/}}}
+		 \\ 
 		\hline 
 	\end{tabular}}
 \end{frame}
@@ -504,7 +520,7 @@
 	\url{https://www.youtube.com/watch?v=2tKe0caUv1I}
 \end{frame}
 
-\begin{frame}{INCA PID Tuner – Demo}
+\begin{frame}{INCA PID Tuner - Demo}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/inca_tunner}
