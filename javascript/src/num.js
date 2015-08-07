@@ -100,10 +100,20 @@ module.exports = {
         }
         var c = poly.slice(0, end);
 
-        var d = c.slice(1, c.length).map(function(coeff) {
-            return math.unaryMinus(math.divide(coeff, poly[0]));
-        });
 
+        // Remove small leading coefficients that introduce infinities
+        function calc_d(coeff) {
+            return math.unaryMinus(math.divide(coeff, c[0]));
+        }
+        var d = c.slice(1, c.length).map(calc_d);
+        while (!d.every(isFinite)) {
+            c = c.slice(1, c.length);
+            d = c.slice(1, c.length).map(calc_d);
+        }
+
+
+        // Used for returning the roots, appends the roots
+        // found when removing the trailing zeros
         function append_zeros(s) {
             return s.concat(math.zeros(poly.length - end));
         }
