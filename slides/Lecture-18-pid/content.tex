@@ -83,10 +83,7 @@
 	\frametitle{Integral Control}
 	In continuous-time it is given by:
 	\begin{equation*}
-		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \rightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
-	\end{equation*}
-	\begin{equation*}
-		\dot{u_i} = K_i e(t)
+		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \rightarrow \quad \dot{u_i}(t) = K_i e(t) \quad \rightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
 	\end{equation*}
 	and in discrete-time by (using backward Euler)
 	\begin{equation*}
@@ -254,8 +251,8 @@
 			derivative = Kd*(error-previous_error)/sampling_time
 			output = proportional + integral + derivative
 			previous_error = error
-			\textcolor{Blue}{wait} (sampling_time)
-			\textcolor{Blue}{goto} Start
+			<@\textcolor{blue}{wait}@> (sampling_time)
+			<@\textcolor{blue}{goto}@> Start
 		\end{lstlisting}
 	}
 %	\begin{enumerate}

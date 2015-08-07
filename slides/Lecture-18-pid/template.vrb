@@ -20,8 +20,8 @@
 			derivative = Kd*(error-previous_error)/sampling_time
 			output = proportional + integral + derivative
 			previous_error = error
-			\textcolor{Blue}{wait} (sampling_time)
-			\textcolor{Blue}{goto} Start
+			<@\textcolor{blue}{wait}@> (sampling_time)
+			<@\textcolor{blue}{goto}@> Start
 		\end{lstlisting}
 	}
 %	\begin{enumerate}
