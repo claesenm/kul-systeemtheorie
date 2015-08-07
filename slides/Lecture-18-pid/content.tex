@@ -147,7 +147,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action (Continous-time)}
+	\frametitle{Alterative Derivative Action (Continous-time)}
 		\begin{columns}
 			\begin{column}{0.7\linewidth}
 				Imagine a step change in reference signal $r(t)$. 
@@ -181,6 +181,8 @@
 
 \section{Implementations}
 
+\subsection{Analog Implementation}
+
 \begin{frame}
 	\frametitle{Analog Implementation}
 	The key building block is the operational amplifier (op-amp).
@@ -191,10 +193,10 @@
 			\end{figure}
 		\end{column}
 		\begin{column}{0.3 \textwidth}
-			\footnotesize{
+			\tiny{
 				\begin{itemize}
 					\item PV - Process Variable $y(t)$
-					\item SP - Set Point $r(t)$
+					\item SP - Setpoint $r(t)$
 					\item Output - Control action $u(t)$
 				\end{itemize}
 			}
@@ -227,6 +229,8 @@
 	\end{figure}
 	\url{https://youtu.be/6W3PLiVIcmE}
 \end{frame}
+
+\subsection{Digital Implementation}
 
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
@@ -319,7 +323,10 @@
 	\url{https://youtu.be/iWgHqqunsyE}
 \end{frame}
 
+
 \section{PID Tuning}
+
+\subsection{Manual Tuning}
 
 \begin{frame}
 	\frametitle{Manual Tuning}
@@ -351,6 +358,8 @@
 		\item Add some derivative action in order to quickly react to disturbances and/or dampen the response.
 	\end{enumerate}
 \end{frame}
+
+\subsection{Heuristic Methods}
 
 \begin{frame}
 	\frametitle{Heuristic Methods}
@@ -470,6 +479,8 @@
 		\end{columns}
 	\end{example}}
 \end{frame}
+
+\subsection{Numericla Optimization Methoods}
 
 \begin{frame}
 	\small{
