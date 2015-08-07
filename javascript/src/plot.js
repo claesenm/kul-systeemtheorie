@@ -405,14 +405,19 @@ module.exports = {
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = false;
 
+        // Create graph and add drawing commands
         var svgs = [];
         var graph = this.time_series(container, input_data, {chart: {events: {redraw: function() {
+
+            // Destroy previouse svgs
             svgs.forEach(function(svg) {
                 if (svg) {
                     svg.destroy();
                 }
             });
             svgs = [];
+
+
             var renderer = this.renderer,
                 xAxis = this.axes[0],
                 yAxis = this.axes[1],
@@ -434,6 +439,7 @@ module.exports = {
 
             if (show_info) {
 
+                // Gather new step data in case the plots data has been updated
                 var step_data_new = {
                     t: new Array(this.series[0].data.length),
                     x: new Array(this.series[0].data.length)
@@ -446,11 +452,12 @@ module.exports = {
 
 
                 // Render peak
-                svgs.push(renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
-                              'L', toX(step_info.peak_time), toY(step_info.peak),
-                              'L', toX(step_info.peak_time), toY(yAxis.min)])
-                              .attr(line_attrs)
-                              .add());
+                var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
+                                             'L', toX(step_info.peak_time), toY(step_info.peak),
+                                             'L', toX(step_info.peak_time), toY(yAxis.min)])
+                                       .attr(line_attrs)
+                                       .add();
+                svgs.push(peak_svg);
             }
         }  }}});
 
