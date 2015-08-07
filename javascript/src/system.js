@@ -387,11 +387,15 @@ module.exports = {
      * @returns {Ss} The state-space representation of sys.
      */
     tf2ss: function(sys) {
+        // Controlable canonical form
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
             as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
 
+        if (denom.length == 1) {
+            return new Ss([1], [1], [0], [numer[0]]);
+        }
         // Make numer same length as denom
         numer = math.zeros(denom.length - numer.length).concat(numer);
 

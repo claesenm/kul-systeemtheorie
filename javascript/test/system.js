@@ -149,4 +149,26 @@ describe('System testing', function() {
             assert.deepEqual(systf.getDenominator(), [1, -2, 2]);
         });
     });
+
+    describe('tf2ss', function() {
+        it('zeroth order', function() {
+            var sys = system.tf([5], [1]);
+            var ssys = system.tf2ss(sys);
+            assert.deepEqual(ssys.A, []);
+            assert.deepEqual(ssys.B, []);
+            assert.deepEqual(ssys.C, []);
+            assert.deepEqual(ssys.D, [5]);
+        });
+
+
+        it('first order', function() {
+            var sys = system.tf([5], [1, 1]);
+            var ssys = system.tf2ss(sys);
+            console.log(ssys);
+            assert.deepEqual(ssys.A, [[-1]]);
+            assert.deepEqual(ssys.B, [2]);
+            assert.deepEqual(ssys.C, [[2.5]]);
+            assert.deepEqual(ssys.D, [0]);
+        });
+    });
 });
