@@ -6,11 +6,10 @@
 	\frametitle{What is a PID controller?}
 	\small{
 	\begin{definition}
-		A \textbf{P}roportional \textbf{I}ntegral \textbf{D}eriviative controller is a control
-		loop feedback mechanism (controller) widely used in process industry.
+		A \textbf{P}roportional-\textbf{I}ntegral-\textbf{D}eriviative (PID) controller is a control-loop feedback mechanism (controller) widely used in process industry.
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.8\linewidth]{img/PID}
+			\includegraphics[width=0.8\linewidth]{PID_figure}
 		\end{figure}
 		\vspace{-1em}
 		Continuous-time text book equation:
@@ -22,7 +21,7 @@
 		\vspace{-1.5em}
 	\end{definition}
 	
-	\textbf{Note:} More than 90\% of all closed loop controllers are PID.\\
+	\textbf{Note:} $90$\% (or more) of control-loops in process industry are PID.\\ 
 }
 \end{frame}
 
@@ -30,22 +29,22 @@
 	\frametitle{What is a PID controller?}
 	\small{
 	\begin{itemize}
-		\item \textbf{P}roportional action $u_p(t) = K_p e(t)$: Action depends on the instaneous value of the control error. 
+		\item \textbf{P}roportional action $u_p(t) = K_p e(t)$: it depends on the instaneous value of the error. 
 			\begin{itemize}
 				\pro Reduces rise time
-				\con Reduces but \textbf{does not eliminate steady-state error}: Only when $K \rightarrow \infty , \text{error} \rightarrow 0$
-				 (unless plant has pole(s) at $s=0$)
+				\pro Reduces but \textbf{does not eliminate the steady-state error}: Only when $K \rightarrow \infty , \text{error} \rightarrow 0$
+				 (unless the plant has pole(s) at $s=0$)
 			\end{itemize}
-		\item \textbf{I}ntegral action $u_i(t) =K_i\int_0^t e(\tau)d\tau$: Gives a controller output that is proportional to the accumulated error. Reacts on constant errors
+		\item \textbf{I}ntegral action $u_i(t) =K_i\int_0^t e(\tau)d\tau$: it is proportional to the accumulated error.
 			\begin{itemize}
-				\pro  \textbf{Can eliminate steady state error} in some cases
+				\pro  \textbf{Eliminates the steady-state error} in some cases
 				\con Makes transient response slower 
 			\end{itemize}
 	
-		\item \textbf{D}erivative action $u_d(t) = K_d \frac{de(t)}{dt}$: Acts on the rate of change of the control error. 
+		\item \textbf{D}erivative action $u_d(t) = K_d \frac{de(t)}{dt}$: it is proportional to the rate of change of the error. 
 			\begin{itemize}
-				\pro Damping effect: reduces overshoot, improves transient response
-				\con Sensitive for noise, amplifies it if present
+				\pro Increases the stability of the system, reduces overshoot, improves the transient response
+				\con Amplifies the noise present in the error signal
 			\end{itemize}
 	\end{itemize}}
 \end{frame}
@@ -54,13 +53,13 @@
 
 \begin{frame}
 	\frametitle{Proportional Control}
-	The continuous-time and discrete implementation are identical
-	
-	Continuous:
+	The continuous-time and discrete-time implementation are identical.\\
+	\vspace{1em}
+	For the continuous-time case we have:
 	\begin{equation*}
 		u_p(t) = K_p e(t) \quad \rightarrow \quad \frac{U_p(s)}{E(s)} = K_p 
 	\end{equation*}
-	Discrete:
+	and for the discrete-time case:
 	\begin{equation*}
 		u_p[k] = K_p e[k] \quad \rightarrow \quad \frac{U_p(z)}{E(z)} = K_p 
 	\end{equation*}µ
@@ -68,12 +67,12 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Derrivative Control}
-	Continuous:
+	\frametitle{Derivative Control}
+	In continuous-time it is given by:
 	\begin{equation*}
 		u_d(t) = K_d \frac{de(t)}{dt} \quad \rightarrow \quad \frac{U_d(s)}{E(s)} = K_d s 
 	\end{equation*}
-	Discrete (using \textbf{backward Euler}):
+	and in discrete-time by (using backward Euler):
 	\begin{equation*}
 	u_d[k] = K_d \frac{ e[k] - e[k-1]}{T_s} \quad \rightarrow \quad \frac{U_d(z)}{E(z)} = K_d \frac{z - 1}{T_sz}
 	\end{equation*}
@@ -82,17 +81,13 @@
 
 \begin{frame}
 	\frametitle{Integral Control}
-	The continuous equation is:
+	In continuous-time it is given by:
 	\begin{equation*}
-		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \rightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
+		u_i(t) = K_i \int_0^t e(\tau)d\tau \quad \rightarrow \quad \dot{u_i}(t) = K_i e(t) \quad \rightarrow \quad \frac{U_i(s)}{E(s)} = \frac{K_i}{s} 
 	\end{equation*}
-	Differentiating this gives :
+	and in discrete-time by (using backward Euler)
 	\begin{equation*}
-		\dot{u_i} = K_i e(t)
-	\end{equation*}
-	Then applying backward Euler:
-	\begin{equation*}
-	u_i[k] = u[k-1] + K_i T e[k] \quad \rightarrow \quad \frac{U_i(z)}{E(z)} = K_i \frac{z T_s}{z - 1}
+	u_i[k] = u_i[k-1] + K_i T_s e[k] \quad \rightarrow \quad \frac{U_i(z)}{E(z)} = K_i \frac{z T_s}{z - 1}
 	\end{equation*}
 	with $T_s$ the sampling time.
 \end{frame}
@@ -108,21 +103,21 @@
 			u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
 			&\text{with } u_i[k] = u_i[k-1] + K_i T_s e[k]
 			\end{align*}	
-			In z-domain:
+			In the $\mathcal{Z}$-domain:
 			\begin{equation*}
-			\frac{U(z)}{E(z)} = \textcolor{red}{K_p}  + \textcolor{red}{\frac{K_d}{T_s}}\frac{z-1}{z} + \textcolor{red}{K_i T_s}\frac{z}{z-1}
+			\frac{U(z)}{E(z)} = \textcolor{red}{K_p}  + \textcolor{red}{K_i T_s}\frac{z}{z-1} + \textcolor{red}{\frac{K_d}{T_s}}\frac{z-1}{z}
 			\end{equation*}
 			where $\frac{K_d}{T_s}$ and $K_iT_s$  are the new derivative and gains.
 	\end{block}
 	\begin{columns}
 		\begin{column}{0.5 \textwidth}
 			\begin{block}{Digital PI controller}
-				$$\frac{U(z)}{E(z)} = K_p + K_i T \frac{z}{z-1} $$
+				$$\frac{U(z)}{E(z)} = K_p + K_i T_s \frac{z}{z-1} $$
 			\end{block}
 		\end{column}
 		\begin{column}{0.5 \textwidth}
 			\begin{block}{Digital PD controller}
-				$$\frac{U(z)}{E(z)} = K_p + \frac{K_d}{T}\frac{z-1}{z} $$
+				$$\frac{U(z)}{E(z)} = K_p + \frac{K_d}{T_s}\frac{z-1}{z} $$
 			\end{block}
 		\end{column}
 	\end{columns}}
@@ -131,13 +126,14 @@
 
 \begin{frame}
 	\frametitle{Alternative Digital PID controller}
-	We can also discretize using the \textbf{bilinear transformation}:
+	If we discretize the continuous-time (analog) PID controller using the bilinear transformation,
 	\begin{align*}
-		\frac{U(z)}{E(z)} &=  
-				\left. K_p + \frac{K_i}{s} + K_d s \right|_
-							{s=\frac{2}{T}\left( \frac{z-1}{z+1}\right)}  \\
-			&= K_p + \frac{K_iT(z + 1)}{2(z-1)} + \frac{2K_d(z-1)}{T(z+1)} \\
-			&= \frac{\alpha_2 z^2 + \alpha_1 z + \alpha_0}{(z-1)(z+1)}
+	\frac{U(z)}{E(z)} &= \left. K_p + \frac{K_i}{s} + K_d s \right|_ {s=\frac{2}{T_s}\left( \frac{z-1}{z+1}\right)}
+	\end{align*}
+	we obtain an alternative form for a digital PID controller
+	\begin{align*}
+		\frac{U(z)}{E(z)} &= K_p + \frac{K_iT_s(z + 1)}{2(z-1)} + \frac{2K_d(z-1)}{T_s(z+1)} \\
+		&= \frac{\alpha_2 z^2 + \alpha_1 z + \alpha_0}{(z-1)(z+1)}
 	\end{align*}
 	where $\alpha_2, \alpha_1, \alpha_0$ are design parameters.
 \end{frame}
@@ -151,10 +147,10 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action(Continous time)}
+	\frametitle{Alterantive Derivative Action (Continous-time)}
 		\begin{columns}
 			\begin{column}{0.7\linewidth}
-				Imagine a jumping set point or rapidly changing signal. 
+				Imagine a step change in reference signal $r(t)$. 
 				This results in a theoretically infinite, practically very large response of
 				the derivative term.  
 			\end{column}
@@ -170,23 +166,20 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action(Continous time)}
+	\frametitle{Alterantive Derivative Action (Continous-time)}
 	\begin{equation*}
 		\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
 	\end{equation*}
 	
-	Further $e(t)$ is replaced by $c\cdot r(t)-y(t)$ with c the set point weighting, which is often set to zero to further reduce immediate influence of a sudden set point jump. 
-	
-	In time domain:
-	
+	Further $e(t)$ is replaced by $c\cdot r(t)-y(t)$ with c the set point weighting, which is often set to zero to further reduce immediate influence of a sudden set-point jump. \\
+	\vspace{1em}
+	In the time-domain:
 	\begin{equation*}
-		u_d(t) = -\tau\frac{du_d}{dt} + K_d(c\cdot r(t)-y(t))
+		u_d(t) = -\tau\frac{du_d}{dt} + K_d \frac{d}{dt}(c\cdot r(t)-y(t))
 	\end{equation*}
-	
-	This can also be discretized, but the bilinear method then introduces \emph{ringing}, i.e. large oscillations in transient response.
 \end{frame}
 
-\section{Implementation Examples}
+\section{Implementations}
 
 \begin{frame}
 	\frametitle{Analog Implementation}
@@ -223,7 +216,7 @@
 		\end{column}
 	\end{columns}
 	\begin{center}
-		\textbf{FOXBORO 62H-4E-OH M/62H}
+		\textbf{Analog PID controller: FOXBORO 62H-4E-OH M/62H}
 	\end{center}
 \end{frame}
 
@@ -238,27 +231,30 @@
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
 	\small{
-	The difference equations are typically implemented in a micro controller or FPGA (field-programmable gate array):
+	The difference equations are typically implemented in a microcontroller in an FPGA (field-programmable gate array device):
+	\vspace{-0.5em}
 		\begin{align*}
-		u[k] &= K_p e[k] + \frac{K_d}{T}(e[k] - e[k-1])+u_i[k] \\
-		&\text{with } u_i[k] = u_i[k-1] + K_i T e[k]
+		u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
+		&\text{with } u_i[k] = u_i[k-1] + K_i T_s e[k]
 		\end{align*}
-	Steps to be implemented:}
-\begin{lstlisting}[
-basicstyle=\scriptsize
-]
-previous_error = 0
-integral = 0
-Start:
-	error = setpoint - measured_value
-	proportional = K_P * error
-	integral = integral + K_i*sampling_time*error
-	derivative = K_d*(error-previous_error)/sampling_time
-	output = proportional + integral + derivative
-	previous_error = error
-	wait(sampling_time)
-	goto Start
-	\end{lstlisting}
+	}
+	\vspace{-1.5em}
+	\begin{block}{Pseudocode}
+		\hbox{\hspace{-12em}
+		\begin{lstlisting}[basicstyle=\scriptsize]
+			previous_error = 0
+			integral = 0
+			Start:
+			error = setpoint - measured_value
+			proportional = KP * error
+			integral = integral + Ki*sampling_time*error
+			derivative = Kd*(error-previous_error)/sampling_time
+			output = proportional + integral + derivative
+			previous_error = error
+			<@\textcolor{blue}{wait}@> (sampling_time)
+			<@\textcolor{blue}{goto}@> Start
+		\end{lstlisting}
+	}
 %	\begin{enumerate}
 %		\item Wait for clock interrupt
 %		\item Read analog input
@@ -267,10 +263,11 @@ Start:
 %		\item Update controller variables
 %		\item Go to 1
 %	\end{enumerate}
+	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Digital Implementation Example}
+	\frametitle{Digital Implementation}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\centering PLC with a digital PID module:
@@ -279,7 +276,7 @@ Start:
 			\includegraphics[height=0.7\textheight]{img/640px-Siemens_Simatic_S7-416-3}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\centering Digital PID's:
+			\centering Digital PID:
 			\vspace{1em}
 			\begin{columns}
 				\begin{column}{0.4\linewidth}
@@ -296,7 +293,7 @@ Start:
 \end{frame}
 
 \begin{frame}{PLC}
-	\textbf{P}rogrammable \textbf{L}ogic \textbf{C}ontroller is a digital computer used for automation in the process industry. 
+	\textbf A {P}rogrammable \textbf{L}ogic \textbf{C}ontroller (PLC) is a digital computer used for automation in process industry. 
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
@@ -326,35 +323,37 @@ Start:
 
 \begin{frame}
 	\frametitle{Manual Tuning}
-	The controller can be tuned while connected to the plant. Following routine can be used:
-	\begin{enumerate}
-		\item Set $K_i$ and $K_d$ equal to 0
-		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error in small
-		\item Start adding some integral action in order to get rid of the steady state error. Keep in mind that too much $K_i$ can cause instability!
-		\item Add some derivative action in order to quickly react to disturbance and/or dampen the response
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Manual Tuning}
+	The effects of each of the controller parameters $K_p$, $K_i$ and $K_d$  on the closed-loop system 
+	are summarized in the table below.
+	\vbox{\vspace{1em}
 	\hbox{\hspace{-2.7em}
 	\begin{tabular}{c | c | c | c | c }
+		 & \multicolumn{4}{c}{Closed-loop response}\\
 		PID gains	&	Rise Time 	&	Overshoot	&	Setlling time	&	Steady-State error \\
 		\hline
 		$K_p \uparrow$ & Decrease	&	Increase	&	Small Change	&	Decrease \\
 		$K_i \uparrow$ & Decrease	&	Increase	&	Increase		&	Eliminate \\
 		$K_d \uparrow$ & Small change &	Decrease	&	Decrease		&	No change \\
-	\end{tabular}}
-	\vspace{2em}
+	\end{tabular}}}
+	\vspace{1em}
 	\begin{alertblock}{Important note}
-	Changing one parameter can influence the effect of the other two. Use this table only as an indication.
+	Changing one parameter can influence the effect of the other two. Therefor, use this table only as a reference.
 	\end{alertblock}
 \end{frame}
 
 \begin{frame}
+	\frametitle{Manual Tuning}
+	One possible way is as follows (the controller is connected to the plant):
+	\begin{enumerate}
+		\item Set $K_i$ and $K_d$ equal to 0.
+		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error in small.
+		\item Start adding some integral action in order to get rid of the steady-state error. Keep in mind that too much $K_i$ can cause instability!
+		\item Add some derivative action in order to quickly react to disturbances and/or dampen the response.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Heuristic Methods}
-	Manual tuning is used on a plant from which we know the mathematical model.\\
-	\vspace{1em}
 	Sometimes the \textbf{mathematical model} of the plant is \textbf{not known}. In these cases we will uses the \textbf{heuristic methods}:
 	\begin{itemize}
 		\item Ziegler-Nichols tuning rule based on step response (First method)

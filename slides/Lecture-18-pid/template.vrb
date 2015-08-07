@@ -1,26 +1,29 @@
 \frametitle{Digital Implementation}
 	\small{
-	The difference equations are typically implemented in a micro controller or FPGA (field-programmable gate array):
+	The difference equations are typically implemented in a microcontroller in an FPGA (field-programmable gate array device):
+	\vspace{-0.5em}
 		\begin{align*}
-		u[k] &= K_p e[k] + \frac{K_d}{T}(e[k] - e[k-1])+u_i[k] \\
-		&\text{with } u_i[k] = u_i[k-1] + K_i T e[k]
+		u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
+		&\text{with } u_i[k] = u_i[k-1] + K_i T_s e[k]
 		\end{align*}
-	Steps to be implemented:}
-\begin{lstlisting}[
-basicstyle=\scriptsize
-]
-previous_error = 0
-integral = 0
-Start:
-	error = setpoint - measured_value
-	proportional = K_P * error
-	integral = integral + K_i*sampling_time*error
-	derivative = K_d*(error-previous_error)/sampling_time
-	output = proportional + integral + derivative
-	previous_error = error
-	wait(sampling_time)
-	goto Start
-	\end{lstlisting}
+	}
+	\vspace{-1.5em}
+	\begin{block}{Pseudocode}
+		\hbox{\hspace{-12em}
+		\begin{lstlisting}[basicstyle=\scriptsize]
+			previous_error = 0
+			integral = 0
+			Start:
+			error = setpoint - measured_value
+			proportional = KP * error
+			integral = integral + Ki*sampling_time*error
+			derivative = Kd*(error-previous_error)/sampling_time
+			output = proportional + integral + derivative
+			previous_error = error
+			<@\textcolor{blue}{wait}@> (sampling_time)
+			<@\textcolor{blue}{goto}@> Start
+		\end{lstlisting}
+	}
 %	\begin{enumerate}
 %		\item Wait for clock interrupt
 %		\item Read analog input
@@ -29,3 +32,4 @@ Start:
 %		\item Update controller variables
 %		\item Go to 1
 %	\end{enumerate}
+	\end{block}
