@@ -424,7 +424,7 @@
 
 \begin{frame}
 	\frametitle{Reconstruction}
-	If $R(j\omega)$ has zero energy for frequencies in the bands above the Nyquist frequency, in other words R is band-limited, then an ideal low-pass filter with gain T for $-\pi/T \leq \omega \leq \pi/T$ and zero elsewhere would recover $R(j\omega)$ from $R^*(j\omega)$ exactly.\\
+	If $R(j\omega)$ has zero energy for frequencies in the bands above the Nyquist frequency, in other words $R$ is band-limited, then an ideal low-pass filter with gain $T_s$ for $-\pi/T_s \leq \omega \leq \pi/T_s$ and zero elsewhere would recover $R(j\omega)$ from $R^*(j\omega)$ exactly.\\
 	\medskip
 	If we define the ideal low-pass filter characteristic as $L(j\omega)$, we have:
 	\begin{center}
@@ -522,8 +522,11 @@
 \begin{frame}
 	\frametitle{Zero-order hold filter vs ideal filter}
 	\begin{figure}
-		\includegraphics[width=0.8\linewidth]{zo_vs_ideal}
+		\includegraphics[width=0.75\linewidth]{zo_vs_ideal}
 	\end{figure}
+	\vspace{-1.5em}
+	\centering
+	{\tiny Note: for the sake of comparison, the magnitudes $|G(j\omega)|$ are normalized.}
 \end{frame}
 
 \begin{frame}
