@@ -1,6 +1,0 @@
-\beamer@endinputifotherversion {3.36pt}
-\beamer@sectionintoc {1}{The Frequency Response}{2}{0}{1}
-\beamer@sectionintoc {2}{What Is A Bode Plot}{5}{0}{2}
-\beamer@sectionintoc {3}{How To Construct A Bode Plot (by hand)}{11}{0}{3}
-\beamer@sectionintoc {4}{Constructing The Bode Plot In Matlab}{36}{0}{4}
-\beamer@sectionintoc {5}{Introduction To Nyquist Plots}{40}{0}{5}
