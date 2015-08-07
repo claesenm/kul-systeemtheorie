@@ -84,16 +84,14 @@ module.exports = {
      */
     roots: function(poly) {
 
-        // Check for valid poly
-        if (poly.length <= 1) {
-            return [];
+        // Remove leading zeros
+        var begin;
+        for (begin = 0; begin < poly.length; ++i) {
+            if (poly[begin] !== 0) {
+                break;
+            }
         }
-
-        // Do simple case here
-        if (poly.length === 2) {
-            return [math.divide(math.unaryMinus(poly[1]), poly[0])];
-        }
-
+        poly = poly.slice(begin, poly.length);
 
         var end = poly.length;
         // Remove trailing zeros and add them as roots
@@ -102,11 +100,23 @@ module.exports = {
         }
         var c = poly.slice(0, end);
 
-
         var d = c.slice(1, c.length).map(function(coeff) {
             return math.unaryMinus(math.divide(coeff, poly[0]));
         });
 
+        function append_zeros(s) {
+            return s.concat(math.zeros(poly.length - end));
+        }
+
+        // Check for valid poly
+        if (c.length <= 1) {
+            return append_zeros([]);
+        }
+
+        // Do simple case here
+        if (c.length === 2) {
+            return append_zeros([math.divide(math.unaryMinus(poly[1]), poly[0])]);
+        }
 
         // Build companion matrix
         var a = this.diag(math.ones(c.length - 2), -1);
@@ -122,7 +132,7 @@ module.exports = {
                 result.push(math.complex(e, eigs.y[i]));
             }
         });
-        return result;
+        return append_zeros(result);
     },
 
 
