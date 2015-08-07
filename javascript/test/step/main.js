@@ -1,4 +1,5 @@
-var system = control.system;
+var system = control.system,
+    plot = control.plot;
 
 var container = document.getElementById('step-plot');
 var sys = system.tf([1], [1, 1, 10], 1);

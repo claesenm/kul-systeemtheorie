@@ -1,4 +1,6 @@
-var system = control.system;
+var system = control.system,
+    plot = control.plot;
+
 
 var container = document.getElementById('impulse-plot');
 var sys = system.ss(system.tf([1], [1, 1, 10], 1));

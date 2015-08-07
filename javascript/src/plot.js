@@ -28,12 +28,12 @@ function recursiveExtend(target, source) {
     return target;
 }
 
-control.plot =
 /**
  * A module containing methods for plotting.
  * @module
  */
 module.exports = {
+    control: control,
 
     /**
      * Plots a bode plot of the given system in container.
