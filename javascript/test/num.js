@@ -124,6 +124,10 @@ describe('num tests', function() {
         it('no roots', function() {
             assert.deepEqual(num.roots([5]), []);
         });
+
+        it('all roots in zero', function() {
+            assert.deepEqual(num.roots([1, 0, 0, 0, 0]), [0, 0, 0, 0]);
+        });
     });
 
 

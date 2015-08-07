@@ -352,7 +352,10 @@ module.exports = {
             maxPadding: 0.01,
             title: {
                 text: ''
-            }
+            },
+            lineWidth: 1,
+            gridLineWidth: 0,
+            tickWidth: 1
         },
         legend: {
             enabled: false
@@ -399,8 +402,73 @@ module.exports = {
      */
     step: function(container, sys) {
         var step_data = sys.step(),
-            input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; });
+            input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
+            show_info = false;
 
-        return this.time_series(container, input_data);
+        // Create graph and add drawing commands
+        var svgs = [];
+        var graph = this.time_series(container, input_data, {chart: {events: {redraw: function() {
+
+            // Destroy previouse svgs
+            svgs.forEach(function(svg) {
+                if (svg) {
+                    svg.destroy();
+                }
+            });
+            svgs = [];
+
+
+            var renderer = this.renderer,
+                xAxis = this.axes[0],
+                yAxis = this.axes[1],
+                line_attrs = {
+                'stroke-width': 1,
+                stroke: 'blue',
+                'stroke-dasharray': [1, 3]
+            };
+
+            function toX(v) {
+                return math.round(xAxis.toPixels(v));
+            }
+            function toY(v) {
+                return math.round(yAxis.toPixels(v));
+            }
+            // Add line for the final value
+            var yfinal = this.series[0].data[this.series[0].data.length - 1].y;
+            svgs.push(renderer.path(['M', toX(0), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
+
+            if (show_info) {
+
+                // Gather new step data in case the plots data has been updated
+                var step_data_new = {
+                    t: new Array(this.series[0].data.length),
+                    x: new Array(this.series[0].data.length)
+                };
+                for (var i = 0; i < this.series[0].data.length; ++i) {
+                    step_data_new.t[i] = this.series[0].data[i].x;
+                    step_data_new.x[i] = this.series[0].data[i].y;
+                }
+                var step_info = num.stepinfo(step_data_new);
+
+
+                // Render peak
+                var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
+                                             'L', toX(step_info.peak_time), toY(step_info.peak),
+                                             'L', toX(step_info.peak_time), toY(yAxis.min)])
+                                       .attr(line_attrs)
+                                       .add();
+                svgs.push(peak_svg);
+            }
+        }  }}});
+
+
+        graph.show_step_info = function(show) {
+            show = show === undefined ? true : show;
+            show_info = show;
+            this.redraw();
+        };
+
+        graph.redraw();
+        return graph;
     },
 };
