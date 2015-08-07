@@ -53,7 +53,7 @@
 
 \begin{frame}
 	\frametitle{Proportional Control}
-	The continuous-time and discrete-time implementation are identical.\\
+	The continuous-time and discrete-time implementations are identical.\\
 	\vspace{1em}
 	For the continuous-time case we have:
 	\begin{equation*}
@@ -107,7 +107,7 @@
 			\begin{equation*}
 			\frac{U(z)}{E(z)} = \textcolor{red}{K_p}  + \textcolor{red}{K_i T_s}\frac{z}{z-1} + \textcolor{red}{\frac{K_d}{T_s}}\frac{z-1}{z}
 			\end{equation*}
-			where $\frac{K_d}{T_s}$ and $K_iT_s$  are the new derivative and gains.
+			where $K_iT_s$ and $\frac{K_d}{T_s}$ are the new derivative and gains.
 	\end{block}
 	\begin{columns}
 		\begin{column}{0.5 \textwidth}
@@ -139,6 +139,7 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{PID Math Demystified}
 	\begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{img/PID_video}
@@ -147,7 +148,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterative Derivative Action (Continous-time)}
+	\frametitle{Alternative Derivative Action (Continuous-time)}
 		\begin{columns}
 			\begin{column}{0.7\linewidth}
 				Imagine a step change in reference signal $r(t)$. 
@@ -166,12 +167,12 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Alterantive Derivative Action (Continous-time)}
+	\frametitle{Alternative Derivative Action (Continuous-time)}
 	\begin{equation*}
 		\frac{U_d(s)}{E(s)} = \frac{K_d s}{1+s\tau}
 	\end{equation*}
 	
-	Further $e(t)$ is replaced by $c\cdot r(t)-y(t)$ with c the set point weighting, which is often set to zero to further reduce immediate influence of a sudden set-point jump. \\
+	Further $e(t)$ is replaced by $c\cdot r(t)-y(t)$ with $c$ the setpoint weighting, which is often set to zero to further reduce immediate influence of a sudden set-point jump. \\
 	\vspace{1em}
 	In the time-domain:
 	\begin{equation*}
@@ -189,7 +190,7 @@
 	\begin{columns}
 		\begin{column}{0.7 \textwidth}
 			\begin{figure}
-				\includegraphics[width=1\linewidth]{img/Principles_of_Feedback_Control_Fig_079}
+				\includegraphics[width=1\linewidth]{analog_example}
 			\end{figure}
 		\end{column}
 		\begin{column}{0.3 \textwidth}
@@ -235,7 +236,7 @@
 \begin{frame}[fragile]
 	\frametitle{Digital Implementation}
 	\small{
-	The difference equations are typically implemented in a microcontroller in an FPGA (field-programmable gate array device):
+	The difference equations are typically implemented in a microcontroller or in an FPGA  (field-programmable gate array) device:
 	\vspace{-0.5em}
 		\begin{align*}
 		u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
@@ -297,7 +298,7 @@
 \end{frame}
 
 \begin{frame}{PLC}
-	\textbf A {P}rogrammable \textbf{L}ogic \textbf{C}ontroller (PLC) is a digital computer used for automation in process industry. 
+	A \textbf {P}rogrammable \textbf{L}ogic \textbf{C}ontroller (PLC) is a digital computer used for automation in process industry. 
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
@@ -330,8 +331,8 @@
 
 \begin{frame}
 	\frametitle{Manual Tuning}
-	The effects of each of the controller parameters $K_p$, $K_i$ and $K_d$  on the closed-loop system 
-	are summarized in the table below.
+	{\justify
+	The effects of each of the controller parameters $K_p$, $K_i$ and $K_d$  on the closed-loop system are summarized in the table below.}
 	\vbox{\vspace{1em}
 	\hbox{\hspace{-2.7em}
 	\begin{tabular}{c | c | c | c | c }
@@ -344,7 +345,7 @@
 	\end{tabular}}}
 	\vspace{1em}
 	\begin{alertblock}{Important note}
-	Changing one parameter can influence the effect of the other two. Therefor, use this table only as a reference.
+	Changing one parameter can influence the effect of the other two. Therefore, use this table only as a reference.
 	\end{alertblock}
 \end{frame}
 
@@ -353,7 +354,7 @@
 	One possible way is as follows (the controller is connected to the plant):
 	\begin{enumerate}
 		\item Set $K_i$ and $K_d$ equal to 0.
-		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error in small.
+		\item Increase $K_p$ until you observe that the step response is fast enough and the steady-state error is small.
 		\item Start adding some integral action in order to get rid of the steady-state error. Keep in mind that too much $K_i$ can cause instability!
 		\item Add some derivative action in order to quickly react to disturbances and/or dampen the response.
 	\end{enumerate}
@@ -394,20 +395,20 @@
 	\vbox{\vspace{1em}
 		\centering
 		\begin{tabular}{c | c | c | c}
-			Control Type & $K_P$ & $K_I$ & $K_D$\\
+			Control Type & $K_p$ & $K_i$ & $K_d$\\
 			\hline 
-			P & $\frac{T}{L}$ & 0 &	0\\[0.5em]
+			P & $T/L$ & 0 &	0\\[0.5em]
 			PI & $0.9\frac{T}{L}$ & $K_p \frac{0.3}{L}$ & 0\\[0.5em]
-			PID & $1.2\frac{T}{L}$ & $\frac{K_p}{2L}$ & $0.5 L K_P$ \\
+			PID & $1.2\frac{T}{L}$ & $\frac{K_p}{2L}$ & $0.5 L K_p$ \\
 		\end{tabular}}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Ziegler-Nichols tuning rule: First Method}
-	The PID controller tuned by the first method of Ziegler-Nichols rules gives:
-	\vspace{-1.5em}
+	The PID controller tuned by the first method gives:
+	\vspace{-0.5em}
 	\begin{align*}
-		\frac{U(s)}{E(s)} &= K_P + \frac{K_I}{s} + K_D s\\
+		\frac{U(s)}{E(s)} &= K_p + \frac{K_i}{s} + K_d s\\
 		&= 1.2\frac{T}{L} \big (1 + \frac{1}{2Ls} + 0.5Ls \big)\\
 		&= 0.6 T \frac{\big (s + \frac{1}{L} \big)^2}{s}
 	\end{align*}
@@ -418,7 +419,7 @@
 	\frametitle{Ziegler-Nichols tuning rule: Second Method}
 	This method is based on the value of $K_p$ that results in marginal stability when only proportional control action is used.
 	\begin{enumerate}
-		\item Set the integral and derivative gains to zero ($K_p$ = $K_d$ =0);
+		\item Set the integral and derivative gains to zero ($K_p$ = $K_d$ = 0);
 		\item Increase the proportional gain $K_p$ until the output of the control loop starts oscillating with a constant amplitude. The value of $K_p$ at this point is referred to as ultimate gain ($K_u \triangleq K_p$);
 		\item Measure the period of the oscillations $T_u$ at the output of the closed-loop system;
 		\item Use $K_u$ and $T_u$ to determine the gains of the PID controller according to the tuning rule table shown in the next slide.
@@ -441,7 +442,7 @@
 		No overshoot	&	$0.2K_u$	&	$2K_p/T_u$		&	$K_pT_u/3$	\\
 	\end{tabular}}
 	\begin{alertblock}{}
-		If the output does not exhibit sustained oscillations for whatever value $K_P$ may take, then the second method does not apply.
+		If the output does not exhibit sustained oscillations for whatever value $K_p$ may take, then the second method does not apply.
 	\end{alertblock}
 	\footnotesize{Keep in mind that we are working with heuristic tuning rules, and therefore some additional fine tuning might be necessary.}
 \end{frame}
@@ -467,8 +468,8 @@
 				\vspace{-1.5em}
 				$$ \omega_u^3-3\omega_u = 0 \Rightarrow \omega_u = \sqrt{3}$$\\
 				\vspace{-1.5em}
-				$$K_u = 8, T_u = \frac{2\pi}{\omega} = 3.628$$\\
-				$K_p = 4.8$, $K_I = 2.6448  K_p$, $K_d =  2.16$
+				$$K_u = 8, T_u = \frac{2\pi}{\omega_u} = 3.628$$\\
+				$K_p = 4.8$, $K_i = 2.6448$, $K_d =  2.16$
 			\end{column}
 			\begin{column}{0.4 \textwidth}
 			\begin{figure}
@@ -480,7 +481,7 @@
 	\end{example}}
 \end{frame}
 
-\subsection{Numericla Optimization Methoods}
+\subsection{Numerical Optimization Methods}
 
 \begin{frame}
 	\small{
@@ -499,7 +500,7 @@
 	\small{
 	\begin{tabular}{|p{3cm}|p{7cm}|}
 		\hline Software Tool  & Brief Description  \\ 
-		\hline pidtool / pidTuner
+		\hline pidtool/pidTuner
 		 & It is a Matlab tool to interactively design a SISO PID controller in the feed-forward path of single-loop, unity-feedback control configuration \\ 
 		\hline Pidpy
 		 & It is a modular PID control library for python that supports PID auto tuning. {\color{blue}{\url{https://pypi.python.org/pypi/pypid/}}}
@@ -512,7 +513,7 @@
 	\end{tabular}}
 \end{frame}
 
-\begin{frame}{pidtool /pidTuner - Demo}
+\begin{frame}{pidtool/pidTuner - Demo}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/pid_tool}
