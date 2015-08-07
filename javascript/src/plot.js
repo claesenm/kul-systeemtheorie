@@ -175,21 +175,61 @@ module.exports = {
             Highcharts.VMLRenderer.prototype.symbols.cross = Highcharts.SVGRenderer.prototype.symbols.cross;
         }
 
-        function complexToArray(c) {
+        function complex_to_array(c) {
             return [math.re(c), math.im(c)];
         }
 
+        var axes_svg = [];
+        function draw_major_axes(event) {
+            if (axes_svg.length !== 0) {
+                axes_svg.forEach(function(axis){
+                    if (axis !== undefined) {
+                        axis.destroy();
+                    }
+                });
+            }
+            var renderer = this.renderer,
+                xAxis = this.axes[0],
+                yAxis = this.axes[1],
+                xposy = yAxis.toPixels(0),
+                yposx = xAxis.toPixels(0),
+                attributes = {
+                'stroke-width': 1,
+                stroke: 'black',
+                'stroke-dasharray': [1, 3]
+            };
+
+            var xAxis_svg;
+            if (yAxis.min < 0 && yAxis.max > 0) {
+                xAxis_svg = renderer
+                .path(['M', xAxis.toPixels(xAxis.min), xposy, 'L', xAxis.toPixels(xAxis.max), xposy])
+                .attr(attributes)
+                .add();
+            }
+
+            var y_axis_svg;
+            if (xAxis.min < 0 && xAxis.max > 0) {
+                yAxis_svg = renderer
+                .path(['M', yposx, yAxis.toPixels(yAxis.min), 'L', yposx, yAxis.toPixels(yAxis.max)])
+                .attr(attributes)
+                .add();
+            }
+
+            axes_svg = [xAxis_svg, yAxis_svg];
+        }
+
         // Prepare the data for Highcharts
-        var zeros = sys.getZeros().map(complexToArray),
-            poles = sys.getPoles().map(complexToArray);
+        var zeros = sys.getZeros().map(complex_to_array),
+            poles = sys.getPoles().map(complex_to_array);
 
         var options = {
             chart: {
                 renderTo: container,
                 type: 'scatter',
-                panning: true,
-                panKey: 'shift',
-                zoomType: 'xy'
+                events: {
+                    load: function() {this.redraw();},
+                    redraw: draw_major_axes
+                }
             },
             series: [{
                 data: zeros,
@@ -214,14 +254,22 @@ module.exports = {
                 maxPadding: 0.05,
                 title: {
                     text: 'Re'
-                }
+                },
+                gridLineWidth: 0,
+                tickPosition: 'inside',
+                tickWidth: 1,
+                lineWidth: 1
             },
             yAxis: {
                 minPadding: 0.05,
                 maxPadding: 0.05,
                 title: {
                     text: 'Im'
-                }
+                },
+                gridLineWidth: 0,
+                tickPosition: 'inside',
+                tickWidth: 1,
+                lineWidth: 1
             },
             title: {
                 text: '',
@@ -240,6 +288,38 @@ module.exports = {
         };
 
         var graph = new Highcharts.Chart(options);
+
+        // Enable panning
+        var mouseDown = false,
+            lastPos,
+            lastValue;
+        container.addEventListener('mousedown', function(e){
+            mouseDown = true; 
+            lastPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
+            lastValue = [graph.axes[0].toValue(lastPos[0]), graph.axes[1].toValue(lastPos[1])];
+        });
+        container.addEventListener('mouseup', function(){ mouseDown = false; });
+        container.addEventListener('mousemove', function(e) {
+            var xAxis = graph.axes[0],
+                yAxis = graph.axes[1];
+            // Means it's being dragged
+            if (mouseDown) {
+                var curPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY],
+                    curValue = [xAxis.toValue(curPos[0]), yAxis.toValue(curPos[1])];
+
+                var deltaPos = math.subtract(curPos, lastPos);
+                if ((deltaPos[0] * deltaPos[0] + deltaPos[1] * deltaPos[1]) > 10) {
+                    var deltaValue = math.subtract(curValue, lastValue),
+                        xExtremes = xAxis.getExtremes(),
+                        yExtremes = yAxis.getExtremes();
+
+                    xAxis.setExtremes(xExtremes.min - deltaValue[0], xExtremes.max - deltaValue[0], true, false);
+                    yAxis.setExtremes(yExtremes.min - deltaValue[1], yExtremes.max - deltaValue[1], true, false);
+                    lastPos = curPos;
+                    lastValue = curValue;
+                }
+            }
+        });
         return graph;
     },
 
