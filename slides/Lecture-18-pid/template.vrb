@@ -1,6 +1,6 @@
 \frametitle{Digital Implementation}
 	\small{
-	The difference equations are typically implemented in a microcontroller in an FPGA (field-programmable gate array device):
+	The difference equations are typically implemented in a microcontroller or in an FPGA  (field-programmable gate array) device:
 	\vspace{-0.5em}
 		\begin{align*}
 		u[k] &= K_p e[k] + \frac{K_d}{T_s}(e[k] - e[k-1])+u_i[k] \\
