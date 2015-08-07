@@ -289,37 +289,40 @@ module.exports = {
 
         var graph = new Highcharts.Chart(options);
 
+        // DOESNT WORK FOR THE Y AXIS FOR SOME REASON
+        // YAXIS KEEPS SCALING UP?
+
         // Enable panning
-        var mouseDown = false,
-            lastPos,
-            lastValue;
-        container.addEventListener('mousedown', function(e){
-            mouseDown = true; 
-            lastPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
-            lastValue = [graph.axes[0].toValue(lastPos[0]), graph.axes[1].toValue(lastPos[1])];
-        });
-        container.addEventListener('mouseup', function(){ mouseDown = false; });
-        container.addEventListener('mousemove', function(e) {
-            var xAxis = graph.axes[0],
-                yAxis = graph.axes[1];
-            // Means it's being dragged
-            if (mouseDown) {
-                var curPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY],
-                    curValue = [xAxis.toValue(curPos[0]), yAxis.toValue(curPos[1])];
+        //var mouseDown = false,
+            //lastPos,
+            //lastValue;
+        //container.addEventListener('mousedown', function(e){
+            //mouseDown = true; 
+            //lastPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
+            //lastValue = [graph.axes[0].toValue(lastPos[0]), graph.axes[1].toValue(lastPos[1])];
+        //});
+        //container.addEventListener('mouseup', function(){ mouseDown = false; });
+        //container.addEventListener('mousemove', function(e) {
+            //var xAxis = graph.axes[0],
+                //yAxis = graph.axes[1];
+            //// Means it's being dragged
+            //if (mouseDown) {
+                //var curPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
+                    //curValue = [xAxis.toValue(curPos[0]), yAxis.toValue(curPos[1])];
 
-                var deltaPos = math.subtract(curPos, lastPos);
-                if ((deltaPos[0] * deltaPos[0] + deltaPos[1] * deltaPos[1]) > 10) {
-                    var deltaValue = math.subtract(curValue, lastValue),
-                        xExtremes = xAxis.getExtremes(),
-                        yExtremes = yAxis.getExtremes();
+                //var deltaPos = math.subtract(curPos, lastPos);
+                //if ((deltaPos[0] * deltaPos[0] + deltaPos[1] * deltaPos[1]) > 10) {
+                    //var deltaValue = math.subtract(curValue, lastValue),
+                        //xExtremes = xAxis.getExtremes(),
+                        //yExtremes = yAxis.getExtremes();
 
-                    xAxis.setExtremes(xExtremes.min - deltaValue[0], xExtremes.max - deltaValue[0], true, false);
-                    yAxis.setExtremes(yExtremes.min - deltaValue[1], yExtremes.max - deltaValue[1], true, false);
-                    lastPos = curPos;
-                    lastValue = curValue;
-                }
-            }
-        });
+                    //xAxis.setExtremes(xExtremes.min - deltaValue[0], xExtremes.max - deltaValue[0], true, false);
+                    //yAxis.setExtremes(yExtremes.min - deltaValue[1], yExtremes.max - deltaValue[1], true, false);
+                    //lastPos = curPos;
+                    //lastValue = curValue;
+                //}
+            //}
+        //});
         return graph;
     },
 
