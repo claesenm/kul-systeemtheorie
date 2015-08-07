@@ -28,12 +28,12 @@ function recursiveExtend(target, source) {
     return target;
 }
 
-control.plot =
 /**
  * A module containing methods for plotting.
  * @module
  */
 module.exports = {
+    control: control,
 
     /**
      * Plots a bode plot of the given system in container.
@@ -454,7 +454,8 @@ module.exports = {
                 // Render peak
                 var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
                                              'L', toX(step_info.peak_time), toY(step_info.peak),
-                                             'L', toX(step_info.peak_time), toY(yAxis.min)])
+                                             'M', toX(step_info.peak_time), toY(yAxis.min),
+                                             'L', toX(step_info.peak_time), toY(step_info.peak)])
                                        .attr(line_attrs)
                                        .add();
                 svgs.push(peak_svg);
