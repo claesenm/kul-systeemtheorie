@@ -148,5 +148,24 @@ describe('System testing', function() {
             assert.deepEqual(systf.getNumerator(), [-2, -1]);
             assert.deepEqual(systf.getDenominator(), [1, -2, 2]);
         });
+
+        it('no zeros or poles', function() {
+            var sys = system.zpk([], [], 3);
+            var systf = system.zpk2tf(sys);
+
+            assert.deepEqual(systf.getNumerator(), [3]);
+            assert.deepEqual(systf.getDenominator(), [1]);
+        });
+    });
+
+    describe('tf2ss', function() {
+        it('zeroth order', function() {
+            var sys = system.tf([5], [1]);
+            var ssys = system.tf2ss(sys);
+            assert.deepEqual(ssys.A, [[1]]);
+            assert.deepEqual(ssys.B, [1]);
+            assert.deepEqual(ssys.C, [[0]]);
+            assert.deepEqual(ssys.D, [5]);
+        });
     });
 });
