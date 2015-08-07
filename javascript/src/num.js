@@ -235,6 +235,7 @@ module.exports = {
     */
    stepinfo: function(step, settling_time_threshold, y_final) {
        settling_time_threshold = settling_time_threshold || 0.02;
+       y_final = y_final || step.x[step.x.length - 1];
 
        // Finds an interpolated index of val in array
        function find(arr, val) {
@@ -270,7 +271,6 @@ module.exports = {
        }
 
        var len = step.t.length;
-       y_final = y_final || step.x[len - 1];
 
        var t = step.t,
            y = step.x,

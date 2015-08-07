@@ -4,9 +4,7 @@ var container = document.getElementById('step-plot');
 
 
 var opts = plot.time_series_options;
-opts.legend.enabled = true;
-opts.chart.renderTo = container;
-var plt = new Highcharts.Chart(opts);
+var plt;
 
 
 var omega_el = document.getElementById('omega_n'),
@@ -30,8 +28,8 @@ zeta_el.addEventListener('input', update);
 var omega_n = parseFloat(omega_el.value),
     zeta    = parseFloat(zeta_el.value),
     sys     = system.tf([omega_n], [1, 2*omega_n*zeta, omega_n * omega_n]),
-    step_data = sys.step(),
     impulse_data = sys.impulse();
 
-plt.addSeries({data: step_data.t.map(function(time, i){return [time, step_data.x[i]];}), name: 'Step'}, true);
+plt = plot.step(container, sys);
+//plt.addSeries({data: step_data.t.map(function(time, i){return [time, step_data.x[i]];}), name: 'Step'}, true);
 plt.addSeries({data: impulse_data.t.map(function(time, i){return [time, impulse_data.x[i]];}), color:'green', name:'Impulse'}, true);
