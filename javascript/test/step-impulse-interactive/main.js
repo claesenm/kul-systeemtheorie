@@ -1,11 +1,11 @@
 var system = control.system;
 
-var container = document.getElementById('step-plot'),
-    container2 = document.getElementById('impulse-plot');
+var container = document.getElementById('step-plot');
 
 
-var opts = plot.default_chart(container).options;
+var opts = plot.time_series_options;
 opts.legend.enabled = true;
+opts.chart.renderTo = container;
 var plt = new Highcharts.Chart(opts);
 
 

@@ -88,8 +88,7 @@ module.exports = {
                 },
                 tooltip: {
                     crosshairs: [true, false],
-                    headerFormat: '',
-                    pointFormat: '<b>{point.y}</b>'
+                    headerFormat: ''
                 }
             },
             magnitude_options = {
@@ -105,7 +104,10 @@ module.exports = {
                     }
                 },
                 tooltip: {
-                    valueSuffix: ' dB'
+                    formatter: function() {
+                        return '<b>' + 'omega: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
+                               '<b>' + 'magnitude: ' + math.round(this.y, 5) + ' dB' + '</b>';
+                    }
                 }
             },
             phase_options = {
@@ -126,7 +128,10 @@ module.exports = {
                     }
                 },
                 tooltip: {
-                    valueSuffix: ' deg'
+                    formatter: function() {
+                        return '<b>' + 'omega: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
+                               '<b>' + 'phase: ' + math.round(this.y, 5) + ' degrees' + '</b>';
+                    }
                 }
             };
 
@@ -289,78 +294,113 @@ module.exports = {
 
         var graph = new Highcharts.Chart(options);
 
+        // DOESNT WORK FOR THE Y AXIS FOR SOME REASON
+        // YAXIS KEEPS SCALING UP?
+
         // Enable panning
-        var mouseDown = false,
-            lastPos,
-            lastValue;
-        container.addEventListener('mousedown', function(e){
-            mouseDown = true; 
-            lastPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
-            lastValue = [graph.axes[0].toValue(lastPos[0]), graph.axes[1].toValue(lastPos[1])];
-        });
-        container.addEventListener('mouseup', function(){ mouseDown = false; });
-        container.addEventListener('mousemove', function(e) {
-            var xAxis = graph.axes[0],
-                yAxis = graph.axes[1];
-            // Means it's being dragged
-            if (mouseDown) {
-                var curPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY],
-                    curValue = [xAxis.toValue(curPos[0]), yAxis.toValue(curPos[1])];
+        //var mouseDown = false,
+            //lastPos,
+            //lastValue;
+        //container.addEventListener('mousedown', function(e){
+            //mouseDown = true; 
+            //lastPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
+            //lastValue = [graph.axes[0].toValue(lastPos[0]), graph.axes[1].toValue(lastPos[1])];
+        //});
+        //container.addEventListener('mouseup', function(){ mouseDown = false; });
+        //container.addEventListener('mousemove', function(e) {
+            //var xAxis = graph.axes[0],
+                //yAxis = graph.axes[1];
+            //// Means it's being dragged
+            //if (mouseDown) {
+                //var curPos = [graph.pointer.normalize(e).chartX, graph.pointer.normalize(e).chartY];
+                    //curValue = [xAxis.toValue(curPos[0]), yAxis.toValue(curPos[1])];
 
-                var deltaPos = math.subtract(curPos, lastPos);
-                if ((deltaPos[0] * deltaPos[0] + deltaPos[1] * deltaPos[1]) > 10) {
-                    var deltaValue = math.subtract(curValue, lastValue),
-                        xExtremes = xAxis.getExtremes(),
-                        yExtremes = yAxis.getExtremes();
+                //var deltaPos = math.subtract(curPos, lastPos);
+                //if ((deltaPos[0] * deltaPos[0] + deltaPos[1] * deltaPos[1]) > 10) {
+                    //var deltaValue = math.subtract(curValue, lastValue),
+                        //xExtremes = xAxis.getExtremes(),
+                        //yExtremes = yAxis.getExtremes();
 
-                    xAxis.setExtremes(xExtremes.min - deltaValue[0], xExtremes.max - deltaValue[0], true, false);
-                    yAxis.setExtremes(yExtremes.min - deltaValue[1], yExtremes.max - deltaValue[1], true, false);
-                    lastPos = curPos;
-                    lastValue = curValue;
-                }
-            }
-        });
+                    //xAxis.setExtremes(xExtremes.min - deltaValue[0], xExtremes.max - deltaValue[0], true, false);
+                    //yAxis.setExtremes(yExtremes.min - deltaValue[1], yExtremes.max - deltaValue[1], true, false);
+                    //lastPos = curPos;
+                    //lastValue = curValue;
+                //}
+            //}
+        //});
         return graph;
     },
 
+    time_series_options: {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '',
+            y: 0
+        },
+        xAxis: {
+            type: 'linear',
+            title: {
+                text: 't (s)'
+            }
+        },
+        yAxis: {
+            startOnTick: false,
+            minPadding: 0.01,
+            endOnTick: false,
+            maxPadding: 0.01,
+            title: {
+                text: ''
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            crosshairs: [true, false],
+            headerFormat: '',
+            formatter: function() {
+                return '<b>' + 't: ' + math.round(this.x, 5) + 's' + '</b>' + '<br>' +
+                    '<b>' + 'x: ' + math.round(this.y, 5) + '</b>';
+            }
 
-    default_chart: function(container) {
+        }
+    },
+
+    /**
+     * Creates a default chart with a time series.
+     * @param {HTMLElement} container - The container to render to.
+     * @param {Array<Array<Number>>} data - The data for the plot.
+     * @param {Object} [extra_options] - Extra options for Highcharts.
+     * @returns {Highcharts.Chart} The reference to the created chart.
+     */
+    time_series: function(container, data, extra_options) {
+        extra_options = extra_options || {};
         var options = {
             chart: {
-                renderTo: container,
-                type: 'line'
+                renderTo: container
             },
-            title: {
-                text: '',
-                y: 0
-            },
-            xAxis: {
-                type: 'linear',
-                title: {
-                    text: 't (s)'
-                }
-            },
-            yAxis: {
-                startOnTick: false,
-                minPadding: 0.01,
-                endOnTick: false,
-                maxPadding: 0.01,
-                title: {
-                    text: ''
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            tooltip: {
-                crosshairs: [true, false],
-                headerFormat: '',
-                pointFormat: '<b>{point.y}</b>'
-            }
+            series: [{
+                data: data
+            }]
         };
-        return new Highcharts.Chart(options);
-    }
+        return new Highcharts.Chart([this.time_series_options, options, extra_options].reduce(recursiveExtend));
+    },
+
+    /**
+     * Plots the step response of sys to container.
+     * @param {HTMLElement} container - The container to render to.
+     * @param {System} sys - The system of which to plot the step response.
+     * @returns {Highcharts.Chart} The reference to the created chart.
+     */
+    step: function(container, sys) {
+        var step_data = sys.step(),
+            input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; });
+
+        return this.time_series(container, input_data);
+    },
 };
