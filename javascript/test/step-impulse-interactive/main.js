@@ -33,3 +33,12 @@ var omega_n = parseFloat(omega_el.value),
 plt = plot.step(container, sys);
 //plt.addSeries({data: step_data.t.map(function(time, i){return [time, step_data.x[i]];}), name: 'Step'}, true);
 plt.addSeries({data: impulse_data.t.map(function(time, i){return [time, impulse_data.x[i]];}), color:'green', name:'Impulse'}, true);
+
+
+var show = false;
+var btn = document.getElementById('button');
+btn.onclick = function(){
+    show = ! show;
+    plt.show_step_info(show);
+    btn.value = (show ? 'Show' : 'Hide') + ' Info';
+};
