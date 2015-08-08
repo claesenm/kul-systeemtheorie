@@ -339,6 +339,9 @@ module.exports = {
             if (sys instanceof Tf) {
                 return this.tf2zpk(sys);
             }
+            if (sys instanceof Ss) {
+                return this.ss2zpk(sys);
+            }
         }
         return new Zpk(z, p, k);
     },
@@ -387,11 +390,15 @@ module.exports = {
      * @returns {Ss} The state-space representation of sys.
      */
     tf2ss: function(sys) {
+        // Controlable canonical form
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
             as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
 
+        if (denom.length == 1) {
+            return new Ss([[1]], [1], [[0]], [numer[0]]);
+        }
         // Make numer same length as denom
         numer = math.zeros(denom.length - numer.length).concat(numer);
 
@@ -440,5 +447,15 @@ module.exports = {
             p = num.roots(sys.denominator),
             k = sys.numerator[0];
         return new Zpk(z, p, k);
+    },
+
+    /**
+     * Converts a Ss system to a Zpk system.
+     * @param {Ss} sys - The system to convert.
+     * @returns {Zpk} The zero-pole-gain representation of sys.
+     */
+    ss2zpk: function(sys) {
+        // TODO
+        return sys;
     }
 };
