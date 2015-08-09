@@ -221,7 +221,7 @@ module.exports = {
             points = points.filter(function(val) { return val !== 0; });
 
         if (points.length === 0) {
-            return [-2, 3];
+            return [0, 1];
         }
         var smallest_omega = this.extreme_by(points, Math.min, function(v){ return math.abs(v); });
         var biggest_omega = this.extreme_by(points, Math.max, function(v){ return math.abs(v); });
