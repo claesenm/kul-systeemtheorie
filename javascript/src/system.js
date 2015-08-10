@@ -62,24 +62,27 @@ System.prototype.bode = function(omega_exp_bounds) {
 
 /**
  * Calculates the step response of the given system.
- * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+ * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
  * @returns {Object} response - The step response of the system.
  * @returns {Array<Number>} response.t - The time values of the step response.
  * @returns {Array<Number>} response.x - The value of the response.
  */
-System.prototype.step = function(epsilon) {
-    return module.exports.ss(this).step(epsilon);
+System.prototype.step = function(bounds, settle) {
+    return module.exports.ss(this).step(bounds, settle);
 };
 
 
 /**
  * Calculates the impulse reponse of the system.
+ * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+ * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
  * @returns {Object} response - An object containing the impulse response of the system.
  * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
  * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
  */
-System.prototype.impulse = function() {
-    var step = this.step(),
+System.prototype.impulse = function(bounds, settle) {
+    var step = this.step(bounds, settle),
         len = step.t.length,
         diffs = new Array(len);
     for (var i = 0 ; i < len - 1; ++i) {
@@ -388,14 +391,13 @@ function Ss(A, B, C, D) {
 Ss.prototype = new System();
 
 /**
- * Calculates the step response of the given system.
- * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
- * @returns {Object} response - The step response of the system.
- * @returns {Array<Number>} response.t - The time values of the step response.
- * @returns {Array<Number>} response.x - The value of the response.
+ * @inheritdoc
  */
-Ss.prototype.step = function(epsilon) {
-    epsilon = epsilon || 1e-7;
+Ss.prototype.step = function(bounds, settle) {
+    bounds = bounds || [0, 20];
+    settle = (settle !== undefined ? settle : false);
+
+
     var A = this.A,
         B = this.B,
         C = this.C,
@@ -415,22 +417,49 @@ Ss.prototype.step = function(epsilon) {
         return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
     }
 
-    function err(t, x) {
-        return math.abs(sol(t, x) - eps(t));
-    }
 
-    
-    var prevError = Infinity;
-    function terminate(t, x) {
-        var currentError = err(t, x);
-        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-3) {
-            return 1;
+    // Put the results in a queue
+    var QUEUESIZE = 100,
+        resultsT = math.zeros(QUEUESIZE),
+        resultsX = math.zeros(QUEUESIZE),
+        current = 0;
+    function mod_subtract(a, b, m) {
+        if (a >= b) {
+            return a - b;
         }
-        return -1;
+        return m - (b - a);
+    }
+    function terminate(t, x) {
+        resultsT[current] = t;
+        resultsX[current] = x;
+        var i = 0,
+            toUse = [],
+            timeSeen = 0;
+        while (i < QUEUESIZE && timeSeen < 1) {
+            var idx = mod_subtract(current, i, QUEUESIZE);
+            toUse.push(sol(t, resultsX[idx]));
+            timeSeen = t - resultsT[idx];
+            i += 1;
+        }
+
+        current = (current + 1) % QUEUESIZE;
+
+        if (timeSeen < 1) {
+            return -1;
+        }
+        var mean = toUse.reduce(function(acc, val){ return acc + val; }) / toUse.length,
+            absolute_error = toUse.map(function(val){ return math.abs(val - mean); }).reduce(function(acc, val){ return acc + val; }),
+            relative_error = absolute_error / mean;
+
+        if (relative_error > 1e-2) {
+            return -1;
+        }
+        return 1;
     }
 
-    var response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminate);
-    var response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
+    var terminator = settle ? terminate : function() {return -1;},
+        response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminator),
+        response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
     return {t: response.x, x: response_val};
 };
 

@@ -16,11 +16,11 @@ function update() {
     var omega_n = Number.parseFloat(omega_el.value),
         zeta    = Number.parseFloat(zeta_el.value),
         sys     = system.tf([omega_n], [1, 2*omega_n*zeta, omega_n * omega_n]),
-        step_data = sys.step(),
+        step_data = sys.step([0, 20], true),
         impulse_data = sys.impulse();
 
-    plt.series[0].setData(step_data.t.map(function(time, i){return [time, step_data.x[i]];}), true, false, true);
-    plt.series[1].setData(impulse_data.t.map(function(time, i){ return [time, impulse_data.x[i]]; }), true, false, true);
+    plt.series[0].setData(step_data.t.map(function(time, i){return [time, step_data.x[i]];}), true, false, false);
+    plt.series[1].setData(impulse_data.t.map(function(time, i){ return [time, impulse_data.x[i]]; }), true, false, false);
 }
 
 omega_el.addEventListener('input', update);
@@ -31,7 +31,7 @@ var omega_n = parseFloat(omega_el.value),
     sys     = system.tf([omega_n], [1, 2*omega_n*zeta, omega_n * omega_n]),
     impulse_data = sys.impulse();
 
-plt = plot.step(container, sys);
+plt = plot.step(container, sys, [0, 20], true);
 //plt.addSeries({data: step_data.t.map(function(time, i){return [time, step_data.x[i]];}), name: 'Step'}, true);
 plt.addSeries({data: impulse_data.t.map(function(time, i){return [time, impulse_data.x[i]];}), color:'green', name:'Impulse'}, true);
 
