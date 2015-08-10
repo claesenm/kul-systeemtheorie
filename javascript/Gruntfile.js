@@ -45,7 +45,7 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['build/*.js'],
+            files: ['src/*.js'],
             tasks: ['browserify:debug']
         },
         uglify: {
@@ -75,4 +75,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', 'browserify:debug');
 
     grunt.registerTask('build', ['browserify:control', 'browserify:controlplot', 'uglify']);
+
+    grunt.registerTask('plot', 'browserify:debug');
 };
