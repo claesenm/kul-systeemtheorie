@@ -613,5 +613,19 @@ module.exports = {
             sys2tf = this.tf(sys2);
 
         return new Tf(num.conv(sys1tf.getNumerator(), sys2tf.getNumerator()), num.conv(sys1tf.getDenominator(), sys2tf.getDenominator()));
+    },
+
+    /**
+     * Returns the transfer function of the sytem corresponding to the closed loop negative feedback system of sys1 with sys2 on the feeback connection.
+     * @param {(Zpk|Tf)} G - The system of which the feedback should be calculated.
+     * @param {(Zpk|Tf|Number)} [H=1] - The system on the feedback connection.
+     */
+    feedback: function(G, H) {
+        if (! (H instanceof System)) {
+            H = new Tf([H], [1]);
+        }
+
+        return new Tf(num.conv(G.getNumerator(), H.getDenominator()),
+                      num.polyadd(num.conv(G.getDenominator(), H.getDenominator()), num.conv(G.getNumerator(), H.getNumerator())));
     }
 };

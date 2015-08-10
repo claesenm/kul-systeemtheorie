@@ -272,4 +272,24 @@ describe('System testing', function() {
             assert.deepEqual(sys.getDenominator(), [3, 10, 8]);
         });
     });
+
+
+    describe('feedback()', function() {
+        it('two tfs', function() {
+            var sys1 = system.tf([1, 1], [2, 1]),
+                sys2 = system.tf([3, 0], [-2, -6]),
+                sys = system.feedback(sys1, sys2);
+
+            assert.deepEqual(sys.getNumerator(), [-2, -8, -6]);
+            assert.deepEqual(sys.getDenominator(), [-1, -11, -6]);
+        });
+
+        it('sys2 is number', function() {
+            var sys1 = system.tf([1, 1], [2, 1]),
+                sys = system.feedback(sys1, -2.5);
+
+            assert.deepEqual(sys.getNumerator(), [1, 1]);
+            assert.deepEqual(sys.getDenominator(), [-0.5, -1.5]);
+        });
+    });
 });
