@@ -208,4 +208,33 @@ describe('System testing', function() {
             assert.deepEqual(ssys.D, [0]);
         });
     });
+
+    describe('Tf#toLatex()', function() {
+        it('simple', function() {
+            var sys = system.tf([1, 2], [3, 4, 5]);
+            assert.deepEqual(sys.toLatex(), '\\frac{1s + 2}{3s^{2} + 4s + 5}');
+        });
+
+        it('negatives', function() {
+            var sys = system.tf([1], [-1, -2]);
+            assert.deepEqual(sys.toLatex(), '\\frac{1}{-1s - 2}');
+        });
+    });
+
+    describe('Zpk#toLatex()', function() {
+        it('simple', function() {
+            var sys = system.zpk([1], [2], 3);
+            assert.deepEqual(sys.toLatex(), '3\\frac{\\left(s-1\\right)}{\\left(s-2\\right)}');
+        });
+
+        it('negatives', function() {
+            var sys = system.zpk([-1], [-2], -3);
+            assert.deepEqual(sys.toLatex(), '-3\\frac{\\left(s+1\\right)}{\\left(s+2\\right)}');
+        });
+
+        it('complex', function() {
+            var sys = system.zpk([], [math.complex(1, 1)], -3);
+            assert.deepEqual(sys.toLatex(), '\\frac{-3}{\\left(s-\\left(1 + j\\right)\\right)}');
+        });
+    });
 });

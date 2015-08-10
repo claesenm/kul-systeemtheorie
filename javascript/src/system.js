@@ -17,6 +17,14 @@ function System() {
 
 
 /**
+ * Returns a string of the latex representation of this system.
+ * @returns {String} The latex representation of this system.
+ */
+System.toLatex = function() {
+    throw new Error('This is not a valid system.');
+};
+
+/**
  * Evaluates the transfer function of this system in s.
  * @param {Complex|Number} s
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
@@ -133,6 +141,42 @@ function Zpk(z, p, k) {
 }
 Zpk.prototype = new System();
 
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.toLatex = function() {
+    var latexified = new Array(2);
+    [this.getZeros(), this.getPoles()].forEach(function (points, idx) {
+        var latexed = '';
+        points.forEach(function(point, i) {
+            latexed += '\\left(s';
+            if (math.isNumeric(point) && point < 0) {
+                latexed += '+' + (-point);
+            } else if (math.isNumeric(point)){
+                latexed += '-' + point;
+            } else {
+                latexed += '-' + '\\left(' + point.toString().replace('i', 'j') + '\\right)';
+            }
+
+            latexed += '\\right)';
+        });
+        latexified[idx] = latexed;
+    });
+
+    // For when there are no zeros or poles
+    var k_latex = this.getK() === 1 ? '' : ('' + this.getK());
+    if (latexified[0] === '') {
+        latexified[0] = k_latex;
+        k_latex = '';
+    }
+    if (latexified[1] === '') {
+        latexified[1] = '1';
+    }
+
+    return k_latex + '\\frac{' + latexified[0] + '}{' + latexified[1] + '}';
+};
+
 /**
  * Sets the zeros of the system's tf.
  * @param {Array<(Complex|Number)>} z - The zeros of the new tf.
@@ -219,6 +263,50 @@ function Tf(num, denom) {
     this.setDenominator(denom);
 }
 Tf.prototype = new System();
+
+
+/**
+ * @inheritdoc
+ */
+Tf.prototype.toLatex = function() {
+
+    function poly_to_latex(poly) {
+        var degree = poly.length - 1,
+            poly_latex = '',
+            ROUNDING = 4;
+
+        for (var i = 0; i < poly.length; ++i) {
+            var power = (degree - i),
+                s_factor;
+
+            switch (power) {
+                case 1:
+                    s_factor = 's'; break;
+                case 0:
+                    s_factor = ''; break;
+                default:
+                    s_factor = 's^{' + power + '}';
+            }
+
+            if (i === 0) {
+                poly_latex += math.round(poly[i], ROUNDING) + s_factor;
+                continue;
+            }
+
+            poly_latex += ( (poly[i] < 0) ? ' - ' : ' + ') + math.abs(math.round(poly[i], ROUNDING)) + s_factor;
+        }
+
+        return poly_latex;
+    }
+
+    var latexified = new Array(2);
+    [this.getNumerator(), this.getDenominator()].forEach(function(poly, idx) {
+        latexified[idx] = poly_to_latex(poly);
+    });
+
+    return '\\frac{' + latexified[0] + '}{' + latexified[1] + '}';
+};
+
 
 /**
  * Sets the numerator of the tf of the system.
