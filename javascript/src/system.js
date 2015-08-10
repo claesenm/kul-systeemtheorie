@@ -600,5 +600,18 @@ module.exports = {
         newDenom = num.conv(sys1tf.getDenominator(), sys2tf.getDenominator());
         newNum   = num.polyadd(num.conv(sys1.getNumerator(), sys2.getDenominator()), num.conv(sys2.getNumerator(), sys1.getDenominator()));
         return new Tf(newNum, newDenom);
+    },
+
+    /**
+     * Returns the multiplication of the transfer function of two systems.
+     * @param {(Zpk|Tf)} sys1 - The left factor of the multiplication.
+     * @param {(Zpk|Tf)} sys2 - The right factor of the multiplication.
+     * @returns {Tf} The multiplication of both transfer functions.
+     */
+    multiply: function(sys1, sys2) {
+        var sys1tf = this.tf(sys1),
+            sys2tf = this.tf(sys2);
+
+        return new Tf(num.conv(sys1tf.getNumerator(), sys2tf.getNumerator()), num.conv(sys1tf.getDenominator(), sys2tf.getDenominator()));
     }
 };

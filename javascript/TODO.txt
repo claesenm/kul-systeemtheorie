@@ -1,4 +1,3 @@
-- Multiplication/addition of transfer functions
 - Feedback function
 - All stepinfo
 - Better impulse response
