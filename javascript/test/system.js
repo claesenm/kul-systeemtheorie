@@ -41,6 +41,15 @@ describe('System testing', function() {
             }
             throw new Error("Didn't throw.");
         });
+
+        it('error on not enough arguments', function(){
+            try {
+                var s = system.zpk([1, 1], [0]);
+            } catch(e) {
+                return;
+            }
+            throw new Error("Didn't throw.");
+        });
     });
 
     describe('tf', function() {
@@ -68,6 +77,15 @@ describe('System testing', function() {
             }
             throw new Error("Didn't throw.");
         });
+
+        it('error on not enough arguments', function(){
+            try {
+                var s = system.tf([1, 1]);
+            } catch(e) {
+                return;
+            }
+            throw new Error("Didn't throw.");
+        });
     });
 
 
@@ -83,6 +101,15 @@ describe('System testing', function() {
             assert.deepEqual(s.B, B);
             assert.deepEqual(s.C, C);
             assert.deepEqual(s.D, D);
+        });
+
+        it('error on not enough arguments', function(){
+            try {
+                var s = system.ss();
+            } catch(e) {
+                return;
+            }
+            throw new Error("Didn't throw.");
         });
     });
 

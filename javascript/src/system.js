@@ -135,6 +135,9 @@ System.prototype.getPoles = function() {
  * @augments System
  */
 function Zpk(z, p, k) {
+    if (z === undefined || p === undefined || k === undefined) {
+        throw new Error('Incorrect number of arguments or undefined.');
+    }
     if (z.length > p.length) {
         throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
     }
@@ -271,6 +274,9 @@ Zpk.prototype.getBreakPoints = function() {
  * @augments System
  */
 function Tf(num, denom) {
+    if (num === undefined || denom === undefined) {
+        throw new Error('Incorrect number of arguments or undefined.');
+    }
     if (num.length > denom.length) {
         throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
     }
@@ -382,6 +388,9 @@ Tf.prototype.evalS = function(s) {
  * @augments System
  */
 function Ss(A, B, C, D) {
+    if (A === undefined || B === undefined || C === undefined || D === undefined) {
+        throw new Error('Incorrect number of arguments or undefined.');
+    }
     this.A = A;
     this.B = B;
     this.C = C;
