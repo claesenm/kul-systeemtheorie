@@ -32,6 +32,15 @@ describe('System testing', function() {
             assert.deepEqual(s.getPoles(), []);
             assert.equal(s.getK(), 1);
         });
+
+        it('error on invalid system', function(){
+            try {
+                var s = system.zpk([1], [0], 1);
+            } catch(e) {
+                retrun;
+            }
+            throw new Error("Didn't throw.");
+        });
     });
 
     describe('tf', function() {
@@ -69,39 +78,39 @@ describe('System testing', function() {
     });
 
 
-    describe('Zpk#eval()', function() {
+    describe('Zpk#evalS()', function() {
         it('works with regular numbers', function() {
-            var s = system.zpk([1, -1, 5.3], [-4.2], 7);
+            var s = system.zpk([-4.2], [1, -1, 5.3], 7);
 
-            assert.deepEqual(s.evalS(2), -11.177419354838708);
-            assert.deepEqual(s.evalS(-3.7), -1598.94);
+            assert.deepEqual(s.evalS(2), -4.383838383838385);
+            assert.deepEqual(s.evalS(-3.7), -0.0306453025129148);
             assert.deepEqual(s.evalS(math.complex(0, 1)),
-                             math.complex('15.967811158798284 - 7.135193133047211i'));
+                             math.complex('2.5579236851151603 + 1.1430044688896528i'));
         });
 
         it('works with complex numbers', function() {
-            var s = system.zpk([math.complex(1, 1), math.complex(-3, 2.5)], [math.complex(1.2, -3)], 4);
+            var s = system.zpk([math.complex(1.2, -3)], [math.complex(1, 1), math.complex(-3, 2.5)], 4);
 
-            assert.deepEqual(s.evalS(2), math.complex('-8.5062240663900414938 - 5.6016597510373443983i'));
+            assert.deepEqual(s.evalS(2), math.complex('-1.312+0.864i'));
             assert.deepEqual(s.evalS(math.complex('1.5 + 0.7i')),
-                             math.complex('-2.2676342525399129173 - 2.0325108853410736i'));
+                             math.complex('-3.9125535271579905+3.506874013973406i'));
         });
     });
 
-    describe('Tf#eval()', function() {
+    describe('Tf#evalS()', function() {
         it('works with regular numbers', function() {
-            var s = system.tf([1, -1, 5.3], [-4.2]);
+            var s = system.tf([-4.2], [1, -1, 5.3]);
 
-            assert(math.equal(s.evalS(2), -1.738095238));
-            assert(math.equal(s.evalS(-3.7), -5.402380952));
-            assert(math.equal(s.evalS(math.complex(0, 1)), math.complex(-1.023809524, 0.2380952381)));
+            assert(math.equal(s.evalS(2), -0.5753424658));
+            assert(math.equal(s.evalS(-3.7), -0.1851035699));
+            assert(math.equal(s.evalS(math.complex(0, 1)), math.complex(-0.9266290405, -0.2154951257)));
         });
 
         it('works with complex numbers', function() {
-            var s = system.tf([math.complex(1, 1), math.complex(-3, 2.5)], [math.complex(1.2, -3)]);
+            var s = system.tf([math.complex(1.2, -3)], [math.complex(1, 1), math.complex(-3, 2.5)]);
 
-            assert(math.equal(s.evalS(2), math.complex(-1.408045977, 0.2298850575)));
-            assert(math.equal(s.evalS(math.complex(1.5, 0.7)), math.complex(-1.603448276, -0.09195402299)));
+            assert(math.equal(s.evalS(2), math.complex(-0.6917647059, -0.1129411765)));
+            assert(math.equal(s.evalS(math.complex(1.5, 0.7)), math.complex(-0.6216115856, 0.03564797623)));
         });
     });
 

@@ -124,6 +124,9 @@ System.prototype.getPoles = function() {
  * @augments System
  */
 function Zpk(z, p, k) {
+    if (z.length > p.length) {
+        throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
+    }
     this.z = z;
     this.p = p;
     this.k = k;
@@ -209,8 +212,11 @@ Zpk.prototype.getBreakPoints = function() {
  * @augments System
  */
 function Tf(num, denom) {
-    this.numerator = num;
-    this.denominator = denom;
+    if (num.length > denom.length) {
+        throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
+    }
+    this.setNumerator(num);
+    this.setDenominator(denom);
 }
 Tf.prototype = new System();
 
@@ -220,7 +226,7 @@ Tf.prototype = new System();
  * @private
  */
 Tf.prototype.setNumerator = function(n) {
-    this.numerator = n;
+    this.numerator = num.strip_leading_zeros(n);
 };
 
 
@@ -238,7 +244,7 @@ Tf.prototype.getNumerator = function() {
  * @private
  */
 Tf.prototype.setDenominator = function(d) {
-    this.denominator = d;
+    this.denominator = num.strip_leading_zeros(d);
 };
 
 /**

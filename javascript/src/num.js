@@ -394,5 +394,20 @@ module.exports = {
            return c.re;
        }
        return c;
+   },
+
+   /**
+    * Strips away the leading zeros of the given array.
+    * @param {Array<(Complex|Number)>} arr - The array to strip.
+    * @returns {Array<(Complex|Number)>} The same array with the leading zeros stripped away.
+    */
+   strip_leading_zeros: function(arr) {
+       var begin = 0;
+
+       while (math.equal(arr[begin], 0)) {
+           begin += 1;
+       }
+
+       return arr.slice(begin, arr.length);
    }
 };

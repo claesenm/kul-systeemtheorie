@@ -221,4 +221,19 @@ describe('num tests', function() {
             assert.deepEqual(num.complex_to_real_if_real(math.complex(3, 1e-7 + 1e-8)), math.complex(3, 1e-7 + 1e-8));
         });
     });
+
+
+    describe('strip_leading_zeros()', function() {
+        it('array with leading zeros', function() {
+            assert.deepEqual(num.strip_leading_zeros([0, math.complex(0, 0), 1, 2]), [1, 2]);
+        });
+
+        it('array without leading zeros', function() {
+            assert.deepEqual(num.strip_leading_zeros([1, 2, 3]), [1, 2, 3]);
+        });
+
+        it('empty array', function() {
+            assert.deepEqual(num.strip_leading_zeros([]), []);
+        });
+    });
 });
