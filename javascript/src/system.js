@@ -449,7 +449,7 @@ Ss.prototype.step = function(bounds, settle) {
         }
         var mean = toUse.reduce(function(acc, val){ return acc + val; }) / toUse.length,
             absolute_error = toUse.map(function(val){ return math.abs(val - mean); }).reduce(function(acc, val){ return acc + val; }),
-            relative_error = absolute_error / mean;
+            relative_error = math.abs(absolute_error / mean);
 
         if (relative_error > 1e-2) {
             return -1;
@@ -532,6 +532,9 @@ module.exports = {
             if (sys instanceof Ss) {
                 return sys;
             }
+            if (sys instanceof Zpk) {
+                return this.zpk2ss(sys);
+            }
         }
         return new Ss(A, B, C, D);
     },
@@ -602,15 +605,13 @@ module.exports = {
     },
 
     /**
-     * Converts a Ss system to a Tf system.
-     * @param {Ss} sys - The system to convert.
-     * @returns {Tf} The transfer function representation of sys.
+     * Converts a Zpk system to a Ss system.
+     * @param {Zpk} sys - The system to convert
+     * @returns {Ss} The state-space representation of sys.
      */
-    ss2tf: function(sys) {
-        //TODO
-        return sys;
+    zpk2ss: function(sys) {
+        return this.tf2ss(this.zpk2tf(sys));
     },
-
 
     /**
      * Gives the system with a transfer function of TF_sys1 + TF_sys2.
