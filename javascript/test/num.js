@@ -1,8 +1,9 @@
 var assert = require('assert');
 var math = require('mathjs');
 var num = require('../src/num');
+var system = require('../src/system');
 
-math.config({epsilon: 1e-2});
+math.config({epsilon: 1e-7});
 
 
 describe('num tests', function() {
@@ -116,8 +117,123 @@ describe('num tests', function() {
             assert.deepEqual(num.roots([1, 2.3]), [-2.3]);
         });
 
+        it('complex roots', function() {
+            assert(math.deepEqual(num.roots([1, 0, 1]), [math.complex(0, 1), math.complex(0, -1)]));
+        });
+
         it('no roots', function() {
             assert.deepEqual(num.roots([5]), []);
+        });
+
+        it('all roots in zero', function() {
+            assert.deepEqual(num.roots([1, 0, 0, 0, 0]), [0, 0, 0, 0]);
+        });
+    });
+
+
+    describe('polyadd()', function() {
+        it('real same length', function() {
+            assert.deepEqual(num.polyadd([2, 3], [-1, 0.5]), [1, 3.5]);
+        });
+
+        it('complex same length', function() {
+            assert(math.deepEqual(num.polyadd([math.complex(1, 1.2), math.complex(0, 0)], [math.complex(-0.7, 10), math.complex(-3.3, 1.9)]), [math.complex(0.3, 11.2), math.complex(-3.3, 1.9)]));
+        });
+
+        it('different lengths', function() {
+            assert.deepEqual(num.polyadd([1, 2], [3]), [1, 5]);
+        });
+    });
+
+
+    describe('conv()', function() {
+        it('same length', function() {
+            assert.deepEqual(num.conv([0.5, -1], [2, 1]), [1, -1.5, -1]);
+        });
+
+
+        it('different length', function() {
+            assert.deepEqual(num.conv([2, 1], [0.5]), [1, 0.5]);
+            assert.deepEqual(num.conv([0.5], [2, 1]), [1, 0.5]);
+        });
+    });
+
+
+    describe('diag()', function() {
+        it('default', function() {
+            assert.deepEqual(num.diag(math.ones(2)), [[1, 0], [0, 1]]);
+        });
+
+        it('negative index', function() {
+            assert.deepEqual(num.diag(math.ones(2), -1), [[0, 0, 0], [1, 0, 0], [0, 1, 0]]);
+        });
+
+        it('positive index', function() {
+            assert.deepEqual(num.diag(math.ones(2), 1), [[0, 1, 0], [0, 0, 1], [0, 0, 0]]);
+        });
+
+        it('non-unit vector', function() {
+            assert.deepEqual(num.diag([2, 3]), [[2, 0], [0, 3]]);
+        });
+    });
+
+
+    describe('extreme_by()', function(){
+        it('max on property', function() {
+            assert.deepEqual(num.extreme_by([{a: 5}, {a: 2}, {a: 7}, {a: 4}], Math.max,
+                                    function(v){return v.a;}), {a: 7});
+        });
+    });
+
+
+    // Numerical inaccuracies but is close enough
+    //describe('stepinfo', function() {
+        //it('matlab example', function() {
+            //var s = system.tf([1], [1, 1, 10]);
+            //assert(num.stepinfo(s.step()), {
+                //rise_time: 0.3738,
+                //settling_time: 7.3148,
+                //settling_min: 0.0635,
+                //settling_max: 0.1605,
+                //overshoot: 60.4530,
+                //undershoot: 0,
+                //peak: 0.1605,
+                //peak_time: 1.0131
+            //});
+        //});
+    //});
+
+
+    describe('complex_to_real_if_real', function() {
+        it('not real', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(5, 3)), math.complex(5, 3));
+        });
+
+        it('not complex', function() {
+            assert.equal(num.complex_to_real_if_real(math.complex(5, 0)), 5);
+        });
+
+        it('custom threshold', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(3, 1e-7), 1e-8), math.complex(3, 1e-7));
+        });
+
+        it('default threshold', function() {
+            assert.deepEqual(num.complex_to_real_if_real(math.complex(3, 1e-7 + 1e-8)), math.complex(3, 1e-7 + 1e-8));
+        });
+    });
+
+
+    describe('strip_leading_zeros()', function() {
+        it('array with leading zeros', function() {
+            assert.deepEqual(num.strip_leading_zeros([0, math.complex(0, 0), 1, 2]), [1, 2]);
+        });
+
+        it('array without leading zeros', function() {
+            assert.deepEqual(num.strip_leading_zeros([1, 2, 3]), [1, 2, 3]);
+        });
+
+        it('empty array', function() {
+            assert.deepEqual(num.strip_leading_zeros([]), []);
         });
     });
 });

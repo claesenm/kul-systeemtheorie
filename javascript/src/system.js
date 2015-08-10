@@ -1,5 +1,5 @@
-var _ = require('underscore');
 var math = require('mathjs');
+math.config({matrix: 'array'});
 var num = require('./num');
 
 /**
@@ -10,56 +10,92 @@ var num = require('./num');
 /**
  * Constructs a System object
  * @constructor
+ * @abstract
  */
 function System() {
-    /** @private */
-    this.z = null;
-
-    /** @private */
-    this.p = null;
-
-    /** @private */
-    this.k = null;
-
-    /** @private */
-    this.numerator = null;
-
-    /** @private */
-    this.denominator = null;
 }
-
 
 
 /**
  * Evaluates the transfer function of this system in s.
  * @param {Complex|Number} s
  * @returns {Complex|Number} The value of the tf of this system evaluated in s.
+ * @abstract
  */
-System.prototype.eval = function(s) {
-    if (this.z !== undefined && this.p !== undefined && this.k !== undefined) {
-        var numerator = num.evalzorp(this.z, s);
-        var denom = num.evalzorp(this.p, s);
-        var quotient = math.divide(numerator, denom);
-        result = math.multiply(this.k, quotient);
-    } else if (this.numerator !== undefined && this.denominator !== undefined) {
-        result = math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
-    } else {
-        throw new Error('This is not a valid system.');
-    }
+System.prototype.evalS = function(s) {
+    throw new Error('This is not a valid system.');
+    /* Implementation is defined in the children. */
+};
+
+/**
+ * Calculates values for a bode plot.
+ * @param {Array<Number>} [omega_exp_bounds] - The boundaries for omega in logspace.
+ * @returns {Object} bode - An object containing three arrays with the values.
+ * @config {Array<Number>} bode.omegas - The array of used omegas.
+ * @config {Array<Number>} bode.dBs - The array with the values in dB.
+ * @config {Array<Number>} bode.degrees - The array of degrees.
+ */
+System.prototype.bode = function(omega_exp_bounds) {
+    var sys = this;
+    omega_exp_bounds = omega_exp_bounds || num.interesting_region_logspace(sys);
+    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
 
 
-    return result;
+    var evaluated_omegas = omegas.map(function(omega) { return sys.evalS(math.complex(0, omega)); });
+    var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
+    var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
+    return {
+        'omegas': omegas,
+        dBs: magnitudes_data,
+        degrees: phases_data
+    };
 };
 
 
 /**
- * Sets the zeros of the system's tf.
- * @param {Array<(Complex|Number)>} z - The zeros of the new tf.
- * @private
+ * Calculates the step response of the given system.
+ * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
  */
-System.prototype.setZeros = function(z) {
-    this.z = z;
+System.prototype.step = function(epsilon) {
+    return module.exports.ss(this).step(epsilon);
 };
+
+
+/**
+ * Calculates the impulse reponse of the system.
+ * @returns {Object} response - An object containing the impulse response of the system.
+ * @returns {Array<Number>} response.t - The time values of the calculated impulse response.
+ * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
+ */
+System.prototype.impulse = function() {
+    var step = this.step(),
+        len = step.t.length,
+        diffs = new Array(len);
+    for (var i = 0 ; i < len - 1; ++i) {
+        var dt = math.subtract(step.t[i+1], step.t[i]),
+            dx = math.subtract(step.x[i+1], step.x[i]);
+        diffs[i] = math.divide(dx, dt);
+    }
+    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
+    return {
+        t: step.t,
+        x: diffs
+    };
+};
+
+
+/**
+ * Returns a list of all the breakpoints of this system's transfer function.
+ * The breakpoints are the zeros and the poles combined.
+ * @returns {Array<(Number|Complex)>} The breakpoints.
+ */
+System.prototype.getBreakPoints = function() {
+    return module.exports.zpk(this).getBreakPoints();
+};
+
 
 
 /**
@@ -67,6 +103,50 @@ System.prototype.setZeros = function(z) {
  * @returns {Array<(Complex|Number)>}
  */
 System.prototype.getZeros = function() {
+    return module.exports.zpk(this).getZeros();
+};
+
+
+/**
+ * Returns the poles of this system's transfer function.
+ * @returns {Array<(Complex|Number)>}
+ */
+System.prototype.getPoles = function() {
+    return module.exports.zpk(this).getPoles();
+};
+
+/**
+ * Creates a system with a zero-pole-gain representation.
+ * @param {Array<(Number|Complex)>} z - The zeros of the transfer function.
+ * @param {Array<(Number|Complex)>} p - The poles of the transfer function.
+ * @param {Number|Complex} k - The gain of the transfer function.
+ * @constructor
+ * @augments System
+ */
+function Zpk(z, p, k) {
+    if (z.length > p.length) {
+        throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
+    }
+    this.z = z;
+    this.p = p;
+    this.k = k;
+}
+Zpk.prototype = new System();
+
+/**
+ * Sets the zeros of the system's tf.
+ * @param {Array<(Complex|Number)>} z - The zeros of the new tf.
+ * @private
+ */
+Zpk.prototype.setZeros = function(z) {
+    this.z = z;
+};
+
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.getZeros = function() {
     return this.z;
 };
 
@@ -75,15 +155,14 @@ System.prototype.getZeros = function() {
  * @param {Array<(Complex|Number)>} p - The poles of the new tf.
  * @private
  */
-System.prototype.setPoles = function(p) {
+Zpk.prototype.setPoles = function(p) {
     this.p = p;
 };
 
 /**
- * Returns the poles of this system's transfer function.
- * @returns {Array<(Complex|Number)>}
+ * @inheritdoc
  */
-System.prototype.getPoles = function() {
+Zpk.prototype.getPoles = function() {
     return this.p;
 };
 
@@ -92,7 +171,7 @@ System.prototype.getPoles = function() {
  * @param {Complex|Number} k - The k of the new tf.
  * @private
  */
-System.prototype.setK = function(k) {
+Zpk.prototype.setK = function(k) {
     this.k = k;
 };
 
@@ -101,25 +180,60 @@ System.prototype.setK = function(k) {
  * Returns the k of this system's transfer function.
  * @returns {(Complex|Number)}
  */
-System.prototype.getK = function() {
+Zpk.prototype.getK = function() {
     return this.k;
 };
 
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.evalS = function(s) {
+    var numerator = num.evalzorp(this.z, s);
+    var denom = num.evalzorp(this.p, s);
+    var quotient = math.divide(numerator, denom);
+    return math.multiply(this.k, quotient);
+};
+
+/**
+ * @inheritdoc
+ */
+Zpk.prototype.getBreakPoints = function() {
+    var zeros = this.getZeros(),
+        poles = this.getPoles();
+    return zeros.concat(poles);
+};
+
+/**
+ * Creates a system with a transfer function representation.
+ * @param {Array<(Number|Complex)>} num - The numerator of the transfer function.
+ * @param {Array<(Number|Complex)>} denom - The denominator of the transfer function.
+ * @constructor
+ * @augments System
+ */
+function Tf(num, denom) {
+    if (num.length > denom.length) {
+        throw new Error("The degree of the numerator can't be bigger than the degree of the denominator!");
+    }
+    this.setNumerator(num);
+    this.setDenominator(denom);
+}
+Tf.prototype = new System();
 
 /**
  * Sets the numerator of the tf of the system.
  * @param {Array<(Number|Complex)>} n - The numerator of the tf.
  * @private
  */
-System.prototype.setNumerator = function(n) {
-    this.numerator = n;
+Tf.prototype.setNumerator = function(n) {
+    this.numerator = num.strip_leading_zeros(n);
 };
 
 
 /**
  *  @returns {Array<(Number|Complex)>} the numerator of the transfer function.
  */
-System.prototype.getNumerator = function() {
+Tf.prototype.getNumerator = function() {
     return this.numerator;
 };
 
@@ -129,16 +243,90 @@ System.prototype.getNumerator = function() {
  * @param {Array<(Number|Complex)>} d - The denominator of the tf.
  * @private
  */
-System.prototype.setDenominator = function(d) {
-    this.denominator = d;
+Tf.prototype.setDenominator = function(d) {
+    this.denominator = num.strip_leading_zeros(d);
 };
 
 /**
  *  @returns {Array<(Number|Complex)>} the denominator of the transfer function.
  */
-System.prototype.getDenominator = function() {
+Tf.prototype.getDenominator = function() {
     return this.denominator;
 };
+
+/**
+ * @inheritdoc
+ */
+Tf.prototype.evalS = function(s) {
+    return math.divide(num.polyval(this.numerator, s), num.polyval(this.denominator, s));
+};
+
+/**
+ * Creates a system with a state-space representation.
+ * @param {Array<Array<(Number|Complex)>>} A - The A matrix
+ * @param {Array<Array<(Number|Complex)>>} B - The B matrix
+ * @param {Array<Array<(Number|Complex)>>} C - The C matrix
+ * @param {Array<Array<(Number|Complex)>>} D - The D matrix
+ * @constructor
+ * @augments System
+ */
+function Ss(A, B, C, D) {
+    this.A = A;
+    this.B = B;
+    this.C = C;
+    this.D = D;
+}
+
+Ss.prototype = new System();
+
+/**
+ * Calculates the step response of the given system.
+ * @param {Number} [epsilon=1e-7] - The abolute error of the solution.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
+ */
+Ss.prototype.step = function(epsilon) {
+    epsilon = epsilon || 1e-7;
+    var A = this.A,
+        B = this.B,
+        C = this.C,
+        D = this.D;
+
+    function eps(t) {
+        if (t < 0) return 0;
+        if (t === 0) return 1/2;
+        return 1;
+    }
+
+    function dx(t, x){
+        return math.add(math.multiply(A, x), math.multiply(B, eps(t)));
+    }
+
+    function sol(t, x) {
+        return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
+    }
+
+    function err(t, x) {
+        return math.abs(sol(t, x) - eps(t));
+    }
+
+    
+    var prevError = Infinity;
+    function terminate(t, x) {
+        var currentError = err(t, x);
+        if (currentError < epsilon && math.abs(math.divide(currentError, prevError) - 1) < 1e-3) {
+            return 1;
+        }
+        return -1;
+    }
+
+    var response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminate);
+    var response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
+    return {t: response.x, x: response_val};
+};
+
+
 
 module.exports = {
     System: System,
@@ -151,11 +339,17 @@ module.exports = {
      * @returns {System}
      */
     zpk: function(z, p, k) {
-        var sys = new System();
-        sys.setZeros(z);
-        sys.setPoles(p);
-        sys.setK(k);
-        return sys;
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Tf to Zpk
+            if (sys instanceof Tf) {
+                return this.tf2zpk(sys);
+            }
+            if (sys instanceof Ss) {
+                return this.ss2zpk(sys);
+            }
+        }
+        return new Zpk(z, p, k);
     },
 
 
@@ -166,9 +360,108 @@ module.exports = {
      * @return {System} A system with the given transfer function.
      */
     tf: function(numerator, denom) {
-        var sys = new System();
-        sys.setNumerator(numerator);
-        sys.setDenominator(denom);
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Zpk to Tf
+            if (sys instanceof Zpk) {
+                return this.zpk2tf(sys);
+            }
+        }
+        return new Tf(numerator, denom);
+    },
+
+
+    /**
+     * Constructs a system from a state-space representation.
+     * @param {Array<Array<(Number|Complex)>>} A - The A matrix.
+     * @param {Array<Array<(Number|Complex)>>} B - The B matrix.
+     * @param {Array<Array<(Number|Complex)>>} C - The C matrix.
+     * @param {Array<Array<(Number|Complex)>>} D - The D matrix.
+     * @returns {Ss} The state-space system.
+     */
+    ss: function(A, B, C, D) {
+        if (arguments.length === 1 && arguments[0] instanceof System) {
+            var sys = arguments[0];
+            // Convert from Tf to Ss
+            if (sys instanceof Tf) {
+                return this.tf2ss(sys);
+            }
+        }
+        return new Ss(A, B, C, D);
+    },
+
+    /**
+     * Converts a Tf system to a Ss system.
+     * @param {Tf} sys - The system to convert.
+     * @returns {Ss} The state-space representation of sys.
+     */
+    tf2ss: function(sys) {
+        // Controlable canonical form
+        var A, B, C, D,
+            numer = sys.getNumerator(),
+            denom = sys.getDenominator(),
+            as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
+
+        if (denom.length == 1) {
+            return new Ss([[1]], [1], [[0]], [numer[0]]);
+        }
+        // Make numer same length as denom
+        numer = math.zeros(denom.length - numer.length).concat(numer);
+
+        // Matrix
+        A = num.diag(math.ones(as.length - 2), 1);
+        var Aend = A.length - 1;
+        as.slice(1, as.length).forEach(function(val, i) {
+            A[Aend][Aend - i] = val;
+        });
+
+        // Column vector
+        B = math.zeros(as.length - 1);
+        B[B.length - 1] = 1;
+
+        // Row vector
+        C = [numer.slice(1, numer.length).map(function(b, i) { 
+            return math.subtract(numer[numer.length - 1 - i], math.multiply(as[as.length - 1 - i], numer[0]));
+        })];
+
+        // Scalar
+        D = numer[0];
+        return new Ss(A, B, C, D);
+    },
+
+    /**
+     * Converts a Zpk system to a Tf system.
+     * @param {Zpk} sys - The system to convert
+     * @returns {Tf} The transfer function representation of sys.
+     */
+    zpk2tf: function(sys) {
+        function toPoly(zorp){
+            return [1, math.unaryMinus(zorp)];
+        }
+        var numerator = num.conv([sys.k], sys.z.map(toPoly).reduce(function(acc, val){return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real)),
+            denom = sys.p.map(toPoly).reduce(function(acc, val){ return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real);
+        return new Tf(numerator, denom);
+    },
+    
+    /**
+     * Converts a Tf system to a Zpk system.
+     * @param {Tf} sys - The system to convert
+     * @returns {Zpk} The zero-pole-gain representation of sys.
+     */
+    tf2zpk: function(sys) {
+        var z = num.roots(sys.numerator),
+            p = num.roots(sys.denominator),
+            k = sys.numerator[0];
+        return new Zpk(z, p, k);
+    },
+
+    /**
+     * Converts a Ss system to a Zpk system.
+     * @param {Ss} sys - The system to convert.
+     * @returns {Zpk} The zero-pole-gain representation of sys.
+     */
+    ss2zpk: function(sys) {
+        // TODO
         return sys;
     }
 };

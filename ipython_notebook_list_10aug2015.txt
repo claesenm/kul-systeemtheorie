@@ -1,0 +1,58 @@
+<p><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/discretization.zip" target="_blank"><strong>1. Discretization:</strong></a>&nbsp; This notebook is about the discretization of continuous-time systems by using different methods.</p>
+
+<p>&nbsp;Methods:</p>
+
+<p style="margin-left:40px">- Forward Euler<br />
+- Backward Euler&nbsp;<br />
+- Bilinear transform (with/without prewarping + give prewarping freq.)&nbsp;<br />
+- Impulse invariant method&nbsp;<br />
+- Zero-order hold&nbsp;method<br />
+- Pole-zero matching&nbsp;</p>
+
+<p>Parameters:&nbsp;</p>
+
+<p style="margin-left:40px">- Transfer function (Continuous-time)<br />
+- Sampling time&nbsp;</p>
+
+<p>Plots:&nbsp;</p>
+
+<p style="margin-left:40px">- It plots the poles and zeros in the complex plane of the&nbsp;continuous-time and discrete-time systems&nbsp;<br />
+- Bode plots&nbsp;of both the continuous and discrete-time systems.</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/fourier_transform.zip" target="_blank"><strong>2. Fourier transform:</strong></a>&nbsp;You can create a signal with a wide number of frequencies (low to high, in time domain). Then you can plot the Fourier spectrum of this signal. For some signals you can apply a low pass filter to this signal, of which the cut-off frequency can be increased.&nbsp;</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/sampling.zip" target="_blank"><strong>3. Sampling:</strong></a>&nbsp;You can create a signal with a wide number of frequencies (low to high, in time domain). Then you can plot the Fourier spectrum of this signal. Sample the signal with a train of dirac impulses (at multiple sampling speeds). You can see the effect in the frequency domain and in the time domain .&nbsp;</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/convolution.zip" target="_blank"><strong>4. Convolution:</strong>&nbsp;</a>&nbsp;You can use this application to get a better understanding of the idea of convolution. Also included is a&nbsp;</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/transfer_function_3d_plot.zip" target="_blank"><strong>5. 3D plot of the magnitude of a transfer function:</strong>&nbsp;&nbsp;</a>Enter a transfer function &nbsp;and get&nbsp;a 3D&nbsp;plot of the transfer function. Also explaining the link between transfer function and bode diagram.</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/pid_controller.zip" target="_blank"><strong>6. Manual Tuning of a PID controller: </strong></a>Provide the transfer function of the process to control. Change the values of Kp, Ki and Kd and see the effect on the step &nbsp;response of the closed-loop system. &nbsp;The notenbook also returns some step response characterics such as&nbsp;&nbsp;peak time, rise time, maximum overshoot, and settling time.</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_the_poles_on_the_time_response_of_first_and_second_order_systems.zip" target="_blank"><strong>7. Effect of the position of the poles on the time-response of &nbsp;first order and second order systems:&nbsp;</strong></a>&nbsp;For the first order system the user should provide the pole &nbsp;by using a slider. For the second order system the user should provide the position of the poles using sliders (real and imaginary part).&nbsp;</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/root_locus.zip" target="_blank"><strong>8. Root Locus:</strong>&nbsp;</a>The user should provide a transfer function. &nbsp;With a slider the user is able to change the value of the proportional gain K. &nbsp;The notebook returns the root locus (highlighting the &nbsp;position of the closed-loop poles for the current K), and the step response of the closed-loop system.</p>
+
+<p><br />
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_time_constant_damping_and_natural_frequency.zip" target="_blank"><strong>9. Effect of the damping ratio and natural frequency on the time-response and the frequency response of a second order system and effect of the time constant on the time-response and the frequency response of a first order system:&nbsp;</strong></a>You can change the values of Click and drag to move and see the effect on a step input.<br />
+&nbsp;</p>
+
+<p><strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/bodeplot.zip" target="_blank">10. Bode and Nyquist Plots:</a> </strong>The user &nbsp;has to&nbsp;provide&nbsp;a transfer function, and the frequency and amplitude of a sinusoidal signal. The notebook returns:&nbsp;</p>
+
+<ul style="margin-left:40px">
+	<li>The Bode and Nyquist plots with a highlighted point corresponding to the frequency provided by the user .</li>
+	<li>A time response plot showing the input signal (u(t)=A.sin(w.t) ) and the output signal.&nbsp;<br />
+	&nbsp;</li>
+</ul>
+
+<p><strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/leadlag.zip" target="_blank">11. Design of lead and lag compensators:</a> </strong>In this notebook you can play around with lead an lag compensators to see their effect on the bode plot and the root locus of the open-loop system. Some simple exercises will help you to master&nbsp;the use of this kind of compensators.&nbsp;<br />
+&nbsp;</p>
+
+<p><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/compound_interest.zip" target="_blank"><strong>12. Compound interest problem:</strong></a>&nbsp; It simulates the effect of the interest on a saving account. This is an example of solving a difference equation.&nbsp;</p>
