@@ -35,9 +35,9 @@ describe('System testing', function() {
 
         it('error on invalid system', function(){
             try {
-                var s = system.zpk([1], [0], 1);
+                var s = system.zpk([1, 1], [0], 1);
             } catch(e) {
-                retrun;
+                return;
             }
             throw new Error("Didn't throw.");
         });
@@ -58,6 +58,15 @@ describe('System testing', function() {
             
             assert.deepEqual(s.getNumerator(), [3, 6]);
             assert.deepEqual(s.getDenominator(), [1, 0, 1]);
+        });
+        
+        it('error on invalid system', function() {
+            try {
+                var s = system.tf([1, 1], [0]);
+            } catch(e) {
+                return;
+            }
+            throw new Error("Didn't throw.");
         });
     });
 
