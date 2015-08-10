@@ -1,0 +1,7 @@
+- Multiplication/addition of transfer functions
+- Feedback function
+- All stepinfo
+- Better impulse response
+- More conversions
+- Bugfixes
+- Phase/gain margin
