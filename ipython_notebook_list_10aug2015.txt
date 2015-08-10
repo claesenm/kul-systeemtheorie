@@ -26,29 +26,30 @@
 <a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/sampling.zip" target="_blank"><strong>3. Sampling:</strong></a>&nbsp;You can create a signal with a wide number of frequencies (low to high, in time domain). Then you can plot the Fourier spectrum of this signal. Sample the signal with a train of dirac impulses (at multiple sampling speeds). You can see the effect in the frequency domain and in the time domain .&nbsp;</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/convolution.zip" target="_blank"><strong>4. Convolution:</strong>&nbsp;</a>&nbsp;You can use this application to get a better understanding of the idea of convolution. Also included is a&nbsp;</p>
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/convolution.zip" target="_blank"><strong>4. Convolution:</strong>&nbsp;</a>&nbsp;You can use this application to get a better understanding of the idea of convolution.</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/transfer_function_3d_plot.zip" target="_blank"><strong>5. 3D plot of the magnitude of a transfer function:</strong>&nbsp;&nbsp;</a>Enter a transfer function &nbsp;and get&nbsp;a 3D&nbsp;plot of the transfer function. Also explaining the link between transfer function and bode diagram.</p>
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/transfer_function_3d_plot.zip" target="_blank"><strong>5. 3D plot of the magnitude of a transfer function:</strong>&nbsp;&nbsp;</a>For an user defined transfer function, this notebook provides a 3D plot of&nbsp;its magnitude. It also&nbsp;explains&nbsp;the link between the generated&nbsp;3D plot and the bode diagram of the transfer function.</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/pid_controller.zip" target="_blank"><strong>6. Manual Tuning of a PID controller: </strong></a>Provide the transfer function of the process to control. Change the values of Kp, Ki and Kd and see the effect on the step &nbsp;response of the closed-loop system. &nbsp;The notenbook also returns some step response characterics such as&nbsp;&nbsp;peak time, rise time, maximum overshoot, and settling time.</p>
+<strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/pid_controller.zip" target="_blank">6. Manual Tuning of a PID controller: </a>&nbsp;</strong>Once the user has provided the transfer function of the process to control, the user&nbsp;can play with&nbsp;the PID parameters (<span class="math-tex">\(K_p\)</span>, <span class="math-tex">\(K_i\)</span>&nbsp;and&nbsp;<span class="math-tex">\(K_d\)</span>) in order to see&nbsp;their effect on the step &nbsp;response of the closed-loop system. &nbsp;The notebook also returns some step response characterics such as&nbsp;&nbsp;peak time, rise time, maximum overshoot, and settling time.</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_the_poles_on_the_time_response_of_first_and_second_order_systems.zip" target="_blank"><strong>7. Effect of the position of the poles on the time-response of &nbsp;first order and second order systems:&nbsp;</strong></a>&nbsp;For the first order system the user should provide the pole &nbsp;by using a slider. For the second order system the user should provide the position of the poles using sliders (real and imaginary part).&nbsp;</p>
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_the_poles_on_the_time_response_of_first_and_second_order_systems.zip" target="_blank"><strong>7. Effect of the position of the poles on the time-response of &nbsp;first order and second order systems:&nbsp;</strong></a>&nbsp;Through this notebook the user can study &nbsp;the effect of the&nbsp;position of the poles &nbsp;on&nbsp;the step and impulse responses.</p>
+
+<p>the shape&nbsp;of step response that&nbsp;This notebook returns the step response&nbsp;In this notebook the user can provide the position of the poles and thFor the first order system the user should provide the pole&nbsp;by using a slider. For the second order system the user should provide the position of the poles using sliders (real and imaginary part).&nbsp;</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/root_locus.zip" target="_blank"><strong>8. Root Locus:</strong>&nbsp;</a>The user should provide a transfer function. &nbsp;With a slider the user is able to change the value of the proportional gain K. &nbsp;The notebook returns the root locus (highlighting the &nbsp;position of the closed-loop poles for the current K), and the step response of the closed-loop system.</p>
+<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/root_locus.zip" target="_blank"><strong>8. Root Locus:</strong>&nbsp;</a>The user should provide a transfer function. &nbsp;With a slider the user is able to change the value of the proportional gain <em>K</em>. &nbsp;The notebook returns the root locus (highlighting the &nbsp;position of the closed-loop poles for the current <em>K</em>), and the step response of the closed-loop system.</p>
 
 <p><br />
-<a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_time_constant_damping_and_natural_frequency.zip" target="_blank"><strong>9. Effect of the damping ratio and natural frequency on the time-response and the frequency response of a second order system and effect of the time constant on the time-response and the frequency response of a first order system:&nbsp;</strong></a>You can change the values of Click and drag to move and see the effect on a step input.<br />
-&nbsp;</p>
+<strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/effect_of_time_constant_damping_and_natural_frequency.zip" target="_blank">9. Effect of the damping ratio and natural frequency on the time-response and the frequency response of a second order system and effect of the time constant on the time-response and the frequency response of a first order system:</a>&nbsp;</strong>This notebook allows the user to study the effect of <span style="font-size:14px">&nbsp;the time constant <span class="math-tex">\(\tau\)</span>,&nbsp;</span>damping ratio&nbsp;<span class="math-tex">\(\zeta\)</span>, &nbsp;and natural frequency <span class="math-tex">\(\omega_n\)</span>, &nbsp;on the time and frequency responses of first and second order systems.</p>
 
-<p><strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/bodeplot.zip" target="_blank">10. Bode and Nyquist Plots:</a> </strong>The user &nbsp;has to&nbsp;provide&nbsp;a transfer function, and the frequency and amplitude of a sinusoidal signal. The notebook returns:&nbsp;</p>
+<p><strong><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/notebooks/bodeplot.zip" target="_blank">10. Bode and Nyquist Plots:</a> </strong>The user&nbsp;has to&nbsp;provide&nbsp;a transfer function, and the frequency and amplitude of a sinusoidal signal. The notebook returns:&nbsp;</p>
 
 <ul style="margin-left:40px">
 	<li>The Bode and Nyquist plots with a highlighted point corresponding to the frequency provided by the user .</li>
-	<li>A time response plot showing the input signal (u(t)=A.sin(w.t) ) and the output signal.&nbsp;<br />
+	<li>A time response plot showing the input signal (<span class="math-tex">\(u(t)=A\sin(\omega t)\)</span>) and the output signal.&nbsp;<br />
 	&nbsp;</li>
 </ul>
 
