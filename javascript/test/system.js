@@ -212,12 +212,22 @@ describe('System testing', function() {
     describe('Tf#toLatex()', function() {
         it('simple', function() {
             var sys = system.tf([1, 2], [3, 4, 5]);
-            assert.deepEqual(sys.toLatex(), '\\frac{1s + 2}{3s^{2} + 4s + 5}');
+            assert.deepEqual(sys.toLatex(), '\\frac{s + 2}{3s^{2} + 4s + 5}');
         });
 
         it('negatives', function() {
             var sys = system.tf([1], [-1, -2]);
-            assert.deepEqual(sys.toLatex(), '\\frac{1}{-1s - 2}');
+            assert.deepEqual(sys.toLatex(), '\\frac{1}{-s - 2}');
+        });
+
+        it('ones', function() {
+            var sys = system.tf([1, 1], [-1, -1]);
+            assert.deepEqual(sys.toLatex(), '\\frac{s + 1}{-s - 1}');
+        });
+
+        it('zeros', function() {
+            var sys = system.tf([2, 0], [-2, 0, -2]);
+            assert.deepEqual(sys.toLatex(), '\\frac{2s}{-2s^{2} - 2}');
         });
     });
 
@@ -235,6 +245,11 @@ describe('System testing', function() {
         it('complex', function() {
             var sys = system.zpk([], [math.complex(1, 1)], -3);
             assert.deepEqual(sys.toLatex(), '\\frac{-3}{\\left(s-\\left(1 + j\\right)\\right)}');
+        });
+
+        it('correct order', function() {
+            var sys = system.zpk([2, 1], [4, 3], 1);
+            assert.deepEqual(sys.toLatex(), '\\frac{\\left(s-1\\right)\\left(s-2\\right)}{\\left(s-3\\right)\\left(s-4\\right)}');
         });
     });
 });

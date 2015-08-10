@@ -146,8 +146,20 @@ Zpk.prototype = new System();
  * @inheritdoc
  */
 Zpk.prototype.toLatex = function() {
-    var latexified = new Array(2);
-    [this.getZeros(), this.getPoles()].forEach(function (points, idx) {
+    function sort_on_real_inplace(arr) {
+        arr.sort(function(a, b) {
+            return math.abs(math.re(a)) - math.abs(math.re(b));
+        });
+    }
+
+    var latexified = new Array(2),
+        zeros = this.getZeros(),
+        poles = this.getPoles();
+
+    sort_on_real_inplace(zeros);
+    sort_on_real_inplace(poles);
+
+    [zeros, poles].forEach(function (points, idx) {
         var latexed = '';
         points.forEach(function(point, i) {
             latexed += '\\left(s';
@@ -288,12 +300,20 @@ Tf.prototype.toLatex = function() {
                     s_factor = 's^{' + power + '}';
             }
 
+            var op = (poly[i] < 0) ? '-' : '+',
+                coeff = math.round(math.abs(poly[i]), ROUNDING);
+            if (i !== degree && coeff === 1) {
+                coeff = '';
+            }
+
             if (i === 0) {
-                poly_latex += math.round(poly[i], ROUNDING) + s_factor;
+                poly_latex += (poly[i] < 0 ? '-' : '') + coeff + s_factor;
                 continue;
             }
 
-            poly_latex += ( (poly[i] < 0) ? ' - ' : ' + ') + math.abs(math.round(poly[i], ROUNDING)) + s_factor;
+            if (! math.equal(coeff, 0)) {
+                poly_latex += ' ' + op + ' ' + coeff + s_factor;
+            }
         }
 
         return poly_latex;
@@ -544,12 +564,12 @@ module.exports = {
     },
 
     /**
-     * Converts a Ss system to a Zpk system.
+     * Converts a Ss system to a Tf system.
      * @param {Ss} sys - The system to convert.
-     * @returns {Zpk} The zero-pole-gain representation of sys.
+     * @returns {Tf} The transfer function representation of sys.
      */
-    ss2zpk: function(sys) {
-        // TODO
+    ss2tf: function(sys) {
+        //TODO
         return sys;
     }
 };
