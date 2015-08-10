@@ -252,4 +252,14 @@ describe('System testing', function() {
             assert.deepEqual(sys.toLatex(), '\\frac{\\left(s-1\\right)\\left(s-2\\right)}{\\left(s-3\\right)\\left(s-4\\right)}');
         });
     });
+
+    describe('add()', function() {
+        it('works', function() {
+            var sys1 = system.tf([1], [1, 2]),
+                sys2 = system.tf([1, 2], [3, 4]),
+                sys = system.add(sys1, sys2);
+            assert.deepEqual(sys.getNumerator(), [1, 7, 8]);
+            assert.deepEqual(sys.getDenominator(), [3, 10, 8]);
+        });
+    });
 });

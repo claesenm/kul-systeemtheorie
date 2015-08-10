@@ -456,6 +456,9 @@ module.exports = {
             if (sys instanceof Ss) {
                 return this.ss2zpk(sys);
             }
+            if (sys instanceof Zpk) {
+                return sys;
+            }
         }
         return new Zpk(z, p, k);
     },
@@ -473,6 +476,9 @@ module.exports = {
             // Convert from Zpk to Tf
             if (sys instanceof Zpk) {
                 return this.zpk2tf(sys);
+            }
+            if (sys instanceof Tf) {
+                return sys;
             }
         }
         return new Tf(numerator, denom);
@@ -493,6 +499,9 @@ module.exports = {
             // Convert from Tf to Ss
             if (sys instanceof Tf) {
                 return this.tf2ss(sys);
+            }
+            if (sys instanceof Ss) {
+                return sys;
             }
         }
         return new Ss(A, B, C, D);
@@ -571,5 +580,25 @@ module.exports = {
     ss2tf: function(sys) {
         //TODO
         return sys;
+    },
+
+
+    /**
+     * Gives the system with a transfer function of TF_sys1 + TF_sys2.
+     * @param {(Zpk|Tf)} sys1 - The first term of the addition.
+     * @param {(Zpk|Tf)} sys2 - The second term of the addition.
+     * @returns {Tf} The addition of both transfer functions.
+     */
+    add: function(sys1, sys2) {
+        var newNum,
+            newDenom,
+            sys,
+            sys1tf = this.tf(sys1),
+            sys2tf = this.tf(sys2);
+
+
+        newDenom = num.conv(sys1tf.getDenominator(), sys2tf.getDenominator());
+        newNum   = num.polyadd(num.conv(sys1.getNumerator(), sys2.getDenominator()), num.conv(sys2.getNumerator(), sys1.getDenominator()));
+        return new Tf(newNum, newDenom);
     }
 };
