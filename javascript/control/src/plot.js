@@ -46,7 +46,6 @@ module.exports = {
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
-            console.log(container.offsetWidth, container.offsetHeight);
             d.style.width = container.offsetWidth + "px";
             d.style.height = container.offsetHeight / 2 + "px";
             container.appendChild(d);
