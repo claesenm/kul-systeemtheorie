@@ -263,7 +263,8 @@ module.exports = {
                 gridLineWidth: 0,
                 tickPosition: 'inside',
                 tickWidth: 1,
-                lineWidth: 1
+                lineWidth: 1,
+                minRange: 1
             },
             yAxis: {
                 minPadding: 0.05,
@@ -274,7 +275,8 @@ module.exports = {
                 gridLineWidth: 0,
                 tickPosition: 'inside',
                 tickWidth: 1,
-                lineWidth: 1
+                lineWidth: 1,
+                minRange: 1
             },
             title: {
                 text: '',
@@ -288,7 +290,9 @@ module.exports = {
             },
             tooltip: {
                 headerFormat: '',
-                pointFormat: '<b>{point.x} + {point.y}j</b>'
+                formatter: function() {
+                    return '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.round(this.y, 4) + 'j' + '</b>';
+                }
             }
         };
 
