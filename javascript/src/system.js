@@ -82,19 +82,7 @@ System.prototype.step = function(bounds, settle) {
  * @returns {Array<Number>} response.x - The actual values of the calculated impulse response.
  */
 System.prototype.impulse = function(bounds, settle) {
-    var step = this.step(bounds, settle),
-        len = step.t.length,
-        diffs = new Array(len);
-    for (var i = 0 ; i < len - 1; ++i) {
-        var dt = math.subtract(step.t[i+1], step.t[i]),
-            dx = math.subtract(step.x[i+1], step.x[i]);
-        diffs[i] = math.divide(dx, dt);
-    }
-    diffs[len - 1] = math.divide(math.subtract(step.x[len - 1], step.x[len - 2]), math.subtract(step.t[len - 1], step.t[len - 2]));
-    return {
-        t: step.t,
-        x: diffs
-    };
+    return module.exports.ss(this).impulse(bounds, settle);
 };
 
 
@@ -400,32 +388,26 @@ function Ss(A, B, C, D) {
 Ss.prototype = new System();
 
 /**
- * @inheritdoc
+ * Solve the ordinary differential equation of this state-space system using dx as the iteration function
+ * and sol for getting the result (y(t)) out of the state.
+ * @private
+ * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+ * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
+ * @param {Function} dx - The iteration function. Has the form dx(t, x).
+ * @param {Function} sol - The function for extracting the solution out of the state. Has the form sol(t, x).
+ * @param {Array<Number>} [initial=zeros] - The state of the system at t=0.
+ * @returns {Object} response - The step response of the system.
+ * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Array<Number>} response.x - The value of the response.
  */
-Ss.prototype.step = function(bounds, settle) {
-    bounds = bounds || [0, 20];
-    settle = (settle !== undefined ? settle : false);
-
-
+Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
     var A = this.A,
         B = this.B,
         C = this.C,
         D = this.D;
 
-    function eps(t) {
-        if (t < 0) return 0;
-        if (t === 0) return 1/2;
-        return 1;
-    }
 
-    function dx(t, x){
-        return math.add(math.multiply(A, x), math.multiply(B, eps(t)));
-    }
-
-    function sol(t, x) {
-        return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
-    }
-
+    initial = initial || math.zeros(A.length);
 
     // Put the results in a queue
     var QUEUESIZE = 100,
@@ -467,12 +449,64 @@ Ss.prototype.step = function(bounds, settle) {
     }
 
     var terminator = settle ? terminate : function() {return -1;},
-        response = numeric.dopri(0, 20, math.zeros(this.A.length), dx, 1e-8, 1000, terminator),
+        response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 1000, terminator),
         response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
     return {t: response.x, x: response_val};
 };
 
 
+/**
+ * @inheritdoc
+ */
+Ss.prototype.step = function(bounds, settle) {
+    bounds = bounds || [0, 20];
+    settle = (settle !== undefined ? settle : false);
+
+    var A = this.A,
+        B = this.B,
+        C = this.C,
+        D = this.D;
+
+
+    function eps(t) {
+        if (t < 0) return 0;
+        if (t === 0) return 1/2;
+        return 1;
+    }
+
+    function dx(t, x) {
+        return math.add(math.multiply(A, x), math.multiply(B, eps(t)));
+    }
+
+    function sol(t, x) {
+        return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
+    }
+    
+    return this.solveODE(bounds, settle, dx, sol);
+};
+
+/**
+ * @inheritdoc
+ */
+Ss.prototype.impulse = function(bounds, settle) {
+    bounds = bounds || [0, 20];
+    settle = (settle !== undefined ? settle : false);
+
+    var A = this.A,
+        B = this.B,
+        C = this.C,
+        D = this.D;
+
+    function dx(t, x) {
+        return math.multiply(A, x);
+    }
+
+    function sol(t, x) {
+        return math.multiply(C, x);
+    }
+
+    return this.solveODE(bounds, settle, dx, sol, B);
+};
 
 module.exports = {
     System: System,
