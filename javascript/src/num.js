@@ -257,6 +257,8 @@ module.exports = {
        settling_time_threshold = settling_time_threshold || 0.02;
        y_final = y_final || step.x[step.x.length - 1];
 
+       var meta = {high: 0.9, low: 0.1, settling_threshold: settling_time_threshold};
+
        // Finds an interpolated index of val in array
        function find(arr, val) {
            for (var i = 0; i < arr.length - 1; ++i) {
@@ -307,7 +309,8 @@ module.exports = {
                peak: NaN,
                peak_time: NaN,
                rise_time_low: NaN,
-               rise_time_high: NaN
+               rise_time_high: NaN,
+               meta: meta
            };
        }
 
@@ -342,13 +345,17 @@ module.exports = {
        var i_settle = findLastIndex(err, function(err) { return err > tol; });
 
        // Settling time
-       var settling_time;
+       var settling_time,
+           settling_value;
        if (i_settle === 0) {
            settling_time = 0;
+           settling_value = y[0];
        } else if (i_settle == -1) {
            settling_time = NaN;
+           settling_value = NaN;
        } else {
            settling_time = t[i_settle];
+           settling_value = y[i_settle];
        }
        
        // Determine overshoot and undershoot
@@ -371,6 +378,7 @@ module.exports = {
        return {
            rise_time: rise_time,
            settling_time: settling_time,
+           settling_value: settling_value,
            settling_min: settling_min,
            settling_max: settling_max,
            overshoot: overshoot,
@@ -378,7 +386,8 @@ module.exports = {
            peak: peak,
            peak_time: peak_time,
            rise_time_low: t_low,
-           rise_time_high: t_high
+           rise_time_high: t_high,
+           meta: meta
        };
    },
 
