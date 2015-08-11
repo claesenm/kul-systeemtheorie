@@ -19,7 +19,7 @@ function recursiveClone(obj) {
 
 function recursiveExtend(target, source) {
     for (var prop in source) {
-        if (prop in target) {
+        if (prop in target && (typeof target[prop] == 'object')) {
             recursiveExtend(target[prop], source[prop]);
         } else {
             target[prop] = source[prop];
@@ -46,6 +46,7 @@ module.exports = {
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
+            console.log(container.offsetWidth, container.offsetHeight);
             d.style.width = container.offsetWidth + "px";
             d.style.height = container.offsetHeight / 2 + "px";
             container.appendChild(d);
@@ -212,7 +213,7 @@ module.exports = {
                 .add();
             }
 
-            var y_axis_svg;
+            var yAxis_svg;
             if (xAxis.min < 0 && xAxis.max > 0) {
                 yAxis_svg = renderer
                 .path(['M', yposx, yAxis.toPixels(yAxis.min), 'L', yposx, yAxis.toPixels(yAxis.max)])
