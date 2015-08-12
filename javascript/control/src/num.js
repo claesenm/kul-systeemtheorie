@@ -464,5 +464,22 @@ module.exports = {
            gain_omega: gain_omega,
            phase_omega: phase_omega
        };
+   },
+
+
+   /**
+    * Zips together multiple lists.
+    * @param {Array<Mixed>} arrays - Multiple arrays.
+    * @returns {Array<Array<Mixed>>} The zipped arrays.
+    */
+   zip: function() {
+       var res = new Array(arguments[0].length);
+       for(var i = 0; i < res.length; ++i) {
+           res[i] = new Array(arguments.length);
+           for(var j = 0; j < arguments.length; ++j) {
+               res[i][j] = arguments[j][i];
+           }
+       }
+       return res;
    }
 };
