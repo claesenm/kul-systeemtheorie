@@ -52,12 +52,12 @@ module.exports = {
             return d;
         }
 
-        var magnitude_div = div_half_height(container);
-        var phase_div = div_half_height(container);
+        var magnitude_div = div_half_height(container),
+            phase_div = div_half_height(container);
 
-        var bode_data = system.bode(omega_bounds);
-        var magnitudes_data = bode_data.dBs.map(function(dB, i) { return [bode_data.omegas[i], dB]; });
-        var phases_data = bode_data.degrees.map(function(degree, i) { return [bode_data.omegas[i], degree]; });
+        var bode_data = system.bode(omega_bounds),
+            magnitudes_data = num.zip(bode_data.omegas, bode_data.dBs),
+            phases_data = num.zip(bode_data.omegas, bode_data.degrees);
 
 
         var options = {
