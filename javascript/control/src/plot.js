@@ -380,9 +380,18 @@ module.exports = {
             ks = math.zeros(points.length),
             k = STEP;
 
-        for (i = 1; i < 500; ++i){
-            var next_roots = num.roots(gen_poly(k));
-            points.push(next_roots);
+        for (i = 1; i < 999; ++i){
+            var next_roots = num.roots(gen_poly(k)),
+                next_roots_closest = [];
+
+            for (var j = 0; j < points[points.length - 1].length; ++j) {
+                var nearest = next_roots.indexOf(num.extreme_by(next_roots, Math.min, function(root) { return dist(root, points[points.length - 1][j]); }));
+                next_roots_closest.push(next_roots[nearest]);
+                next_roots.splice(nearest, 1);
+            }
+
+            points.push(next_roots_closest);
+
 
             var min_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
             if (min_dist === 0) {
