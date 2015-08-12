@@ -451,12 +451,18 @@ module.exports = {
     */
    margin: function(bode) {
        var find = module.exports.find,
-           phase_idx = find(bode.dB, 0),
+           phase_idx = find(bode.dBs, 0),
            phase_omega = phase_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
-           phase = phase_idx === -1 ? Infinity : at(bode.degree, phase_idx),
-           gain_idx = find(bode.degrees, 180),
+           phase = phase_idx === -1 ? Infinity : 180 + mathh.abs(at(bode.degrees, phase_idx)),
+           gain_idx = find(bode.degrees.map(function(deg){ return math.abs(deg); }), 180),
            gain_omega = gain_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
-           gain = gain_idx === -1 ? Infinity : at(bode.degree, phase_idx);
-       //TODO
+           gain = gain_idx === -1 ? Infinity : -at(bode.dBs, phase_idx);
+
+       return {
+           gain: gain,
+           phase: phase,
+           gain_omega: gain_omega,
+           phase_omega: phase_omega
+       };
    }
 };

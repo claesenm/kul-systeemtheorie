@@ -39,9 +39,9 @@ System.prototype.evalS = function(s) {
  * Calculates values for a bode plot.
  * @param {Array<Number>} [omega_exp_bounds] - The boundaries for omega in logspace.
  * @returns {Object} bode - An object containing three arrays with the values.
- * @config {Array<Number>} bode.omegas - The array of used omegas.
- * @config {Array<Number>} bode.dBs - The array with the values in dB.
- * @config {Array<Number>} bode.degrees - The array of degrees.
+ * @returns {Array<Number>} bode.omegas - The array of used omegas.
+ * @returns {Array<Number>} bode.dBs - The array with the values in dB.
+ * @returns {Array<Number>} bode.degrees - The array of degrees.
  */
 System.prototype.bode = function(omega_exp_bounds) {
     var sys = this;
@@ -53,7 +53,7 @@ System.prototype.bode = function(omega_exp_bounds) {
     var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
     var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
     return {
-        'omegas': omegas,
+        omegas: omegas,
         dBs: magnitudes_data,
         degrees: phases_data
     };
