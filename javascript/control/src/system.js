@@ -454,9 +454,17 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
         if (timeSeen < 1) {
             return -1;
         }
-        var mean = toUse.reduce(function(acc, val){ return acc + val; }) / toUse.length,
-            absolute_error = toUse.map(function(val){ return math.abs(val - mean); }).reduce(function(acc, val){ return acc + val; }),
-            relative_error = math.abs(absolute_error / mean);
+        var mean = 0;
+        for (i = 0; i < toUse.length; ++i) {
+            mean += toUse[i];
+        }
+        mean /= toUse.length;
+
+        var absolute_error = 0;
+        for (i = 0; i < toUse.length; ++i) {
+            absolute_error += math.abs(mean - toUse[i]);
+        }
+        var relative_error = math.abs(absolute_error / mean);
 
         if (relative_error > 1e-2) {
             return -1;
@@ -466,7 +474,11 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
 
     var terminator = settle ? terminate : function() {return -1;},
         response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 1000, terminator),
-        response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
+        response_state = response.at(response.x),
+        response_val = new Array(response_state.length);
+    for (i = 0; i < response_state.length; ++i) {
+        response_val[i] = sol(response.x[i], response_state[i]);
+    }
     return {t: response.x, x: response_val};
 };
 
