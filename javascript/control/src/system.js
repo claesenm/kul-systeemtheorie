@@ -46,12 +46,17 @@ System.prototype.evalS = function(s) {
 System.prototype.bode = function(omega_exp_bounds) {
     var sys = this;
     omega_exp_bounds = omega_exp_bounds || num.interesting_region_logspace(sys);
-    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
+    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000),
+        len = omegas.length;
 
 
-    var evaluated_omegas = omegas.map(function(omega) { return sys.evalS(math.complex(0, omega)); });
-    var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
-    var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
+    var magnitudes_data = new Array(len),
+        phases_data = new Array(len);
+    for (var i = 0; i < len; ++i) {
+        var H = sys.evalS(math.complex(0, omegas[i]));
+        magnitudes_data[i] = 20 * math.log10(math.abs(H));
+        phases_data[i] = 180 / math.pi * math.arg(H);
+    }
     return {
         omegas: omegas,
         dBs: magnitudes_data,
