@@ -49,13 +49,24 @@ System.prototype.bode = function(omega_exp_bounds) {
     var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000),
         len = omegas.length;
 
+    function limit_to_band(angle) {
+        angle = angle % 360;
+        if (angle > 180) {
+            return -180 + (angle % 180);
+        }
+        if (angle < -180){
+            return 180 + (angle % 180);
+        }
+        return angle;
+    }
+
 
     var magnitudes_data = new Array(len),
         phases_data = new Array(len);
     for (var i = 0; i < len; ++i) {
         var H = sys.evalS(math.complex(0, omegas[i]));
         magnitudes_data[i] = 20 * math.log10(math.abs(H));
-        phases_data[i] = 180 / math.pi * math.arg(H);
+        phases_data[i] = limit_to_band(180 / math.pi * math.arg(H));
     }
     return {
         omegas: omegas,
