@@ -620,7 +620,12 @@ module.exports = {
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
-            as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
+            as = new Array(denom.length),
+            i;
+
+        for (i = 0; i < as.length; ++i) {
+            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
+        }
 
         if (denom.length == 1) {
             return new Ss([[1]], [1], [[0]], [numer[0]]);
@@ -631,18 +636,19 @@ module.exports = {
         // Matrix
         A = num.diag(math.ones(as.length - 2), 1);
         var Aend = A.length - 1;
-        as.slice(1, as.length).forEach(function(val, i) {
-            A[Aend][Aend - i] = val;
-        });
+        for (i = 1; i < as.length; ++i) {
+            A[Aend][Aend - (i - 1)] = as[i];
+        }
 
         // Column vector
         B = math.zeros(as.length - 1);
         B[B.length - 1] = 1;
 
         // Row vector
-        C = [numer.slice(1, numer.length).map(function(b, i) { 
-            return math.subtract(numer[numer.length - 1 - i], math.multiply(as[as.length - 1 - i], numer[0]));
-        })];
+        C = [new Array(numer.length - 1)];
+        for (i = 1; i < numer.length; ++i) {
+            C[0][i-1] = math.subtract(numer[numer.length - i], math.multiply(as[as.length - i], numer[0]));
+        }
 
         // Scalar
         D = numer[0];
