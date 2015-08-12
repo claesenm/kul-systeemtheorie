@@ -376,8 +376,8 @@ module.exports = {
             return math.abs(math.subtract(c1, c2));
         }
 
-        var points = [num.roots(systf.getDenominator())],
-            ks = [],
+        var points = [sys.getPoles()],
+            ks = math.zeros(points.length),
             k = STEP;
 
         for (i = 1; i < 500; ++i){
@@ -394,13 +394,21 @@ module.exports = {
 
         var series_data = new Array(points[0].length);
         for (i = 0; i < series_data.length; ++i) {
-            series_data[i] = new Array(points.length);
+            series_data[i] = new Array(points.length + 1);
         }
         points.forEach(function(data, j) {
             data.forEach(function(point, i) {
                 series_data[i][j] = {x: math.re(point), y: math.im(point), k: ks[j]};
             });
         });
+
+        var numerator_roots = sys.getZeros(),
+            last_points = points[points.length - 1].slice();
+        for (i = 0; i < numerator_roots.length; ++i) {
+            var zero = numerator_roots[i],
+                closest_pole = num.extreme_by(points[points.length -1], Math.min, function(p) { return dist(p, zero); });
+            series_data[points[points.length-1].indexOf(closest_pole)][series_data[0].length - 1] = {x: math.re(zero), y: math.im(zero), k: Infinity};
+        }
 
         var default_options = module.exports.pzplot_options(container, sys);
             custom_options = {
@@ -416,13 +424,12 @@ module.exports = {
                 })),
                 tooltip: {
                     formatter: function() {
-                        return '<b> K: ' + math.round(this.point.k, 2) + '</b><br>' +
+                        return (this.point.k ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
                                '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                     }
                 }
             };
 
-            console.log(recursiveExtend(default_options, custom_options));
         return new Highcharts.Chart(recursiveExtend(default_options, custom_options));
     },
 
