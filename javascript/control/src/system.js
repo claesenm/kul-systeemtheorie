@@ -664,8 +664,29 @@ module.exports = {
         function toPoly(zorp){
             return [1, math.unaryMinus(zorp)];
         }
-        var numerator = num.conv([sys.k], sys.z.map(toPoly).reduce(function(acc, val){return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real)),
-            denom = sys.p.map(toPoly).reduce(function(acc, val){ return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real);
+        var numerator = [1],
+            denom = [1],
+            i;
+
+        // Numerator
+        for (i = 0; i < sys.z.length; ++i) {
+            numerator = num.conv(numerator, toPoly(sys.z[i]));
+        }
+        numerator = math.multiply(numerator, sys.k);
+        for (i = 0; i < numerator.length; ++i) {
+            numerator[i] = num.complex_to_real_if_real(numerator[i]);
+        }
+
+
+        // Denominator
+        for (i = 0; i < sys.p.length; ++i) {
+            denom = num.conv(denom, toPoly(sys.p[i]));
+        }
+        for(i = 0; i < denom.length; ++i) {
+            denom[i] = num.complex_to_real_if_real(denom[i]);
+        }
+
+
         return new Tf(numerator, denom);
     },
     
