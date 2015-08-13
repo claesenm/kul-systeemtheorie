@@ -37,7 +37,6 @@ function main(){
 		plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true)
 		var step_data = sys.step([0,7*tau],true);
 		plt2.series[0].setData(step_data.t.map(function(t, i){ return [t, step_data.x[i]]; }), true, false, true);
-		console.log(num.stepinfo(step_data));
 	}
 	document.getElementById('update').addEventListener('click', update);
 	
