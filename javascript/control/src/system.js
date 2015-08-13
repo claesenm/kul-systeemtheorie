@@ -80,12 +80,13 @@ System.prototype.bode = function(omega_exp_bounds) {
  * Calculates the step response of the given system.
  * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
  * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
+ * @param {Array<(Number|Complex)>} [poles] - The poles of the system.
  * @returns {Object} response - The step response of the system.
  * @returns {Array<Number>} response.t - The time values of the step response.
  * @returns {Array<Number>} response.x - The value of the response.
  */
-System.prototype.step = function(bounds, settle) {
-    return module.exports.ss(this).step(bounds, settle);
+System.prototype.step = function(bounds, settle, poles) {
+    return module.exports.ss(this).step(bounds, settle, poles);
 };
 
 
@@ -413,8 +414,8 @@ Ss.prototype = new System();
  * @param {Function} sol - The function for extracting the solution out of the state. Has the form sol(t, x).
  * @param {Array<Number>} [initial=zeros] - The state of the system at t=0.
  * @param {Array<(Number|Complex)>} [poles] - The poles of the given system.
- * @returns {Object} response - The step response of the system.
- * @returns {Array<Number>} response.t - The time values of the step response.
+ * @returns {Object} response - The solution of the system.
+ * @returns {Array<Number>} response.t - The time values of the solution
  * @returns {Array<Number>} response.x - The value of the response.
  */
 Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
@@ -466,7 +467,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
 /**
  * @inheritdoc
  */
-Ss.prototype.step = function(bounds, settle) {
+Ss.prototype.step = function(bounds, settle, poles) {
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -490,13 +491,13 @@ Ss.prototype.step = function(bounds, settle) {
         return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
     }
     
-    return this.solveODE(bounds, settle, dx, sol);
+    return this.solveODE(bounds, settle, dx, sol, poles);
 };
 
 /**
  * @inheritdoc
  */
-Ss.prototype.impulse = function(bounds, settle) {
+Ss.prototype.impulse = function(bounds, settle, poles) {
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -513,7 +514,7 @@ Ss.prototype.impulse = function(bounds, settle) {
         return math.multiply(C, x);
     }
 
-    return this.solveODE(bounds, settle, dx, sol, B);
+    return this.solveODE(bounds, settle, dx, sol, B, poles);
 };
 
 module.exports = {

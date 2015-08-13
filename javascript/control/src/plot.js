@@ -521,11 +521,12 @@ module.exports = {
      * @param {HTMLElement} container - The container to render to.
      * @param {System} sys - The system of which to plot the step response.
      * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+     * @param {Array<(Number|Complex)>} [poles] - The poles of the system. (Speeds up calculation if the poles were previously calculated).
      * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
-    step: function(container, sys, bounds, settle) {
-        var step_data = sys.step(bounds, settle),
+    step: function(container, sys, bounds, settle, poles) {
+        var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = false;
 
