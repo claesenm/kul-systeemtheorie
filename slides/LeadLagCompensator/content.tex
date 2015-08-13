@@ -50,16 +50,16 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 \begin{frame}
 \frametitle{Lead compensators}
 	\begin{block}{Transfer function}
-		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\alpha\tau}}$ with $0 \textless  \alpha  \textless  1$
+		$C(s) = K\alpha\frac{\tau s + 1}{\alpha\tau s + 1}$ with $0 \textless  \alpha  \textless  1$
 	\end{block}
 	\begin{block}{Bode Diagram}
-		Example with K = 10 and $\alpha$ = 0.1 (see next slide) \\
+		Example with K = 10, $\alpha$ = 0.1 and $\tau$ = 0.1 (see next slide) \\
 		Magnitude of the lead compensator:
 		\begin{itemize}
 			\item becomes unity (= 0 dB) for small frequencies
 			\item becomes 10 (= 20 dB) for high frequencies
 		\end{itemize}
-		$\Rightarrow$ Lead compensator is {\bf high-pass filter}.
+		$\Rightarrow$ A lead compensator is a {\bf high-pass filter}.
 	\end{block}
 \end{frame}
 
@@ -72,17 +72,6 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 	\linewidth]{bodeleadfilter2}
 \end{figure}
 \end{block}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Lead compensators}
-	\begin{block}{Impact of lead compensators: Bode Diagram}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.7
-			\linewidth]{impactleadmuchbetter}
-		\end{figure}
-	\end{block}
 \end{frame}
 
 \begin{frame}
@@ -103,15 +92,14 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 	\frametitle{Design with Bode plots}
 	\begin{block}{Step 1}
 		\begin{itemize}
-			\item Remember the steady state error for references of the shape: $\frac{at^n\epsilon(\tau)}{n!}$ with $\epsilon(t)$ the step function.
-			\item Translate your steady state requirement in terms of the error constant:
+			\item Translate the steady state requirement in terms of the pertinent error constant:
 			\begin{itemize}
 				\item $K_p = \lim_{s \to 0} P(s)C(s)$ (position)
 				\item $K_v = \lim_{s \to 0} sP(s)C(s)$ (velocity)
 				\item $K_a = \lim_{s \to 0} s^2P(s)C(s)$ (acceleration)
 			\end{itemize}
-			\item With this $K_p/K_v/K_a$ and $\lim_{s \to 0} P(s)$, we can determine $\lim_{s \to 0}C(s) = \lim_{s \to 0} K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\alpha\tau}} = K\alpha$.
-			\item Verify whether a proportional controller with gain $K\alpha$ would suffice.
+			\item With this $K_p/K_v/K_a$, determine $K\alpha$.
+			\item Verify whether a proportional controller with gain $K\alpha$ satisfies the phase margin requirements.
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -119,10 +107,10 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 \begin{frame}
 	\frametitle{Design with Bode plots}
 	\begin{block}{Step 2}
-		Determine $\phi$ as the extra PM we have to add to  $K\alpha P(s)$; if the PM is all right, you do not need a lead compensator; a proportional controller with gain $K\alpha$ suffices.
+		Determine $\phi$ as the extra phase margin (PM) we have to add to  $K\alpha P(s)$. If the PM is ok, there is not need of a lead compensator since a proportional controller with gain $K\alpha$ suffices.
 	\end{block}
 	\begin{block}{Step 3}
-		Add $5\,^{\circ}$ to get $\phi_m = \phi + 5\,^{\circ}$ (if $\phi_m > 60\,^{\circ}$, you will need more than one lead compensator). The addition of the lead compensator shifts the gain crossover frequency to the right and decreases the
+		Add $5\,^{\circ}$ to $\phi$: $\phi_m = \phi + 5\,^{\circ}$ (if $\phi_m > 60\,^{\circ}$, you will need more than one lead compensator). The addition of a lead compensator shifts the gain crossover frequency to the right and decreases the
 		phase margin.
 	\end{block}
 \end{frame}
@@ -185,7 +173,7 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 	\frametitle{Design with Bode plots}
 	\begin{block}{Step 7}
 		Verify that the system behaves as desired.
-		Check the phase margin and steady state to make sure it is satisfactory. If not, repeat the design process
+		Check the phase margin and steady state requirement to make sure they are satisfactory. If not, repeat the design process
 		by modifying the pole-zero location of the compensator until a satisfactory result
 		is obtained.
 	\end{block}
@@ -193,13 +181,9 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 
 \begin{frame}
 \begin{example}
-	Given the system $P(s) = \frac{4}{s(s+2)}$ with Bode Diagram below. 
+	Consider the system $P(s) = \frac{4}{s(s+2)}$ with Bode Diagram below. 
 	\vspace{0.1 cm}
-<<<<<<< HEAD
-	We want the phase margin to be at least $50\,^{\circ}$ and a steady state error $K_v = \frac{20}{sec}$.  
-=======
-	We want the phase margin to be at least $50\,^{\circ}$ and a steady state error $K_v = \frac{20}{sec}$.
->>>>>>> 0b857d470ab340a9c7c3ff2b43eccc48cd95109d
+	We want the phase margin to be at least $50\,^{\circ}$ and the static velocity error constant $K_v = \frac{20}{sec}$.  
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.5
@@ -214,8 +198,8 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 \item Steady state requirement: $K_v = \frac{20}{sec}$ \\
 So, $\lim_{s \to 0} sP(s)C(s) = \lim_{s \to 0} s\frac{4}{s(s+2)}K\alpha = 2K\alpha = 20$. \\
 $\Rightarrow K\alpha = 10$
-\item Would a proportional controller with gain $K\alpha$ suffice? We have a look at the Bode Diagram of $K\alpha P(s)$ (see next slide) \\
-$\Rightarrow$ does not suffice! The phase margin is obviously smaller than $50\,^{\circ}$.
+\item Would a proportional controller with gain $K\alpha$ suffice? We have to take a look at the Bode Diagram of $K\alpha P(s)$ (see next slide) \\
+$\Rightarrow$ It does not suffice! The phase margin is obviously smaller than $50\,^{\circ}$.
 \end{itemize}
 \end{exampleblock}
 \begin{exampleblock}{Step 2}
@@ -260,7 +244,7 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 	\end{exampleblock}
 	\begin{exampleblock}{Step 5}
 		Find $\omega_m$, the frequency at which the gain is $-20\log\left( K\sqrt{\alpha}\right) $ dB. 
-		$GCF\left( P(s)K\sqrt{\alpha}\right) = \omega_m = 9 \frac{rad}{s}$ (see Bode Diagram of  $P(s)K\sqrt{\alpha}$ next slide)
+		$GCF\left( P(s)K\sqrt{\alpha}\right) = \omega_m = 9 \frac{rad}{s}$ (see the Bode Diagram of  $P(s)K\sqrt{\alpha}$ in the next slide)
 	\end{exampleblock}
 \end{frame}
 
@@ -281,8 +265,8 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 	We see that: 
 	\begin{itemize}
 		\item the phase margin is indeed more than $50\,^{\circ}$ 
-		\item the new tangent point is indeed about $9\frac{rad}{s}$
-		\item the steady state error is all right
+		\item the new gain crossover frequency is indeed about $9\frac{rad}{s}$
+		\item the static velocity error constant is all right: $K_v = \lim_{s \to 0} sP(s)C(s) = 20$
 	\end{itemize} 
 	\end{exampleblock}
 \end{frame}
@@ -310,16 +294,16 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 \begin{frame}
 	\frametitle{Lag compensators}
 	\begin{block}{Transfer function}
-		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\beta\tau}}$ with $\beta  \textgreater  1$
+		$C(s) = K\beta\frac{\tau s + 1}{\beta \tau s + 1}$ with $\beta  \textgreater  1$
 	\end{block}
 	\begin{block}{Bode Diagram}
-		Example with $K$ = 1 and $\beta$ = 10 (see next slide) \\ 
+		Example with $K$ = 1, $\beta$ = 10 and $\tau$ = 1 (see next slide) \\ 
 		Magnitude of the lag compensator: 
 		\begin{itemize}
 			\item becomes 10 (= 20 dB) for small frequencies
 			\item becomes unity (= 0 dB) for high frequencies
 		\end{itemize}
-		$\Rightarrow$ Lag compensator is {\bf low-pass filter}.
+		$\Rightarrow$ A lag compensator is a {\bf low-pass filter}.
 		
 	\end{block}
 \end{frame}
@@ -336,17 +320,6 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 \end{frame}
 
 \begin{frame}
-\frametitle{Lag compensators}
-\begin{block}{Impact of lag compensators: Bode Diagram}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7
-		\linewidth]{impactlagbetter}
-	\end{figure}
-\end{block}
-\end{frame}
-
-\begin{frame}
 	\frametitle{Lag compensators}
 	\begin{block}{Impact of lag compensators: Bode Diagram}
 	\begin{itemize}
@@ -355,7 +328,6 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 	is of no consequence in lag compensation.
 	\item A lag compensator decreases the bandwidth/speed of response: 
 	\begin{itemize}
-		\item good if your model is bad at high frequencies
 		\item good to reduce the impact of high-frequency noise 
 		\item bad if you want the system to react fast $\Rightarrow$ use lead compensator
 	\end{itemize}
@@ -393,8 +365,8 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 		\item $K_v = \lim_{s \to 0} sP(s)C(s)$
 		\item $K_a = \lim_{s \to 0} s^2P(s)C(s)$
 	\end{itemize}
-	\item With this $K_p/K_v/K_a$ and $\lim_{s \to 0} P(s)$, we can determine $\lim_{s \to 0}C(s) = K\beta$.
-	\item Verify whether a proportional controller with gain $K\beta$ would suffice.
+	\item With this $K_p/K_v/K_a$, we determine $K\beta$.
+	\item Check whether $K\beta P(s)$ satisfies the specifications on phase and gain margins.
 	\end{itemize}
 \end{block}
 \end{frame}
@@ -410,11 +382,7 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 
 \begin{frame}
 \frametitle{Design with Bode plots}
-\begin{block}{Step 3}
-\begin{itemize}
-\item Choose the corner frequency $\omega$ one decade below $\omega_{GCF}$ to avoid bad effects of phase lag due to the lag compensator. The pole and zero must be located at a lower frequency than $\omega_{GCF}$ so that it will not affect the phase margin.
-\item Compute $\tau = \frac{1}{\omega}$.
-\end{itemize}
+\begin{block}{Step 3}Choose the corner frequency $\omega = \frac{1}{\tau}$ one decade below $\omega_{GCF}$ to avoid bad effects of phase lag due to the lag compensator. Notice that we choose the compensator pole and zero sufficiently small. Thus the phase lag occurs at the low-frequency region so that it will not affect the phase margin.
 \end{block}
 \end{frame}
 
@@ -429,7 +397,7 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 \end{block}
 \begin{block}{Step 5}
 	\begin{itemize}
-\item 	We just have calculated $\beta$ (step 4) and we know $K\beta$ (step 1), so it's possible to determine $K$.
+\item 	We just have calculated $\beta$ (step 4) and we know $K\beta$ (step 1), so it is possible to determine $K$.
 \item 	Verify the behavior of the resulting system.
 \end{itemize}
 \end{block}
@@ -439,7 +407,7 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 \begin{frame}
 \begin{example}
 Given the system $P(s) = \frac{1}{s(s+1)(s+2)}$ with Bode Diagram below.
-We want a steady state error $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
+We want a static velocity error constant $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5
@@ -460,7 +428,7 @@ We want a steady state error $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
 \end{frame}
 
 \begin{frame}
-\begin{exampleblock}{Step 1 continued}
+\begin{exampleblock}{Step 1}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.6
@@ -474,7 +442,7 @@ We want a steady state error $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
 	\begin{itemize}
 
 \item Determine the desired phase \\ $phase = -180\,^{\circ} + 40\,^{\circ} + 10\,^{\circ} = -130\,^{\circ}$ \\
-\item $P(s)$ has the desired phase at a frequency of about $\omega_{GCF}$ = $0.5 \frac{rad}{s}$. (see Bode Diagram $P(s)$) \\
+\item $P(s)$ has the desired phase at a frequency of about $\omega_{GCF}$ = $0.5 \frac{rad}{s}$. (see Bode Diagram of $P(s)$) \\
 	\end{itemize}
 \end{exampleblock}
 \begin{exampleblock}{Step 3}
@@ -488,7 +456,7 @@ We want a steady state error $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
 \begin{frame}
 \begin{exampleblock}{Step 4}
 \begin{itemize}
-\item To have an amplitude of $0 dB$ at $\omega_{GCF}$, we need an attenuation $Q = -20 dB$.
+\item To have an amplitude of $0 dB$ at $\omega_{GCF}$ in $K\beta P(s)$, we need an attenuation $Q = -20 dB$.
 \item $\beta = 10^{\frac{-Q}{20}} = 10$
 \end{itemize}
 \end{exampleblock}
@@ -496,7 +464,7 @@ We want a steady state error $K_v =\frac{5}{sec}$ and a PM $ \geq 40\,^{\circ}$.
 \begin{itemize}
 \item From the results of step 1 and step 4, we find $K = 1$.
 \item We find $C(s) = \frac{s + 0.05}{s + 0.005}$. \\ We verify the behavior of $P(s)C(s) = \frac{1}{s(s+1)(s+2)}\frac{s + 0.05}{s + 0.005}$ on its Bode Diagram (see next slide). \\
-The phase margin is indeed greater than $40\,^{\circ}$ and the steady state error is all right.
+The phase margin is indeed greater than $40\,^{\circ}$.
 \end{itemize}
 \end{exampleblock}
 \end{frame}
@@ -537,7 +505,7 @@ The phase margin is indeed greater than $40\,^{\circ}$ and the steady state erro
 \frametitle{Lag-lead compensators}
 \begin{block}{Transfer function}
 	$C(s) = K\frac{s + \frac{1}{\tau_1}}{s + \frac{1}{\alpha\tau_1}}\frac{s + \frac{1}{\tau_2}}{s + \frac{1}{\beta\tau_2}}$ with $\beta \textgreater 1$, $0 \textless \alpha \textless 1$, $\tau_1 \textless \tau_2$ \\
-	Usually, we take $\beta$ = $\frac{1}{\alpha}$, but that's not necessary. \\
+	Usually, we take $\beta$ = $\frac{1}{\alpha}$, but that is not necessary. \\
 	\begin{itemize}
 	\item The term $\frac{s + \frac{1}{\tau_1}}{s + \frac{1}{\alpha\tau_1}}$ produces the effect of the lead network.
 	\item The term $\frac{s + \frac{1}{\tau_2}}{s + \frac{1}{\beta\tau_2}}$ produces the effect of the lag network.
@@ -558,7 +526,7 @@ Magnitude of lag-lead compensator:
 \item becomes unity (= 0 dB) at frequencies of about $1 \frac{rad}{s}$ to $10 \frac{rad}{s}$
 \item becomes 10 (= 20 dB) at high frequencies
 \end{itemize}
-$\Rightarrow$ Lag-lead compensator is a {\bf band stop filter}. \\
+$\Rightarrow$ A lag-lead compensator is a {\bf band stop filter}. \\
 Explanation: $\beta \tau_2 \textgreater \tau_2 \textgreater \tau_1 \textgreater \alpha \tau_1$ \\
 $\Rightarrow \frac{1}{\beta \tau_2} \textless \frac{1}{\tau_2} \textless \frac{1}{\tau_1} \textless \frac{1}{\alpha \tau_1}$ \\
 $\Rightarrow$ $pole_1 \textless zero_1 \textless zero_2 \textless pole_2$
@@ -578,7 +546,7 @@ $\Rightarrow$ $pole_1 \textless zero_1 \textless zero_2 \textless pole_2$
 
 \begin{frame}
 \frametitle{Lag-lead compensators}	\begin{block}{Bode Diagram}
-	Both the good properties of a lag and a lead compensator are used (see Bode Diagram last slide):
+	Both the good properties of a lag and a lead compensator are used (see the Bode Diagram in the previous slide):
 	\begin{itemize}
 	\item At low frequencies, the lag compensator is meant to decrease the steady state error.
 	\item At high frequencies, the lead compensator is meant to increase the phase margin.
@@ -633,7 +601,7 @@ $\Rightarrow$ Lead compensation will require
 a larger gain than that required by lag compensation.
 \end{block}
 \begin{block}{Large control actions}
-The lead compensation may generate large control actions in the system, which might lead to saturation in the actuators.
+The lead compensation may generate large control actions in the system, which might lead to saturation in the system.
 \end{block}
 \end{frame}
 
@@ -641,7 +609,7 @@ The lead compensation may generate large control actions in the system, which mi
 	\frametitle{Comparison lead, lag and lag-lead compensators}
 \begin{block}{High and low frequencies}
 Lag compensation reduces the system gain at higher frequencies without reducing
-the system gain at lower frequencies. 
+the system gain at lower frequencies. Since the system bandwidth is reduced, the system has a slower speed to response. 
 Thanks to this, the total system gain can be increased, as well as the low-frequency gain and the steady state accuracy can be improved. Also, any high-frequency
 noise involved in the system is attenuated.
 \end{block}
@@ -658,9 +626,6 @@ If both fast responses and good static accuracy are desired, a lag-lead compensa
 may be employed. By use of the lag-lead compensator, the low-frequency gain can
 be increased (which means an improvement in steady state accuracy), while at the
 same time the system bandwidth and stability margins can be increased.
-\end{block}
-\begin{block}{Most important of all}
-In daily life, you will need a combination of all those techniques!
 \end{block}
 \end{frame}
 

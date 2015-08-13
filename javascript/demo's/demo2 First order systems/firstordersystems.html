@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="file://C:/Users/Steven/Desktop/downloads/javascript/controlplot.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+<script type="text/javascript" src="file://C:/Users/Steven/Desktop/main_demo2.js"></script>
+</head>
+<body>
+
+<h1>Demo 2: First order systems</h1>
+
+<section id ="section1">
+
+Standard form: 
+
+<div> 
+
+G(s) = <div class="fraction">
+        <span class="fup">K</span>
+        <span class="bar">/</span>
+        <span class="fdn">&#964 s + 1</span>
+    </div>
+<br>
+
+Choose a value for &#964. <br>
+<label>0.1</label><input type="range" min="0.1" max="10" value="5" step="0.01" id="tauslider"></input><label>10</label>
+<br>
+
+Choose a value for K. <br>
+<label>1</label><input type="range" min="1" max="100" value="50" step="1" id="Kslider"></input><label>100</label>
+<br>
+Transfer function: 
+
+
+<div> 
+
+G(s) = <div class="fraction">
+        <span class="fup"><span id="K">50</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="tau">5</span> s + 1</span></span>
+    </div>
+<br>
+Pole-zero plot:
+<div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
+
+</section>
+
+<section id="section2">
+Step response:
+<div id="step-plot" style="width:400px; height: 400px;"></div> <br>
+</section>
+
+<section id="section3">
+Bode Diagram:
+<div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
+
+
+
+</section>
+
+
+
+
+</body>
+</html> 
+
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+#section1 {
+    line-height:30px;
+    width:250px;
+    float:left;
+    padding:5px;
+}
+#section2 {
+    line-height:30px;
+    width:410px;
+    float:left;
+    padding:5px;
+}
+#section3 {
+    line-height:30px;
+    width:510px;
+    float:left;
+    padding:5px;
+}
+
+.fraction {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle; 
+    letter-spacing: 0.001em;
+    text-align: center;
+    font-size: 12px;
+    }
+.fraction > span { 
+    display: block; 
+    padding: 0.1em; 
+    }
+.fraction span.fdn {border-top: thin solid black;}
+.fraction span.bar {display: none;}
+</style>
