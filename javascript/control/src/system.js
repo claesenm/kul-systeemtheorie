@@ -454,8 +454,8 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
         bounds[1] = math.min(10 / math.abs(math.re(unstablest_pole)), bounds[1]);
     }
 
-    var response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 10000),
-        response_state = response.at(response.x),
+    var response = numeric.dopri(bounds[0], bounds[1], initial, dx),
+        response_state = response.y,
         response_val = new Array(response_state.length);
     for (i = 0; i < response_state.length; ++i) {
         response_val[i] = sol(response.x[i], response_state[i]);
