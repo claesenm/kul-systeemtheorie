@@ -19,7 +19,7 @@ function recursiveClone(obj) {
 
 function recursiveExtend(target, source) {
     for (var prop in source) {
-        if (prop in target && (typeof target[prop] == 'object')) {
+        if (prop in target && (target[prop].toString() === '[object Object]')) {
             recursiveExtend(target[prop], source[prop]);
         } else {
             target[prop] = source[prop];
@@ -46,19 +46,18 @@ module.exports = {
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
-            console.log(container.offsetWidth, container.offsetHeight);
             d.style.width = container.offsetWidth + "px";
             d.style.height = container.offsetHeight / 2 + "px";
             container.appendChild(d);
             return d;
         }
 
-        var magnitude_div = div_half_height(container);
-        var phase_div = div_half_height(container);
+        var magnitude_div = div_half_height(container),
+            phase_div = div_half_height(container);
 
-        var bode_data = system.bode(omega_bounds);
-        var magnitudes_data = bode_data.dBs.map(function(dB, i) { return [bode_data.omegas[i], dB]; });
-        var phases_data = bode_data.degrees.map(function(degree, i) { return [bode_data.omegas[i], degree]; });
+        var bode_data = system.bode(omega_bounds),
+            magnitudes_data = num.zip(bode_data.omegas, bode_data.dBs),
+            phases_data = num.zip(bode_data.omegas, bode_data.degrees);
 
 
         var options = {
@@ -165,13 +164,15 @@ module.exports = {
         return graphs;
     },
 
+
     /**
-     * Plots a pole zero map of the given system.
-     * @param {HTMLElement} container - The container in which to put the plot.
-     * @param {System} sys - The system of which to plot the poles and zeros.
-     * @returns {Highcharts.Chart} A reference to the created plot
+     * Returns the options for a pzmap.
+     * @private
+     * @param {HTMLElement} container - The container to render to.
+     * @param {System} sys - The system of which to plot the pzmap.
+     * @returns {Object} The options object.
      */
-    pzmap: function(container, sys) {
+    pzplot_options: function(container, sys) {
 
         // Define a cross symbol path (taken from the highcharts documentation)
         Highcharts.SVGRenderer.prototype.symbols.cross = function (x, y, w, h) {
@@ -231,13 +232,13 @@ module.exports = {
         var options = {
             chart: {
                 renderTo: container,
-                type: 'scatter',
                 events: {
                     load: function() {this.redraw();},
                     redraw: draw_major_axes
                 }
             },
             series: [{
+                type: 'scatter',
                 data: zeros,
                 name: 'zeros',
                 marker: {
@@ -247,6 +248,7 @@ module.exports = {
                 }
             },
             {
+                type: 'scatter',
                 data: poles,
                 name: 'poles',
                 marker: {
@@ -292,12 +294,12 @@ module.exports = {
             tooltip: {
                 headerFormat: '',
                 formatter: function() {
-                    return '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.round(this.y, 4) + 'j' + '</b>';
+                    return '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                 }
             }
         };
 
-        var graph = new Highcharts.Chart(options);
+        return options;
 
         // DOESNT WORK FOR THE Y AXIS FOR SOME REASON
         // YAXIS KEEPS SCALING UP?
@@ -333,7 +335,111 @@ module.exports = {
                 //}
             //}
         //});
+    },
+
+    /**
+     * Plots a pole zero map of the given system.
+     * @param {HTMLElement} container - The container in which to put the plot.
+     * @param {System} sys - The system of which to plot the poles and zeros.
+     * @returns {Highcharts.Chart} A reference to the created plot
+     */
+    pzmap: function(container, sys) {
+        var graph = new Highcharts.Chart(module.exports.pzplot_options(container, sys));
         return graph;
+    },
+
+    /**
+     * Plots the root loci of the open loop system sys.
+     * @param {HTMLElement} container - The container in which to plot the rloci.
+     * @param {System} sys - The open loop system.
+     * @returns {Highcharts.Chart} A reference to the root locus plot.
+     */
+    rlocus: function(container, sys) {
+        var systf = system.tf(sys),
+            i,
+            break_points = sys.getBreakPoints(),
+            break_points_re = break_points.map(function(v) { return math.re(v); }),
+            break_points_im = break_points.map(function(v) { return math.im(v); }),
+            x_min = math.min.apply(math, break_points_re),
+            x_max = math.max.apply(math, break_points_re),
+            x_range = (x_max - x_min),
+            y_min = math.min.apply(math, break_points_im),
+            y_max = math.max.apply(math, break_points_im),
+            y_range = (y_max - y_min),
+            STEP = Math.max(x_range, y_range) / 500;
+
+        function gen_poly(k) {
+            return num.polyadd(math.multiply(systf.getNumerator(), k), systf.getDenominator()); 
+        }
+
+        function dist(c1, c2) {
+            return math.abs(math.subtract(c1, c2));
+        }
+
+        var points = [sys.getPoles()],
+            ks = math.zeros(points.length),
+            k = STEP;
+
+        for (i = 1; i < 999; ++i){
+            var next_roots = num.roots(gen_poly(k)),
+                next_roots_closest = [];
+
+            for (var j = 0; j < points[points.length - 1].length; ++j) {
+                var nearest = next_roots.indexOf(num.extreme_by(next_roots, Math.min, function(root) { return dist(root, points[points.length - 1][j]); }));
+                next_roots_closest.push(next_roots[nearest]);
+                next_roots.splice(nearest, 1);
+            }
+
+            points.push(next_roots_closest);
+
+
+            var min_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
+            if (min_dist === 0) {
+                break;
+            }
+            ks.push(k);
+            k += STEP / (min_dist / STEP);
+        }
+
+        var series_data = new Array(points[0].length);
+        for (i = 0; i < series_data.length; ++i) {
+            series_data[i] = new Array(points.length + 1);
+        }
+        points.forEach(function(data, j) {
+            data.forEach(function(point, i) {
+                series_data[i][j] = {x: math.re(point), y: math.im(point), k: ks[j]};
+            });
+        });
+
+        var numerator_roots = sys.getZeros(),
+            last_points = points[points.length - 1].slice();
+        for (i = 0; i < numerator_roots.length; ++i) {
+            var zero = numerator_roots[i],
+                closest_pole = num.extreme_by(points[points.length -1], Math.min, function(p) { return dist(p, zero); });
+            series_data[points[points.length-1].indexOf(closest_pole)][series_data[0].length - 1] = {x: math.re(zero), y: math.im(zero), k: Infinity};
+        }
+
+        var default_options = module.exports.pzplot_options(container, sys);
+            custom_options = {
+                series: default_options.series.concat(series_data.map(function(data, i) {
+                    return {
+                        type: 'scatter',
+                        data: data,
+                        lineWidth: 2,
+                        marker: {
+                            radius: 0
+                        }
+                    };
+                })),
+                tooltip: {
+                    formatter: function() {
+                        return (this.point.k ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
+                               '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
+                    }
+                }
+            };
+
+        return new Highcharts.Chart(recursiveExtend(default_options, custom_options));
     },
 
     time_series_options: {

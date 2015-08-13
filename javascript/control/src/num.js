@@ -245,6 +245,45 @@ module.exports = {
        return arr[mapped.indexOf(minVal)];
    },
 
+   /**
+    * Linearly interpolates from fst to snd using alpha.
+    * alpha=0 returns fst and alpha=1 returns snd.
+    * @param {Mixed} fst - The starting element.
+    * @param {Mixed} snd - The end element.
+    * @param {Mixed} alpha - The progress element.
+    * @returns {Mixed} The linear interpolation.
+    */
+   lerp: function(fst, snd, alpha) {
+       return math.add(fst, math.multiply(alpha, math.subtract(snd, fst)));
+   },
+
+
+   /**
+    * Get element from arr at position i, linearly interpolated. (No bounds checking).
+    * @param {Array<Mixed>} arr - The array to access.
+    * @param {Number} i - The fractional index.
+    * @returns {Mixed} The value at i linearly interpolated.
+    */
+   at: function (arr, i) {
+       var low = math.floor(i),
+           high = math.ceil(i);
+       return module.exports.lerp(arr[low], arr[high], i-low);
+   },
+
+   /**
+    * Finds val in arr and returns the linearly interpolated index.
+    * @param {Array<Number>} arr - The array to search in.
+    * @param {Number} val - The value to find.
+    * @returns {Number} The linearly interpolated index. -1 if not found.
+    */
+   find: function (arr, val) {
+       for (var i = 0; i < arr.length - 1; ++i) {
+           if (arr[i] < val && arr[i+1] > val) {
+               return i + (val - arr[i]) / (arr[i+1] - arr[i]);
+           }
+       }
+       return -1;
+   },
 
    /**
     * Determines performance indicators of a step response.
@@ -259,15 +298,6 @@ module.exports = {
 
        var meta = {high: 0.9, low: 0.1, settling_threshold: settling_time_threshold};
 
-       // Finds an interpolated index of val in array
-       function find(arr, val) {
-           for (var i = 0; i < arr.length - 1; ++i) {
-               if (arr[i] < val && arr[i+1] > val) {
-                   return i + (val - arr[i]) / (arr[i+1] - arr[i]);
-               }
-           }
-           return -1;
-       }
 
        // Finds the index of the last element for which fun is true.
        function findLastIndex(arr, fun) {
@@ -280,17 +310,7 @@ module.exports = {
            return last;
        }
 
-       // Linear interpolation
-       function lerp(fst, snd, alpha) {
-           return math.add(fst, math.multiply(alpha, math.subtract(snd, fst)));
-       }
-
-       // Get element in arr at i, linearly interpolated
-       function at(arr, i) {
-           var low = math.floor(i),
-               high = math.ceil(i);
-           return lerp(arr[low], arr[high], i-low);
-       }
+       var find = module.exports.find;
 
        var len = step.t.length;
 
@@ -324,8 +344,8 @@ module.exports = {
        // Index and time of the rise time bounds
        var i_low = find(y, y_low),
            i_high = find(y, y_high),
-           t_low = i_low == -1 ? NaN : at(t, i_low),
-           t_high = i_high == -1 ? NaN : at(t, i_high);
+           t_low = i_low == -1 ? NaN : module.exports.at(t, i_low),
+           t_high = i_high == -1 ? NaN : module.exports.at(t, i_high);
 
        var settling_min = NaN,
            settling_max = NaN;
@@ -418,5 +438,48 @@ module.exports = {
        }
 
        return arr.slice(begin, arr.length);
+   },
+   
+   /**
+    * Returns the phase and gain margin and their corresponding pulsations.
+    * @param {Object} bode - The result from a call to System.bode.
+    * @returns {Object} result - The phase and gain margin and their corresponding pulsations.
+    * @returns {Number} result.gain - The gain margin in dB.
+    * @returns {Number} result.phase - The phase margin in dB.
+    * @returns {Number} result.gain_omega - The omega at which the gain margin is calculated.
+    * @returns {Number} result.phase_omega - The omega at which the phase margin is calculated.
+    */
+   margin: function(bode) {
+       var find = module.exports.find,
+           phase_idx = find(bode.dBs, 0),
+           phase_omega = phase_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
+           phase = phase_idx === -1 ? Infinity : 180 + mathh.abs(at(bode.degrees, phase_idx)),
+           gain_idx = find(bode.degrees.map(function(deg){ return math.abs(deg); }), 180),
+           gain_omega = gain_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
+           gain = gain_idx === -1 ? Infinity : -at(bode.dBs, phase_idx);
+
+       return {
+           gain: gain,
+           phase: phase,
+           gain_omega: gain_omega,
+           phase_omega: phase_omega
+       };
+   },
+
+
+   /**
+    * Zips together multiple lists.
+    * @param {Array<Mixed>} arrays - Multiple arrays.
+    * @returns {Array<Array<Mixed>>} The zipped arrays.
+    */
+   zip: function() {
+       var res = new Array(arguments[0].length);
+       for(var i = 0; i < res.length; ++i) {
+           res[i] = new Array(arguments.length);
+           for(var j = 0; j < arguments.length; ++j) {
+               res[i][j] = arguments[j][i];
+           }
+       }
+       return res;
    }
 };

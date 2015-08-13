@@ -61,6 +61,14 @@ module.exports = function(grunt) {
                     'build/control.min.js'    : ['build/control.js']
                 }
             }
+        },
+        jsdoc: {
+            dist: {
+                src: ['src/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            }
         }
     });
 
@@ -74,7 +82,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.registerTask('default', 'browserify:debug');
 
-    grunt.registerTask('build', ['browserify:control', 'browserify:controlplot', 'uglify']);
+    grunt.registerTask('build', ['browserify:control', 'browserify:controlplot', 'uglify', 'jsdoc']);
 
     grunt.registerTask('plot', 'browserify:debug');
+
+    grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.registerTask('doc', 'jsdoc');
 };

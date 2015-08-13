@@ -39,21 +39,37 @@ System.prototype.evalS = function(s) {
  * Calculates values for a bode plot.
  * @param {Array<Number>} [omega_exp_bounds] - The boundaries for omega in logspace.
  * @returns {Object} bode - An object containing three arrays with the values.
- * @config {Array<Number>} bode.omegas - The array of used omegas.
- * @config {Array<Number>} bode.dBs - The array with the values in dB.
- * @config {Array<Number>} bode.degrees - The array of degrees.
+ * @returns {Array<Number>} bode.omegas - The array of used omegas.
+ * @returns {Array<Number>} bode.dBs - The array with the values in dB.
+ * @returns {Array<Number>} bode.degrees - The array of degrees.
  */
 System.prototype.bode = function(omega_exp_bounds) {
     var sys = this;
     omega_exp_bounds = omega_exp_bounds || num.interesting_region_logspace(sys);
-    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000);
+    var omegas = num.logspace(omega_exp_bounds[0], omega_exp_bounds[1], 1000),
+        len = omegas.length;
+
+    function limit_to_band(angle) {
+        angle = angle % 360;
+        if (angle > 180) {
+            return -180 + (angle % 180);
+        }
+        if (angle < -180){
+            return 180 + (angle % 180);
+        }
+        return angle;
+    }
 
 
-    var evaluated_omegas = omegas.map(function(omega) { return sys.evalS(math.complex(0, omega)); });
-    var magnitudes_data = evaluated_omegas.map(function(H, i) { return 20 * math.log10(math.abs(H)); });
-    var phases_data = evaluated_omegas.map(function(H, i) { return 180 / math.pi * math.arg(H); });
+    var magnitudes_data = new Array(len),
+        phases_data = new Array(len);
+    for (var i = 0; i < len; ++i) {
+        var H = sys.evalS(math.complex(0, omegas[i]));
+        magnitudes_data[i] = 20 * math.log10(math.abs(H));
+        phases_data[i] = limit_to_band(180 / math.pi * math.arg(H));
+    }
     return {
-        'omegas': omegas,
+        omegas: omegas,
         dBs: magnitudes_data,
         degrees: phases_data
     };
@@ -438,9 +454,17 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
         if (timeSeen < 1) {
             return -1;
         }
-        var mean = toUse.reduce(function(acc, val){ return acc + val; }) / toUse.length,
-            absolute_error = toUse.map(function(val){ return math.abs(val - mean); }).reduce(function(acc, val){ return acc + val; }),
-            relative_error = math.abs(absolute_error / mean);
+        var mean = 0;
+        for (i = 0; i < toUse.length; ++i) {
+            mean += toUse[i];
+        }
+        mean /= toUse.length;
+
+        var absolute_error = 0;
+        for (i = 0; i < toUse.length; ++i) {
+            absolute_error += math.abs(mean - toUse[i]);
+        }
+        var relative_error = math.abs(absolute_error / mean);
 
         if (relative_error > 1e-2) {
             return -1;
@@ -450,7 +474,11 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
 
     var terminator = settle ? terminate : function() {return -1;},
         response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 1000, terminator),
-        response_val = response.at(response.x).map(function(val, i){ return sol(response.x[i], val); });
+        response_state = response.at(response.x),
+        response_val = new Array(response_state.length);
+    for (i = 0; i < response_state.length; ++i) {
+        response_val[i] = sol(response.x[i], response_state[i]);
+    }
     return {t: response.x, x: response_val};
 };
 
@@ -592,7 +620,12 @@ module.exports = {
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
-            as = denom.map(function(a){ return math.unaryMinus(math.divide(a, denom[0])); });
+            as = new Array(denom.length),
+            i;
+
+        for (i = 0; i < as.length; ++i) {
+            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
+        }
 
         if (denom.length == 1) {
             return new Ss([[1]], [1], [[0]], [numer[0]]);
@@ -603,18 +636,19 @@ module.exports = {
         // Matrix
         A = num.diag(math.ones(as.length - 2), 1);
         var Aend = A.length - 1;
-        as.slice(1, as.length).forEach(function(val, i) {
-            A[Aend][Aend - i] = val;
-        });
+        for (i = 1; i < as.length; ++i) {
+            A[Aend][Aend - (i - 1)] = as[i];
+        }
 
         // Column vector
         B = math.zeros(as.length - 1);
         B[B.length - 1] = 1;
 
         // Row vector
-        C = [numer.slice(1, numer.length).map(function(b, i) { 
-            return math.subtract(numer[numer.length - 1 - i], math.multiply(as[as.length - 1 - i], numer[0]));
-        })];
+        C = [new Array(numer.length - 1)];
+        for (i = 1; i < numer.length; ++i) {
+            C[0][i-1] = math.subtract(numer[numer.length - i], math.multiply(as[as.length - i], numer[0]));
+        }
 
         // Scalar
         D = numer[0];
@@ -630,8 +664,29 @@ module.exports = {
         function toPoly(zorp){
             return [1, math.unaryMinus(zorp)];
         }
-        var numerator = num.conv([sys.k], sys.z.map(toPoly).reduce(function(acc, val){return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real)),
-            denom = sys.p.map(toPoly).reduce(function(acc, val){ return num.conv(acc, val); }, [1]).map(num.complex_to_real_if_real);
+        var numerator = [1],
+            denom = [1],
+            i;
+
+        // Numerator
+        for (i = 0; i < sys.z.length; ++i) {
+            numerator = num.conv(numerator, toPoly(sys.z[i]));
+        }
+        numerator = math.multiply(numerator, sys.k);
+        for (i = 0; i < numerator.length; ++i) {
+            numerator[i] = num.complex_to_real_if_real(numerator[i]);
+        }
+
+
+        // Denominator
+        for (i = 0; i < sys.p.length; ++i) {
+            denom = num.conv(denom, toPoly(sys.p[i]));
+        }
+        for(i = 0; i < denom.length; ++i) {
+            denom[i] = num.complex_to_real_if_real(denom[i]);
+        }
+
+
         return new Tf(numerator, denom);
     },
     
