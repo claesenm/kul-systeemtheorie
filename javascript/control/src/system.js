@@ -604,15 +604,16 @@ module.exports = {
             as = new Array(denom.length),
             i;
 
-        for (i = 0; i < as.length; ++i) {
-            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
-        }
-
         if (denom.length == 1) {
-            return new Ss([[1]], [1], [[0]], [numer[0]]);
+            return new Ss([[1]], [1], [[0]], numer[0] / denom[0]);
         }
         // Make numer same length as denom
         numer = math.zeros(denom.length - numer.length).concat(numer);
+
+        for (i = 0; i < as.length; ++i) {
+            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
+            numer[i] = math.divide(numer[i], denom[0]);
+        }
 
         // Matrix
         A = num.diag(math.ones(as.length - 2), 1);

@@ -186,6 +186,11 @@ module.exports = {
      * @returns {Array<Array<(Number|Complex)>>} The created matrix.
      */
     diag: function(v, n) {
+
+        if (v.length === 0) {
+            return [[]];
+        }
+
         n = n || 0;
         var dim = v.length + math.abs(n),
             mat = math.zeros(dim, dim),

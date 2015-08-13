@@ -175,6 +175,10 @@ describe('num tests', function() {
         it('non-unit vector', function() {
             assert.deepEqual(num.diag([2, 3]), [[2, 0], [0, 3]]);
         });
+
+        it('empty list', function() {
+            assert.deepEqual(num.diag([], 1), [[]]);
+        });
     });
 
 
