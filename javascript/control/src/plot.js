@@ -401,6 +401,8 @@ module.exports = {
             k += STEP / (min_dist / STEP);
         }
 
+
+
         var series_data = new Array(points[0].length);
         for (i = 0; i < series_data.length; ++i) {
             series_data[i] = new Array(points.length + 1);
@@ -410,6 +412,15 @@ module.exports = {
                 series_data[i][j] = {x: math.re(point), y: math.im(point), k: ks[j]};
             });
         });
+
+
+        function too_far(p) {
+            return ! (p.x > (x_max + (x_max - x_min)) || p.x < (x_min - (x_max - x_min)) || p.y > (y_max + (y_max - y_min)) || p.y < (y_min - (y_max - y_min)));
+        }
+
+        for (i = 0; i < series_data.length; ++i) {
+            series_data[i] = series_data[i].filter(too_far);
+        }
 
         var numerator_roots = sys.getZeros(),
             last_points = points[points.length - 1].slice();

@@ -412,11 +412,12 @@ Ss.prototype = new System();
  * @param {Function} dx - The iteration function. Has the form dx(t, x).
  * @param {Function} sol - The function for extracting the solution out of the state. Has the form sol(t, x).
  * @param {Array<Number>} [initial=zeros] - The state of the system at t=0.
+ * @param {Array<(Number|Complex)>} [poles] - The poles of the given system.
  * @returns {Object} response - The step response of the system.
  * @returns {Array<Number>} response.t - The time values of the step response.
  * @returns {Array<Number>} response.x - The value of the response.
  */
-Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
+Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
     var A = this.A,
         B = this.B,
         C = this.C,

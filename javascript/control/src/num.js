@@ -132,17 +132,7 @@ module.exports = {
         var a = this.diag(math.ones(c.length - 2), -1);
         a[0] = d;
 
-        // Convert to mathjs.
-        var eigs = numeric.eig(a).lambda;
-        var result = [];
-        eigs.x.map(function(e, i) {
-            if (eigs.y === undefined || math.equal(eigs.y[i], 0)) {
-                result.push(e);
-            } else {
-                result.push(math.complex(e, eigs.y[i]));
-            }
-        });
-        return append_zeros(result);
+        return append_zeros(this.eig(a));
     },
 
 
@@ -481,5 +471,25 @@ module.exports = {
            }
        }
        return res;
+   },
+
+   /**
+    * Calculates the eigenvalues of the given matrix.
+    * @param {Array<Array<Number>>} mat - The matrix of which to compute the eigenvalues.
+    * @returns {Array<(Complex|Number)>} The eigenvalues of mat.
+    */
+   eig: function(mat) {
+       var eigs = numeric.eig(mat).lambda,
+           result = new Array(eigs.x.length),
+           i;
+
+       for (i = 0; i < eigs.x.length; ++i) {
+           if (eigs.y === undefined || math.equal(eigs.y[i], 0)) {
+               result[i] = eigs.x[i];
+           } else {
+               result[i] = math.complex(eigs.x[i], eigs.y[i]);
+           }
+       }
+       return result;
    }
 };
