@@ -8,11 +8,11 @@
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
-<script type="text/javascript" src="file://C:/Users/Steven/Desktop/main_demo2.js"></script>
+<script type="text/javascript" src="./mainsecondordersystemsslider.js"></script>
 </head>
 <body>
 
-<h1>Demo 2: First order systems</h1>
+<h1>Second order systems</h1>
 
 <section id ="section1">
 
@@ -21,18 +21,18 @@ Standard form:
 <div> 
 
 G(s) = <div class="fraction">
-        <span class="fup">K</span>
+        <span class="fup">&#969<sub>n</sub><sup>2</sup></span>
         <span class="bar">/</span>
-        <span class="fdn">&#964 s + 1</span>
+        <span class="fdn">s<sup>2</sup> + 2&#950 &#969<sub>n</sub>s + &#969<sub>n</sub><sup>2</sup></span>
     </div>
 <br>
 
-Choose a value for &#964. <br>
-<label>0.1</label><input type="range" min="0.1" max="10" value="5" step="0.01" id="tauslider"></input><label>10</label>
+Choose a value for &#950. (<span id="zetavalue">5</span>)<br>
+<label>0.1</label><input type="range" min="0.1" max="10" value="5" step="0.01" id="zetaslider"></input><label>10</label>
 <br>
 
-Choose a value for K. <br>
-<label>1</label><input type="range" min="1" max="100" value="50" step="1" id="Kslider"></input><label>100</label>
+Choose a value for &#969. (<span id="omeganvalue">50</span>) <br>
+<label>1</label><input type="range" min="1" max="100" value="50" step="1" id="omeganslider"></input><label>100</label>
 <br>
 Transfer function: 
 
@@ -40,9 +40,9 @@ Transfer function:
 <div> 
 
 G(s) = <div class="fraction">
-        <span class="fup"><span id="K">50</span></span>
+        <span class="fup"><span id="omega_kwadr">2500</span></span>
         <span class="bar">/</span>
-        <span class="fdn"><span id="tau">5</span> s + 1</span></span>
+        <span class="fdn">s<sup>2</sup> + <span id="twee_zeta_omega">150</span> s + <span id="omega_kwadr2">2500</span></span>
     </div>
 <br>
 Pole-zero plot:
@@ -52,7 +52,11 @@ Pole-zero plot:
 
 <section id="section2">
 Step response:
-<div id="step-plot" style="width:400px; height: 400px;"></div> <br>
+<div id="step-plot" style="width:400px; height: 400px;"></div> 
+Peak time: <span id="peak_time"></span> <br>
+Peak: <span id="peak"></span> <br>
+Settling time: <span id="settling_time"></span> <br>
+Overshoot: <span id="overshoot"></span>
 </section>
 
 <section id="section3">

@@ -11,7 +11,8 @@ function main(){
                 var plt1 = plot.pzmap(container1, sys);
                 
                 var container2 = document.getElementById('step-plot');
-                var plt2 = plot.step(container2, sys, [0, 20], true);
+                var plt2 = plot.step(container2, sys, [0, 35], true);
+				plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
 
                 var omegas = plts[0].series[0].data.map(function(v){return v.x;});
                 var bounds = [math.log10(omegas[0]), math.log10(omegas[omegas.length - 1])];
@@ -30,13 +31,14 @@ function main(){
                 
                                document.getElementById("K").innerHTML=K;
                                document.getElementById("tau").innerHTML=Math.round(100*tau)/100;
+							   document.getElementById("Kvalue").innerHTML=K;
+                               document.getElementById("tauvalue").innerHTML=Math.round(100*tau)/100;
                                var poles_data = sys.getPoles();
                                plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true);
-                               var step_data = sys.step([0,10],true,poles_data);
+                               var step_data = sys.step([0,7*tau]);
                                plt2.series[0].setData(num.zip(step_data.t, step_data.x), true, false, true);
                 }              
                 K_el.addEventListener('input', update);
                 tau_el.addEventListener('input', update);
 }
-console.log('uitgevoerd');
 window.onload = main;

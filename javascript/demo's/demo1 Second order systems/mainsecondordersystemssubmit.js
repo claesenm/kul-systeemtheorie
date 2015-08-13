@@ -11,6 +11,7 @@ function main(){
 	
 	var container2 = document.getElementById('step-plot');
 	var plt2 = plot.step(container2, sys, [0, 20], true);
+	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
 
 	var omegas = plts[0].series[0].data.map(function(v){return v.x;});
 	var bounds = [math.log10(omegas[0]), math.log10(omegas[omegas.length - 1])];
@@ -51,5 +52,4 @@ function main(){
 	omega_el.addEventListener('input', updateValues);
 	
 }
-console.log('uitgevoerd');
 window.onload = main;
