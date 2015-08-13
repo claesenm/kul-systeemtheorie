@@ -418,11 +418,21 @@ Ss.prototype = new System();
  * @returns {Array<Number>} response.x - The value of the response.
  */
 Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
+
     var A = this.A,
         B = this.B,
         C = this.C,
         D = this.D;
 
+    function is_stable() {
+        poles = poles || num.eig(A);
+        for (var i = 0; i < poles.length; ++i) {
+            if (math.re(poles[i]) >= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     initial = initial || math.zeros(A.length);
 
@@ -437,44 +447,13 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
         }
         return m - (b - a);
     }
-    function terminate(t, x) {
-        resultsT[current] = t;
-        resultsX[current] = x;
-        var i = 0,
-            toUse = [],
-            timeSeen = 0;
-        while (i < QUEUESIZE && timeSeen < 1) {
-            var idx = mod_subtract(current, i, QUEUESIZE);
-            toUse.push(sol(t, resultsX[idx]));
-            timeSeen = t - resultsT[idx];
-            i += 1;
-        }
 
-        current = (current + 1) % QUEUESIZE;
-
-        if (timeSeen < 1) {
-            return -1;
-        }
-        var mean = 0;
-        for (i = 0; i < toUse.length; ++i) {
-            mean += toUse[i];
-        }
-        mean /= toUse.length;
-
-        var absolute_error = 0;
-        for (i = 0; i < toUse.length; ++i) {
-            absolute_error += math.abs(mean - toUse[i]);
-        }
-        var relative_error = math.abs(absolute_error / mean);
-
-        if (relative_error > 1e-2) {
-            return -1;
-        }
-        return 1;
+    if (settle && is_stable()) {
+        var unstablest_pole = num.extreme_by(poles, Math.min, function(p){ return math.abs(math.re(p)); });
+        bounds[1] = math.min(10 / math.abs(math.re(unstablest_pole)), bounds[1]);
     }
 
-    var terminator = settle ? terminate : function() {return -1;},
-        response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 1000, terminator),
+    var response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 10000),
         response_state = response.at(response.x),
         response_val = new Array(response_state.length);
     for (i = 0; i < response_state.length; ++i) {
