@@ -352,10 +352,18 @@ module.exports = {
      * Plots the root loci of the open loop system sys.
      * @param {HTMLElement} container - The container in which to plot the rloci.
      * @param {System} sys - The open loop system.
+     * @param {Boolean} [interactive=false] - Whether or not this chart has to be interactive.
+     * An interactive chart draws a red circle where the poles are for the current K. The current K
+     * can be changed by calling chart.set_k(K).
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
-    rlocus: function(container, sys) {
+    rlocus: function(container, sys, interactive) {
+        interactive = interactive === undefined ? false : interactive;
+
         var systf = system.tf(sys),
+            numerator = systf.getNumerator(),
+            denominator = systf.getDenominator(),
+            poles = sys.getPoles(),
             i,
             break_points = sys.getBreakPoints(),
             break_points_re = break_points.map(function(v) { return math.re(v); }),
@@ -366,24 +374,29 @@ module.exports = {
             y_min = math.min.apply(math, break_points_im),
             y_max = math.max.apply(math, break_points_im),
             y_range = (y_max - y_min),
-            step = Math.max(x_range, y_range) / 500;
+            biggest_range = Math.max(x_range, y_range),
+            step = biggest_range / 500;
 
         function gen_poly(k) {
-            return num.polyadd(math.multiply(systf.getNumerator(), k), systf.getDenominator()); 
+            return num.polyadd(math.multiply(numerator, k), denominator); 
         }
 
         function dist(c1, c2) {
             return math.abs(math.subtract(c1, c2));
         }
 
-        var points = [sys.getPoles()],
+        // Initialize points with the poles of the system
+        // record the k values and start with k = 0 + step;
+        var points = [poles],
             ks = math.zeros(points.length),
             k = step;
 
-        for (i = 1; i < 2000; ++i){
+        for (i = 1; i < 1000; ++i){
             var next_roots = num.roots(gen_poly(k)),
                 next_roots_closest = [];
 
+            // Determine which of the new roots belongs to the which previous root.
+            // This chooses a root based on the closest distance.
             for (var j = 0; j < points[points.length - 1].length; ++j) {
                 var nearest = next_roots.indexOf(num.extreme_by(next_roots, Math.min, function(root) { return dist(root, points[points.length - 1][j]); }));
                 next_roots_closest.push(next_roots[nearest]);
@@ -393,17 +406,20 @@ module.exports = {
             points.push(next_roots_closest);
 
 
-            var min_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
-            if (min_dist === 0) {
+            // Calculate the biggest distance a root has traveled this iteration and adjust the step size accordingly.
+            // (i.e. decrease the step size if the distance a root has traveled based on the ration of a desired distance and the actual distance)
+            var max_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
+            if (max_dist === 0) {
                 break;
             }
             ks.push(k);
-            step = step * 0.01 / min_dist;
+            step *= 0.01 / max_dist;
             k += step;
         }
 
 
 
+        // Convert to a format Highcharts understands
         var series_data = new Array(points[0].length);
         for (i = 0; i < series_data.length; ++i) {
             series_data[i] = new Array(points.length + 1);
@@ -415,6 +431,7 @@ module.exports = {
         });
 
 
+        // Remove points that have gone too far away from the poles/zeros (presumably to infinity)
         function too_far(p) {
             return ! (p.x > (x_max + (x_max - x_min)) || p.x < (x_min - (x_max - x_min)) || p.y > (y_max + (y_max - y_min)) || p.y < (y_min - (y_max - y_min)));
         }
@@ -423,6 +440,7 @@ module.exports = {
             series_data[i] = series_data[i].filter(too_far);
         }
 
+        // Put the zeros as the last element of the points to 'finish' the root loci. (Have the path connect to the zeros)
         var numerator_roots = sys.getZeros(),
             last_points = points[points.length - 1].slice();
         for (i = 0; i < numerator_roots.length; ++i) {
@@ -452,7 +470,27 @@ module.exports = {
                 }
             };
 
-        return new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+        var graph = new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+
+
+        if (interactive) {
+            // Add a series for the movable poles
+            graph.addSeries({type: 'scatter',
+                            marker: {
+                                radius: 8,
+                                color: 'red',
+                                symbol: 'circle'
+                            },
+                            data: poles.map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: 0}; }, true)
+            });
+
+            // Add method to the graph to update the K value of the points traveling along the root locus
+            graph.set_k = function(k) {
+                graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
+            };
+        }
+
+        return graph;
     },
 
     time_series_options: {
