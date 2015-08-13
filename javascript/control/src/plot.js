@@ -124,7 +124,7 @@ module.exports = {
                 },
                 xAxis: {
                     title: {
-                        text: 'Omega (rad/s)'
+                        text: 'Frequency (rad/s)'
                     }
                 },
                 tooltip: {
