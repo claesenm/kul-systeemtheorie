@@ -80,12 +80,13 @@ System.prototype.bode = function(omega_exp_bounds) {
  * Calculates the step response of the given system.
  * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
  * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
+ * @param {Array<(Number|Complex)>} [poles] - The poles of the system.
  * @returns {Object} response - The step response of the system.
  * @returns {Array<Number>} response.t - The time values of the step response.
  * @returns {Array<Number>} response.x - The value of the response.
  */
-System.prototype.step = function(bounds, settle) {
-    return module.exports.ss(this).step(bounds, settle);
+System.prototype.step = function(bounds, settle, poles) {
+    return module.exports.ss(this).step(bounds, settle, poles);
 };
 
 
@@ -412,16 +413,27 @@ Ss.prototype = new System();
  * @param {Function} dx - The iteration function. Has the form dx(t, x).
  * @param {Function} sol - The function for extracting the solution out of the state. Has the form sol(t, x).
  * @param {Array<Number>} [initial=zeros] - The state of the system at t=0.
- * @returns {Object} response - The step response of the system.
- * @returns {Array<Number>} response.t - The time values of the step response.
+ * @param {Array<(Number|Complex)>} [poles] - The poles of the given system.
+ * @returns {Object} response - The solution of the system.
+ * @returns {Array<Number>} response.t - The time values of the solution
  * @returns {Array<Number>} response.x - The value of the response.
  */
-Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
+Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
+
     var A = this.A,
         B = this.B,
         C = this.C,
         D = this.D;
 
+    function is_stable() {
+        poles = poles || num.eig(A);
+        for (var i = 0; i < poles.length; ++i) {
+            if (math.re(poles[i]) >= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     initial = initial || math.zeros(A.length);
 
@@ -436,45 +448,14 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
         }
         return m - (b - a);
     }
-    function terminate(t, x) {
-        resultsT[current] = t;
-        resultsX[current] = x;
-        var i = 0,
-            toUse = [],
-            timeSeen = 0;
-        while (i < QUEUESIZE && timeSeen < 1) {
-            var idx = mod_subtract(current, i, QUEUESIZE);
-            toUse.push(sol(t, resultsX[idx]));
-            timeSeen = t - resultsT[idx];
-            i += 1;
-        }
 
-        current = (current + 1) % QUEUESIZE;
-
-        if (timeSeen < 1) {
-            return -1;
-        }
-        var mean = 0;
-        for (i = 0; i < toUse.length; ++i) {
-            mean += toUse[i];
-        }
-        mean /= toUse.length;
-
-        var absolute_error = 0;
-        for (i = 0; i < toUse.length; ++i) {
-            absolute_error += math.abs(mean - toUse[i]);
-        }
-        var relative_error = math.abs(absolute_error / mean);
-
-        if (relative_error > 1e-2) {
-            return -1;
-        }
-        return 1;
+    if (settle && is_stable()) {
+        var unstablest_pole = num.extreme_by(poles, Math.min, function(p){ return math.abs(math.re(p)); });
+        bounds[1] = math.min(10 / math.abs(math.re(unstablest_pole)), bounds[1]);
     }
 
-    var terminator = settle ? terminate : function() {return -1;},
-        response = numeric.dopri(bounds[0], bounds[1], initial, dx, 1e-8, 1000, terminator),
-        response_state = response.at(response.x),
+    var response = numeric.dopri(bounds[0], bounds[1], initial, dx),
+        response_state = response.y,
         response_val = new Array(response_state.length);
     for (i = 0; i < response_state.length; ++i) {
         response_val[i] = sol(response.x[i], response_state[i]);
@@ -486,7 +467,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial) {
 /**
  * @inheritdoc
  */
-Ss.prototype.step = function(bounds, settle) {
+Ss.prototype.step = function(bounds, settle, poles) {
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -510,13 +491,13 @@ Ss.prototype.step = function(bounds, settle) {
         return math.add(math.multiply(C, x), math.multiply(D, eps(t)));
     }
     
-    return this.solveODE(bounds, settle, dx, sol);
+    return this.solveODE(bounds, settle, dx, sol, poles);
 };
 
 /**
  * @inheritdoc
  */
-Ss.prototype.impulse = function(bounds, settle) {
+Ss.prototype.impulse = function(bounds, settle, poles) {
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -533,7 +514,7 @@ Ss.prototype.impulse = function(bounds, settle) {
         return math.multiply(C, x);
     }
 
-    return this.solveODE(bounds, settle, dx, sol, B);
+    return this.solveODE(bounds, settle, dx, sol, B, poles);
 };
 
 module.exports = {
@@ -623,15 +604,16 @@ module.exports = {
             as = new Array(denom.length),
             i;
 
-        for (i = 0; i < as.length; ++i) {
-            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
-        }
-
         if (denom.length == 1) {
-            return new Ss([[1]], [1], [[0]], [numer[0]]);
+            return new Ss([[1]], [1], [[0]], numer[0] / denom[0]);
         }
         // Make numer same length as denom
         numer = math.zeros(denom.length - numer.length).concat(numer);
+
+        for (i = 0; i < as.length; ++i) {
+            as[i] = math.unaryMinus(math.divide(denom[i], denom[0]));
+            numer[i] = math.divide(numer[i], denom[0]);
+        }
 
         // Matrix
         A = num.diag(math.ones(as.length - 2), 1);

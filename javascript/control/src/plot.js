@@ -105,7 +105,7 @@ module.exports = {
                 },
                 tooltip: {
                     formatter: function() {
-                        return '<b>' + 'omega: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
+                        return '<b>' + 'frequency: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
                                '<b>' + 'magnitude: ' + math.round(this.y, 5) + ' dB' + '</b>';
                     }
                 }
@@ -124,7 +124,7 @@ module.exports = {
                 },
                 xAxis: {
                     title: {
-                        text: 'Omega (rad/s)'
+                        text: 'Frequency (rad/s)'
                     }
                 },
                 tooltip: {
@@ -352,10 +352,18 @@ module.exports = {
      * Plots the root loci of the open loop system sys.
      * @param {HTMLElement} container - The container in which to plot the rloci.
      * @param {System} sys - The open loop system.
+     * @param {Boolean} [interactive=false] - Whether or not this chart has to be interactive.
+     * An interactive chart draws a red circle where the poles are for the current K. The current K
+     * can be changed by calling chart.set_k(K).
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
-    rlocus: function(container, sys) {
+    rlocus: function(container, sys, interactive) {
+        interactive = interactive === undefined ? false : interactive;
+
         var systf = system.tf(sys),
+            numerator = systf.getNumerator(),
+            denominator = systf.getDenominator(),
+            poles = sys.getPoles(),
             i,
             break_points = sys.getBreakPoints(),
             break_points_re = break_points.map(function(v) { return math.re(v); }),
@@ -366,24 +374,29 @@ module.exports = {
             y_min = math.min.apply(math, break_points_im),
             y_max = math.max.apply(math, break_points_im),
             y_range = (y_max - y_min),
-            STEP = Math.max(x_range, y_range) / 500;
+            biggest_range = Math.max(x_range, y_range),
+            step = biggest_range / 500;
 
         function gen_poly(k) {
-            return num.polyadd(math.multiply(systf.getNumerator(), k), systf.getDenominator()); 
+            return num.polyadd(math.multiply(numerator, k), denominator); 
         }
 
         function dist(c1, c2) {
             return math.abs(math.subtract(c1, c2));
         }
 
-        var points = [sys.getPoles()],
+        // Initialize points with the poles of the system
+        // record the k values and start with k = 0 + step;
+        var points = [poles],
             ks = math.zeros(points.length),
-            k = STEP;
+            k = step;
 
-        for (i = 1; i < 999; ++i){
+        for (i = 1; i < 1000; ++i){
             var next_roots = num.roots(gen_poly(k)),
                 next_roots_closest = [];
 
+            // Determine which of the new roots belongs to the which previous root.
+            // This chooses a root based on the closest distance.
             for (var j = 0; j < points[points.length - 1].length; ++j) {
                 var nearest = next_roots.indexOf(num.extreme_by(next_roots, Math.min, function(root) { return dist(root, points[points.length - 1][j]); }));
                 next_roots_closest.push(next_roots[nearest]);
@@ -393,14 +406,20 @@ module.exports = {
             points.push(next_roots_closest);
 
 
-            var min_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
-            if (min_dist === 0) {
+            // Calculate the biggest distance a root has traveled this iteration and adjust the step size accordingly.
+            // (i.e. decrease the step size if the distance a root has traveled based on the ration of a desired distance and the actual distance)
+            var max_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
+            if (max_dist === 0) {
                 break;
             }
             ks.push(k);
-            k += STEP / (min_dist / STEP);
+            step *= 0.01 / max_dist;
+            k += step;
         }
 
+
+
+        // Convert to a format Highcharts understands
         var series_data = new Array(points[0].length);
         for (i = 0; i < series_data.length; ++i) {
             series_data[i] = new Array(points.length + 1);
@@ -411,6 +430,17 @@ module.exports = {
             });
         });
 
+
+        // Remove points that have gone too far away from the poles/zeros (presumably to infinity)
+        function too_far(p) {
+            return ! (p.x > (x_max + (x_max - x_min)) || p.x < (x_min - (x_max - x_min)) || p.y > (y_max + (y_max - y_min)) || p.y < (y_min - (y_max - y_min)));
+        }
+
+        for (i = 0; i < series_data.length; ++i) {
+            series_data[i] = series_data[i].filter(too_far);
+        }
+
+        // Put the zeros as the last element of the points to 'finish' the root loci. (Have the path connect to the zeros)
         var numerator_roots = sys.getZeros(),
             last_points = points[points.length - 1].slice();
         for (i = 0; i < numerator_roots.length; ++i) {
@@ -428,18 +458,39 @@ module.exports = {
                         lineWidth: 2,
                         marker: {
                             radius: 0
-                        }
+                        },
+                        turboThreshold: 10000
                     };
                 })),
                 tooltip: {
                     formatter: function() {
-                        return (this.point.k ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
+                        return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
                                '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                     }
                 }
             };
 
-        return new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+        var graph = new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+
+
+        if (interactive) {
+            // Add a series for the movable poles
+            graph.addSeries({type: 'scatter',
+                            marker: {
+                                radius: 8,
+                                color: 'red',
+                                symbol: 'circle'
+                            },
+                            data: poles.map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: 0}; }, true)
+            });
+
+            // Add method to the graph to update the K value of the points traveling along the root locus
+            graph.set_k = function(k) {
+                graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
+            };
+        }
+
+        return graph;
     },
 
     time_series_options: {
@@ -510,13 +561,14 @@ module.exports = {
      * @param {HTMLElement} container - The container to render to.
      * @param {System} sys - The system of which to plot the step response.
      * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+     * @param {Array<(Number|Complex)>} [poles] - The poles of the system. (Speeds up calculation if the poles were previously calculated).
      * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
-    step: function(container, sys, bounds, settle) {
-        var step_data = sys.step(bounds, settle),
+    step: function(container, sys, bounds, settle, poles) {
+        var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
-            show_info = false;
+            show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
 
         // Create graph and add drawing commands
         var svgs = [];
@@ -546,11 +598,14 @@ module.exports = {
             function toY(v) {
                 return math.round(yAxis.toPixels(v));
             }
-            // Add line for the final value
-            var yfinal = this.series[0].data[this.series[0].data.length - 1].y;
-            svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
 
-            if (show_info) {
+            var yfinal = this.series[0].data[this.series[0].data.length - 1].y;
+            if (show_info.settled) {
+                // Add line for the final value
+                svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
+            }
+
+            if (show_info.settle_time || show_info.rise_time || show_info.peak) {
 
                 // Gather new step data in case the plot's data has been updated
                 var step_data_new = {
@@ -564,89 +619,102 @@ module.exports = {
                 var step_info = num.stepinfo(step_data_new);
 
 
-                // Render peak
-                var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
-                                             'L', toX(step_info.peak_time), toY(step_info.peak),
-                                             'M', toX(step_info.peak_time), toY(yAxis.min),
-                                             'L', toX(step_info.peak_time), toY(step_info.peak)])
-                                       .attr(line_attrs)
-                                       .add();
-                svgs.push(peak_svg);
+                if (show_info.peak) {
+                    // Render peak
+                    var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
+                                                 'L', toX(step_info.peak_time), toY(step_info.peak),
+                    'M', toX(step_info.peak_time), toY(yAxis.min),
+                    'L', toX(step_info.peak_time), toY(step_info.peak)])
+                    .attr(line_attrs)
+                    .add();
+                    svgs.push(peak_svg);
+                }
 
-                // Render rise time
-                var rise_time_svg = renderer.path([
-                                                    // Rise time high
-                                                   'M', toX(xAxis.min), toY(0.9*yfinal),
-                                                   'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
-                                                   'M', toX(step_info.rise_time_high), toY(yAxis.min),
-                                                   'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
+                if (show_info.rise_time) {
+                    // Render rise time
+                    var rise_time_svg = renderer.path([
+                        // Rise time high
+                        'M', toX(xAxis.min), toY(0.9*yfinal),
+                        'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
+                        'M', toX(step_info.rise_time_high), toY(yAxis.min),
+                        'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
 
-                                                   // Rise time low
-                                                   'M', toX(xAxis.min), toY(0.1*yfinal),
-                                                   'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
-                                                   'M', toX(step_info.rise_time_low), toY(yAxis.min),
-                                                   'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
-                                                   ])
-                                            .attr(line_attrs)
-                                            .add();
+                        // Rise time low
+                        'M', toX(xAxis.min), toY(0.1*yfinal),
+                        'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
+                        'M', toX(step_info.rise_time_low), toY(yAxis.min),
+                        'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
+                    ])
+                    .attr(line_attrs)
+                    .add();
 
-                var ARROW_HEIGHT = toY(yAxis.min) + 8,
-                    ARROW_FIN_LENGTH = 5,
-                    ARROW_ANGLE = math.multiply([math.cos(math.pi / 4), math.sin(math.pi / 4)], ARROW_FIN_LENGTH),
-                    X_PADDING = 5,
-                    X_LOW = toX(step_info.rise_time_low) + X_PADDING,
-                    X_HIGH = toX(step_info.rise_time_high) - X_PADDING;
+                    var ARROW_HEIGHT = toY(yAxis.min) + 8,
+                        ARROW_FIN_LENGTH = 5,
+                        ARROW_ANGLE = math.multiply([math.cos(math.pi / 4), math.sin(math.pi / 4)], ARROW_FIN_LENGTH),
+                        X_PADDING = 5,
+                        X_LOW = toX(step_info.rise_time_low) + X_PADDING,
+                        X_HIGH = toX(step_info.rise_time_high) - X_PADDING;
 
-                var rise_time_arrow_svg = renderer.path(['M', X_LOW, ARROW_HEIGHT,
-                                                         'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
-                                                         'M', X_LOW, ARROW_HEIGHT,
-                                                         'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
+                    var rise_time_arrow_svg = renderer.path(['M', X_LOW, ARROW_HEIGHT,
+                                                            'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
+                    'M', X_LOW, ARROW_HEIGHT,
+                    'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
 
-                                                         'M', X_LOW, ARROW_HEIGHT,
-                                                         'L', X_HIGH, ARROW_HEIGHT,
+                    'M', X_LOW, ARROW_HEIGHT,
+                    'L', X_HIGH, ARROW_HEIGHT,
 
-                                                         'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
-                                                         'M', X_HIGH, ARROW_HEIGHT,
-                                                         'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
-                                                         ])
-                                                  .attr({
-                                                      'stroke-width': 2,
-                                                      stroke: 'black'
-                                                  })
-                                                  .add();
+                    'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
+                    'M', X_HIGH, ARROW_HEIGHT,
+                    'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
+                    ])
+                    .attr({
+                        'stroke-width': 2,
+                        stroke: 'black'
+                    })
+                    .add();
 
-                var rise_time_text_svg = renderer.text('' + math.round(step_info.rise_time, 4) + 's', math.round((X_LOW + X_HIGH) / 2 - (20)), ARROW_HEIGHT + 12)
-                                                 .css({color: 'black', fontSize: '10px'})
-                                                 .add();
-                svgs.push(rise_time_svg);
-                svgs.push(rise_time_arrow_svg);
-                svgs.push(rise_time_text_svg);
+                    var rise_time_text_svg = renderer.text('' + math.round(step_info.rise_time, 4) + 's', math.round((X_LOW + X_HIGH) / 2 - (20)), ARROW_HEIGHT + 12)
+                    .css({color: 'black', fontSize: '10px'})
+                    .add();
+                    svgs.push(rise_time_svg);
+                    svgs.push(rise_time_arrow_svg);
+                    svgs.push(rise_time_text_svg);
+                }
 
 
-                // Render settling time 
-                var settling_time_svg = renderer.path(['M', toX(step_info.settling_time), toY(yAxis.min),
-                                                       'L', toX(step_info.settling_time), toY(step_info.settling_value)])
-                                                .attr(line_attrs)
-                                                .add();
-                var settling_band_svg = renderer.path(['M', toX(xAxis.min), toY(yfinal*(1 + step_info.meta.settling_threshold)),
-                                                       'L', toX(xAxis.max), toY(yfinal*(1 + step_info.meta.settling_threshold)),
-                                                       'M', toX(xAxis.min), toY(yfinal*(1 - step_info.meta.settling_threshold)),
-                                                       'L', toX(xAxis.max), toY(yfinal*(1 - step_info.meta.settling_threshold))])
-                                                .attr({
-                                                    'stroke-width': 1,
-                                                    stroke: 'black',
-                                                    opacity: 0.5
-                                                })
-                                                .add();
-                svgs.push(settling_time_svg);
-                svgs.push(settling_band_svg);
+                if (show_info.settle_time) {
+                    // Render settling time 
+                    var settling_time_svg = renderer.path(['M', toX(step_info.settling_time), toY(yAxis.min),
+                                                          'L', toX(step_info.settling_time), toY(step_info.settling_value)])
+                    .attr(line_attrs)
+                    .add();
+                    var settling_band_svg = renderer.path(['M', toX(xAxis.min), toY(yfinal*(1 + step_info.meta.settling_threshold)),
+                                                          'L', toX(xAxis.max), toY(yfinal*(1 + step_info.meta.settling_threshold)),
+                    'M', toX(xAxis.min), toY(yfinal*(1 - step_info.meta.settling_threshold)),
+                    'L', toX(xAxis.max), toY(yfinal*(1 - step_info.meta.settling_threshold))])
+                    .attr({
+                        'stroke-width': 1,
+                        stroke: 'black',
+                        opacity: 0.5
+                    })
+                    .add();
+                    svgs.push(settling_time_svg);
+                    svgs.push(settling_band_svg);
+                }
             }
         }  }}});
 
 
         graph.show_step_info = function(show) {
-            show = show === undefined ? true : show;
-            show_info = show;
+            show = ((show === undefined || show === true) ? {settled: true,
+                                         peak: true,
+                                         settle_time: true,
+                                         rise_time: true} : show);
+            if (show === false) {
+                show = {settled: false, peak: false, settle_time: false, rise_time: false};
+            }
+
+            show_info = recursiveExtend(show_info, show);
             this.redraw();
         };
 
