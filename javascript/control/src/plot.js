@@ -352,12 +352,18 @@ module.exports = {
      * Plots the root loci of the open loop system sys.
      * @param {HTMLElement} container - The container in which to plot the rloci.
      * @param {System} sys - The open loop system.
+     * @param {Boolean} [interactive=false] - Whether or not this chart has to be interactive.
+     * An interactive chart draw a red circle where the poles are for the current K. The current K
+     * can be changed by calling chart.set_k(K).
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
-    rlocus: function(container, sys) {
+    rlocus: function(container, sys, interactive) {
+        interactive = interactive === undefined ? false : interactive;
+
         var systf = system.tf(sys),
             numerator = systf.getNumerator(),
             denominator = systf.getDenominator(),
+            poles = sys.getPoles(),
             i,
             break_points = sys.getBreakPoints(),
             break_points_re = break_points.map(function(v) { return math.re(v); }),
@@ -381,7 +387,7 @@ module.exports = {
 
         // Initialize points with the poles of the system
         // record the k values and start with k = 0 + step;
-        var points = [sys.getPoles()],
+        var points = [poles],
             ks = math.zeros(points.length),
             k = step;
 
@@ -464,7 +470,27 @@ module.exports = {
                 }
             };
 
-        return new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+        var graph = new Highcharts.Chart(recursiveExtend(default_options, custom_options));
+
+
+        if (interactive) {
+            // Add a series for the movable poles
+            graph.addSeries({type: 'scatter',
+                            marker: {
+                                radius: 8,
+                                color: 'red',
+                                symbol: 'circle'
+                            },
+                            data: poles.map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: 0}; }, true)
+            });
+
+            // Add method to the graph to update the K value of the points traveling along the root locus
+            graph.set_k = function(k) {
+                graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
+            };
+        }
+
+        return graph;
     },
 
     time_series_options: {
