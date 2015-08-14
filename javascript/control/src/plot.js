@@ -161,6 +161,16 @@ module.exports = {
         magnitude_div.addEventListener('mousemove', sync);
         phase_div.addEventListener('mousemove', sync);
 
+
+        graphs.update = function(system) {
+            var bode_data = system.bode(omega_bounds),
+                magnitudes_data = num.zip(bode_data.omegas, bode_data.dBs),
+                phases_data = num.zip(bode_data.omegas, bode_data.degrees);
+
+            graphs[0].series[0].setData(magnitudes_data, true, false, true);
+            graphs[1].series[0].setData(phases_data, true, false, true);
+        };
+
         return graphs;
     },
 
@@ -345,6 +355,13 @@ module.exports = {
      */
     pzmap: function(container, sys) {
         var graph = new Highcharts.Chart(module.exports.pzplot_options(container, sys));
+        graph.update = function(system) {
+            var zeros = system.getZeros(),
+                poles = system.getPoles();
+            graph.series[0].setData(zeros.map(function(z){ return [math.re(z), math.im(z)]; }), false, false, true);
+            graph.series[1].setData(poles.map(function(p){ return [math.re(p), math.im(p)]; }), false, false, true);
+            graph.redraw();
+        };
         return graph;
     },
 
@@ -716,6 +733,11 @@ module.exports = {
 
             show_info = recursiveExtend(show_info, show);
             this.redraw();
+        };
+
+        graph.update = function(newsys) {
+            var step_data = newsys.step(bounds, settle, poles);
+            graph.series[0].setData(step_data.t.map(function(time, i){return [time, step_data.x[i]];}), true, false, true);
         };
 
         graph.redraw();
