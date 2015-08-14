@@ -420,6 +420,8 @@ Ss.prototype = new System();
  */
 Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
 
+    // Copy bounds.
+    bounds = bounds.map(function(v){return v;})
     var A = this.A,
         B = this.B,
         C = this.C,
