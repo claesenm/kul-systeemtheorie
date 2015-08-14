@@ -418,7 +418,7 @@
 			\smallskip
 			\item \normalsize{The human body also has many changing properties}
 			\smallskip
-			\item \normalsize{Systems affected by night and day (heating of buildings), when those aspects were ignored in the model}
+			\item ...
 		\end{itemize}
 		\medskip
 		\item Examples of time-invariant systems:
@@ -437,12 +437,15 @@
 	\frametitle{Lumped vs. Distributed parameter systems}
 	Many physical phenomena are described mathematically by partial differential equations (PDEs). Such systems are called distributed parameter systems.\\
 	Lumped parameter systems are systems which can be described by ordinary differential equations (ODEs).\\
-	Example:\\
+	Examples of PDEs:\\
 	\begin{itemize}
-		\item Diffusion equation (discretize in space)
+		\item Diffusion equation
 		\item Heat equation
+	%	\item Navier-stokes equations
 	\end{itemize}
-	This means we need an \textbf{infinite amount of states}, we say that this is a \textbf{distributed parameter system}.\\
-	If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped parameter system}.\\
+A system described by a PDE has an \textbf{infinite amount of states}, whereas a system described by an ODE has \textbf{finite amount of states}. Notice that a PDE can be discretized in space (approximation) in order to get a set of ODEs. In this case we can used the theory developed for lumped parameter systems.
+%
+%we say that this is a \textbf{distributed parameter system}.\\
+	%If we have a \textbf{finite amount of states} (for instance by discretizing), we call the system a \textbf{lumped parameter system}.\\
 \end{frame}
 
