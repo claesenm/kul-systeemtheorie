@@ -273,8 +273,8 @@ Zpk.prototype.getBreakPoints = function() {
 
 /**
  * Creates a system with a transfer function representation.
- * @param {Array<(Number|Complex)>} num - The numerator of the transfer function.
- * @param {Array<(Number|Complex)>} denom - The denominator of the transfer function.
+ * @param {Array<Number>} num - The numerator of the transfer function.
+ * @param {Array<Number>} denom - The denominator of the transfer function.
  * @constructor
  * @augments System
  */
@@ -549,8 +549,8 @@ module.exports = {
 
     /**
      * Constructs a system from a transfer function.
-     * @param {Array<(Number|Complex)>} numerator - The numerator of the transfer function.
-     * @param {Array<(Number|Complex)>} denom - The denominator of the transfer function.
+     * @param {Array<Number>} numerator - The numerator of the transfer function.
+     * @param {Array<Number>} denom - The denominator of the transfer function.
      * @return {System} A system with the given transfer function.
      */
     tf: function(numerator, denom) {
