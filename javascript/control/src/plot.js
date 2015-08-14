@@ -387,12 +387,13 @@ module.exports = {
             break_points_im = break_points.map(function(v) { return math.im(v); }),
             x_min = math.min.apply(math, break_points_re),
             x_max = math.max.apply(math, break_points_re),
-            x_range = (x_max - x_min),
+            x_range = math.max((x_max - x_min), 1),
             y_min = math.min.apply(math, break_points_im),
             y_max = math.max.apply(math, break_points_im),
-            y_range = (y_max - y_min),
+            y_range = math.max((y_max - y_min), 1),
             biggest_range = Math.max(x_range, y_range),
-            step = biggest_range / 500;
+            step = 0.001,
+            S_STEP = biggest_range / 500;
 
         function gen_poly(k) {
             return num.polyadd(math.multiply(numerator, k), denominator); 
@@ -430,7 +431,7 @@ module.exports = {
                 break;
             }
             ks.push(k);
-            step *= 0.01 / max_dist;
+            step *= S_STEP / max_dist;
             k += step;
         }
 
@@ -450,7 +451,7 @@ module.exports = {
 
         // Remove points that have gone too far away from the poles/zeros (presumably to infinity)
         function too_far(p) {
-            return ! (p.x > (x_max + (x_max - x_min)) || p.x < (x_min - (x_max - x_min)) || p.y > (y_max + (y_max - y_min)) || p.y < (y_min - (y_max - y_min)));
+            return ! (p.x > (x_max + x_range) || p.x < (x_min - x_range) || p.y > (y_max + y_range) || p.y < (y_min - y_range));
         }
 
         for (i = 0; i < series_data.length; ++i) {
@@ -481,7 +482,7 @@ module.exports = {
                 })),
                 tooltip: {
                     formatter: function() {
-                        return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
+                        return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 4) : 'Infinity') + '</b><br>' : '') +
                                '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                     }
                 }
@@ -506,6 +507,7 @@ module.exports = {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
             };
         }
+
 
         return graph;
     },

@@ -1,0 +1,34 @@
+Sometimes the objects returned by the plotting functions have extra 
+methods attached to them. I couldn't figure out how to add them to 
+the documentation so I'm listing them here.
+
+
+bode:
+The array returned by bode has a method 'update(System sys)'
+which changes the bode plot to use sys.
+
+pzmap:
+Same as bode.
+
+rlocus:
+If rlocus was created with interactive===true then the
+plot returned has an extra method 'set_k(Number k)'.
+This changes the positions of the red circles to
+the position of the roots for k.
+
+step:
+The plot has an extra method called 'show_step_info(Object options)'.
+The options object contains booleans corresponding to which of the
+stepinfo components should be displayed on the plot.
+show_step_info(true) or show_step_info(false) respectively enable/disable
+all components.
+These are the properties for the components:
+    - settled: A dashed line for the value at which the simulation has settled.
+    - peak: Mark the peak of the step response.
+    - settle_time: Mark the point from which the step response is considered "settled".
+    - rise_time: Mark the beginning and end of the rise time window and
+                 annotate it's duration.
+example:
+    - show_step_info({settled: true, peak: true}) only renders the peak and the final value.
+    - show_step_info({settled: false}) disables the final value. Only the peak is
+      rendered from now on.
