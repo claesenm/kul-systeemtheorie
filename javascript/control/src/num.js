@@ -283,7 +283,7 @@ module.exports = {
    /**
     * Determines performance indicators of a step response.
     * @param {Object} step - The step response of a system.
-    * @param {Number} settling_time_threshold - The threshold for the settling time.
+    * @param {Number} [settling_time_threshold=0.02] - The threshold for the settling time.
     * @param {Number} [y_final] - The end value of the response. The last value of step is used when y_final is undefined.
     * @returns {Object} info - An object containing the info.
     */
@@ -310,8 +310,7 @@ module.exports = {
        var len = step.t.length;
 
        var t = step.t,
-           y = step.x,
-           rise_time_lims = [0.1, 0.9];
+           y = step.x;
 
        if (!y.every(isFinite)) {
            return {
@@ -332,8 +331,8 @@ module.exports = {
        // Get the peak, peak_time and y values for the rise time
        var peak = this.extreme_by(y, Math.max, function(v){ return math.abs(v); }),
            peak_time = t[y.indexOf(peak)],
-           y_low = y[0] + rise_time_lims[0] * (y_final - y[0]),
-           y_high = y[0] + rise_time_lims[1] * (y_final - y[0]);
+           y_low = y[0] + meta.low * (y_final - y[0]),
+           y_high = y[0] + meta.high * (y_final - y[0]);
 
        //console.log(t.map(function(val, i){ return [val, y[i]]; }));
        // Index and time of the rise time bounds
