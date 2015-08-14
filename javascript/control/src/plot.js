@@ -482,7 +482,7 @@ module.exports = {
                 })),
                 tooltip: {
                     formatter: function() {
-                        return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 2) : 'Infinity') + '</b><br>' : '') +
+                        return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 4) : 'Infinity') + '</b><br>' : '') +
                                '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                     }
                 }
@@ -507,6 +507,7 @@ module.exports = {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
             };
         }
+
 
         return graph;
     },
