@@ -8,7 +8,8 @@
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
-<script type="text/javascript" src="./mainfirstordersystemsslider.js"></script>
+<script type="text/javascript" src="./mainfirstordersystemsIE.js"></script>
+<link rel="stylesheet" type="text/css" href="../styleIE.css">
 </head>
 <body>
 
@@ -18,7 +19,7 @@
 
 Standard form: 
 
-<div> 
+<br>
 
 G(s) = <div class="fraction">
         <span class="fup">K</span>
@@ -27,17 +28,19 @@ G(s) = <div class="fraction">
     </div>
 <br>
 
-Choose a value for &#964. (<span id="tauvalue">5</span>)<br>
+Choose a value for &#964. <br>
 <label>0.1</label><input type="range" min="0.1" max="10" value="5" step="0.01" id="tauslider"></input><label>10</label>
 <br>
 
-Choose a value for K. (<span id="Kvalue">50</span>) <br>
+Choose a value for K. <br>
 <label>1</label><input type="range" min="1" max="100" value="50" step="1" id="Kslider"></input><label>100</label>
 <br>
-Transfer function: 
+<input type="button" value="Submit" id='update'> <br>
+
+Transfer function: (&#964 = <span id="valuetau2">5</span>, K = <span id="valueK2">50</span>)
 
 
-<div> 
+<br>
 
 G(s) = <div class="fraction">
         <span class="fup"><span id="K">50</span></span>
@@ -46,7 +49,7 @@ G(s) = <div class="fraction">
     </div>
 <br>
 Pole-zero plot:
-<div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
+<div id="polezeroplot" style="width:175px; height: 175px;"></div> <br>
 
 </section>
 
@@ -73,44 +76,3 @@ Bode Diagram:
 </body>
 </html> 
 
-<style>
-#header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-#section1 {
-    line-height:30px;
-    width:250px;
-    float:left;
-    padding:5px;
-}
-#section2 {
-    line-height:30px;
-    width:410px;
-    float:left;
-    padding:5px;
-}
-#section3 {
-    line-height:30px;
-    width:510px;
-    float:left;
-    padding:5px;
-}
-
-.fraction {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle; 
-    letter-spacing: 0.001em;
-    text-align: center;
-    font-size: 12px;
-    }
-.fraction > span { 
-    display: block; 
-    padding: 0.1em; 
-    }
-.fraction span.fdn {border-top: thin solid black;}
-.fraction span.bar {display: none;}
-</style>

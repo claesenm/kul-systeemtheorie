@@ -46,15 +46,7 @@ function main(){
 		document.getElementById("overshoot").innerHTML=round(info.overshoot);
 	}
 	document.getElementById('update').addEventListener('click', update);
-	
-	function updateValues(){
-		var zeta = parseFloat(zeta_el.value);
-		var omegan = parseFloat(omega_el.value);
-		document.getElementById("valuezeta").innerHTML=Math.round(100*zeta)/100;
-		document.getElementById("valueomegan").innerHTML=omegan;
-	}
-	zeta_el.addEventListener('input', updateValues);
-	omega_el.addEventListener('input', updateValues);
+
 	
 }
 

@@ -37,8 +37,17 @@ function main(){
                                plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true);
                                var step_data = sys.step([0,7*tau]);
                                plt2.series[0].setData(num.zip(step_data.t, step_data.x), true, false, true);
+							   var info = num.stepinfo(step_data);
+		document.getElementById("peak_time").innerHTML=round(info.peak_time);
+		document.getElementById("peak").innerHTML=round(info.peak);
+		document.getElementById("settling_time").innerHTML=round(info.settling_time);
+		document.getElementById("overshoot").innerHTML=round(info.overshoot);
                 }              
                 K_el.addEventListener('input', update);
                 tau_el.addEventListener('input', update);
 }
 window.onload = main;
+
+function round(value){
+	return Math.round(10000*value)/10000;
+}
