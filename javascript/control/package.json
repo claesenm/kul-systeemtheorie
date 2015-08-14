@@ -29,13 +29,11 @@
     "bode"
   ],
   "contributors": [{
-      "name": "Menno Vanfrachem",
-      "email": "menno.vanfrachem@student.kuleuven.be"
+      "name": "Menno Vanfrachem"
   }, {
       "name": "Oscar Mauricio Agudelo Manozca"
   }, {
-      "name": "Steven Collemans",
-      "email": "steven.collemans@student.kuleuven.be"
+      "name": "Steven Collemans"
   }
   ],
   "license": "UNLICENSED",
