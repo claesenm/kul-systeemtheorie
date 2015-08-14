@@ -10,12 +10,12 @@
 		\item Continuous-time systems
 		\item Frequency response of dynamical systems
 		\item Sampling and reconstruction of signals
-		\item Discretizations of continuous-time systems
+		\item Discretization of continuous-time systems
 		\item Introduction to control
 		\item Root Locus Analysis
 		\item Design in the frequency domain and Nyquist stability criterion
 		\item Lead and lag compensators
-		\item PID control
+		\item PID controllers
 	\end{enumerate}
 \end{frame}
 
@@ -38,15 +38,17 @@
 
 \begin{frame}
 	\frametitle{}
-	\center{\textbf{\huge{Chapter 1: Introduction}}}
-\end{frame}
+	 	\begin{center}
+				\textbf{\huge{Chapter 1: Introduction}}
+		\end{center}
+	\end{frame}
 
 \section{Systems theory} 
 
 \begin{frame}
 	\frametitle{Systems theory}
 	System theory occupies itself with the mathematical description and study of systems.
-	Models describe the connections between input and output.\\
+	Models describe the connections between inputs and outputs.\\
 	\bigskip
 	\begin{figure}
 		\includegraphics[width=.9\linewidth]{systems_theory}
@@ -56,18 +58,18 @@
 
 \begin{frame}
 	\frametitle{Systems theory}
-	Next to inputs and outputs, states (denoted by \textbf x(t)) are a third type of variable used to describe a system. They represent the internal state of the system at a given time.\\
+	Next to inputs and outputs, states (denoted by $x(t)$) are a third type of variable used to describe a system. They represent the internal state of the system at a given time.\\
 	\begin{center}
 		$\dot{x}(t) = f(x(t),u(t))$\\
 		$y(t) = g(x(t),u(t))$\\
 	\end{center}
-	The order of a system is the number of state-variables (i.e. the size of the vector \textbf x).\\
+	The order of a system is the number of state-variables (i.e. the size of the vector $x(t)$).\\
 	\bigskip
 \end{frame}
 
 \begin{frame}
 	\frametitle{Dynamical system}
-	A dynamical system is a constantly changing system that connects outputs and inputs.\\The word dynamical refers to the fact that its current output depends on past input, contrary to static systems where the current output only depends on current input. This means that in a dynamical system the output changes with time if the system is not in a state of equilibrium.\\
+	A dynamical system is a constantly changing system that connects inputs and outputs.\\The word \textit{dynamical} refers to the fact that its current output depends on past input, contrary to static systems where the current output only depends on current input. This means that in a dynamical system the output changes with time if the system is not in a state of equilibrium.\\
 	\medskip
 	Everything is a dynamical system.\\
 	Example:\\
@@ -218,7 +220,7 @@
 
 \begin{frame}
 	\frametitle{Closed loop (feedback)}
-	In a closed loop system, the error signal, which is the difference between the input signal and the output, is fed to the controller so as to reduce the error and bring the output to the desired value. 
+	In a closed loop system, the error signal, which is the difference between the input signal and the reference, is fed to the controller so as to reduce the error and bring the output to the desired value. 
 	\medskip
 	\begin{figure}
 		\includegraphics[width=1\linewidth]{closed_loop}
