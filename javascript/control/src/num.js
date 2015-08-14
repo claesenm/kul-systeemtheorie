@@ -273,7 +273,7 @@ module.exports = {
     */
    find: function (arr, val) {
        for (var i = 0; i < arr.length - 1; ++i) {
-           if (arr[i] < val && arr[i+1] > val) {
+           if ( (arr[i] < val && arr[i+1] > val) || (arr[i] > val && arr[i+1] < val) ) {
                return i + (val - arr[i]) / (arr[i+1] - arr[i]);
            }
        }
@@ -283,7 +283,7 @@ module.exports = {
    /**
     * Determines performance indicators of a step response.
     * @param {Object} step - The step response of a system.
-    * @param {Number} settling_time_threshold - The threshold for the settling time.
+    * @param {Number} [settling_time_threshold=0.02] - The threshold for the settling time.
     * @param {Number} [y_final] - The end value of the response. The last value of step is used when y_final is undefined.
     * @returns {Object} info - An object containing the info.
     */
@@ -310,8 +310,7 @@ module.exports = {
        var len = step.t.length;
 
        var t = step.t,
-           y = step.x,
-           rise_time_lims = [0.1, 0.9];
+           y = step.x;
 
        if (!y.every(isFinite)) {
            return {
@@ -332,8 +331,8 @@ module.exports = {
        // Get the peak, peak_time and y values for the rise time
        var peak = this.extreme_by(y, Math.max, function(v){ return math.abs(v); }),
            peak_time = t[y.indexOf(peak)],
-           y_low = y[0] + rise_time_lims[0] * (y_final - y[0]),
-           y_high = y[0] + rise_time_lims[1] * (y_final - y[0]);
+           y_low = y[0] + meta.low * (y_final - y[0]),
+           y_high = y[0] + meta.high * (y_final - y[0]);
 
        //console.log(t.map(function(val, i){ return [val, y[i]]; }));
        // Index and time of the rise time bounds
@@ -437,27 +436,51 @@ module.exports = {
    
    /**
     * Returns the phase and gain margin and their corresponding pulsations.
-    * @param {Object} bode - The result from a call to System.bode.
+    * @param {Sys} system - The system to check
     * @returns {Object} result - The phase and gain margin and their corresponding pulsations.
     * @returns {Number} result.gain - The gain margin in dB.
     * @returns {Number} result.phase - The phase margin in dB.
-    * @returns {Number} result.gain_omega - The omega at which the gain margin is calculated.
-    * @returns {Number} result.phase_omega - The omega at which the phase margin is calculated.
+    * @returns {Number} result.gain_pulsation - The pulsation at which the gain margin is calculated.
+    * @returns {Number} result.phase_pulsation - The pulsation at which the phase margin is calculated.
     */
-   margin: function(bode) {
+   margin: function(sys) {
        var find = module.exports.find,
+           at = module.exports.at,
+           bode = sys.bode(),
            phase_idx = find(bode.dBs, 0),
-           phase_omega = phase_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
-           phase = phase_idx === -1 ? Infinity : 180 + mathh.abs(at(bode.degrees, phase_idx)),
+           phase_pulsation = phase_idx === -1 ? NaN : at(bode.omegas, phase_idx),
+           phase = phase_idx === -1 ? Infinity : 180 + at(bode.degrees, phase_idx),
            gain_idx = find(bode.degrees.map(function(deg){ return math.abs(deg); }), 180),
-           gain_omega = gain_idx === -1 ? Infinity : at(bode.omegas, phase_idx),
+           gain_pulsation = gain_idx === -1 ? NaN : at(bode.omegas, phase_idx),
            gain = gain_idx === -1 ? Infinity : -at(bode.dBs, phase_idx);
+
+       // Check special case for s = 0j
+       var mathcompare = math.create({epsilon: 1e-3});
+       function special_case(omega, H) {
+           if (gain_idx === -1 && math.re(H) < 0 && mathcompare.equal(math.im(H), 0)) {
+               gain_pulsation = omega;
+               gain = -20 * math.log10(math.abs(math.re(H)));
+               // Mark as found
+               gain_idx = 0;
+           }
+           if (phase_idx === -1 && mathcompare.equal(math.abs(H), 1)) {
+               phase_pulsation = omega;
+               phase = 180 + math.arg(H);
+               // Mark as found
+               gain_idx = 0;
+           }
+       }
+
+       var biggest_omega = this.extreme_by(sys.getBreakPoints(), Math.max, function(v){ return math.abs(v); });
+       
+       special_case(0, sys.evalS(0));
+       special_case(Infinity, sys.evalS(math.complex(0, biggest_omega * 100000)));
 
        return {
            gain: gain,
            phase: phase,
-           gain_omega: gain_omega,
-           phase_omega: phase_omega
+           gain_pulsation: gain_pulsation,
+           phase_pulsation: phase_pulsation
        };
    },
 

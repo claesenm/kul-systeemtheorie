@@ -19,7 +19,7 @@ function update() {
         step_data = sys.step([0, 20], true),
         impulse_data = sys.impulse([step_data.t[0], step_data.t[step_data.t.length - 1]], false);
 
-    plt.series[0].setData(step_data.t.map(function(time, i){return [time, step_data.x[i]];}), true, false, false);
+    plt.update(sys);
     plt.series[1].setData(impulse_data.t.map(function(time, i){ return [time, impulse_data.x[i]]; }), true, false, false);
 }
 
