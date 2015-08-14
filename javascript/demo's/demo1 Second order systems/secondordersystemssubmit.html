@@ -9,36 +9,33 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
 <script type="text/javascript" src="./mainsecondordersystemssubmit.js"></script>
+<link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
 
 <h1>Second order systems</h1>
 
-<section id ="section1">
+<div id ="section1">
 
-Standard form: 
-
-<div> 
+Standard form: <br>
 
 G(s) = <div class="fraction">
-        <span class="fup">&#969<sub>n</sub><sup>2</sup></span>
+        <span class="fup">&#969;<sub>n</sub><sup>2</sup></span>
         <span class="bar">/</span>
-        <span class="fdn">s<sup>2</sup> + 2&#950 &#969<sub>n</sub>s + &#969<sub>n</sub><sup>2</sup></span>
+        <span class="fdn">s<sup>2</sup> + 2&#950; &#969;<sub>n</sub>s + &#969;<sub>n</sub><sup>2</sup></span>
     </div>
 <br>
 
-Choose a value for &#950. (<span id="valuezeta">1.5</span>) <br>
-<label>0</label><input type="range" min="0" max="3" value="1.5" step="0.01" id="zetaslider"></input><label>3</label>
+Choose a value for &#950;. (<span id="valuezeta">1.5</span>) <br>
+<label>0</label><input type="range" min="0" max="3" value="1.5" step="0.01" id="zetaslider"><label>3</label>
 <br>
 
-Choose a value for &#969<sub>n</sub>. (<span id="valueomegan">50</span>) <br>
-<label>1</label><input type="range" min="1" max="100" value="50" step="1" id="omegaslider"></input><label>100</label>
+Choose a value for &#969;<sub>n</sub>. (<span id="valueomegan">50</span>) <br>
+<label>1</label><input type="range" min="1" max="100" value="50" step="1" id="omegaslider"><label>100</label>
 <br>
-<form>
-<input type="button" value="Submit" id='update'>
-</form> 
+<input type="button" value="Submit" id='update'> <br>
 
-Transfer function: (&#950 = <span id="valuezeta2">1.5</span>, &#969<sub>n</sub> = <span id="valueomegan2">50</span>)
+Transfer function: (&#950; = <span id="valuezeta2">1.5</span>, &#969;<sub>n</sub> = <span id="valueomegan2">50</span>)
 
 
 <div> 
@@ -52,65 +49,29 @@ G(s) = <div class="fraction">
 Pole-zero plot:
 <div id="polezeroplot" style="width:175px; height: 175px;"></div> <br>
 
-</section>
+</div>
 
-<section id="section2">
+</div>
+
+<div id="section2">
 Step response:
-<div id="step-plot" style="width:400px; height: 400px;"></div> <br>
-</section>
+<div id="step-plot" style="width:400px; height: 400px;"></div> 
+Peak time: <span id="peak_time"></span> <br>
+Peak: <span id="peak"></span> <br>
+Settling time: <span id="settling_time"></span> <br>
+Overshoot: <span id="overshoot"></span>
+</div>
 
-<section id="section3">
+<div id="section3">
 Bode Diagram:
 <div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
 
 
 
-</section>
+</div>
 
 
 
 
 </body>
 </html> 
-
-<style>
-#header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-#section1 {
-    line-height:30px;
-    width:250px;
-    float:left;
-    padding:5px;
-}
-#section2 {
-    line-height:30px;
-    width:410px;
-    float:left;
-    padding:5px;
-}
-#section3 {
-    line-height:30px;
-    width:510px;
-    float:left;
-    padding:5px;
-}
-
-.fraction {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle; 
-    letter-spacing: 0.001em;
-    text-align: center;
-    font-size: 12px;
-    }
-.fraction > span { 
-    display: block; 
-    padding: 0.1em; 
-    }
-.fraction span.fdn {border-top: thin solid black;}
-.fraction span.bar {display: none;}
-</style>

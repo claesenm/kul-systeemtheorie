@@ -21,8 +21,8 @@ function main(){
 	var omega_el = document.getElementById('omeganslider');
 
                 function update(){
-                               var zeta = Number.parseFloat(zeta_el.value);
-                               var omega = Number.parseFloat(omega_el.value);
+                               var zeta = parseFloat(zeta_el.value);
+                               var omega = parseFloat(omega_el.value);
                                var sys = system.tf([omega*omega], [1,2*zeta*omega,omega*omega]);
                                var bode_data = sys.bode(bounds);
                                plts[0].series[0].setData(bode_data.omegas.map(function(omega, i) {return [omega, bode_data.dBs[i]];}), true, false, true);
@@ -38,10 +38,19 @@ function main(){
 
 							   var step_data = sys.step([0,20],true);
 							   plt2.series[0].setData(step_data.t.map(function(t, i){ return [t, step_data.x[i]]; }), true, false, true);
-							  
-							  // document.getElementById("peak_time").innerHTML=num.stepinfo.({peak_time});
-                }              
+							   //window.alert(num.stepinfo(step_data,10));
+							   var info = num.stepinfo(step_data);
+							   document.getElementById("peak_time").innerHTML=round(info.peak_time);
+							   document.getElementById("peak").innerHTML=round(info.peak);
+							   document.getElementById("settling_time").innerHTML=round(info.settling_time);
+							   document.getElementById("overshoot").innerHTML=round(info.overshoot);
+                }      
+
                 zeta_el.addEventListener('input', update);
                 omega_el.addEventListener('input', update);
 }
 window.onload = main;
+
+function round(value){
+	return Math.round(10000*value)/10000;
+}
