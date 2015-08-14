@@ -20,8 +20,8 @@ function main(){
                 var K_el = document.getElementById('Kslider');
                 var tau_el = document.getElementById('tauslider');
 	function update(){
-		var K = Number.parseFloat(K_el.value);
-		var tau = Number.parseFloat(tau_el.value);
+		var K = parseFloat(K_el.value);
+		var tau = parseFloat(tau_el.value);
 		var sys = system.tf([K], [tau,1]);
 		var bode_data = sys.bode(bounds);
 
@@ -44,15 +44,7 @@ function main(){
 		document.getElementById("overshoot").innerHTML=round(info.overshoot);
 	}
 	document.getElementById('update').addEventListener('click', update);
-	
-	function updateValues(){
-		var K = Number.parseFloat(K_el.value);
-		var tau = Number.parseFloat(tau_el.value);
-		document.getElementById("valuetau").innerHTML=Math.round(100*tau)/100;
-		document.getElementById("valueK").innerHTML=K;
-	}
-	K_el.addEventListener('input', updateValues);
-	tau_el.addEventListener('input', updateValues);
+
 	
 }
 window.onload = main;
