@@ -1,6 +1,7 @@
 var math = require('mathjs');
 math.config({matrix: 'array'});
 var num = require('./num');
+var numeric = require('numeric');
 
 /**
  * Module related to System object.
