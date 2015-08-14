@@ -13,8 +13,8 @@ var omega_el = document.getElementById('omega_n'),
 
 
 function update() {
-    var omega_n = Number.parseFloat(omega_el.value),
-        zeta    = Number.parseFloat(zeta_el.value),
+    var omega_n = parseFloat(omega_el.value),
+        zeta    = parseFloat(zeta_el.value),
         sys     = system.tf([omega_n * omega_n], [1, 2*omega_n*zeta, omega_n * omega_n]),
         step_data = sys.step([0, 20], true),
         impulse_data = sys.impulse([step_data.t[0], step_data.t[step_data.t.length - 1]], false);
@@ -41,5 +41,8 @@ var btn = document.getElementById('button');
 btn.onclick = function(){
     show = ! show;
     plt.show_step_info(show);
+    if (show) {
+        plt.show_step_info({rise_time_text: true});
+    }
     btn.value = (show ? 'Show' : 'Hide') + ' Info';
 };

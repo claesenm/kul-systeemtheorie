@@ -667,7 +667,7 @@ module.exports = {
                     .attr(line_attrs)
                     .add();
 
-                    var ARROW_HEIGHT = toY(yAxis.min) + 8,
+                    var ARROW_HEIGHT = toY(yAxis.min) - 13,
                         ARROW_FIN_LENGTH = 5,
                         ARROW_ANGLE = math.multiply([math.cos(math.pi / 4), math.sin(math.pi / 4)], ARROW_FIN_LENGTH),
                         X_PADDING = 5,
@@ -692,12 +692,15 @@ module.exports = {
                     })
                     .add();
 
-                    var rise_time_text_svg = renderer.text('' + math.round(step_info.rise_time, 4) + 's', math.round((X_LOW + X_HIGH) / 2 - (20)), ARROW_HEIGHT + 12)
-                    .css({color: 'black', fontSize: '10px'})
-                    .add();
                     svgs.push(rise_time_svg);
                     svgs.push(rise_time_arrow_svg);
-                    svgs.push(rise_time_text_svg);
+
+                    if (show_info.rise_time_text) {
+                        var rise_time_text_svg = renderer.text('' + math.round(step_info.rise_time, 4) + 's', math.round((X_LOW + X_HIGH) / 2 - (20)), ARROW_HEIGHT + 12)
+                        .css({color: 'black', fontSize: '10px'})
+                        .add();
+                        svgs.push(rise_time_text_svg);
+                    }
                 }
 
 
@@ -728,9 +731,10 @@ module.exports = {
             show = ((show === undefined || show === true) ? {settled: true,
                                          peak: true,
                                          settle_time: true,
-                                         rise_time: true} : show);
+                                         rise_time: true,
+                                         rise_time_text: false} : show);
             if (show === false) {
-                show = {settled: false, peak: false, settle_time: false, rise_time: false};
+                show = {settled: false, peak: false, settle_time: false, rise_time: false, rise_time_text: false};
             }
 
             show_info = recursiveExtend(show_info, show);

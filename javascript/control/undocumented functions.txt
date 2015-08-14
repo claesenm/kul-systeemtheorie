@@ -26,8 +26,8 @@ These are the properties for the components:
     - settled: A dashed line for the value at which the simulation has settled.
     - peak: Mark the peak of the step response.
     - settle_time: Mark the point from which the step response is considered "settled".
-    - rise_time: Mark the beginning and end of the rise time window and
-                 annotate it's duration.
+    - rise_time: Mark the beginning and end of the rise time window.
+    - rise_time_text: Draw in text how big the rise time window is.
 example:
     - show_step_info({settled: true, peak: true}) only renders the peak and the final value.
     - show_step_info({settled: false}) disables the final value. Only the peak is
