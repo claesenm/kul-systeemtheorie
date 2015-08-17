@@ -39,12 +39,21 @@ function main(){
 		plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true);
 		var step_data = sys.step([0,20],true);
 		plt2.series[0].setData(step_data.t.map(function(t, i){ return [t, step_data.x[i]]; }), true, false, true);
+		
 		var info = num.stepinfo(step_data);
-		document.getElementById("peak_time").innerHTML=round(info.peak_time);
-		document.getElementById("peak").innerHTML=round(info.peak);
-		document.getElementById("settling_time").innerHTML=round(info.settling_time);
-		document.getElementById("overshoot").innerHTML=round(info.overshoot);
-		document.getElementById("rise_time").innerHTML=round(info.rise_time);
+		if (omegan > 1){
+			var pole1 = (-2*zeta*omegan + Math.sqrt(4*zeta*zeta*omegan*omegan - 4*omegan*omegan))/2;
+			var pole2 = (-2*zeta*omegan - Math.sqrt(4*zeta*zeta*omegan*omegan - 4*omegan*omegan))/2;
+			document.getElementById("rise_time").innerHTML=timeZetaGreaterThanOne(pole1,pole2,0.90)-timeZetaGreaterThanOne(pole1,pole2,0.10);
+			document.getElementById("peak").innerHTML=1;
+			document.getElementById("settling_time").innerHTML=timeZetaGreaterThanOne(pole1,pole2,0.98);
+			document.getElementById("overshoot").innerHTML=0;
+			document.getElementById("final_value").innerHTML=1;
+		}
+							   document.getElementById("peak").innerHTML=round(info.peak);
+							   document.getElementById("settling_time").innerHTML=round(info.settling_time);
+							   document.getElementById("overshoot").innerHTML=round(info.overshoot);
+							   document.getElementById("final_value").innerHTML=1;
 	}
 	
 	document.getElementById('update').addEventListener('click', update);
@@ -78,3 +87,22 @@ function round(value){
 }
 
 window.onload = main;
+
+function timeZetaGreaterThanOne(pole1,pole2,value){
+	var temp1 = 0;
+	var temp2 = 50;
+	var result = 0;
+	while ((temp2 - temp1) > 0.000001){
+		result = evalStepZetaGreaterThanOne(pole1,pole2,(temp1 + temp2)/2);
+		if (result < value){
+			temp1 = (temp1 + temp2)/2.0;
+		} else {
+			temp2 = (temp1 + temp2)/2.0;
+		}
+	}
+	return ((temp1 + temp2)/2.0);
+}
+
+function evalStepZetaGreaterThanOne(pole1,pole2,time){
+	return (1 + ((pole2)/(pole1-pole2))*Math.exp(-pole1*time) + ((pole1)/(pole2-pole1))*Math.exp(-pole2*time));
+}

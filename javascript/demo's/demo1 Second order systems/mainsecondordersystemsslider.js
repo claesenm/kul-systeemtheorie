@@ -40,23 +40,23 @@ function main(){
 							   plt2.series[0].setData(step_data.t.map(function(t, i){ return [t, step_data.x[i]]; }), true, false, true);
 							   //window.alert(num.stepinfo(step_data,10));
 							   var info = num.stepinfo(step_data);
-							   document.getElementById("peak_time").innerHTML=round(info.peak_time);
+							   document.getElementById("rise_time").innerHTML=round(info.rise_time);
 							   document.getElementById("peak").innerHTML=round(info.peak);
 							   document.getElementById("settling_time").innerHTML=round(info.settling_time);
 							   document.getElementById("overshoot").innerHTML=round(info.overshoot);
-							   document.getElementById("rise_time").innerHTML=round(info.rise_time);
+							   document.getElementById("final_value").innerHTML=1;
                 }      
 
                 duringExecution();
 	
 				function duringExecution(){
 					if (document.attachEvent){
-						zeta_el.attachEvent('onchange',update);
-						omega_el.attachEvent('onchange',update);
+						zeta_el.attachEvent('onmouseup',update);
+						omega_el.attachEvent('onmouseup',update);
 					}
 					else {
-						zeta_el.addEventListener('input',update);
-						omega_el.addEventListener('input',update);
+						zeta_el.addEventListener('mouseup',update);
+						omega_el.addEventListener('mouseup',update);
 					}
 				}
 }
