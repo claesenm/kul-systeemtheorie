@@ -9,6 +9,7 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
 <script type="text/javascript" src="./mainfirstordersystemsslider.js"></script>
+<link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
 
@@ -16,7 +17,7 @@
 
 <section id ="section1">
 
-Standard form: 
+<b> Standard form: </b>
 
 <div> 
 
@@ -34,7 +35,7 @@ Choose a value for &#964. (<span id="tauvalue">5</span>)<br>
 Choose a value for K. (<span id="Kvalue">50</span>) <br>
 <label>1</label><input type="range" min="1" max="100" value="50" step="1" id="Kslider"></input><label>100</label>
 <br>
-Transfer function: 
+<b> Transfer function: </b>
 
 
 <div> 
@@ -45,22 +46,23 @@ G(s) = <div class="fraction">
         <span class="fdn"><span id="tau">5</span> s + 1</span></span>
     </div>
 <br>
-Pole-zero plot:
+<b> Pole-zero plot: </b>
 <div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
 
 </section>
 
 <section id="section2">
-Step response:
+<b> Step response: </b>
 <div id="step-plot" style="width:400px; height: 400px;"></div> 
 Peak time: <span id="peak_time"></span> <br>
 Peak: <span id="peak"></span> <br>
 Settling time: <span id="settling_time"></span> <br>
-Overshoot: <span id="overshoot"></span>
+Overshoot: <span id="overshoot"></span> <br>
+Rise time: <span id="rise_time"></span>
 </section>
 
 <section id="section3">
-Bode Diagram:
+<b> Bode Diagram: </b>
 <div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
 
 
@@ -73,44 +75,3 @@ Bode Diagram:
 </body>
 </html> 
 
-<style>
-#header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-#section1 {
-    line-height:30px;
-    width:250px;
-    float:left;
-    padding:5px;
-}
-#section2 {
-    line-height:30px;
-    width:410px;
-    float:left;
-    padding:5px;
-}
-#section3 {
-    line-height:30px;
-    width:510px;
-    float:left;
-    padding:5px;
-}
-
-.fraction {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle; 
-    letter-spacing: 0.001em;
-    text-align: center;
-    font-size: 12px;
-    }
-.fraction > span { 
-    display: block; 
-    padding: 0.1em; 
-    }
-.fraction span.fdn {border-top: thin solid black;}
-.fraction span.bar {display: none;}
-</style>

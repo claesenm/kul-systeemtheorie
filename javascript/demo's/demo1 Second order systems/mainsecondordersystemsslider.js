@@ -44,10 +44,21 @@ function main(){
 							   document.getElementById("peak").innerHTML=round(info.peak);
 							   document.getElementById("settling_time").innerHTML=round(info.settling_time);
 							   document.getElementById("overshoot").innerHTML=round(info.overshoot);
+							   document.getElementById("rise_time").innerHTML=round(info.rise_time);
                 }      
 
-                zeta_el.addEventListener('input', update);
-                omega_el.addEventListener('input', update);
+                duringExecution();
+	
+				function duringExecution(){
+					if (document.attachEvent){
+						zeta_el.attachEvent('onchange',update);
+						omega_el.attachEvent('onchange',update);
+					}
+					else {
+						zeta_el.addEventListener('input',update);
+						omega_el.addEventListener('input',update);
+					}
+				}
 }
 window.onload = main;
 

@@ -44,7 +44,9 @@ function main(){
 		document.getElementById("peak").innerHTML=round(info.peak);
 		document.getElementById("settling_time").innerHTML=round(info.settling_time);
 		document.getElementById("overshoot").innerHTML=round(info.overshoot);
+		document.getElementById("rise_time").innerHTML=round(info.rise_time);
 	}
+	
 	document.getElementById('update').addEventListener('click', update);
 	
 	function updateValues(){
@@ -53,10 +55,23 @@ function main(){
 		document.getElementById("valuezeta").innerHTML=Math.round(100*zeta)/100;
 		document.getElementById("valueomegan").innerHTML=omegan;
 	}
-	zeta_el.addEventListener('input', updateValues);
-	omega_el.addEventListener('input', updateValues);
+	
+	duringExecution();
+	
+	function duringExecution(){
+	if (document.attachEvent){
+		zeta_el.attachEvent('onchange',updateValues);
+		omega_el.attachEvent('onchange',updateValues);
+	}
+	else {
+		zeta_el.addEventListener('input',updateValues);
+		omega_el.addEventListener('input',updateValues);
+	}
+	}
+
 	
 }
+
 
 function round(value){
 	return Math.round(10000*value)/10000;

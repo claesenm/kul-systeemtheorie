@@ -21,8 +21,8 @@ function main(){
                 var tau_el = document.getElementById('tauslider');
 
                 function update(){
-                               var K = Number.parseFloat(K_el.value);
-                               var tau = Number.parseFloat(tau_el.value);
+                               var K = parseFloat(K_el.value);
+                               var tau = parseFloat(tau_el.value);
                                var sys = system.tf([K], [tau,1]);
                                var bode_data = sys.bode(bounds);
 
@@ -42,9 +42,20 @@ function main(){
 		document.getElementById("peak").innerHTML=round(info.peak);
 		document.getElementById("settling_time").innerHTML=round(info.settling_time);
 		document.getElementById("overshoot").innerHTML=round(info.overshoot);
+		document.getElementById("rise_time").innerHTML=round(info.rise_time);
                 }              
-                K_el.addEventListener('input', update);
-                tau_el.addEventListener('input', update);
+                duringExecution();
+	
+				function duringExecution(){
+					if (document.attachEvent){
+						K_el.attachEvent('onchange',update);
+						tau_el.attachEvent('onchange',update);
+					}
+					else {
+						K_el.addEventListener('input',update);
+						tau_el.addEventListener('input',update);
+					}
+				}
 }
 window.onload = main;
 
