@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Sample Project</title>
+		<link href="nouislider.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>My Sample Project</h1>
+		<br>
+		<br>
+		<div>
+		Slider 1: <br><br>
+			<div style="width: 150px" id="slider_1" ></div>
+		</div>
+		<br>
+		Value: <span id="slider-value"></span>
+		
+		<br>
+		<br>
+		<h2>Selected value:<h2>
+		<h3 id="selected_value"></h3>
+		
+		<script type="text/javascript" src="nouislider.min.js"></script>
+		 
+		<script>
+			
+		var rangeSlider = document.getElementById('slider_1');
+
+		noUiSlider.create(rangeSlider, {
+			start: [ 1 ],
+			range: {
+				'min': [  0.01 ],
+				'max': [ 3 ]
+			}
+		});
+
+		
+		var rangeSliderValueElement = document.getElementById('slider-value');
+		rangeSlider.noUiSlider.on('update', function( values, handle ) {
+			rangeSliderValueElement.innerHTML = values[handle];
+			});
+		
+		var rangeSliderSelectedValue = document.getElementById('selected_value');
+		rangeSlider.noUiSlider.on('change', function( values, handle ) {
+			rangeSliderSelectedValue.innerHTML = values[handle];
+			});
+		
+			
+			
+		
+		</script>
+		 
+    </body>
+</html>
