@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="../../library/controlplot.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+<script type="text/javascript" src="./firstorderfinalscriptsliders.js"></script>
+<script type="text/javascript" src="nouislider.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <h1>First order systems</h1>
+		<br>
+		
+<section id="section1">
+		<b> Standard form: </b> <br>
+
+
+
+G(s) = <div class="fraction">
+        <span class="fup">K</span>
+        <span class="bar">/</span>
+        <span class="fdn">&#964 s + 1</span>
+    </div>
+<br>
+		<div>
+		Choose a value for &#964 (<span id="slider-value">5</span>): <br><br>
+			<div style="width:250px" id="slider_1" ></div>
+		</div>
+		<br>
+		<div>
+		Choose a value for K (<span id="slider-value2">50</span>): <br><br>
+			<div style="width:250px" id="slider_2" ></div>
+		</div>
+		<br>
+		
+<b> Transfer function: </b>
+
+
+<div> 
+
+G(s) = <div class="fraction">
+        <span class="fup"><span id="slider-value2aftermouse">50</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="slider-valueaftermouse">5</span> s + 1</span></span>
+    </div>
+<br>
+<b> Pole-zero plot: </b>
+<div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
+
+</section>
+
+<section id="section2">
+<b> Step response: </b>
+<div id="step-plot" style="width:400px; height: 400px;"></div> 
+Rise time: <span id="rise_time"></span> <br>
+Final value: <span id="final_value"></span> <br>
+Settling time: <span id="settling_time"></span> 
+</section>
+
+<section id="section3">
+<b> Bode Diagram: </b>
+<div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
+
+
+
+</section>
+
+		
+
+		 
+
+		 
+    </body>
+</html>

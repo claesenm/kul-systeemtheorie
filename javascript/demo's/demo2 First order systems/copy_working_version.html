@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>First order systems</title>
+        <title>My Sample Project</title>
 		<link href="nouislider_modified.css" rel="stylesheet">
     </head>
     <body>
-        <h1>First order systems</h1>
+        <h1>My Sample Project</h1>
 		<br>
-		<b> Standard form: </b>
-
-<div> 
-
-G(s) = <div class="fraction">
-        <span class="fup">K</span>
-        <span class="bar">/</span>
-        <span class="fdn">&#964 s + 1</span>
-    </div>
-<br>
+		<br>
 		<div>
-		Choose a value for &#964 (<span id="slider-value"></span>): <br><br>
+		Slider 1: <br><br>
 			<div style="width: 250px" id="slider_1" ></div>
 		</div>
 		<br>
+		Value: <span id="slider-value"></span>
+		<br>
+		<br>
 		<div>
-		Choose a value for K (<span id="slider-value2"></span>): <br><br>
+		Slider 2: <br><br>
 			<div style="width: 250px" id="slider_2" ></div>
 		</div>
 		<br>
+		Value: <span id="slider-value2"></span>
 		
 		
 		
@@ -45,7 +40,6 @@ G(s) = <div class="fraction">
 		
 		/* Creating Slider 1*/
 		var Slider1 = document.getElementById('slider_1');
-
 		noUiSlider.create(Slider1, {
 			start: [ value_slider1 ],
 			step: 0.01,
@@ -54,11 +48,9 @@ G(s) = <div class="fraction">
 				'max': [ 3 ]
 			}
 		});
-
 		
 		/*Creating Slider 2*/
 		var Slider2 = document.getElementById('slider_2');
-
 		noUiSlider.create(Slider2, {
 			start: [ value_slider2 ],
 			step: 0.1,

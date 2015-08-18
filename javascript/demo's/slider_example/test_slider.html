@@ -15,10 +15,20 @@
 		<br>
 		Value: <span id="slider-value"></span>
 		
+		<div>
+		Slider 2: <br><br>
+			<div style="width: 150px" id="slider_2" ></div>
+		</div>
+		<br>
+		Value2: <span id="slider-value2"></span>
+		
 		<br>
 		<br>
 		<h2>Selected value:<h2>
 		<h3 id="selected_value"></h3>
+		
+		<h2>Selected value2:<h2>
+		<h3 id="selected_value2"></h3>
 		
 		<script type="text/javascript" src="nouislider.min.js"></script>
 		 
@@ -41,6 +51,27 @@
 			});
 		
 		var rangeSliderSelectedValue = document.getElementById('selected_value');
+		rangeSlider.noUiSlider.on('change', function( values, handle ) {
+			rangeSliderSelectedValue.innerHTML = values[handle];
+			});
+			
+		var rangeSlider = document.getElementById('slider_2');
+
+		noUiSlider.create(rangeSlider, {
+			start: [ 1 ],
+			range: {
+				'min': [  0.01 ],
+				'max': [ 3 ]
+			}
+		});
+
+		
+		var rangeSliderValue2Element = document.getElementById('slider-value2');
+		rangeSlider.noUiSlider.on('update', function( values, handle ) {
+			rangeSliderValueElement.innerHTML = values[handle];
+			});
+		
+		var rangeSliderSelectedValue2 = document.getElementById('selected_value2');
 		rangeSlider.noUiSlider.on('change', function( values, handle ) {
 			rangeSliderSelectedValue.innerHTML = values[handle];
 			});

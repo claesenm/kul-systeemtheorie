@@ -1,45 +1,4 @@
 
-#header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-#section1 {
-    line-height:30px;
-    width:320px;
-    float:left;
-    padding:5px;
-}
-#section2 {
-    line-height:20px;
-    width:410px;
-    float:left;
-    padding:5px;
-}
-#section3 {
-    line-height:30px;
-    width:510px;
-    float:left;
-    padding:5px;
-}
-
-.fraction {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle; 
-    letter-spacing: 0.001em;
-    text-align: center;
-    font-size: 12px;
-    }
-.fraction > span { 
-    display: block; 
-    padding: 0.1em; 
-    }
-.fraction span.fdn {border-top: thin solid black;}
-.fraction span.bar {display: none;}
-
-
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
@@ -209,4 +168,3 @@
 [disabled] .noUi-handle {
 	cursor: not-allowed;
 }
-
