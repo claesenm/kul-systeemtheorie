@@ -72,13 +72,12 @@ function main(){
 				document.getElementById("settling_time").innerHTML=round(tau*3.9120);
 				document.getElementById("rise_time").innerHTML=round(tau*2.1972);
 				document.getElementById("final_value").innerHTML=K;
-				var sys = system.tf([K], [tau,1]);
+				var sys = system.tf([K], [parseFloat(tau),1]);
                 var poles_data = sys.getPoles();
 				plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true);
                 var step_data = sys.step([0,7*tau]);
                 plt2.series[0].setData(num.zip(step_data.t, step_data.x), true, false, true);
-				document.getElementById('bode-plot').innerHTML = "";
-				plot.bode(container,sys);
+				plts.update(sys);
 				
 				//var bode_data = sys.bode(bounds);
 				//plts[0].series[0].setData(num.zip(bode_data.omegas, bode_data.dBs), true, false, true);
@@ -88,20 +87,19 @@ function main(){
 		var tau = 5;
 		Slider1.noUiSlider.on('change', function( values, handle ) {
 			tau = values[handle];
-			fcn_generic (document.getElementById('slider-valueaftermouse'),tau);
+			fcn_generic (document.getElementById('slider-valueaftermouse'),round(tau));
 			var system = control.system,
 				plot = control.plot,
 				num = control.num;
 				document.getElementById("settling_time").innerHTML=round(tau*3.9120);
 				document.getElementById("rise_time").innerHTML=round(tau*2.1972);
 				document.getElementById("final_value").innerHTML=K;
-				var sys = system.tf([K], [tau,1]);
+				var sys = system.tf([K], [parseFloat(tau),1]);
                 var poles_data = sys.getPoles();
 				plt1.series[1].setData(poles_data.map(function(pole){ return [math.re(pole),math.im(pole)]; }), true, false, true);
                 var step_data = sys.step([0,7*tau]);
                 plt2.series[0].setData(num.zip(step_data.t, step_data.x), true, false, true);
-				document.getElementById('bode-plot').innerHTML = "";
-				plot.bode(container,sys);
+				plts.update(sys);
 				//var bode_data = sys.bode(bounds);
 				//plts[0].series[0].setData(num.zip(sys.bode(bounds).omegas, sys.bode(bounds).dBs), true, false, true);
 				//plts[1].series[0].setData(num.zip(sys.bode(bounds).omegas, sys.bode(bounds).degrees), true, false, true);
