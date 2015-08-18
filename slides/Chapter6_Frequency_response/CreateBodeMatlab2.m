@@ -2,10 +2,11 @@ sys = zpk(z,p,K);
 bode(sys)
 
 figure
-%If we had a discrete time system with the same transfer 
-%function
-%H(z) = (5z^2 - 10z + 5)/(z^2 + 5z + 4)
-%and sampling time Ts = 1/2 of a second
+%Let's say we have a discrete-time system with transfer 
+%function H(z) = 1/(z - 0.85)
+%and sampling time Ts = 0.5 seconds
 
+num = [1];
+den = [1 -0.85];
 sys = tf(num,den,0.5);
 bode(sys)
