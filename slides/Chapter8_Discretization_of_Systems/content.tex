@@ -7,6 +7,7 @@
 	\end{block}
 \end{frame}
 
+
 \begin{frame}
 	\frametitle{Discretization}
 	\begin{block}{Problem statement}
@@ -23,6 +24,7 @@
 	\end{block}
 \end{frame}
 
+
 \section{Main Approaches}
 \subsection{Numerical Integration}
 
@@ -38,11 +40,11 @@
 		its output at $t = kT_s$ can be written as follows:\\
 		\begin{center}
 			$u(kT_s) = \int_0^{(k-1)T_s} e(\tau)\mathrm{d}\tau + \int_{(k-1)T_s}^{kT_s} e(\tau)\mathrm{d}\tau$\\
-			$u(kT_s) = u((k-1)T_s)+ $
+			$u(kT_s) = u((k-1)T_s)+ 
 			\begin{cases}
 				\mbox{area of }  e(\tau)\\
 				\mbox{over } (k-1)T_s \leq \tau < kT_s
-			\end{cases}
+			\end{cases} $
 			(8.1)
 		\end{center}
 		where $T_s$ is the sampling time.
@@ -542,7 +544,7 @@
 \begin{columns}
 	\begin{column}{0.5\textwidth}
 	\begin{block}{Rise time}
-		Time needed to reach the steady state for the first time.
+		Time needed for the response to rise from $10 \%$  to $90 \%$, or $0 \%$ to $100 \%$ of its final value.
 	\end{block}
 	\begin{block}{Practical rule}
 		A good rule of thumb is $T_s = \frac{T_{rise}}{10}$.
@@ -597,7 +599,7 @@
 		\begin{itemize}
 			\item zero-order hold equivalent: "zoh"
 			\item first-order hold equivalent: "foh"
-			\item impulse invariant rule: "impuls"
+			\item impulse invariant rule: "impulse"
 			\item zero-pole matching equivalent: "matched"
 			\item bilinear: "tustin"
 		\end{itemize}
@@ -714,7 +716,7 @@
 		MATLAB commands:
 		
 		H = tf([1 1],[1 1 1]) \textcolor{gray}{we define the system H by its transfer function} \\
-		Hd = c2d(H,$0.25033$,'impuls')	\textcolor{gray}{we calculate the discrete-time model}\\
+		Hd = c2d(H,$0.25033$,'impulse')	\textcolor{gray}{we calculate the discrete-time model}\\
 		\vspace{1em}
 		Result:
 		$H_{impulse}(z) = \frac{0.2503z^{2} - 0.1883z}{z^{2} - 1.723z + 0.7785}$
@@ -722,7 +724,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Impuls invariant rule (impulse and step response)}
+	\frametitle{Impulse invariant rule (impulse and step response)}
 	\vspace{-0.7em}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
