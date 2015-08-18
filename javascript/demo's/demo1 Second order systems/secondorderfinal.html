@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="../../library/controlplot.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+<script type="text/javascript" src="./secondorderfinalscriptsliders.js"></script>
+<script type="text/javascript" src="nouislider.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
+        <h1>Second order systems</h1>
+		<br>
+		
+<section id="section1">
+		<b> Standard form: </b> <br>
+
+
+
+G(s) = <div class="fraction">
+        <span class="fup">&#969<sub>n</sub><sup>2</sup></span>
+        <span class="bar">/</span>
+        <span class="fdn">s<sup>2</sup> + 2&#950 &#969<sub>n</sub>s + &#969<sub>n</sub><sup>2</sup></span>
+    </div>
+<br>
+		<div>
+		Choose a value for &#950 (<span id="slider-value">1.5</span>): <br><br>
+			<div style="width:250px" id="slider_1" ></div>
+		</div>
+		<br>
+		<div>
+		Choose a value for &#969<sub>n</sub> (<span id="slider-value2">50</span>): <br><br>
+			<div style="width:250px" id="slider_2" ></div>
+		</div>
+		<br>
+		
+<b> Transfer function: </b>
+
+
+<div> 
+
+G(s) = <div class="fraction">
+        <span class="fup"><span id="omega_kwadr">2500</span></span>
+        <span class="bar">/</span>
+        <span class="fdn">s<sup>2</sup> + <span id="twee_zeta_omega">150</span> s + <span id="omega_kwadr2">2500</span></span>
+    </div>
+<br>
+<b> Pole-zero plot: </b>
+<div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
+
+</section>
+
+<section id="section2">
+<b> Step response: </b>
+<div id="step-plot" style="width:400px; height: 400px;"></div> 
+Rise time: <span id="rise_time"></span> <br>
+Peak: <span id="peak"></span> <br>
+Settling time: <span id="settling_time"></span> <br>
+Overshoot: <span id="overshoot"></span> <br>
+Final value: <span id="final_value"></span> 
+</section>
+
+<section id="section3">
+<b> Bode Diagram: </b>
+<div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
+
+
+
+</section>
+
+		
+
+		 
+
+		 
+    </body>
+</html>
