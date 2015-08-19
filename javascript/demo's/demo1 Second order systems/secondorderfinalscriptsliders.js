@@ -79,9 +79,19 @@ function main(){
 				plts.update(sys);
 				var info = num.stepinfo(step_data);
 				document.getElementById("rise_time").innerHTML=round(info.rise_time);
+				if (zeta < 1){
 				document.getElementById("peak").innerHTML=round(info.peak);
+				}
+				else {
+				document.getElementById("peak").innerHTML=None;
+				}
 				document.getElementById("settling_time").innerHTML=round(info.settling_time);
+				if (zeta < 1) {
 				document.getElementById("overshoot").innerHTML=round(info.overshoot);
+				} 
+				else {
+				document.getElementById("overshoot").innerHTML= None;
+				}
 				document.getElementById("final_value").innerHTML=1;
 				//var bode_data = sys.bode(bounds);
 				//plts[0].series[0].setData(num.zip(bode_data.omegas, bode_data.dBs), true, false, true);
@@ -103,9 +113,19 @@ function main(){
 				plts.update(sys);
 				var info = num.stepinfo(step_data);
 				document.getElementById("rise_time").innerHTML=round(info.rise_time);
+				if (zeta < 1){
 				document.getElementById("peak").innerHTML=round(info.peak);
+				}
+				else {
+				document.getElementById("peak").innerHTML="None";
+				}
 				document.getElementById("settling_time").innerHTML=round(info.settling_time);
+				if (zeta < 1) {
 				document.getElementById("overshoot").innerHTML=round(info.overshoot);
+				} 
+				else {
+				document.getElementById("overshoot").innerHTML= "None";
+				}
 				document.getElementById("final_value").innerHTML=1;
 				//var bode_data = sys.bode(bounds);
 				//plts[0].series[0].setData(num.zip(sys.bode(bounds).omegas, sys.bode(bounds).dBs), true, false, true);
