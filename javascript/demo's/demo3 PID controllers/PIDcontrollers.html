@@ -8,7 +8,7 @@
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
-<script type="text/javascript" src="./mainsecondordersystemsslider.js"></script>
+<script type="text/javascript" src="./mainPIDcontrollers.js"></script>
 <link rel="stylesheet" type="text/css" href="../styledemo3.css">
 </head>
 <body>
@@ -17,17 +17,41 @@
 
 <section id ="section1">
 
-Enter the coefficients of the transfer function of your plant. Please make sure that the degree of the numerator is not bigger than the degree of the denominator.
+Enter the coefficients of the <b>transfer function of the plant</b>. E.g.: s + 4 = 1,4<br>
 
-<form action="">
-Numerator:
-<input type="value" name="numerator">
+<form>
+Numerator:  
+<input type="text" id="numerator"> (default = 1)
 <br>
 Denominator:
-<input type="value" name="denominator">
+<input type="text" id="denominator"> (default = 1)
+<br>
 </form>
+Enter the <b>PID constants</b>: C(s) = <span id="Pvalue">P</span> + <div class="fraction">
+        <span class="fup">I</span></span>
+        <span class="bar">/</span>
+        <span class="fdn">s</span>
+    </div> + <span id="Dvalue">D</span> s <br>
+P: <input type="value" id="P"> (default = 1)<br>
+I: <input type="value" id="I"> (default = 1)<br>
+D: <input type="value" id="D"> (default = 1)<br>
+
 
 <input type="button" value="Submit" id='update'> <br>
+
+<b>Transfer function PID controller: </b> <br>
+C(s) = <span id="Pvalue">1</span> + <div class="fraction">
+        <span class="fup"><span id="Ivalue">1</span></span>
+        <span class="bar">/</span>
+        <span class="fdn">s</span>
+    </div> + <span id="Dvalue">1</span> s <br>
+
+<b>Transfer function plant: </b> <br>
+G(s) = <div class="fraction">
+        <span class="fup"><span id="numerator_plant">1</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="denominator_plant">1</span></span>
+    </div>
 
 </section>
 
