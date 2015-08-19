@@ -4,7 +4,7 @@
 \begin{frame}
 \frametitle{What is control theory?}
 \begin{block}{}
-	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to design a controller that produces inputs to a plant so its output follows a desired reference signal which may be a fixed or changing value. - \href{https://en.wikipedia.org/wiki/Control_theory}{wikipedia} 
+	\textbf{Control theory} is an interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems with inputs, and how their behavior is modified by feedback. The usual objective of control theory is to control a system, often called plant, so its output follows a desired reference signal which may be a fixed or changing value.
 \end{block}
 \begin{figure}
 	\centering
@@ -17,21 +17,21 @@
 	\frametitle{Controllers}
 	\begin{block}{Types of controllers}
 		\begin{itemize}
-			\item On-off controller
+			\item On-off controllers
 			\begin{itemize}
-				\item e.g., Thermostate at home
+				\item e.g., Thermostat at home
 			\end{itemize}
 			\item \textbf{PID controllers, Lead and lag compensators (this course)}
 			\begin{itemize}
 				\item Cruise-control in your car
-				\item Temperature, level, flow, presssure, pH, ... in chemical plants
+				\item Temperature, level, flow, pressure,  and pH control in chemical plants
 			\end{itemize}
 			\item More advanced controllers
 			\begin{itemize}
 				\item State-space feedback controllers (e.g., LQR)
-				\item Model Predictive Controller (MPC)
-				\item Fuzzy Control
-				\item Neuro-fuzzy Control
+				\item Model Predictive Controllers (MPCs)
+				\item Fuzzy Controllers
+				\item Neuro-fuzzy Controllers
 				\item ...
 			\end{itemize}
 		\end{itemize}
@@ -80,7 +80,10 @@
 \begin{frame}
 	\frametitle{Closed-loop system}
 	\begin{definition}
-		In a closed-loop system the output of the controller is influenced by the output of the system using a \textbf{negative feedback loop}.
+	{\small In a closed-loop system the error signal $E(s)$, which is the difference
+	between the process output $Y(s)$ and the reference $R(s)$, is fed to the controller
+	which generates the proper control actions $U(s)$ to reduce the error and bring the process output to its desired value.}
+	%		In a closed-loop system the output of the controller is influenced by the output of the system using a \textbf{negative feedback loop}.
 	\end{definition}
 	\begin{block}{Classical control-loop}
 		\begin{figure}
@@ -88,7 +91,7 @@
 			\includegraphics[width=0.9\linewidth]{Closed-Loop}
 			\label{fig:Closed-Loop}
 		\end{figure}
-		\vspace{1em}
+		%\vspace{1em}
 		\[ Y(s) =  \frac{P(s)C(s)}{1 + P(s)C(s)}R(s) \text{\quad when D(s) = 0}\]
 	\end{block}
 \end{frame}
@@ -168,7 +171,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.6\linewidth]{control-goals/audi}
-		\caption{Audi has a system for automatic driving in traffic jams. The audi will follow the car in front at an appropriate distance. \href[pdfnewwindow=true]{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}{\nolinkurl{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}}}
+		\caption{Audi has a system for automatic driving in traffic jams. The vehicle will follow the car in front at an appropriate distance. \href[pdfnewwindow=true]{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}{\nolinkurl{https://www.youtube.com/watch?v=Qa_ZSRj0WM0}}}
 		\label{fig:audi-tracking}
 	\end{figure}
 \end{frame}
@@ -637,11 +640,11 @@
 		And the respective steady state errors for different system types are: \\
 		\vspace{1em}
 		\centering
-		\begin{tabular}{|l|c|c|c|}
-			\hline \textbf{Type} $\mathbf{l}$ & \textbf{Step} $\mathbf{a \boldsymbol{\epsilon} (t)}$ & \textbf{Ramp} $\mathbf{at \boldsymbol{\epsilon} (t)}$ & \textbf{Parabola} $\mathbf{\frac{at^2 \boldsymbol{\epsilon} (t)}{2}}$ \\ 
-			\hline \textbf{0} & $\frac{a}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
-			\hline \textbf{1} & 0 & $\frac{a}{K_v}$ & $\infty$ \\ 
-			\hline \textbf{2} & 0 & 0 & $\frac{a}{K_a}$ \\ 
+		\begin{tabular}{|c|c|c|c|}
+			\hline \textbf{Type} & \textbf{Step} $\mathbf{a \boldsymbol{\epsilon} (t)}$ & \textbf{Ramp} $\mathbf{at \boldsymbol{\epsilon} (t)}$ & \textbf{Parabola} $\mathbf{\frac{at^2 \boldsymbol{\epsilon} (t)}{2}}$ \\ 
+			\hline 0 & $\frac{a}{1 + K_p}$ & $\infty$ & $\infty$ \\ 
+			\hline 1 & 0 & $\frac{a}{K_v}$ & $\infty$ \\ 
+			\hline 2 & 0 & 0 & $\frac{a}{K_a}$ \\ 
 			\hline 
 		\end{tabular} 
 	\end{alertblock}
