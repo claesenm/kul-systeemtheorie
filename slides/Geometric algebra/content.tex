@@ -204,17 +204,126 @@
 	\begin{block}{Defenition}
 		The inproduct of two vectors $\overrightarrow{x}$ and $\overrightarrow{y}$ $\epsilon$ $E^n$ (n-couples) is defined as the image: $E^nxE^n\to\mathbb{R}:\{\overrightarrow{x},\overrightarrow{y}\}\to\overrightarrow{x}.\overrightarrow{y}$ $\epsilon$ $\mathbb{R}$. This image is:
 		\begin{enumerate}
-			\item Linear
-			\item Symetric
-			\item Positive definite
+			\item Bilinear:\\ $(\overrightarrow{x}+\overrightarrow{v}).\overrightarrow{y}=\overrightarrow{x}.\overrightarrow{y}+\overrightarrow{v}.\overrightarrow{y}$\\
+			$\overrightarrow{x}+(\overrightarrow{v}).\overrightarrow{y})=\overrightarrow{x}.\overrightarrow{v}+\overrightarrow{x}.\overrightarrow{y}$\\
+			$(a\overrightarrow{x})\overrightarrow{y}=a(\overrightarrow{x}.\overrightarrow{y})$\\
+			$\overrightarrow{x}(a\overrightarrow{y})=a(\overrightarrow{x}.\overrightarrow{y})$
+			\item Symetric:\\
+			$\overrightarrow{x}.\overrightarrow{y}=\overrightarrow{y}.\overrightarrow{x}$
+			\item Positive definite:\\
+			$\forall \overrightarrow{x} \neq \overrightarrow{0}$: $\overrightarrow{x} .\overrightarrow{x} > 0$
 		\end{enumerate}
 	\end{block}
-	\begin{block}{applied}
-		$\forall \overrightarrow{x},\overrightarrow{y}$ $\epsilon$ $E^n$:
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Matricial notation}
+		The inproduct is a {\bf scalar}. If $\overrightarrow{x}$, $\overrightarrow{y}$ and the basis $\epsilon$ $E^n$ then can the inproduct be noted matricial:\\
+		$\overrightarrow{x}.\overrightarrow{y}=y^tAx=x^tAy=(x_1...x_n)A\begin{pmatrix} y_1\\...\\y_n\end{pmatrix}$\\
+		with A positive definite and symetric ($A=A^t$).
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Norm of a vector}
+		$\|\overrightarrow{x}\|^2=\overrightarrow{x}.\overrightarrow{x}$ and because $\overrightarrow{x}.\overrightarrow{x}>0$ applies:\\
+		$\|\overrightarrow{x}\|=\sqrt{\overrightarrow{x}.\overrightarrow{x}}$ where $\|\overrightarrow{x}\|$ is called the norm of $\overrightarrow{x}$.\\
+		Normalizing is dividing a vector by its norm. The result is a vector with norm $=1$.\\
+		$\|\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}\|= \sqrt{\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|} \frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}}= \sqrt{\frac{\|\overrightarrow{x}\|^2}{\|\overrightarrow{x}\|\|\overrightarrow{x}\|}}=1$.
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Cauchy–Schwarz inequality}
+		$|\overrightarrow{x}.\overrightarrow{y}|\leq \|\overrightarrow{x}\|\|\overrightarrow{y}\|$ or \\
+		$-\|\overrightarrow{x}\|\|\overrightarrow{y}\|\leq \overrightarrow{x}.\overrightarrow{y}\leq \|\overrightarrow{x}\|\|\overrightarrow{y}\|$ from wich follows:\\
+		$-1 \leq\frac{\overrightarrow{x}\overrightarrow{y}} {\|\overrightarrow{x}\|\|\overrightarrow{y}\|} \leq 1$\\
+		By defenition follows:\\
+		$\cos(\theta)=cos(\angle (\overrightarrow{x}, \overrightarrow{y}))= \frac{\overrightarrow{x}\overrightarrow{y}} {\|\overrightarrow{x}\|\|\overrightarrow{y}\|}$\\
+		Therefor: the angle between the vectors $\overrightarrow{x}$ and $\overrightarrow{y}$ = Bgcos(inproduct of $\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}$ and $\frac{\overrightarrow{y}}{\|\overrightarrow{y}\|}$).
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Orthogonality}
+		$\overrightarrow{x}$ and $\overrightarrow{y}$ are orthogonal $\Leftrightarrow$\\ $\theta=\angle(\overrightarrow{x},\overrightarrow{y})=90^{\circ}=\frac{\Pi}{2} rad$ $\Leftrightarrow$\\
+		$cos(\theta)=0$ $\Leftrightarrow$\\
+		$\overrightarrow{x}.\overrightarrow{y}=0$\\
+		\vspace{5mm}
+		Hence, if $\overrightarrow{x},\overrightarrow{y} \neq 0$:\\
+		$\overrightarrow{x}\perp\overrightarrow{y} \Leftrightarrow \overrightarrow{x}.\overrightarrow{y}=0$.
+	\end{block} 
+	\begin{block}{Parallellism}
+		$\overrightarrow{x}\parallel\overrightarrow{y}\Leftrightarrow
+		\theta=0^{\circ}$ or $180^{\circ} \Leftrightarrow
+		cos(\theta)=\pm 1 \Leftrightarrow
+		|\overrightarrow{x}\overrightarrow{y}|=\|\overrightarrow{x}\|\|\overrightarrow{y}\|$
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Distance between two vectors}
+		Distance $=\|\overrightarrow{x}-\overrightarrow{y}\|=\|\overrightarrow{z}\|$ with $\overrightarrow{z}=\overrightarrow{x}-\overrightarrow{y}$.\\
+		$\|\overrightarrow{x}-\overrightarrow{y}\|^2=(\overrightarrow{x}-\overrightarrow{y}) (\overrightarrow{x}-\overrightarrow{y})$ \\
+		$=\overrightarrow{x}\overrightarrow{x}-\overrightarrow{x}\overrightarrow{y}-\overrightarrow{y}\overrightarrow{x}+\overrightarrow{y}\overrightarrow{y}$ \\ 
+		$=\overrightarrow{x}\overrightarrow{x}+\overrightarrow{y}\overrightarrow{y}-2\overrightarrow{x}\overrightarrow{y}$ \\
+		$=\|\overrightarrow{x}\|^2+\|\overrightarrow{y}\|^2-2\|\overrightarrow{x}\|\|\overrightarrow{y}\|cos(\theta)$ with $\theta$ the angle between $\overrightarrow{x}$ and $\overrightarrow{y}$.
+	\end{block}
+	\begin{block}{Pythagorean theorem}
+		If $\overrightarrow{x}\perp\overrightarrow{y}$ then $cos(\theta)=0$ and thus:\\
+		$\|\overrightarrow{x}-\overrightarrow{y}\|^2=\|\overrightarrow{x}\|^2+\|\overrightarrow{y}\|^2$.
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{The 'simple' inproduct}
+		If in the definition $\overrightarrow{x}.\overrightarrow{y}=y^tAx=x^tAy$ 
+		(with A positive definite and symetric) A=I, then the inproduct becomes the simple inproduct: $\overrightarrow{x}.\overrightarrow{y}=y^tIx=x^tIy=(x_1...x_n)\begin{pmatrix} y_1\\...\\y_n\end{pmatrix}=\sum_{i=1}^{n}x_iy_i$.\\
+		This simple inproduct can always be found by a basis transformation: x=Rx' and y=Ry', then $\overrightarrow{x}.\overrightarrow{y}=y'^t(R^tAR)x'$.\\
+		Now, R must be taken such that $R^tAR=I$. This can be done by converting A to its normal form by a congruent transformation (e.g. the method of kwadratic forms). \\
+		\vspace{5mm}
+		In what follows we mean by 'inproduct' always 'simple inproduct'.
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Making two independent vectors orthogonal}
+		Geometric derivation:
+		\begin{columns}
+			\begin{column}{.49\textwidth}
+				\setlength{\unitlength}{1mm}
+				\begin{picture}(60,40)
+					\put(15, 10){\vector(1,0){40}}
+					\put(55, 4){$\overrightarrow{x}$}
+					\put(15, 10){\vector(1,1){25}}
+					\put(30, 31){$\overrightarrow{y}$}	
+					\put(20,11){$\theta$}	
+					\put(15,10){\vector(1,0){25}}	
+					\put(15,10){\vector(0,1){25}}
+					\put(40,4){$\overrightarrow{y_1}$}
+					\put(10,35){$\overrightarrow{y_2}$}			
+				\end{picture}
+			\end{column}
+			\begin{column}{.49\textwidth}
+				Figure 1: decomposition of vector $\overrightarrow{y}$ in a component parallel ($\overrightarrow{y_1}$) and a component orthogonal ($\overrightarrow{y_2}$) to $\overrightarrow{x}$.
+			\end{column}	
+		\end{columns}
+	\end{block} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Inproduct}
+	\begin{block}{Making two indepentent vectors orthogonal}
 		\begin{enumerate}
-			\item Bilinear: $(\overrightarrow{x}+\overrightarrow{v}).\overrightarrow{y}=\overrightarrow{x}\overrightarrow{y}+\overrightarrow{v}\overrightarrow{y}$
-			\item
-			\item
+			\item Project $\overrightarrow{y}$ orthogonal on $\overrightarrow{x}$, this generates the vector $\overrightarrow{y_1}$, the component parallel with $\overrightarrow{x}$.
+			\item dd
 		\end{enumerate}
 	\end{block} 
 \end{frame}
@@ -223,9 +332,5 @@
 	\subsection{Inproduct (scalair product)}
 	\subsection{Gram-Schmidt orthogonalisation}
 	\subsection{Complementary subspace}
-	
-	
-
-
-
+					
 
