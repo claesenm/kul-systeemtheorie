@@ -1,0 +1,15 @@
+<ul>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter1.pdf" target="_blank">Chapter 1: Introduction</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter2.pdf" target="_blank">Chapter 2: Classification of systems</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter3.pdf" target="_blank">Chapter 3: System Modeling</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter4.pdf" target="_blank">Chapter 4: Discrete-time systems</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter5.pdf" target="_blank">Chapter 5: Continuous-time systems</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter6.pdf" target="_blank">Chapter 6: Frequency response of dinamical systems</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter7.pdf" target="_blank">Chapter 7: Sampling and reconstruction of signals</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter8.pdf" target="_blank">Chapter 8: Discretization of continuous-time systems</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter9.pdf" target="_blank">Chapter 9: Introduction to control</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter10.pdf" target="_blank">Chapter 10: Root locus analysis</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter11.pdf" target="_blank">Chapter 11: Design in the frequency domain and nyquist stability criterion</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter12.pdf" target="_blank">Chapter 12: Lead and lag compensators</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/slides_chapter13.pdf" target="_blank">Chapter 13: PID controllers</a></li>
+</ul>
