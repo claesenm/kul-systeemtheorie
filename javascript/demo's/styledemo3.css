@@ -10,18 +10,18 @@
     float:left;
     padding:5px;
 }
-//#section2 {
- //   line-height:20px;
-//    width:410px;
-//    float:left;
-//    padding:5px;
-//}
-//#section3 {
-//    line-height:30px;
-//    width:510px;
-//    float:left;
-//    padding:5px;
-//}
+#section2 {
+    line-height:30px;
+    width:400px;
+    float:left;
+    padding:5px;
+}
+#section3 {
+    line-height:30px;
+    width:510px;
+    float:left;
+    padding:5px;
+}
 
 .fraction {
     display: inline-block;

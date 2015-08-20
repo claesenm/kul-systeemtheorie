@@ -27,34 +27,60 @@ Denominator:
 <input type="text" id="denominator"> 
 <br>
 </form>
-Enter the <b>PID constants</b>: C(s) = P + <div class="fraction">
-        <span class="fup">I</span></span>
+Enter the <b>PID constants</b>: C(s) = K<sub>p</sub> + <div class="fraction">
+        <span class="fup">K<sub>i</sub></span></span>
         <span class="bar">/</span>
         <span class="fdn">s</span>
-    </div> + Ds <br>
-P: <input type="value" id="P"> <br>
-I: <input type="value" id="I"> <br>
-D: <input type="value" id="D"> <br>
+    </div> + K<sub>d</sub>s <br>
+K<sub>p</sub>: <input type="value" id="P"> <br>
+K<sub>i</sub>: <input type="value" id="I"> <br>
+K<sub>d</sub>: <input type="value" id="D"> <br>
 
 
 <input type="button" value="Submit" id='update'> <br>
 
 <b>Transfer function PID controller: </b> <br>
-C(s) = <span id="Pvalue">1</span> + <div class="fraction">
-        <span class="fup"><span id="Ivalue">1</span></span>
+C(s) = <div class="fraction">
+        <span class="fup"><span id="numerator_C">1</span></span>
         <span class="bar">/</span>
-        <span class="fdn">s</span>
-    </div> + <span id="Dvalue">1</span> s <br>
+        <span class="fdn"><span id="denominator_C">1</span></span>
+    </div> <br>
 
 <b>Transfer function plant: </b> <br>
 G(s) = <div class="fraction">
         <span class="fup"><span id="numerator_plant">1</span></span>
         <span class="bar">/</span>
         <span class="fdn"><span id="denominator_plant">1</span></span>
-    </div>
+    </div> <br>
 
 </section>
 
+<section id ="section2">
+Schedule compensator: to ADD <br>
+<b>Transfer function closed-loop system: </b> <br>
+P(s) = <div class="fraction">
+        <span class="fup">G(s)C(s)</span>
+        <span class="bar">/</span>
+        <span class="fdn">1 + G(s)C(s)</span>
+    </div> = <div class="fraction">
+        <span class="fup"><span id="numerator_comp">1</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="denominator_comp">2</span></span>
+    </div> <br>
+
+<b>Pole-zero map closed-loop system:</b> <br>
+<div id="polezeroplot" style="width:250px; height: 250px;"></div> <br>
+</section>
+
+<section id ="section3">
+<b>Step response: </b> <br>
+<div id="step-plot" style="width:400px; height: 400px;"></div>
+Rise time: <span id="rise_time"></span> <br>
+Final value: <span id="final_value"></span> <br>
+Peak: <span id="peak"></span> <br>
+Peak time: <span id="peak_time"></span> <br>
+Settling time: <span id="settling_time"></span> <br>
+</section>
 
 
 
