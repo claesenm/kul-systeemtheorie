@@ -4,6 +4,9 @@ function main(){
 	var I_box = document.getElementById("I");
 	var D_box = document.getElementById("D");
 	
+	var plt2 = control.plot.step(document.getElementById('step-plot'), control.system.tf([1],[2]), [0, 20], true);
+	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
+	
 	document.getElementById('update').addEventListener('click', update);
 	
 	function update(){
@@ -22,6 +25,19 @@ function main(){
 		}
 		var denominatorDegree = arrayDenominator.length - 1;
 		
+		var correct = 1;
+		for (i = 0; i < arrayNumerator.length; i++){
+			if (isNaN(arrayNumerator[i]) || arrayNumerator[i].toString() == ""){
+				correct = 0;
+			}
+		}
+		for (i = 0; i < arrayDenominator.length; i++){
+			if (isNaN(arrayDenominator[i]) || arrayDenominator[i].toString() == ""){
+				correct = 0;
+			}
+		}
+		
+		if (correct == 1){
 		var PIDnumerator = [D,P,I];
 		while (PIDnumerator[0] == 0 && PIDnumerator.length > 1){
 			PIDnumerator.shift();
@@ -38,18 +54,8 @@ function main(){
 		}
 		var closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
 		var closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+		}
 		
-		var correct = 1;
-		//for (i = 0; i < arrayNumerator.length; i++){
-		//	if (!(arrayNumerator[i] typeof number)){
-		//		correct = 0;
-		//	}
-		//}
-		//for (i = 0; i < arrayDenominator.length; i++){
-		//	if (!(arrayDenominator[i] typeof number)){
-		//		correct = 0;
-		//	}
-		//}
 		if (numeratorDegree > denominatorDegree){
 			alert("The plant you developed is not stable!");
 		} else if (closedLoopNumeratorDegree > closedLoopDenominatorDegree){
@@ -79,15 +85,14 @@ function main(){
 		
 		control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf(closedLoopNumerator,closedLoopDenominator));
 		
-		var plt2 = control.plot.step(document.getElementById('step-plot'), control.system.tf(closedLoopNumerator,closedLoopDenominator), [0, 20], true);
-		plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
-		
-		//var info = control.num.stepinfo(plt2);
-		//document.getElementById("rise_time").innerHTML=round(info.rise_time);
-		//document.getElementById("final_value").innerHTML=round(info.final_value);
-		//document.getElementById("peak").innerHTML=round(info.peak);
-		//document.getElementById("peak_time").innerHTML=round(info.peak_time);
-		//document.getElementById("settling_time").innerHTML=round(info.settling_time);
+		var step_data = control.system.tf(closedLoopNumerator,closedLoopDenominator).step([0,20],true);
+        plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+		var info = control.num.stepinfo(step_data);
+		document.getElementById("rise_time").innerHTML=round(info.rise_time);
+		document.getElementById("final_value").innerHTML=round(info.final_value);
+		document.getElementById("peak").innerHTML=round(info.peak);
+		document.getElementById("peak_time").innerHTML=round(info.peak_time);
+		document.getElementById("settling_time").innerHTML=round(info.settling_time);
 		}
 		}
 	}

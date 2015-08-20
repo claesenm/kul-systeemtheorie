@@ -12,13 +12,20 @@
 }
 #section2 {
     line-height:30px;
-    width:400px;
+    width:300px;
     float:left;
     padding:5px;
 }
 #section3 {
     line-height:30px;
-    width:510px;
+    width:400px;
+    float:left;
+    padding:5px;
+}
+
+#section4 {
+    line-height:30px;
+    width:200px;
     float:left;
     padding:5px;
 }
