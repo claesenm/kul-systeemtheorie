@@ -731,7 +731,7 @@ y(t)= 1 -e^{-(\zeta-\sqrt{\zeta^2 -1})\omega_n t}\text{, for }t\le 0
 \end{frame}
 
 \begin{frame}
-\frametitle{Second order systems – unit step response curves}
+\frametitle{Second order systems - unit step response curves}
 Response on a step function
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Afbeelding6}
@@ -740,11 +740,16 @@ Response on a step function
 
 \begin{frame}
 \frametitle{Second order systems - characteristics}
+The following formulas are only valid when  $0<\zeta<1$!
 \begin{itemize}
-	\item Overshoot: Highest amplitude above steady state:  $M_p = e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}}$;
-	\item Rise Time: Time needed to reach the steady state for the first time. $t_r = \frac{1.8}{\omega_n}$;
-	\item Peak Time: Time to reach overshoot.\\$t_p =\frac{\pi}{\omega_d}$;
-	\item Settling Time: Time needed to approximate the steady state: $t_s = \frac{4.6}{\zeta\omega_n}$. Important note: this formulas can only be used when  $0<\zeta<1$!
+	\item \textbf{Overshoot:} It is the maximum peak value of the response curve measured from unity.\\  $M_p = e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}}$
+	\item \textbf{Rise time:} Time needed for the response to rise from 10\% to 90\%, or
+0\% to 100\% of its final value. \\$t_r = \frac{1.8}{\omega_n}$
+	\item \textbf{Peak Time:} Time required for the response to reach the first
+peak of the overshoot.	\\$t_p =\frac{\pi}{\omega_d}$
+	\item \textbf{Settling Time:} Time required for the response curve to
+reach and stay within a range about the final value.\\
+	 $t_s = \frac{4}{\zeta\omega_n}$  (2\% criterion),  $t_s = \frac{4.6}{\zeta\omega_n}$  (1\% criterion)
 \end{itemize} 
 \end{frame}
 
@@ -753,22 +758,24 @@ Response on a step function
 
 \begin{columns}
 \hspace{-2em}
-	\begin{column}{0.6\textwidth}
+	\begin{column}{0.65\textwidth}
 		\begin{figure}
 			\vspace{-1em}
-			\includegraphics[width=0.9\linewidth]{Afbeelding7}
+			\includegraphics[width=1\linewidth]{tr_second_order_systems}
 		\end{figure}
 	\end{column}
 		
-	\begin{column}{0.4\textwidth}
+	\begin{column}{0.35\textwidth}
 		\vspace{-0.5em}
 		\begin{example}
+		{\footnotesize
 			Given: $\delta = \frac{0.02}{\sqrt{1-\zeta^2}}$\\
 			We find a settling time of:
 			\begin{align*}
 			e^{-\zeta\omega_n t_s} &< 0.02\\
 			t_s &= \frac{4}{\omega_n\zeta}
 			\end{align*}
+			}
 		\end{example}
 	\end{column}
 
