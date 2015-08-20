@@ -542,19 +542,21 @@
 \begin{frame}
 	\frametitle{Sampling time $T_s$ based on the time response}
 \begin{columns}
-	\begin{column}{0.5\textwidth}
+	\begin{column}{0.4\textwidth}
 	\begin{block}{Rise time}
-		Time needed for the response to rise from $10 \%$  to $90 \%$, or $0 \%$ to $100 \%$ of its final value.
+	{\small
+		Time needed for the response to rise from $10 \%$  to $90 \%$, or $0 \%$ to $100 \%$ of its final value.}
 	\end{block}
 	\begin{block}{Practical rule}
-		A good rule of thumb is $T_s = \frac{T_{rise}}{10}$.
+	{\small
+		A good rule of thumb is $T_s = \frac{t_{r}}{10}$.}
 	\end{block}
 	\end{column}
 	
-	\begin{column}{0.5\textwidth}
+	\begin{column}{0.6\textwidth}
 		\begin{figure}
 			\centering
-			\includegraphics[width=1\linewidth]{rise_time}
+			\includegraphics[width=1\linewidth]{tr_second_order_systems}
 		\end{figure}
 	\end{column}
 \end{columns}
@@ -566,7 +568,7 @@
 		A good rule of thumb is $T_s = \frac{1}{2,2Bandwidth}$.
 	\end{block}
 	\begin{alertblock}{Signal vs System}
-		It is very important to understand that although the previous rule of thumb for a system seems the same as the rule of thumb for a signal, they differ! The rule of thumb for a signal uses the bandwidth of the signal and the rule of thumb for a system uses the bandwidth of the system, which can be found in the bodeplot or using MATLAB.
+		It is very important to understand that although the previous rule of thumb for a system seems the same as the rule of thumb for a signal, they differ! The rule of thumb for a signal uses the bandwidth of the signal and the rule of thumb for a system uses the bandwidth of the system, which can be found in the bode plot or using MATLAB.
 	\end{alertblock}
 \end{frame}
 

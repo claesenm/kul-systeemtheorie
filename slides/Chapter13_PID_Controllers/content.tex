@@ -27,7 +27,7 @@
 
 \begin{frame}
 	\frametitle{What is a PID controller?}
-	\small{
+	\footnotesize{
 	\begin{itemize}
 		\item \textbf{P}roportional action $u_p(t) = K_p e(t)$: it depends on the instaneous value of the error. 
 			\begin{itemize}
@@ -37,7 +37,7 @@
 			\end{itemize}
 		\item \textbf{I}ntegral action $u_i(t) =K_i\int_0^t e(\tau)d\tau$: it is proportional to the accumulated error.
 			\begin{itemize}
-				\pro  \textbf{Eliminates the steady-state error} in some cases
+				\pro \textbf{Eliminates the steady-state error} for a constant or step input (e.g., in plants of type 0)
 				\con Makes transient response slower 
 			\end{itemize}
 	
@@ -190,7 +190,7 @@
 	\begin{columns}
 		\begin{column}{0.7 \textwidth}
 			\begin{figure}
-				\includegraphics[width=1\linewidth]{analog_example}
+				\includegraphics[width=1\linewidth]{analog_example2}
 			\end{figure}
 		\end{column}
 		\begin{column}{0.3 \textwidth}
@@ -245,19 +245,19 @@
 	}
 	\vspace{-1.5em}
 	\begin{block}{Pseudocode}
-		\hbox{\hspace{-12em}
+		\hbox{\hspace{0em}
 		\begin{lstlisting}[basicstyle=\scriptsize]
 			previous_error = 0
 			integral = 0
 			Start:
-			error = setpoint - measured_value
-			proportional = KP * error
-			integral = integral + Ki*sampling_time*error
-			derivative = Kd*(error-previous_error)/sampling_time
-			output = proportional + integral + derivative
-			previous_error = error
-			<@\textcolor{blue}{wait}@> (sampling_time)
-			<@\textcolor{blue}{goto}@> Start
+			<@\hspace{0.5cm}@> error = setpoint - measured_value
+			<@\hspace{0.5cm}@> proportional = KP * error
+			<@\hspace{0.5cm}@> integral = integral + Ki*sampling_time*error
+			<@\hspace{0.5cm}@> derivative = Kd*(error-previous_error)/sampling_time
+			<@\hspace{0.5cm}@> output = proportional + integral + derivative
+			<@\hspace{0.5cm}@> previous_error = error
+			<@\hspace{0.5cm}@> <@\textcolor{blue}{wait}@> (sampling_time)
+			<@\hspace{0.5cm}@> <@\textcolor{blue}{goto}@> Start
 		\end{lstlisting}
 	}
 %	\begin{enumerate}
@@ -331,18 +331,23 @@
 
 \begin{frame}
 	\frametitle{Manual Tuning}
-	{\justify
-	The effects of each of the controller parameters $K_p$, $K_i$ and $K_d$  on the closed-loop system are summarized in the table below.}
+	The effects of each of the controller parameters $K_p$, $K_i$,~and~$K_d$ on the closed-loop system are summarized in the table below.
 	\vbox{\vspace{1em}
-	\hbox{\hspace{-2.7em}
+	\hbox{\hspace{-0.6cm}
+	{\small
 	\begin{tabular}{c | c | c | c | c }
-		 & \multicolumn{4}{c}{Closed-loop response}\\\cline{2-5}
-		PID gains	&	Rise Time 	&	Overshoot	&	Setlling time	&	Steady-State error \\
+	  \hline
+		 \multirow{2}{*}{PID gains}  & \multicolumn{4}{c}{Closed-loop response}\\\cline{2-5}
+			&	Rise Time 	&	Overshoot	&	Settling time	&	Steady-State error \\
 		\hline
 		$K_p \uparrow$ & Decrease	&	Increase	&	Small Change	&	Decrease \\
 		$K_i \uparrow$ & Decrease	&	Increase	&	Increase		&	Eliminate \\
 		$K_d \uparrow$ & Small change &	Decrease	&	Decrease		&	No change \\
-	\end{tabular}}}
+	\end{tabular}
+	}
+	}
+	}
+	
 	\vspace{1em}
 	\begin{alertblock}{Important note}
 	Changing one parameter can influence the effect of the other two. Therefore, use this table only as a reference.
@@ -395,6 +400,7 @@
 	\vbox{\vspace{1em}
 		\centering
 		\begin{tabular}{c | c | c | c}
+		\hline
 			Control Type & $K_p$ & $K_i$ & $K_d$\\
 			\hline 
 			P & $T/L$ & 0 &	0\\[0.5em]
@@ -431,6 +437,7 @@
 	\vbox{
 		\centering
 	\begin{tabular}{c | c | c | c}
+	 \hline
 		Control Type	&	$K_p$		&	$K_i$			&	$K_d$ 	\\
 		\hline
 		P				&	$0.5K_u$	&	-				&	-		\\
@@ -487,12 +494,14 @@
 	\small{
 	\frametitle{Numerical Optimization Methods}
 	The tuning of a PID controller is posed as a constrained optimization problem.  
+	{\footnotesize
 	\begin{itemize}
 			\item For a given set of parameters $K_p$, $K_i$ and $K_d$ run a simulation of the closed-loop system, and compute some performance parameters (e.g. settling time, rise time, etc.) and a performance index.
 			\item Optimize the performance index over the three PID gains.
 	\end{itemize}}
+	}
 	\begin{figure}
-	\includegraphics[width=0.3\linewidth]{img/PID_1}
+	\includegraphics[width=0.5\linewidth]{num_opt}
 	\end{figure}	
 \end{frame}
 

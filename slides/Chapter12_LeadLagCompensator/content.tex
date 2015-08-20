@@ -1,9 +1,9 @@
 
-\section{Definition of compensators}
+\section{Introduction}
 
 \begin{frame}
 	\frametitle{Lead Compensator vs Lag Compensator}
-	\begin{block}{Schematical representation}
+	\begin{block}{Closed-loop diagram}
 		\begin{figure}
 			\centering
 			\includegraphics[width=1\linewidth]{Closed-Loop}
@@ -13,7 +13,7 @@
 		Lead compensator : 
 		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\alpha\tau}}$ with $0 \textless  \alpha  \textless  1$ \\
 		Lag compensator : 
-		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\beta\tau}}$ with $\beta  \textgreater  1$
+		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\beta\tau}}$ with $\beta  \textgreater  1$ 
 	\end{block}
 \end{frame}
 
@@ -50,7 +50,7 @@ In this chapter, we will only focus on {\bf frequency domain tools}.
 \begin{frame}
 \frametitle{Lead compensators}
 	\begin{block}{Transfer function}
-		$C(s) = K\alpha\frac{\tau s + 1}{\alpha\tau s + 1}$ with $0 \textless  \alpha  \textless  1$
+		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\alpha\tau}} =    K\alpha\frac{\tau s + 1}{\alpha\tau s + 1}$ with $0 \textless  \alpha  \textless  1$
 	\end{block}
 	\begin{block}{Bode Diagram}
 		Example with K = 10, $\alpha$ = 0.1 and $\tau$ = 0.1 (see next slide) \\
@@ -294,7 +294,7 @@ Now, we have the right frequency. We can calculate $10P(6.168j)$ = -0.951 - 0.30
 \begin{frame}
 	\frametitle{Lag compensators}
 	\begin{block}{Transfer function}
-		$C(s) = K\beta\frac{\tau s + 1}{\beta \tau s + 1}$ with $\beta  \textgreater  1$
+		$C(s) = K\frac{s + \frac{1}{\tau}}{s + \frac{1}{\beta\tau}} = K\beta\frac{\tau s + 1}{\beta \tau s + 1}$ with $\beta  \textgreater  1$
 	\end{block}
 	\begin{block}{Bode Diagram}
 		Example with $K$ = 1, $\beta$ = 10 and $\tau$ = 1 (see next slide) \\ 
