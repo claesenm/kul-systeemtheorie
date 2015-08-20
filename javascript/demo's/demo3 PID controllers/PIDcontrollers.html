@@ -21,10 +21,10 @@ Enter the coefficients of the <b>transfer function of the plant</b>. E.g.: s + 4
 
 <form>
 Numerator:  
-<input type="text" id="numerator"> 
+<input type="text" id="numerator"> (def. = 1)
 <br>
 Denominator:
-<input type="text" id="denominator"> 
+<input type="text" id="denominator"> (def. = 1)
 <br>
 </form>
 Enter the <b>PID constants</b>: C(s) = K<sub>p</sub> + <div class="fraction">
@@ -32,9 +32,9 @@ Enter the <b>PID constants</b>: C(s) = K<sub>p</sub> + <div class="fraction">
         <span class="bar">/</span>
         <span class="fdn">s</span>
     </div> + K<sub>d</sub>s <br>
-K<sub>p</sub>: <input type="value" id="P"> <br>
-K<sub>i</sub>: <input type="value" id="I"> <br>
-K<sub>d</sub>: <input type="value" id="D"> <br>
+K<sub>p</sub>: <input type="value" id="P"> (def. = 1)<br>
+K<sub>i</sub>: <input type="value" id="I"> (def. = 0)<br>
+K<sub>d</sub>: <input type="value" id="D"> (def. = 0)<br>
 
 
 <input type="button" value="Submit" id='update'> <br>

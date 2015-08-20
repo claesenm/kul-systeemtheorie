@@ -4,15 +4,15 @@ function main(){
 	var I_box = document.getElementById("I");
 	var D_box = document.getElementById("D");
 	
-	var plt2 = control.plot.step(document.getElementById('step-plot'), control.system.tf([1],[2]), [0, 20], true);
-	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
+	var container2 = document.getElementById('step-plot');
+    var plt2 = control.plot.step(container2, control.system.tf([1],[2]), [0, 20], true);
 	
 	document.getElementById('update').addEventListener('click', update);
 	
 	function update(){
 		var P = parseFloat(P_box.value || 1);
-		var I = parseFloat(I_box.value || 1);
-		var D = parseFloat(D_box.value || 1);
+		var I = parseFloat(I_box.value || 0);
+		var D = parseFloat(D_box.value || 0);
 			
 		var arrayNumerator = document.getElementById("numerator").value.toString().split(',');
 		while (arrayNumerator[0] == 0 && arrayNumerator.length > 1){
@@ -85,11 +85,12 @@ function main(){
 		
 		control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf(closedLoopNumerator,closedLoopDenominator));
 		
-		var step_data = control.system.tf(closedLoopNumerator,closedLoopDenominator).step([0,20],true);
+		
+		var step_data = control.system.tf(closedLoopNumerator,closedLoopDenominator).step([0,20],false);
         plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
 		var info = control.num.stepinfo(step_data);
 		document.getElementById("rise_time").innerHTML=round(info.rise_time);
-		document.getElementById("final_value").innerHTML=round(info.final_value);
+		document.getElementById("final_value").innerHTML=round(info.final_value);		
 		document.getElementById("peak").innerHTML=round(info.peak);
 		document.getElementById("peak_time").innerHTML=round(info.peak_time);
 		document.getElementById("settling_time").innerHTML=round(info.settling_time);
