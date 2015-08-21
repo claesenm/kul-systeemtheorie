@@ -1,11 +1,15 @@
 function main(){
 	
+	//var sys = control.system.tf([1,2],[7,4]);
+	//control.system.tf2ss(sys);
+	
 	var P_box = document.getElementById("P");
 	var I_box = document.getElementById("I");
 	var D_box = document.getElementById("D");
 	
 	var container2 = document.getElementById('step-plot');
     var plt2 = control.plot.step(container2, control.system.tf([1],[2]), [0, 20], true);
+	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
 	
 	document.getElementById('update').addEventListener('click', update);
 	
@@ -57,7 +61,7 @@ function main(){
 		}
 		
 		if (numeratorDegree > denominatorDegree){
-			alert("The plant you developed is not stable!");
+			alert("The degree of the numerator of the plant is not allowed to be greater than the degree of his denominator to avoid causality problems!");
 		} else if (closedLoopNumeratorDegree > closedLoopDenominatorDegree){
 			alert("The closed loop system you developed is not stable!");
 		} else if (correct == 0){
@@ -85,14 +89,26 @@ function main(){
 		
 		control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf(closedLoopNumerator,closedLoopDenominator));
 		
+		var constant = 0;
 		
-		var step_data = control.system.tf(closedLoopNumerator,closedLoopDenominator).step([0,20],false);
+		if (closedLoopNumeratorDegree == closedLoopDenominatorDegree){
+			constant = closedLoopNumerator[0]/(closedLoopDenominator[0] + 0.0);
+			for (i = 1; i <= closedLoopNumeratorDegree; i++){
+				closedLoopNumerator[i] = closedLoopNumerator[i] - constant*closedLoopDenominator[i];
+			}
+			closedLoopNumerator.shift();
+		}
+		
+		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
+		
+		var step_data = sys.step([0,20],false);
+		for (i= 0; i < step_data.x.length; i++){
+		step_data.x[i] = step_data.x[i] + constant;
+		}
         plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
 		var info = control.num.stepinfo(step_data);
 		document.getElementById("rise_time").innerHTML=round(info.rise_time);
-		document.getElementById("final_value").innerHTML=round(info.final_value);		
-		document.getElementById("peak").innerHTML=round(info.peak);
-		document.getElementById("peak_time").innerHTML=round(info.peak_time);
+		document.getElementById("final_value").innerHTML=Math.round(1000*step_data.x[step_data.x.length - 1])/1000;	
 		document.getElementById("settling_time").innerHTML=round(info.settling_time);
 		}
 		}
