@@ -420,7 +420,7 @@ Ss.prototype = new System();
  * @returns {Array<Number>} response.x - The value of the response.
  */
 Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
-
+	window.alert(1);
     // Copy bounds.
     bounds = bounds.map(function(v){return v;})
     var A = this.A,
@@ -619,10 +619,10 @@ module.exports = {
         }
 
         // Matrix
-        A = num.diag(math.ones(as.length - 2), 1);
+        A = num.diag(math.ones(as.length - 1), 1);
         var Aend = A.length - 1;
-        for (i = 1; i < as.length; ++i) {
-            A[Aend][Aend - (i - 1)] = as[i];
+        for (i = 1; i < as.length + 1; ++i) {
+           A[Aend][Aend - (i - 1)] = as[i];
         }
 
         // Column vector
@@ -632,7 +632,7 @@ module.exports = {
         // Row vector
         C = [new Array(numer.length - 1)];
         for (i = 1; i < numer.length; ++i) {
-            C[0][i-1] = math.subtract(numer[numer.length - i], math.multiply(as[as.length - i], numer[0]));
+            C[0][i-1] = math.add(numer[numer.length - i], math.multiply(as[as.length - i], numer[0]));
         }
 
         // Scalar
