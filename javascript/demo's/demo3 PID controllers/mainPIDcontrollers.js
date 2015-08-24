@@ -106,7 +106,6 @@ function main(){
 		var sys_poles = sys.getPoles();
 		var stable = 1;
 		for (i = 0; i < sys_poles.length; i++){
-			window.alert(sys_poles);
 			if (math.re(sys_poles[i]) > 0){
 				stable = 0;
 			}
@@ -116,11 +115,13 @@ function main(){
 			document.getElementById("rise_time").innerHTML=round(info.rise_time);
 			document.getElementById("final_value").innerHTML=Math.round(10000*step_data.x[step_data.x.length - 1])/10000;	
 			document.getElementById("settling_time").innerHTML=round(info.settling_time);
+			plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
 		}
 		else {
-			document.getElementById("rise_time").innerHTML=None;
-			document.getElementById("final_value").innerHTML=None;	
-			document.getElementById("settling_time").innerHTML=None;
+			document.getElementById("rise_time").innerHTML="None";
+			document.getElementById("final_value").innerHTML="None";	
+			document.getElementById("settling_time").innerHTML="None";
+			plt2.show_step_info({rise_time: false, settling_time: false, settled: false});
 		}
 	}
 	}
