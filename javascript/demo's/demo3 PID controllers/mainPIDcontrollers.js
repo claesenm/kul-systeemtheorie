@@ -6,7 +6,7 @@ function main(){
 	var D_box = document.getElementById("D");
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([1],[2]), [0, 20], true);
+    var plt2 = control.plot.step(container2, control.system.tf([1],[2]), [0.01, 20], true);
 	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
 	
 	document.getElementById('update').addEventListener('click', update);
@@ -87,40 +87,15 @@ function main(){
 		
 		control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf(closedLoopNumerator,closedLoopDenominator));
 		
+		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 		
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).A[0][0]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).A[0][1]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).A[1][0]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).A[1][1]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).B[0]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).B[1]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).C[0][0]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).C[0][1]);
-		window.alert(control.system.tf2ss(control.system.tf(closedLoopNumerator,closedLoopDenominator)).D);
+		var step_data = sys.step([0.01,20],false);
 		
-	//	var constant = 0;
-		
-	//	if (closedLoopNumeratorDegree == closedLoopDenominatorDegree){
-	//		constant = closedLoopNumerator[0]/(closedLoopDenominator[0] + 0.0);
-	//		for (i = 1; i <= closedLoopNumeratorDegree; i++){
-	//			closedLoopNumerator[i] = closedLoopNumerator[i] - constant*closedLoopDenominator[i];
-	//		}
-	//		closedLoopNumerator.shift();
-	//	}
-		
-	//	var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
-		
-	//	var step_data = sys.step([0,20],false);
-	//	for (i= 0; i < step_data.x.length; i++){
-	//	step_data.x[i] = step_data.x[i] + constant;
-	//	}
-    //    plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
-	
-	//	control.plot.step(container2, sys, [0, 20], true);
-	//	var info = control.num.stepinfo(step_data);
-	//	document.getElementById("rise_time").innerHTML=round(info.rise_time);
-	//	document.getElementById("final_value").innerHTML=Math.round(1000*step_data.x[step_data.x.length - 1])/1000;	
-	//	document.getElementById("settling_time").innerHTML=round(info.settling_time);
+		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+		var info = control.num.stepinfo(step_data);
+		document.getElementById("rise_time").innerHTML=round(info.rise_time);
+		document.getElementById("final_value").innerHTML=Math.round(1000*step_data.x[step_data.x.length - 1])/1000;	
+		document.getElementById("settling_time").innerHTML=round(info.settling_time);
 		}
 		}
 	}
@@ -261,4 +236,21 @@ function writeDegreeOneCaseDegreeOne(array,arrayDegree,temp){
 
 function round(value){
 	return Math.round(10000*value)/10000;
+}
+
+function doHorner(numeratorArray,denominatorArray){
+	var sys = control.system.tf(numeratorArray,denominatorArray);
+	var poles = sys.getPoles();
+	var zeros = sys.getZeros();
+	var temp_pole = 0;
+	var samevalue = [];
+	for (i = 0; i < numeratorArray.length){
+		temp_pole = poles[i];
+		for (j = 0; j < denominatorArray.length){
+			if (temp_pole == zeros[j]){
+				samevalue.push(temp_pole);
+				break;
+			}
+		}
+	}
 }
