@@ -72,6 +72,7 @@ target/
 *.toc
 *.nav
 *.snm
+*.synctex.gz
 
 # Python Temp Files
 *.pyw

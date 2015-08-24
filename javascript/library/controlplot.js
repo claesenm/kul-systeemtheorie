@@ -72003,7 +72003,6 @@ Ss.prototype = new System();
  * @returns {Array<Number>} response.x - The value of the response.
  */
 Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
-	window.alert(1);
     // Copy bounds.
     bounds = bounds.map(function(v){return v;})
     var A = this.A,
@@ -72202,7 +72201,7 @@ module.exports = {
         }
 
         // Matrix
-        A = num.diag(math.ones(as.length - 1), 1);
+        A = num.diag(math.ones(as.length - 2), 1);
         var Aend = A.length - 1;
         for (i = 1; i < as.length + 1; ++i) {
            A[Aend][Aend - (i - 1)] = as[i];
