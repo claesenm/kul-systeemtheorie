@@ -102,7 +102,7 @@ function main(){
 		var step_data = sys.step([0.01,10000000],true);
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
-		forceY([-0.1,1.1]);
+		//plt2.forceY([-0.1,1.1]);
 		
 		var sys_poles = sys.getPoles();
 		var stable = 1;

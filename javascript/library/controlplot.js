@@ -71340,7 +71340,6 @@ module.exports = {
 
         return graph;
     },
-
     time_series_options: {
         chart: {
             type: 'line'
@@ -71356,10 +71355,10 @@ module.exports = {
             }
         },
         yAxis: {
-            startOnTick: false,
-            minPadding: 0.01,
-            endOnTick: false,
-            maxPadding: 0.01,
+            startOnTick: true,
+            minPadding: 1,
+            endOnTick: true,
+            maxPadding: 1,
             title: {
                 text: ''
             },
@@ -71459,7 +71458,7 @@ module.exports = {
             }
 			
 			svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
-			
+		
             if (show_info.settle_time || show_info.rise_time || show_info.peak) {
 
                 // Gather new step data in case the plot's data has been updated
@@ -72331,6 +72330,5 @@ module.exports = {
                       num.polyadd(num.conv(G.getDenominator(), H.getDenominator()), num.conv(G.getNumerator(), H.getNumerator())));
     }
 };
-
 },{"./num":659,"mathjs":169,"numeric":656}]},{},[658])(658)
 });
