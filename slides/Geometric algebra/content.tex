@@ -943,3 +943,424 @@
 		We know that rang(A')=r. This means that r rows of A' are linear independent. The other rows of A' can be created by linear combinations of the linear independent rows. 
 	\end{block}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$>$n: overdetermined system}
+		The same is true for the matrix Ay, since rank(Ay)=r has matrix Ay r linear independent rows. The other rows can be created by linear combinations of the linear independent rows. This means that there are only r rows necessery to solve the system. The other m-r equations are linear combinations of the r independent equations.\vspace{4mm}
+		
+		Thus: select from A' r linear independent equations with the components of y' according to this equations: \\
+		$A''=\begin{bmatrix}
+		\overrightarrow{a_1}'\\...\\ \overrightarrow{a_r}'
+		\end{bmatrix}$. And we get: $A''x'=\begin{bmatrix}
+		\overrightarrow{y_1}'\\...\\ \overrightarrow{y_r}'
+		\end{bmatrix}=y''$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$>$n: overdetermined system}
+		A'' is a square matrix and has full rank, so it is an invertible matrix.\\
+		$A''x'=y'' \Rightarrow (A'')^{-1}A''x'=(A'')^{-1}y''$ and we get:\\
+		\fbox{
+			\begin{minipage}{10cm}{$\underbrace{x'}_\text{rx1}=\underbrace{(A'')^{-1}}_\text{rxr}\underbrace{y'}_\text{rx1}$}
+			\end{minipage}
+		} \vspace{2mm}
+		This is the general solution of the overdetermined system. The matrix A'' is the main matrix of the system. A'' is created by the choice of help variables and independent rows. There are m-r help variables, and for each set of them there is a vector y''. So there exist $\infty^{n-r}$ solutions in x. 
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$>$n: overdetermined system}
+		\underline{Example}:\\
+		$\begin{cases}
+		x_1-2x_2-x_3=3\\
+		2x_1+0x_2+2x_3=-2\\
+		3x_1+3x_2+6x_3=-9\\
+		4x_1+6x_2+10x_3=-16\\
+		5x_2+7x_2+12x_3=-19
+		\end{cases}$ \hspace{1cm} m=5, n=3\\
+		$A=\begin{bmatrix}
+		1 & -2 & -1\\
+		2 & 0 & 2\\
+		3 & 3 & 6\\
+		4 & 6 & 10\\
+		5 & 7 & 12
+		\end{bmatrix}, y=\begin{bmatrix}
+		3\\-2\\-9\\-16\\-19
+		\end{bmatrix}, x=\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}$
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$>$n: overdetermined system}
+		\begin{enumerate}
+			\item Solution test:\\
+			rank(A)=2=rank(Ay)=2 $\Rightarrow$ solvable
+			\item Solution:\\
+			We choose the first two columns of A as linear independent columns. $\rightarrow$ So we fix the help and main variables.
+		\end{enumerate}
+		$\begin{bmatrix}
+		1 & -2\\
+		2 & 0\\
+		3 & 3\\
+		4 & 6 \\
+		5 & 7 
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2
+		\end{bmatrix}=\begin{bmatrix}
+		3\\-2\\-9\\-16\\-19
+		\end{bmatrix}-x_3\begin{bmatrix}
+		-1\\2\\6\\10\\12
+		\end{bmatrix}$
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$>$n: overdetermined system}
+		Rank(Ay)=2, so there are 2 linear independent rows. The other rows are linear combinations of the independent rows. We choose the first two rows to be linear independent:\\
+		$\begin{bmatrix}
+		1 & -2\\
+		2 & 0 
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2
+		\end{bmatrix}=\begin{bmatrix}
+		3\\2
+		\end{bmatrix}-x_3\begin{bmatrix}
+		-1\\2
+		\end{bmatrix}$ this is $A''x'=y''$. \\
+		With $A''^{-1}=\frac{1}{4}\begin{bmatrix}
+		0 & 2\\-2 & 1
+		\end{bmatrix}$, we get:\\
+		$\begin{bmatrix}
+			x_1\\x_2
+		\end{bmatrix}=\frac{1}{4}\begin{bmatrix}
+		0 & 2\\-2 & 1
+		\end{bmatrix}\begin{bmatrix}
+		3\\2
+		\end{bmatrix}-\frac{x_3}{4}\begin{bmatrix}
+		0 & 2\\-2 & 1
+		\end{bmatrix}\begin{bmatrix}
+		-1\\2
+		\end{bmatrix}=\begin{bmatrix}
+		-1-x_3\\-2-x_3
+		\end{bmatrix}$.\\
+		This is the general solution of the system (verify by doing substitution). For each choice of $x_3$ you get a different solution. In this case there are $\infty^{n-r}=\infty{3-2}=\infty$ solutions.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m=n: square system}
+		We suppose there is a solution: rank(Ay)=rank(A)=r. The same rules can be apllied here: if $\overrightarrow{a_1},...,\overrightarrow{a_r}$ are the linear independent columns of A, we can write:\\
+		$\begin{bmatrix}
+		\overrightarrow{a_1} & ... & \overrightarrow{a_r}
+		\end{bmatrix} \begin{bmatrix}
+		x_1\\...\\x_r
+		\end{bmatrix}=y-r_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a}_n$ and again there are $\infty^{n-r}$ solutions (one solution for each set [$x_{r+1},...,x_{n}$]).\vspace{4mm}
+		Remark: if m=n=r, there is exactly one solution, the system is called \textbf{Cramers system}.\\
+		Conclusion: A square system can be solved on the same way as a overdetermined system. 
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$<$n: underdetermined system}
+		Again there has to be statisfied to: rank(A)=rank(Ay)=r. If this condition is true, then we can find a solution on the same way as described above.\vspace{4mm} 
+		
+		\underline{Example 1}:\\
+		$\begin{bmatrix}
+		1 & 1 & 3 & 1\\
+		1 & 1 & -4 & -6\\
+		2 & 2 & -1 & -5\\
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}
+		6\\-9\\2
+		\end{bmatrix}$\\
+		Rank(A) $\Rightarrow \begin{bmatrix}
+		1 & 1 & 3 & 1\\
+		0 & 0 & -7 & -7\\
+		0 & 0 & -7 & -7
+		\end{bmatrix} \sim \begin{bmatrix}
+		1 & 1 & 0 & -2\\
+		0 & 0 & 1 & 1\\
+		0 & 0& 0& 0
+		\end{bmatrix} \Rightarrow rank(A)=2$
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$<$n: underdetermined system}
+		Rank(Ay) $\Rightarrow \begin{bmatrix}
+		1 & 1 & 3 & 1 & 6\\
+		1 & 1 & -4 & -6 & -9\\
+		2 & 2 & -1 & -5 & -2
+		\end{bmatrix} \sim \begin{bmatrix}
+		1 & 1 & 3 & 1 & 6\\
+		0 & 0 & -7 & -7 & -15\\
+		0 & 0 & -7 & -7 & -14
+		\end{bmatrix} \sim \begin{bmatrix}
+		1 & 1 & 3 & 1 & 6\\
+		0 & 0 & 1 & 1 & \frac{15}{7}\\
+		0 & 0 & 1 & 1 & 2
+		\end{bmatrix} \sim \begin{bmatrix}
+		1 & 1 & 0 & -2 & 6-\frac{45}{7}\\
+		0 & 0 & 1 & 1 & \frac{15}{7}\\
+		0 & 0 & 0 & 0 & \frac{-1}{7}
+		\end{bmatrix} \Rightarrow rank(Ay)=3$\vspace{2mm}
+		Rank(A)$\neq$rank(Ay) so the system is \textbf{unsolvable}.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$<$n: underdetermined system}
+		\underline{Example 2}:\\
+		$\begin{bmatrix}
+		1 & 1 & 3 & 1\\
+		1 & 1 & -4 & -6\\
+		2 & 2 & -2 & -5
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3\\x_4
+		\end{bmatrix}=\begin{bmatrix}
+		6\\-8\\-2
+		\end{bmatrix}$\\
+		Rank(A)=rank(Ay)=r, so there is a solution. Column one and three are linear independent. Now we can write:\
+		$x_1\begin{bmatrix}
+		1\\1\\2
+		\end{bmatrix}+ x_2\begin{bmatrix}
+		1\\1\\2 \end{bmatrix}+x_3\begin{bmatrix}
+		3\\-4\\-2
+		\end{bmatrix}+x_4\begin{bmatrix}
+		1\\-6\\-5
+		\end{bmatrix}=\begin{bmatrix}
+		6\\-8\\-2
+		\end{bmatrix}$ or \\
+		$x_1\begin{bmatrix}
+		1\\1\\2
+		\end{bmatrix}+x_3\begin{bmatrix}
+			3\\-4\\-2
+		\end{bmatrix}==\begin{bmatrix}
+		6\\-8\\-2
+		\end{bmatrix}- x_2\begin{bmatrix}
+		1\\1\\2 \end{bmatrix}-x_4\begin{bmatrix}
+		1\\-6\\-5
+		\end{bmatrix}$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$<$n: underdetermined system}
+		We choose the first two rows:\\
+		$\begin{bmatrix}
+		1 & 3\\
+		1 & -4
+		\end{bmatrix} \begin{bmatrix}
+		x_1\\x_3
+		\end{bmatrix}=\begin{bmatrix}
+		6\\-8
+		\end{bmatrix}-x_2\begin{bmatrix}
+		1\\1
+		\end{bmatrix}-x_4\begin{bmatrix}
+		1\\-6
+		\end{bmatrix}$\\
+		$A''^{-1}=\frac{1}{7}\begin{bmatrix}
+		4 & 3\\1 & -1
+		\end{bmatrix}$ so we get:\\
+		$\begin{bmatrix}
+		x_1\\x_3
+		\end{bmatrix}=\frac{1}{7}\begin{bmatrix}
+		4 & 3\\1 & -1
+		\end{bmatrix} \begin{bmatrix}
+		6\\-8 \end{bmatrix}-\frac{-x_2}{7}\begin{bmatrix}
+		4 & 3\\ 1 & -1 
+		\end{bmatrix} \begin{bmatrix}
+		1\\1
+		\end{bmatrix} - \frac{x_4}{7}\begin{bmatrix}
+		4 & 3\\ 1 & -1
+		\end{bmatrix} \begin{bmatrix}
+		1\\-6
+		\end{bmatrix}$\\
+		$\begin{bmatrix}
+		x_1\\x_3
+		\end{bmatrix}=\frac{1}{7}\begin{bmatrix}
+		-7x_2+14x_3\\14+0x_2-7x1
+		\end{bmatrix}=\begin{bmatrix}
+		-x_2+2x_4\\2-x_4
+		\end{bmatrix}$\\
+		There are $\infty^{nr}=\infty^2$ solutions. Verify via substitution: $\begin{bmatrix}
+		1 & 1 & 3 & 1\\
+		1 & 1 & -4 & -6\\
+		2 & 2 & -2 & -5
+		\end{bmatrix}\begin{bmatrix}
+		-x_2+2x_4\\
+		x_2\\
+		2-x_4\\
+		x_4
+		\end{bmatrix}=\begin{bmatrix}
+		6\\-8\\-2
+		\end{bmatrix}$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Not homogeneous systems}
+	\begin{block}{Resume}
+		\begin{center}
+			$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=\underbrace{y}_\text{mx1}$
+		\end{center}
+		\begin{enumerate}
+			\item Determine rank(A):\\
+			rank(A)=r
+			\item Determine rank(Ay):\\
+			rank(Ay)=r+1 $\rightarrow$ unsolvable\\
+			rank(Ay)=r $\rightarrow$ solvable
+			\item If solvable: choose r independent columns of A and the components [$x_1,...,x_r$] according to it. $\begin{bmatrix} \overrightarrow{a_1} & ... & \overrightarrow{a_r} \end{bmatrix}\begin{bmatrix}
+			x_1 \\ ... \\ x_r \end{bmatrix}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_r\overrightarrow{a}=\overrightarrow{y'}$
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Not homogeneous systems}
+	\begin{block}{Resume}
+		For every choice of [$x_{r+1},...,x_n$] exist one solution. Hence, there are $\infty^{n-r}$ solutions.\\
+		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear cominations of it. Choose r independent rows of Ay. Then is
+		\begin{center}
+			$\underbrace{A''}_\text{rxr}\underbrace{x'}_\text{rx1}=\underbrace{y''}_\text{mx1} \Rightarrow x'=A''^{-1}y''$
+		\end{center}
+		the general solution of the system. Verify by substitution.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Not homogeneous systems}
+	\begin{block}{Resume}
+		For every choice of [$x_{r+1},...,x_n$] exist one solution. Hence, there are $\infty^{n-r}$ solutions.\\
+		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear cominations of it. Choose r independent rows of Ay. Then is
+		\begin{center}
+			$\underbrace{A''}_\text{rxr}\underbrace{x'}_\text{rx1}=\underbrace{y''}_\text{mx1} \Rightarrow x'=A''^{-1}y''$
+		\end{center}
+		the general solution of the system. Verify by substitution.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Not homogeneous systems}
+	\begin{block}{Remark}
+		The method above can be described in a \textbf{matricial} way:\\
+		$A_{mxn}=\begin{bmatrix}
+		A_{rxr} & A_{rx(n-r)}\\
+		A_{(m-r)xr} & A_{(m-r)x(n-r)}
+		\end{bmatrix}$\\
+		We get: $\begin{bmatrix}
+		A_{rxr} & A_{rx(n-r)}\\
+		A_{(m-r)xr} & A_{(m-r)x(n-r)}\end{bmatrix}\begin{bmatrix}
+		x_r \\x_{n-r}
+		\end{bmatrix}=\begin{bmatrix}
+		y_r \\ y_{m-r}
+		\end{bmatrix}$ with $x_r$ the main variables and $x_{n-r}$ the help variables.\\
+		Now we can write:\\
+		$\begin{cases}
+		A_{rxr}x_r+A_{rx(n-r)}x_{n-r}=y_r\\
+		A_{(m-r)xr}x_r+A_{(m-r)x(n-r)}x_{n-r}=y_{m-r}
+		\end{cases}$. Thus:\\
+		$\begin{cases}
+		x_r=A_{rxr}^{-1}y_r-A_{rxr}^{-1}A_{rx(n-r)}x_{n-r}\\
+		x_{n-r}=x_{n-r}
+		\end{cases}$ is the general $\infty^{n-r}$ fold solution.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Homogeneous systems}
+	\begin{block}{General}
+		\begin{center}
+			$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0$ and rank(A)=r
+		\end{center}
+		\begin{center}
+			 x=0 is always a solution.
+		\end{center}
+	\end{block}
+	\begin{block}{Existance of a solution}
+		Now we consider the \textbf{row} vectors of A.\\
+		$\begin{bmatrix}
+		\overrightarrow{a_1}\\...\\\overrightarrow{a_m}
+		\end{bmatrix}\overrightarrow{x}=0$ or $\begin{bmatrix}
+		\overrightarrow{a_1}\overrightarrow{x}\\...\\\overrightarrow{a_m}\overrightarrow{x}
+		\end{bmatrix}=\begin{bmatrix}
+		0\\...\\0
+		\end{bmatrix}$.\\
+		The homogeneous system is nothing more than m simple inner products that has to be 0. 
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Homogeneous systems}
+	\begin{block}{Existance of a solution}
+		The inner product of two vectors is zero if the two vectors are orthogonal. In other words: $\overrightarrow{x} \perp $ on every row of A. \\
+		Hence, the solution of the homogeneous system consists of all the vectors $\overrightarrow{x}$ wich are perpendicular to the rows of A. \vspace{4mm}
+		
+		Because rank(A)=r is the dimension of the row space r. In A are r linear independent rows, the other rows are a linear combination of the independent rows.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Homogeneous systems}
+	\begin{block}{Existance of a solution}
+		The rows of A are vectors with n components. The row space is a r dimensional subspace of the n dimensional vector space. This global n dimensional space consists of two subspaces. 
+		\begin{enumerate}
+			\item The subspace spanned by the rows of A: subspace with dimension r. 
+			\item The complementary subspace: the vectors in this space are linear independently from the rows of A. The complementar subspace has dimension n-r. 
+		\end{enumerate} 
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Homogeneous systems}
+	\begin{block}{Resume}
+		\fbox{
+			\begin{minipage}{10cm}{The solution of $\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0$ with rank(A)=r is a n-r dimension space: the complementary space of the row space of A. }
+			\end{minipage}
+		} 
+		When n=r, the \textbf{only} solution of the homogeneous system is 0. There isn't a vector wich is perpendicular to the the rows of A. Since n=r, the rows of A span the total n dimensional space and the complementary space has dimension 0.\vspace{4mm}
+		\fbox{
+			\begin{minipage}{10cm}{$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0$ with rank(A)=r has a solution different from 0 if rank(A)$<$n}
+			\end{minipage}
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Homogeneous systems}
+	\begin{block}{Number of solutions}
+		$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0 \Rightarrow \begin{bmatrix}
+		a_{11} & ... & a_{1n}\\
+		... & & ...\\
+		a_{m1} & ... & a_{mn}
+		\end{bmatrix}\begin{bmatrix}
+			x_1\\...\\x_n
+		\end{bmatrix}=0$\\
+		Covert the matrix A by elementary row operations to this form: \\
+		$A\sim\begin{bmatrix}r\{
+		\overbrace{\begin{matrix}
+		1
+		\end{matrix}}^r & \begin{matrix}
+		1
+		\end{matrix}\\
+		\begin{matrix}
+		1
+		\end{matrix} & \begin{matrix}
+		1
+		\end{matrix}
+		\end{bmatrix}$
+	\end{block}
+\end{frame}
