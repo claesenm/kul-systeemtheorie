@@ -6,12 +6,26 @@ function main(){
 	var D_box = document.getElementById("D");
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([1],[2]), [0.01, 20], true);
-	plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
+    var plt2 = control.plot.step(container2, control.system.tf([1],[1,2]), [0.01, 20], true);
+	document.getElementById("rise_time").innerHTML=1.0985;
+	document.getElementById("final_value").innerHTML=0.5;	
+	document.getElementById("settling_time").innerHTML=1.956;
+	plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
+	control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf([1],[1,2]));
 	
 	document.getElementById('update').addEventListener('click', update);
 	
 	function update(){
+		var correctPID = 1;
+		if (document.getElementById("P").value.toString().split(',').length > 1 || isNaN(document.getElementById("P").value.toString().split(',')[0])){
+			correctPID = 0;
+		}
+		if (document.getElementById("I").value.toString().split(',').length > 1 || isNaN(document.getElementById("I").value.toString().split(',')[0])){
+			correctPID = 0;
+		}
+		if (document.getElementById("D").value.toString().split(',').length > 1 || isNaN(document.getElementById("D").value.toString().split(',')[0])){
+			correctPID = 0;
+		}
 		var P = parseFloat(P_box.value || 1);
 		var I = parseFloat(I_box.value || 0);
 		var D = parseFloat(D_box.value || 0);
@@ -64,6 +78,8 @@ function main(){
 			alert("The closed loop system you developed is not stable!");
 		} else if (correct == 0){
 			alert("Please write your transfer function as in the example!");
+		} else if (correctPID == 0){
+			alert("Please write correct PID constants.");
 		} else if (denominatorDegree == 0 && arrayDenominator[0] == 0){
 			alert("Don't divide by zero please!");
 		} else if (numeratorDegree == 0 && arrayNumerator[0] == 0) {
@@ -99,14 +115,15 @@ function main(){
 		
 		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 		
-		var step_data = sys.step([0.01,100],true);
+		var step_data = sys.step([0.00000000000001,10000000],true);
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+		//plt2.forceY([-0.1,1.1]);
 		
 		var sys_poles = sys.getPoles();
 		var stable = 1;
 		for (i = 0; i < sys_poles.length; i++){
-			if (math.re(sys_poles[i]) > 0){
+			if (math.re(sys_poles[i]) >= 0){
 				stable = 0;
 			}
 		}
@@ -115,7 +132,7 @@ function main(){
 			document.getElementById("rise_time").innerHTML=round(info.rise_time);
 			document.getElementById("final_value").innerHTML=Math.round(10000*step_data.x[step_data.x.length - 1])/10000;	
 			document.getElementById("settling_time").innerHTML=round(info.settling_time);
-			plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
+			plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
 		}
 		else {
 			document.getElementById("rise_time").innerHTML="None";

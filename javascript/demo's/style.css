@@ -7,21 +7,21 @@
 }
 #section1 {
     line-height:30px;
-    width:320px;
+    width:300px;
     float:left;
-    padding:5px;
+    padding:0px;
 }
 #section2 {
     line-height:20px;
-    width:410px;
+    width:405px;
     float:left;
     padding:5px;
 }
 #section3 {
     line-height:30px;
-    width:510px;
-    float:left;
-    padding:5px;
+    width:505px;
+    float:right;
+    padding:0px;
 }
 
 .fraction {

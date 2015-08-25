@@ -21,10 +21,10 @@ Enter the coefficients of the <b>transfer function of the plant</b>. E.g.: s + 4
 
 <form>
 Numerator:  
-<input type="text" id="numerator"> (def. = 1)
+<input type="text" id="numerator" value="1"> 
 <br>
 Denominator:
-<input type="text" id="denominator"> (def. = 1)
+<input type="text" id="denominator" value="1,1">
 <br>
 </form>
 Enter the <b>PID constants</b>: C(s) = K<sub>p</sub> + <div class="fraction">
@@ -32,9 +32,9 @@ Enter the <b>PID constants</b>: C(s) = K<sub>p</sub> + <div class="fraction">
         <span class="bar">/</span>
         <span class="fdn">s</span>
     </div> + K<sub>d</sub>s <br>
-K<sub>p</sub>: <input type="value" id="P"> (def. = 1)<br>
-K<sub>i</sub>: <input type="value" id="I"> (def. = 0)<br>
-K<sub>d</sub>: <input type="value" id="D"> (def. = 0)<br>
+K<sub>p</sub>: <input type="text" id="P" value="1"> <br>
+K<sub>i</sub>: <input type="text" id="I" value="0"> <br>
+K<sub>d</sub>: <input type="text" id="D" value="0"> <br>
 
 
 <input type="button" value="Submit" id='update'> <br>
@@ -50,13 +50,13 @@ C(s) = <div class="fraction">
 G(s) = <div class="fraction">
         <span class="fup"><span id="numerator_plant">1</span></span>
         <span class="bar">/</span>
-        <span class="fdn"><span id="denominator_plant">1</span></span>
+        <span class="fdn"><span id="denominator_plant">s + 1</span></span>
     </div> <br>
 
 </section>
 
 <section id ="section2">
-<img src="PIDdemo2.jpg" style="width:800px;height:139px;"> <br>
+<img src="PIDdemo2version2.jpg" style="width:800px;height:139px;"> <br>
 <b>Transfer function closed-loop system: </b> <br>
 P(s) = <div class="fraction">
         <span class="fup">G(s)C(s)</span>
@@ -65,7 +65,7 @@ P(s) = <div class="fraction">
     </div> = <div class="fraction">
         <span class="fup"><span id="numerator_comp">1</span></span>
         <span class="bar">/</span>
-        <span class="fdn"><span id="denominator_comp">2</span></span>
+        <span class="fdn"><span id="denominator_comp">s + 2</span></span>
     </div> <br>
 
 <b>Pole-zero map closed-loop system:</b> <br>
