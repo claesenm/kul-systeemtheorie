@@ -71331,7 +71331,7 @@ module.exports = {
                             data: poles.map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: 0}; }, true)
             });
 
-            // Add method to the graph to update the K value of the points traveling along the root locus
+            // Add method to the graph to update the K value of the points travelling along the root locus
             graph.set_k = function(k) {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
             };
@@ -71359,6 +71359,7 @@ module.exports = {
             minPadding: 1,
             endOnTick: true,
             maxPadding: 1,
+			minRange: 0.5,
             title: {
                 text: ''
             },
