@@ -70958,7 +70958,7 @@ module.exports = {
                 },
                 tooltip: {
                     formatter: function() {
-                        return '<b>' + 'omega: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
+                        return '<b>' + 'frequency: ' + math.round(this.x, 5) + ' rad/s' + '</b>' + '<br>' +
                                '<b>' + 'phase: ' + math.round(this.y, 5) + ' degrees' + '</b>';
                     }
                 }
@@ -71253,8 +71253,8 @@ module.exports = {
             points.push(next_roots_closest);
 
 
-            // Calculate the biggest distance a root has traveled this iteration and adjust the step size accordingly.
-            // (i.e. decrease the step size if the distance a root has traveled based on the ration of a desired distance and the actual distance)
+            // Calculate the biggest distance a root has travelled this iteration and adjust the step size accordingly.
+            // (i.e. decrease the step size if the distance a root has travelled based on the ration of a desired distance and the actual distance)
             var max_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
             if (max_dist === 0) {
                 break;
@@ -71422,15 +71422,14 @@ module.exports = {
         var svgs = [];
         var graph = this.time_series(container, input_data, {chart: {events: {redraw: function() {
 
-            // Destroy previouse svgs
+            // Destroy previous svgs
             svgs.forEach(function(svg) {
                 if (svg) {
                     svg.destroy();
                 }
             });
             svgs = [];
-
-
+			
             var renderer = this.renderer,
                 xAxis = this.axes[0],
                 yAxis = this.axes[1],
@@ -71438,6 +71437,12 @@ module.exports = {
                 'stroke-width': 1,
                 stroke: 'blue',
                 'stroke-dasharray': [1, 3]
+            };
+			
+            var line_attrs_one = {
+                'stroke-width': 1,
+                stroke: 'red',
+                'stroke-dasharray': [1, 0]
             };
 
             function toX(v) {
@@ -71452,7 +71457,9 @@ module.exports = {
                 // Add line for the final value
                 svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
             }
-
+			
+			svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
+			
             if (show_info.settle_time || show_info.rise_time || show_info.peak) {
 
                 // Gather new step data in case the plot's data has been updated

@@ -99,14 +99,15 @@ function main(){
 		
 		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 		
-		var step_data = sys.step([0.01,100],true);
+		var step_data = sys.step([0.01,10000000],true);
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+		forceY([-0.1,1.1]);
 		
 		var sys_poles = sys.getPoles();
 		var stable = 1;
 		for (i = 0; i < sys_poles.length; i++){
-			if (math.re(sys_poles[i]) > 0){
+			if (math.re(sys_poles[i]) >= 0){
 				stable = 0;
 			}
 		}
@@ -115,7 +116,7 @@ function main(){
 			document.getElementById("rise_time").innerHTML=round(info.rise_time);
 			document.getElementById("final_value").innerHTML=Math.round(10000*step_data.x[step_data.x.length - 1])/10000;	
 			document.getElementById("settling_time").innerHTML=round(info.settling_time);
-			plt2.show_step_info({rise_time: true, settling_time: true, settled: true});
+			plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
 		}
 		else {
 			document.getElementById("rise_time").innerHTML="None";
