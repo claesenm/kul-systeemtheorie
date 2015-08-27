@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<!-- Load highcharts.js before controlplot.js -->
+		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="../../library/controlplot.js"></script>
+		
+		
+		<script type="text/javascript" src="nouislider.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="nouislider_modified.css">
+		
+		<script type="text/javascript" src="demo_transfer_function_bode.js"></script>
+		<link rel="stylesheet" type="text/css" href="demo_transfer_function_bode.css">
+    </head>
+	<body>
+		<h1>Transfer function and bode plot</h1>
+		<span id="demo-description"> This is the description</span>
+		<div id="input">
+			<h3>Transfer Function</h3>
+			<h3>Input Signal</h3>
+			<div style="width:250px" id="slider_1" ></div>
+		</div>
+		<div id="output">
+			<h3>Bode Plot of Transfer Function</h3>
+			<div id="bode-plot-container">
+			</div>
+			<h3>Output</h3>
+			<div id="output-plot-container">
+			</div>
+		</div>
+	</body>
+</html>
