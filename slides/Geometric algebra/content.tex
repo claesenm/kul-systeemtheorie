@@ -1712,6 +1712,305 @@
 \begin{frame}
 	\frametitle{Linear images}
 	\begin{block}{Kernell}
-		The kernell is the set of all vectors $\overrightarrow{x}$ that are projected on the null vector. The kernell is a subspace of $V^n$
+		The kernell is the set of all vectors $\overrightarrow{x}$ that are projected on the null vector. The kernell is a subspace of $V^n$. It is the solution space of Ax=0 with rank(A)=r. The dimension of this solution space is n-r.\vspace{4mm}
+		\fbox{
+			\begin{minipage}{10cm}{Kernell= solution space of Ax=0 with dimension n-r.}
+			\end{minipage}
+		}
 	\end{block}
+\end{frame}
+
+\section{Eigenvalues and eigenvectors}
+
+\begin{frame}
+	\frametitle{Defenition}
+	\begin{block}{Defenition}
+		Every vector $\overrightarrow{x}$ and each number $\lambda$ that statisfy  Ax=$\lambda$x, are called eigenvectors and eigenvalues of the square matrix A.\vspace{4mm}
+		
+		The matrix A represent a linear mapping: $V^n \rightarrow V^n$.\\
+		$Ax=\lambda x$ is the set of all vectors $\overrightarrow{x}$ wich are projected on a complex multiple of itself.
+	\end{block}
+	\begin{block}{General}
+		$Ax=\lambda x \Rightarrow (A-\lambda I)x=0$. This is a square homogeneous system and has only a solution if: det($A-\lambda I$)=0.\\
+		This is the condition for the existance of a solution and so of the existance of a eigenvector.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{General}
+		$Ax=\lambda x \Rightarrow (A-\lambda I)x=0$. This is a square homogeneous system and has only a solution if: det($A-\lambda I$)=0.\\
+		This is the condition for the existance of a solution and so of the existance of a eigenvector.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{General - polynomials}
+		$Det(A-\lambda I)$ is a \textbf{polynomial of degree n}. A fundemental theorem of algebra: 
+		\fbox{
+			\begin{minipage}{10cm}{Every polynomial of degree n has n (complex) zeros.}
+			\end{minipage}
+		}\vspace{4mm}
+		So det$(A-\lambda I)=a_n\lambda^n +...+a_1\lambda+a_0=0$ has zeros $\lambda_1,...\lambda_n$. Some zeros can a multiple. The number of occurance of a zero $\lambda_i$ is called the multiplicity of the zero$\lambda_i$.\\
+		If $\lambda_i$ is a complex zero $\lambda_i=a_i+jb_i$ then is the complex conjugate $\lambda*=a_i-jb_i$ also a zero.
+		\fbox{
+			\begin{minipage}{10cm}{The eigenvalues of A: $\lambda_1,...,\lambda_n$ are the zeros of the characteristic polynomial det($A-\lambda I$)=0.}
+			\end{minipage}
+		}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{General - solutions}
+		For every eigenvalue $\lambda_i$, we can find the related eigenvectors as a solution of the homogeneous system: $(A-\lambda_i I)x=0$. The number of eigenvectors that belong to a eingevalue $\lambda_i$ is the dimension of the solution space  $(A-\lambda_i I)x=0$.
+		\fbox{
+			\begin{minipage}{10cm}{If rank($A-\lambda_i I)=r_i$, then $n-r_i$ eigenvectors belong to $\lambda_i$.}
+			\end{minipage}
+		}\vspace{4mm}
+		If the multiplicity of $\lambda_i$ is $\eta_i$, then 1 or 2 or ... or $\eta_i$ eigenvectors belong to $\lambda_i$. The exact number of eigenvectors that belong to $\lambda_i$ is $n-r_i$ with $r_i=rank(A-\lambda_i I)$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{General}
+		\underline{The solution of the eigenvalue problem}:
+		\begin{enumerate}
+			\item Search the zeros of det($A-\lambda I$)=0. \\
+			These are $\lambda_1,...,\lambda_n$.
+			\item Determine the solution space of the homogeneous system (with different $\lambda_i$) ($A-\lambda_i I$)x=0, all this solutions are eigenvectors. 
+		\end{enumerate}
+		\textbf{Remark}: the solutions of the homogeneous systems are determined by a factor. We take the norm of the vector 1 and the factor is the eigenvalue $\lambda_i$. So the eigenvectors have always norm = 1.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Properties}
+		\begin{enumerate}
+			\item Independence  between eigenvectors: The eigenvectors of \textbf{different} eigenvalues are linear indpendent. 
+			\item If the eigenvalue $\lambda_i$ has a multiplicity $\geq 1$, then different eigenvectors can be related to this eigenvalue.If rank(A-$\lambda_i I)=r_i$, then $\lambda_i$ has n-$r_i$ independent eigenvectors. These n-$r_i$ eigenvectors span the eigenspace of eigenvalue $\lambda_i$.\\
+			According to property 1, the different eigenspaces are independent. That means: all eigenvectors span the full n dimensional space only if:\\ $\underbrace{(n-r_1)}_\text{dimension eigenspace 1}+(n-r_2)+...=n$ or if: $\forall i (n-r_i)=\eta_i$\\
+			Remark: this property is not always true: the eigenvalue 0 of the matrix $\begin{bmatrix}
+			0 & 1\\0 & 0
+			\end{bmatrix}$ has multiplicity 2, while n-r=2-1=1.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Properties}
+		\begin{enumerate}
+			\setcounter{enumi}{2}
+			\item If A  has n linear independent eigenvectors (property 2):\\
+				$\begin{cases} Ax_1=x_1\lambda_1\\...\\Ax_n=x_n\lambda_n \end{cases}$ or $A\begin{bmatrix}
+				x_1 & ... &...& x_n
+				\end{bmatrix}=\begin{bmatrix}
+				x_1 & ...&... & x_n
+				\end{bmatrix}\begin{bmatrix}
+				\lambda_1 & 0 &...& 0\\
+				0&\lambda_2 & ... & ...\\
+				...& ... & &...\\
+				0&...&...&\lambda_n
+				\end{bmatrix} \Rightarrow A^{nxn}x^{nxn}=x^{nxn}\Lambda^{nxn}$. \\
+				Since, $\overrightarrow{x_1},...,\overrightarrow{x_n}$ are linear independent, applies: det(x)$\neq$0, so $x^{-1}$ exists and we can write: $Ax=x\Lambda \Rightarrow x^{-1} Ax=x^{-1}x\Lambda \Rightarrow x^{-1} Ax=\Lambda$.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Properties}
+		\begin{enumerate}
+			\setcounter{enumi}{2}
+			\item The transformation $A \rightarrow x^{-1}Ax$ is called the similarity transformation.
+			\fbox{
+				\begin{minipage}{7cm}{Similar matrices have the same eigenvalues.}
+				\end{minipage}
+			}
+			\item If det(x)$\neq$0 (n linear independent eigenvectors): \\
+			$Ax=x\Lambda \Rightarrow det(Ax)=det(x\Lambda)$\\
+			$\Rightarrow det(A)det(x)=det(x)det(\Lambda)$\\ 
+			$\Rightarrow det(A) = det(\Lambda)=\lambda_1...\lambda_n$. \\
+			So the determinant of a matrix is the product of his eigenvalues. 
+			\item If rank(A)=r, then there are r eigenvalues different from 0.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Eigenvalues of a symetric matrix}
+		Properties of a symetric matrix A=A$^t$:
+		\begin{enumerate}
+			\item The eigenvalues of a real symetric matrix are real.
+			\item The eigenvectors of a real symetric matrix of full rank form a orthonormal set.\\
+			- Eigenvectors of different eigenvalues are orthogonal.\\
+			- A eigenvalue with multiplicity $\eta_i$ has $n-r_i$ eigenvectors. Via Gram-Schmidt can these vectors be orthogonalised.
+			\item If there are n eigenvectors: X=$\begin{bmatrix}
+			\overrightarrow{x_1}& ... & \overrightarrow{x_n}
+			\end{bmatrix}$, then we can write: $X^tX=I_n \Rightarrow X^{-1}=X^t$.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Eigenvalues of a symetric matrix}
+		\underline{Example}:\\
+		$A=\begin{bmatrix}
+		3 & 0 & 0\\
+		0 & 1 & 1\\
+		0 & 1 & 1
+		\end{bmatrix}$ A is symetric, so all the eigenvalues are real. The characteristic polynomial:\\
+		$(3-y)((1-\lambda)^2-1)=(3-\lambda)(\lambda^2-2\lambda)=0 \Rightarrow \lambda_1=3, \lambda_2=2, \lambda_3=0$\\
+		Eigenvectors of $\lambda_1$: homogeneous system:\\
+		$\begin{bmatrix}
+		0 & 0& 0\\
+		0 & -2 & 1\\
+		0 & 1 & -2
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}=0 \Rightarrow \overrightarrow{x_1}=\begin{bmatrix}
+		1\\0\\0
+		\end{bmatrix}$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Eigenvalues of a symetric matrix}
+		Eigenvectors of $\lambda_2$: homogeneous system:\\
+		$\begin{bmatrix}
+		1 & 0& 0\\
+		0 & -1 & 1\\
+		0 & 1 & -1
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}=0 \sim \begin{bmatrix}
+		1 & 0& 0\\
+		0 & 1 & -1\\
+		0 & 0 & 0
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}=0 \Rightarrow \begin{cases}
+		x_1=0\\x_2=x_3\\x_3=x_3
+		\end{cases} \overrightarrow{x_2}=x_3\begin{bmatrix}
+		0\\1\\1
+		\end{bmatrix}$. \\
+		Remark: mostly we scale the eigenvector so that its norm is 1. And we get: $\overrightarrow{x_2}=x_3\begin{bmatrix}
+		0\\1/\sqrt{2}\\1/\sqrt{2}
+		\end{bmatrix}$
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solutions}
+	\begin{block}{Eigenvalues of a symetric matrix}
+		Eigenvectors of $\lambda_3=0$: homogeneous system:\\
+		$\begin{bmatrix}
+		3 & 0& 0\\
+		0 & 1 & 1\\
+		0 & 1 & 1
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}=0 \sim \begin{bmatrix}
+		3 & 0& 0\\
+		0 & 1 & 1\\
+		0 & 0 & 0
+		\end{bmatrix}\begin{bmatrix}
+		x_1\\x_2\\x_3
+		\end{bmatrix}=0 \Rightarrow \begin{cases}
+		x_1=0\\x_2=-x_3\\x_3=x_3
+		\end{cases} \overrightarrow{x_2}=x_3\begin{bmatrix}
+		0\\-1/\sqrt{2}\\1/\sqrt{2}
+		\end{bmatrix}$. Hence, $AX=X\Lambda$ becomes: \\
+		$\begin{bmatrix}
+		3 & 0& 0\\
+		0 & 1 & 1\\
+		0 & 1 & 1
+		\end{bmatrix}\begin{bmatrix}
+		1 & 0 & 0\\
+		0 & \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}\\
+		0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+		\end{bmatrix}=\begin{bmatrix}
+		1 & 0 & 0\\
+		0 & \frac{1}{\sqrt{2}} &-\frac{1}{\sqrt{2}}\\
+		0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+		\end{bmatrix} \begin{bmatrix}
+		3 & 0 & 0\\
+		0 & 2 & 0\\
+		0 & 0 & 0
+		\end{bmatrix}$.
+	\end{block}
+\end{frame}
+
+\section{Appendix 1}
+
+\begin{frame}
+	\frametitle{Inverting a square matrix A}
+		A necessary condition: det(A)$\neq$0.
+		\begin{enumerate}
+			\item Change each element by its cofactor
+			\item Transpose
+			\item Divide by det(A) 
+		\end{enumerate}
+		Cofactor of element $a_{ij}$ (a scalar):
+		\begin{itemize}
+			\item Remove the row and column wich contains the element $a_{ij}$ (row i and column j). Result: a (n-1)x(n-1) matrix $M_{ij}$.
+			\item cofactor$(a_{ij})=(-1)^{i+j}det(M_{ij})$
+		\end{itemize}
+		\underline{Example}: A=$\begin{bmatrix} 1 & 3& 4\\
+		5 & 7 & 8\\
+		2 & 0 & 0 \end{bmatrix}$ and $M_{22}=\begin{bmatrix}
+		1 & 4\\
+		2 & 0
+		\end{bmatrix}$ with det($M_{22}$)=-8. Cofactor$(a_{22})=(-1)^{2+2}(-8)=8$.
+\end{frame}
+
+\section{Appendix 2}
+
+\begin{frame}
+	\frametitle{Elementary row operations}
+	When you multiply a matrix with a elementary matrix you can:
+	\begin{enumerate}
+		\item change rows/columns  
+		\item scale rows/columns with a factor
+		\item add rows/columns with each other
+	\end{enumerate}
+	This operations can be done by:
+	\begin{itemize}
+	\item Multiplying the matrix left with a elementary matrix for \textbf{row operations}
+	\item Multiplying the matrix right with a elementary matrix for \textbf{column operations}
+	\end{itemize}
+	Elementary matrices:
+	\begin{itemize}
+	\item are square \\
+	\item have full rank\\
+	\item When a matrix is multiplied by a elementary matrix, his rank don't change
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Elementary row operations}
+	The row operations:
+	\begin{enumerate}
+		\item Changing two rows:
+		If $A^{mxn}=\begin{bmatrix}
+		a_1\\...\\a_i\\...\\a_j\\...\\a_n 
+		\end{bmatrix}$ with $\overrightarrow{a_i}$ the rows of A. \\
+		We want to change row $a_i$ and $a_j$ by multiplying A left by a matrix $R^{mxm}$. 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Elementary row operations}
+		So $RA=\begin{bmatrix}
+		a_1\\...\\a_j\\...\\a_i\\...\\a_n 
+		\end{bmatrix}$, then has r the form: $R=\begin{bmatrix}
+		1
+		\end{bmatrix}$
 \end{frame}
