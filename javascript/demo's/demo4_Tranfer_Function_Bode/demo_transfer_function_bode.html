@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
+		<meta charset="utf-8">
+		
 		<!-- Load highcharts.js before controlplot.js -->
 		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
 		<script src="http://code.highcharts.com/highcharts.js"></script>
 		<script type="text/javascript" src="../../library/controlplot.js"></script>
 		
+		<!-- mathJs -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
 		
+		<!-- Pretty Math -->
+		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 		<script type="text/javascript" src="nouislider.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="nouislider_modified.css">
+		<!--<link rel="stylesheet" type="text/css" href="nouislider_modified.css">-->
 		
 		<script type="text/javascript" src="demo_transfer_function_bode.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style.css">
 		<link rel="stylesheet" type="text/css" href="demo_transfer_function_bode.css">
     </head>
 	<body>
@@ -19,8 +27,27 @@
 		<div id="demo-container">
 			<div id="input">
 				<h3>Transfer Function</h3>
+				<span class="formula" id="tf-function">
+					$$ H(s) = \frac{\kappa}{\tau s + 1} $$
+				</span>
+				
 				<h3>Input Signal</h3>
-				<div style="width:250px" id="slider_1" ></div>
+				<div id="input-signal-box">
+					<span class="formula" id="input-function">
+						$$ u(t) = A \sin{(\omega t)} $$
+					</span>
+					<span class="slider-text">Choose a value of A: </span>
+					<div style="width:250px" id="slider-amplitude" class="slider" ></div>
+					<div>
+						<span class="slider-value">A = </span> <span id="amplitude-value" class="slider-value"></span>
+					</div>
+					<br></br>
+					<span class="slider-text">Choose a value of ω: </span>
+					<div style="width:250px" id="slider-omega" class="slider"></div>
+					<div>
+						<span class="slider-value">ω = </span> <span id="omega-value" class="slider-value"></span>
+					</div>
+				</div>
 			</div>
 			<div id="output">
 				<h3>Bode Plot of Transfer Function</h3>
