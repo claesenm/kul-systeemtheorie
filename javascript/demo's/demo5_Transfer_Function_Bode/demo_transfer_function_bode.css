@@ -41,5 +41,10 @@
 }
 #bode-plot-container
 {
-	height: 40em;
+	height: 30em;
+}
+
+#output-plot-container
+{
+	height: 15em;
 }

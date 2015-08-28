@@ -1,3 +1,4 @@
+//TODO: zie blad + update plot alleen als slider klaar is
 
 var bodePlot 	= 	null;
 var ouputPlot 	=	null;
@@ -11,7 +12,12 @@ var	sliderOmegaVal	= 1;
 var tfNum		= [1, 2];
 var tfDen		= [8, 3, 4];
 
-var inputFunction = function(t) { return sliderAmpVal * Math.sin(t*sliderOmegaVal); };
+var inputFunction = function(t, mult, phaseShift ) 	{
+		// default values for optional parameters
+		if (typeof(mult)==='undefined') mult = 1;
+		if (typeof(phaseShift)==='undefined') phaseShift = 0;
+		return sliderAmpVal * mult * Math.sin(t*sliderOmegaVal + phaseShift); 
+	};
 		
 function setup()
 {
@@ -61,19 +67,20 @@ function setup()
 	//dispaly the values of the sliders
 	sliderAmplitude.noUiSlider.on('update', function ( values, handle )
 		{
-			sliderAmpVal = values[handle];
+			sliderAmpVal = parseFloat(values[handle]);
 			document.getElementById('amplitude-value').innerHTML = values[handle];
+			update_output_plot();
 		});
 	sliderFrequency.noUiSlider.on('update', function ( values, handle )
 		{
-			sliderOmegaVal = values[handle];
+			sliderOmegaVal = parseFloat(values[handle]);
 			document.getElementById('omega-value').innerHTML = values[handle];
+			update_output_plot();
 		});
 	
 	// populate graphs
 	var plts = control.plot.bode(bodePlot, dynSys);
 	
-	console.log(get_amp_phase_shift(dynSys,sliderOmegaVal));
 }
 /*
  *	Updates the formula of the Transfer Function under input.
@@ -133,9 +140,48 @@ function update_tf(num, den)
 
 function get_amp_phase_shift( sys, freq)
 {
-	var tf_eval = sys.evalS( freq *math.complex(0,1) );
-	console.log(tf_eval);
+	var tf_eval = sys.evalS( math.multiply(math.complex(0,1),freq));
 	return tf_eval.toPolar();
+}
+
+/*	Generates an array of points to plot the ouput function
+ *	
+ *	@param {number} lowerBound
+ *	Where the x-value should start
+ *
+ *	@param {number} upperBound
+ *	Where the x-value should stop
+ *
+ *	@param {number} step
+ *	Distance between the x-values
+ *
+ *	@return {Array} 
+ *	Array of (x,y) points 
+ *	
+*/
+function generate_output_function_data(lowerBound, upperBound, step)
+{
+	var ptList = [];
+	
+	// populate with x-values
+	for(var i = lowerBound; i <= upperBound; i+= step)	ptList.push(i);
+	
+	// map function
+	var outputVal = function(t_val)
+	{
+		var gainPolar = get_amp_phase_shift(dynSys, sliderOmegaVal);
+		return [t_val, inputFunction(t_val, inputFunction(t_val,  gainPolar.r, gainPolar.phi) ) ];
+	}
+	
+	// Aply map funciton on x-values by (x,y) points and return
+	return ptList.map(outputVal);
+	
+}
+
+function update_output_plot()
+{
+	var data = generate_output_function_data(0,10,0.01);
+	control.plot.time_series(outputPlot, data);
 }
 window.onload = setup;
 	
