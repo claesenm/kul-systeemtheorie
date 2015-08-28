@@ -70317,7 +70317,7 @@ module.exports = {
      * @param {Number|Complex} start - The start of the sequence
      * @param {Number|Complex} end - The end of the sequence
      * @param {Number|Complex} [n=50] - The amount of points to return
-     * @param {Boolean|Complex} [inclusive=true] - Wheter or not the endpoint should be included.
+     * @param {Boolean|Complex} [inclusive=true] - Whether or not the endpoint should be included.
      * @return {Array<(Number|Complex)>} The array of equidistant points.
      */
     linspace: function(start, end, n, inclusive) {
@@ -71409,8 +71409,8 @@ module.exports = {
      * @param {HTMLElement} container - The container to render to.
      * @param {System} sys - The system of which to plot the step response.
      * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+	 * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
      * @param {Array<(Number|Complex)>} [poles] - The poles of the system. (Speeds up calculation if the poles were previously calculated).
-     * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     step: function(container, sys, bounds, settle, poles) {
@@ -71458,7 +71458,9 @@ module.exports = {
                 svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
             }
 			
-			svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
+		//	if (show_one == true){
+				svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
+		//	}
 		
             if (show_info.settle_time || show_info.rise_time || show_info.peak) {
 
@@ -72043,7 +72045,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
 
     if (settle && is_stable()) {
         var unstablest_pole = num.extreme_by(poles, Math.min, function(p){ return math.abs(math.re(p)); });
-        bounds[1] = math.min(10 / math.abs(math.re(unstablest_pole)), bounds[1]);
+        bounds[1] = math.max(0.01,math.min(10 / math.abs(math.re(unstablest_pole)), bounds[1]));
     }
 
     var response = numeric.dopri(bounds[0], bounds[1], initial, dx),

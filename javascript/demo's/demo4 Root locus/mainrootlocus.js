@@ -1,35 +1,36 @@
 function main(){
 	
-	
-	var P_box = document.getElementById("P");
-	var I_box = document.getElementById("I");
-	var D_box = document.getElementById("D");
+	var current_arrayNumerator = [1];
+	var current_arrayDenominator = [1,1];
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([1],[1,2]), [0.01, 20], true);
-	document.getElementById("rise_time").innerHTML=1.0998;
-	document.getElementById("final_value").innerHTML=0.49998;	
-	document.getElementById("settling_time").innerHTML=1.9483;
+    var plt2 = control.plot.step(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
 	plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
-	control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf([1],[1,2]));
+	
+	var Slider1 = document.getElementById('slider_1');
+
+		noUiSlider.create(Slider1, {
+			start: [ 0.5 ],
+			step: 0.002,
+			range: {
+				'min': [  0.01 ],
+				'max': [ 0.99 ]
+			}
+		});
+		
+	/*Displaying the current value of slider 1  */
+		var Slider1_ValueElement = document.getElementById('slider-value');
+		Slider1.noUiSlider.on('update', function( values, handle ) {
+			Slider1_ValueElement.innerHTML = values[handle];
+			});
+			
+	var container1 = document.getElementById('root-locus');
+    var plt1 = control.plot.rlocus(container1, control.system.tf([1],[1,1]), true);
+	plt1.set_k(0.501);
 	
 	document.getElementById('update').addEventListener('click', update);
 	
 	function update(){
-		var correctPID = 1;
-		if (document.getElementById("P").value.toString().split(',').length > 1 || isNaN(document.getElementById("P").value.toString().split(',')[0])){
-			correctPID = 0;
-		}
-		if (document.getElementById("I").value.toString().split(',').length > 1 || isNaN(document.getElementById("I").value.toString().split(',')[0])){
-			correctPID = 0;
-		}
-		if (document.getElementById("D").value.toString().split(',').length > 1 || isNaN(document.getElementById("D").value.toString().split(',')[0])){
-			correctPID = 0;
-		}
-		var P = parseFloat(P_box.value || 1);
-		var I = parseFloat(I_box.value || 0);
-		var D = parseFloat(D_box.value || 0);
-			
 		var arrayNumerator = document.getElementById("numerator").value.toString().split(',');
 		while (arrayNumerator[0] == 0 && arrayNumerator.length > 1){
 			arrayNumerator.shift();
@@ -54,17 +55,12 @@ function main(){
 		}
 		
 		if (correct == 1){
-		var PIDnumerator = [D,P,I];
-		while (PIDnumerator[0] == 0 && PIDnumerator.length > 1){
-			PIDnumerator.shift();
-		}
-		var PIDnumeratordegree = PIDnumerator.length - 1;
 		
-		var closedLoopNumerator = control.num.conv(arrayNumerator,PIDnumerator);
+		var closedLoopNumerator = control.num.conv([0.5],arrayNumerator); // must be K
 		while (closedLoopNumerator[0] == 0 && closedLoopNumerator.length > 1){
 			closedLoopNumerator.shift();
 		}
-		var closedLoopDenominator = control.num.polyadd(control.num.conv(arrayDenominator,[1,0]),control.num.conv(arrayNumerator,PIDnumerator));
+		var closedLoopDenominator = control.num.polyadd(arrayDenominator,control.num.conv([0.5],arrayNumerator)); // must be K
 		while (closedLoopDenominator[0] == 0 && closedLoopDenominator.length > 1){
 			closedLoopDenominator.shift();
 		}
@@ -78,23 +74,11 @@ function main(){
 			alert("The closed loop system you developed has causility problems!");
 		} else if (correct == 0){
 			alert("Please write your transfer function as in the example!");
-		} else if (correctPID == 0){
-			alert("Please write correct PID constants.");
 		} else if (denominatorDegree == 0 && arrayDenominator[0] == 0){
 			alert("Don't divide by zero please!");
 		} else if (numeratorDegree == 0 && arrayNumerator[0] == 0) {
 			alert("Don't take a transfer function of zero please!");
-		} else if (P == 0 && I == 0 && D == 0){
-			alert("Don't take zero for every PID constant, please.");
-		} else if (numeratorDegree == denominatorDegree && D!= 0){
-			alert("If the degree of the numerator is equal to the degree of the denominator, the value of K_d has\n" + 
-			"to be equal to zero to avoid causality problems in the closed-loop system.");
-		} else if (isNaN(P) || isNaN(I) || isNaN(D)) {
-			alert("Please enter valid numbers for the PID constants.")
 		} else {
-		document.getElementById("numerator_C").innerHTML = writeAsFormula(PIDnumerator,PIDnumeratordegree);
-		document.getElementById("denominator_C").innerHTML = writeAsFormula([1,0],1);
-		
 		var plant_simplified = doHorner(arrayNumerator,arrayDenominator);
 		arrayNumerator = plant_simplified[0];
 		numeratorDegree = arrayNumerator.length - 1;
@@ -111,47 +95,120 @@ function main(){
 		document.getElementById("numerator_comp").innerHTML = writeAsFormula(closedLoopNumerator,closedLoopNumeratorDegree);
 		document.getElementById("denominator_comp").innerHTML = writeAsFormula(closedLoopDenominator,closedLoopDenominatorDegree);
 		
-		control.plot.pzmap(document.getElementById('polezeroplot'), control.system.tf(closedLoopNumerator,closedLoopDenominator));
-		
 		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 		
 		var step_data = sys.step([0.00000000000001,10000000],true);
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
 		
-		var sys_poles = sys.getPoles();
-		var stable = 1;
-		for (i = 0; i < sys_poles.length; i++){
-			if (math.re(sys_poles[i]) >= 0){
-				stable = 0;
+		var container1 = document.getElementById('root-locus');
+		plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
+		
+		current_arrayNumerator = arrayNumerator;
+		current_arrayDenominator = arrayDenominator;
+		
+		plt1.set_k(0.5);
+		
+		Slider1.noUiSlider.set(0.5);
+		
+		document.getElementById('slider_1').noUiSlider.destroy();
+		Slider1 = document.getElementById('slider_1');
+		noUiSlider.create(Slider1, {
+			start: [ 0.5 ],
+			step: 0.002,
+			range: {
+				'min': [  0.01 ],
+				'max': [ 10 ]
 			}
-		}
-		if (stable == 1){
-			var info = control.num.stepinfo(step_data);
-			document.getElementById("rise_time").innerHTML=round(info.rise_time);
-			if (math.abs(step_data.x[step_data.x.length - 1]) > 0.0001){
-			document.getElementById("final_value").innerHTML=round(step_data.x[step_data.x.length - 1]);	
+		});
+		Slider1_ValueElement = document.getElementById('slider-value');
+		Slider1.noUiSlider.on('update', function( values, handle ) {
+			Slider1_ValueElement.innerHTML = values[handle];
+			});
+			
+			Slider1.noUiSlider.on('change', function( values, handle ) {
+			K = values[handle];
+			document.getElementById('used_value_K').innerHTML = K;
+			var arrayNumerator = current_arrayNumerator;
+			var arrayDenominator = current_arrayDenominator;
+			var closedLoopNumerator = control.num.conv([K],arrayNumerator); 
+			while (closedLoopNumerator[0] == 0 && closedLoopNumerator.length > 1){
+				closedLoopNumerator.shift();
 			}
-			else {
-				var stablest_pole = 0;
-				for (i = 0; i < sys_poles.length; i++){
-					if (math.re(sys_poles[i]) < stablest_pole){
-						stablest_pole = math.re(sys_poles[i]);
-					}
-				}
-				document.getElementById("final_value").innerHTML=round(-1.0/stablest_pole);
+			var closedLoopDenominator = control.num.polyadd(arrayDenominator,control.num.conv([K],arrayNumerator)); 
+			while (closedLoopDenominator[0] == 0 && closedLoopDenominator.length > 1){
+				closedLoopDenominator.shift();
 			}
-			document.getElementById("settling_time").innerHTML=round(info.settling_time);
-			plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
-		}
-		else {
-			document.getElementById("rise_time").innerHTML="None";
-			document.getElementById("final_value").innerHTML="None";	
-			document.getElementById("settling_time").innerHTML="None";
-			plt2.show_step_info({rise_time: false, settling_time: false, settled: false});
+			var closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
+			var closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+			
+			var plant_simplified = doHorner(arrayNumerator,arrayDenominator);
+			arrayNumerator = plant_simplified[0];
+			numeratorDegree = arrayNumerator.length - 1;
+			arrayDenominator = plant_simplified[1];
+			denominatorDegree = arrayDenominator.length - 1;
+			document.getElementById("numerator_plant").innerHTML = writeAsFormula(arrayNumerator,numeratorDegree);
+			document.getElementById("denominator_plant").innerHTML = writeAsFormula(arrayDenominator,denominatorDegree);
+		
+			var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
+			closedLoopNumerator = closedLoop_simplified[0];
+			closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
+			closedLoopDenominator = closedLoop_simplified[1];
+			closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+			document.getElementById("numerator_comp").innerHTML = writeAsFormula(closedLoopNumerator,closedLoopNumeratorDegree);
+			document.getElementById("denominator_comp").innerHTML = writeAsFormula(closedLoopDenominator,closedLoopDenominatorDegree);
+			
+		//	var plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
+			plt1.set_k(K);
+			
+			var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
+			
+			var step_data = sys.step([0.00000000000001,10000000],true);
+			
+			plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+			});
+		
+		document.getElementById("slider-value").innerHTML = 0.5;
+		document.getElementById("used_value_K").innerHTML = 0.5;
+		
 		}
 	}
-	}
+	
+	Slider1.noUiSlider.on('change', function( values, handle ) {
+			K = values[handle];
+			document.getElementById('used_value_K').innerHTML = K;
+			var arrayNumerator = current_arrayNumerator;
+			var arrayDenominator = current_arrayDenominator;
+			var closedLoopNumerator = control.num.conv([K],arrayNumerator); 
+			while (closedLoopNumerator[0] == 0 && closedLoopNumerator.length > 1){
+				closedLoopNumerator.shift();
+			}
+			var closedLoopDenominator = control.num.polyadd(arrayDenominator,control.num.conv([K],arrayNumerator)); 
+			while (closedLoopDenominator[0] == 0 && closedLoopDenominator.length > 1){
+				closedLoopDenominator.shift();
+			}
+			var closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
+			var closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+		
+			var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
+			closedLoopNumerator = closedLoop_simplified[0];
+			closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
+			closedLoopDenominator = closedLoop_simplified[1];
+			closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+			document.getElementById("numerator_comp").innerHTML = writeAsFormula(closedLoopNumerator,closedLoopNumeratorDegree);
+			document.getElementById("denominator_comp").innerHTML = writeAsFormula(closedLoopDenominator,closedLoopDenominatorDegree);
+			
+		//	var plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
+			plt1.set_k(K);
+			
+			var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
+			
+			var step_data = sys.step([0.00000000000001,10000000],true);
+			
+			plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+			});
+			
+		
 	}
 
 window.onload = main;

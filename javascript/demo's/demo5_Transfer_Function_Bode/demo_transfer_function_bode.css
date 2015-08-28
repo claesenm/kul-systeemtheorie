@@ -1,0 +1,45 @@
+
+#input
+{
+	float: left;
+	width: 50%;
+}
+#output
+{
+	float: right;
+	width: 50%;
+}
+
+#tf-fucntion
+{
+	/*float: left;*/
+}
+
+.formula
+{
+	/* margin-left: 30%; */
+	
+}
+
+#input-signal-box
+{
+	margin-left: 0.5em;
+}
+
+.slider
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.slider-value
+{
+	padding-bottom: 1em;
+	display:block;
+	float: left;
+	
+}
+#bode-plot-container
+{
+	height: 40em;
+}

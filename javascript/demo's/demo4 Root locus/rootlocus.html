@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="../../library/controlplot.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+<script type="text/javascript" src="./mainrootlocus.js"></script>
+<script type="text/javascript" src="nouislider.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./styledemo4.css">
+</head>
+<body>
+
+<h1>Root locus</h1>
+
+<section id ="section1">
+
+Enter the coefficients of the <b>transfer function of the plant</b>. E.g.: s + 4 = 1,4<br>
+
+<form>
+Numerator:  
+<input type="text" id="numerator" value="1"> 
+<br>
+Denominator:
+<input type="text" id="denominator" value="1,1">
+<br>
+</form>
+
+<input type="button" value="Submit" id='update'> <br>
+
+<div>
+		Choose a value for K (<span id="slider-value">0.50</span>): <br><br>
+			<div style="width:250px" id="slider_1" ></div>
+		</div> <br> 
+
+Used <b>value for K </b> in calculations: <span id="used_value_K">0.50</span> <br>
+
+<b>Transfer function plant: </b> <br>
+G(s) = <div class="fraction">
+        <span class="fup"><span id="numerator_plant">1</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="denominator_plant">s + 1</span></span>
+    </div> <br>
+
+<b>Transfer function closed-loop system: </b> <br>
+P(s) = <div class="fraction">
+        <span class="fup">KG(s)</span>
+        <span class="bar">/</span>
+        <span class="fdn">1 + KG(s)</span>
+    </div> = <div class="fraction">
+        <span class="fup"><span id="numerator_comp">0.5</span></span>
+        <span class="bar">/</span>
+        <span class="fdn"><span id="denominator_comp">s + 1.5</span></span>
+    </div> <br>
+	
+<form>
+<input type="radio"  name="reference" checked>Show the reference at the step response.
+</form>
+</section>
+
+<section id ="section2">
+<img src="rootlocusdemo.jpg" style="width:800px;height:139px;"> <br>
+<b>Root locus open-loop system (KG(s)): </b> <br>
+<div id="root-locus" style="width:400px; height: 400px;"></div>
+</section>
+
+<section id ="section3">
+<br> <br> <br> <br> <br>
+<b>Step response closed-loop system: </b> <br>
+<div id="step-plot" style="width:400px; height: 400px;"></div>
+</section>
+
+
+
+
+</body>
+</html> 
