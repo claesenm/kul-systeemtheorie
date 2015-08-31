@@ -70343,7 +70343,7 @@ module.exports = {
      * @param {Number|Complex} start - The start exponent of the sequence
      * @param {Number|Complex} end - The end exponent of the sequence
      * @param {Number|Complex} [n=50] - The amount of points to return
-     * @param {Boolean|Complex} [inclusive=true] - Wheter or not the endpoint exponent should be included.
+     * @param {Boolean|Complex} [inclusive=true] - Whether or not the endpoint exponent should be included.
      * @return {Array<(Number|Complex)>} The array of equidistant points in logspace.
      */
     logspace: function(start, end, num, inclusive, base) {
@@ -70352,7 +70352,7 @@ module.exports = {
     },
 
     /**
-     * Evaluates a list of (Complex) numbers in s as if the list containes zeros/poles.
+     * Evaluates a list of (Complex) numbers in s as if the list contains zeros/poles.
      * @param {Array<(Complex|Number)>} a - the array of numbers.
      * @param {(Complex|Number)} s - The point in which to evaluate.
      * @returns {(Complex|Number)} The result of the evaluation.
@@ -70365,7 +70365,7 @@ module.exports = {
 
 
     /**
-     * Evaluates the list in s as if the list contains coëfficients of a polynomial in descending order.
+     * Evaluates the list in s as if the list contains coefficients of a polynomial in descending order.
      * @param {Array<(Number|Complex)>} p - The polynomial to evaluate.
      * @param {(Number|Complex)} s - The value in which to evaluate the polynomial.
      * @returns {(Number|Complex)} Returns the result of evaluating the polynomial in s
@@ -70382,7 +70382,7 @@ module.exports = {
 
 
     /**
-     * Finds all the (complex) roots of a polynomial with real coëfficients.
+     * Finds all the (complex) roots of a polynomial with real coefficients.
      * @param {Array<Number>} poly - The polynomial.
      * @returns {Array<(Number|Complex)>} The roots of the polynomial
      */
@@ -72448,7 +72448,7 @@ module.exports = {
      * @returns {Ss} The state-space representation of sys.
      */
     tf2ss: function(sys) {
-        // Controlable canonical form
+        // Controllable canonical form
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
