@@ -89,13 +89,13 @@ function setup()
 	var plts = control.plot.bode(bodePlot, dynSys);
 	
 }
-/*
+/**
  *	Updates the formula of the Transfer Function under input.
  *	
- *	@param {Array} num
+ *	@param {Array} num -
  *	Array containing the coëfficiënts of the numerator, highest degree first
  *
- *	@param {Array} den
+ *	@param {Array} den -
  *	Array containing the coëfficiënts of the denominator, highest degree first
 */
 function update_tf(num, den)
@@ -103,10 +103,10 @@ function update_tf(num, den)
 	
 	var tfLatex		= " $$ H(s) = \\frac{";
 	
-	/*
+	/**
 	 *	Makes a in latex formated polynom
 	 *	
-	 *	@param {Array} coeff
+	 *	@param {Array} coeff -
 	 *	Array containing the coëfficiënts of the polynom
 	 *
 	*/
@@ -151,18 +151,18 @@ function get_amp_phase_shift( sys, freq)
 	return tf_eval.toPolar();
 }
 
-/*	Generates an array of points to plot the ouput function
+/**	Generates an array of points to plot the ouput function
  *	
- *	@param {number} lowerBound
+ *	@param {number} lowerBound -
  *	Where the x-value should start
  *
- *	@param {number} upperBound
+ *	@param {number} upperBound -
  *	Where the x-value should stop
  *
- *	@param {number} step
+ *	@param {number} step -
  *	Distance between the x-values
  *
- *	@return {Array} 
+ *	@return {Array} -
  *	Array of (x,y) points 
  *	
 */
