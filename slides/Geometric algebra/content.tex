@@ -7,23 +7,23 @@
 		\begin{itemize}
 			\item magnitude
 			\item direction
-			\item startpoint
+			\item start point
 		\end{itemize}
 		{\bf with respect to} a referention vector $\overrightarrow{0}$
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\begin{block}{Multiplication scalar and vector}
-		r $\in \mathbb{R}$ (r $\in \mathbb{C}$ is possible, but hasn't a fysical representation)
+	\begin{block}{Multiplication between a scalar and a vector}
+		r $\in \mathbb{R}$ (r $\in \mathbb{C}$ is possible, but hasn't a physical representation)
 		\begin{itemize}
-			\item $|r|<1$: shorten
-			\item $|r|>1$: increase
+			\item $|r|<1$: short the vector
+			\item $|r|>1$: increase the vector
 			\item $r<0$: reverse the direction
 		\end{itemize}
 	\end{block}
 	\begin{block}{Addition of vectors}
-		Parallellogramrule:
+		Parallelogram rule:
 
 		\begin{figure}
 			\centering
@@ -33,13 +33,13 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{vectorspace}
+	\frametitle{Vector spaces}
 	\begin{block}{First condition}
-		A vectorspace V over a body L (set of operators) is a set of vectors that satisfy:\\
-		1. A vectorsum is defined: $VxV\rightarrow V:(\overrightarrow{x},\overrightarrow{y})\rightarrow\overrightarrow{x}+\overrightarrow{y}$\\
-		 \hspace{1.5 cm}$\overrightarrow{x}$, $\overrightarrow{y}$, $\overrightarrow{z}$ $\epsilon$ V
+		A vector space V over a body L (set of operators) is a set of vectors that satisfy:\\
+		1. A vector sum is defined: $VxV\rightarrow V:(\overrightarrow{x},\overrightarrow{y})\rightarrow\overrightarrow{x}+\overrightarrow{y}$\\
+		 \hspace{1.5 cm}$\overrightarrow{x}$, $\overrightarrow{y}$, $\overrightarrow{z}$ $\in$ V
 		\begin{description}
-			\item[a)] $\overrightarrow{x}+\overrightarrow{y}$ $\epsilon$ V
+			\item[a)] $\overrightarrow{x}+\overrightarrow{y}$ $\in$ V
 			\item[b)] $\overrightarrow{x}+(\overrightarrow{y}+\overrightarrow{z})=(\overrightarrow{x}+\overrightarrow{y})+\overrightarrow{z}$
 			\item[c)] $\exists!\overrightarrow{0}: \overrightarrow{x}+\overrightarrow{0}=\overrightarrow{0}+\overrightarrow{x}=\overrightarrow{x}$
 			\item[d)] $\forall \overrightarrow{x}, \exists (-\overrightarrow{x}):\overrightarrow{x}+(-\overrightarrow{x})=(-\overrightarrow{x})+\overrightarrow{x}=0$
@@ -49,11 +49,11 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{vectorspace}
+	\frametitle{Vector spaces}
 	\begin{block}{Second condition}
-		2. A outside law is defined:$LxV\rightarrow V:(a,\overrightarrow{x})\rightarrow a\overrightarrow{x}$\\
-		\hspace{1.5 cm}$\overrightarrow{x}$, $\overrightarrow{y}$ $\epsilon$ V\\
-		\hspace{1.5 cm}a,b $\epsilon$ L
+		2. A outside law is defined: $LxV\rightarrow V:(a,\overrightarrow{x})\rightarrow a\overrightarrow{x}$\\
+		\hspace{1.5 cm}$\overrightarrow{x}$, $\overrightarrow{y}$ $\in$ V\\
+		\hspace{1.5 cm}a,b $\in$ L
 		\begin{description}
 			\item[a)] $1\overrightarrow{x}=\overrightarrow{x}$
 			\item[b)] $a(b\overrightarrow{x})=(ab)\overrightarrow{x}$
@@ -66,78 +66,78 @@
 \begin{frame}
 	\frametitle{Numberspaces of n-couples}
 	\begin{block}{Defenition}
-		This is the set of all n-couples like 
+		This is the set of all n-couples 
 		$\begin{bmatrix}
-			\overrightarrow{x_1}\\
-			\overrightarrow{x_2}\\
+			x_1\\
+			x_2\\
 			.\\
 			.\\
-			\overrightarrow{x_n}
-		\end{bmatrix}$ with $x_i$ $\epsilon$ $\mathbb{R}$ or $x_i$ $\epsilon$ $\mathbb{C}$.\\
-		This set together with the operator set $\mathbb{R}$ or $\mathbb{C}$ is a vectorspace.
+			x_n
+		\end{bmatrix}$ with $x_i$ $\in$ $\mathbb{R}$ or $x_i$ $\in$ $\mathbb{C}$ (i=1,...,n).\\
+		This set together with the operator set $\mathbb{R}$ or $\mathbb{C}$ is a vector space.
 	\end{block}
 \end{frame}
 		
 \begin{frame}
 	\frametitle{Subspaces}
 	\begin{block}{Defenition}
-		$V_1$ is a supspace of vectorspace V if:\\ 
+		$V_1$ is a subspace of vector space V if:\\ 
 		\begin{enumerate}
 			\item $V_1 \subset$ V
-			\item With the same in- and outside law as V, is $V_1$ a vectorspace
+			\item With the same in- and outside law as V, is $V_1$ a vector space.
 		\end{enumerate}
 	\end{block}
 	\begin{block}{Properties}
 		\begin{enumerate}
-			\item $\overrightarrow{0}$ $\epsilon$ every subspace
-			\item The intersection of two spaces is always a subspace
-			\item Given: p vectors $x_1,x_2,...,x_p$ $\epsilon$ V.\\
-			The set vectors $a_1x_1+a_2x_2+...+a_nx_n$ with $a_i$ $\epsilon$ $\mathbb{R}$ is a subspace of V.
+			\item $\overrightarrow{0}$ $\in$ every subspace
+			\item The intersection of two spaces is always a subspace.
+			\item Given: p vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ $\in$ V.\\
+			The set vectors $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_p\overrightarrow{x_p}$ with $a_i$ $\in$ $\mathbb{R}$ is a subspace of V.
 		\end{enumerate}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
-	\begin{block}{Defenition independance}
+	\frametitle{Linear independence, basis, dimensions}
+	\begin{block}{Defenition independence}
 		Given: p vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ $\epsilon$ V.\\
-		Construct the nullvector as a linear combination of those vectors (i.e. search the operators (numbers) $a_1,a_2,...,a_p$ to form $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_n\overrightarrow{x_n}=\overrightarrow{0}$).\\
-		If the nullvector only can created by $a_1=a_2=...=a_p=0$, then are the vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ {\bf linear independant}.
+		Construct the null vector as a linear combination of those vectors (i.e. search the operators (numbers) $a_1,a_2,...,a_p$ to form $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_n\overrightarrow{x_n}=\overrightarrow{0}$).\\
+		If the null vector only can by created by $a_1=a_2=...=a_p=0$, then are the vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ {\bf linear independent}.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
-	\begin{block}{Properties}
+	\frametitle{Linear independence, basis, dimensions}
+	\begin{block}{Properties linear independence}
 		\begin{enumerate}
-			\item If the vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ are linear independent, then can't none of them be writed as a linear combination of the other p-1 vectors.
-			\item If the nullvector is one of the p vectors, then is the set $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ linear dependant (if $\overrightarrow{x_1}=0$ then is $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_n\overrightarrow{x_n}=0$ with $a_1\neq0$ and $a_2,a_3,...a_p=0$).
-			\item Basis and dimension: p linear independant vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ generate a vectrospace $V^p$. Every vector in $V^p$ can be writed {\bf in only one way} as a linear combination of the p linear independant vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ using operators $a_1,a_2,...,a_p$.
+			\item If the vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ are linear independent, then can't none of them be written as a linear combination of the other p-1 vectors.
+			\item If the null vector is one of the p vectors, then is the set $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ linear dependent (if $\overrightarrow{x_1}=0$ then is $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_n\overrightarrow{x_n}=0$ with $a_1\neq0$ and $a_2,a_3,...a_p=0$).
+			\item Basis and dimension: p linear independent vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ generate a vector space $V^p$. Every vector in $V^p$ can be written {\bf in only one way} as a linear combination of the p linear independent vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$ using operators $a_1,a_2,...,a_p$.
 		\end{enumerate}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Basis, dimension}
 		Given: $\overrightarrow{v}=a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+...+a_p\overrightarrow{x_p}$.\\
-		The set operators $a_1,a_2,...,a_p$ are called the {\bf coordinates} of the vector $\overrightarrow{v}$ relative to the set vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$. This set vectors is a {\bf basis} of vectorspace $V^p$, with {\bf dimension} p.
+		The set operators \{$a_1,a_2,...,a_p$\} are called the {\bf coordinates} of the vector $\overrightarrow{v}$ relative to the set vectors \{$\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$\}. This set vectors is a {\bf basis} of the vector space $V^p$, with {\bf dimension} p.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Example}
 		Given: $\overrightarrow{x_1}=\begin{bmatrix} 1\\0\\0\end{bmatrix}, \overrightarrow{x_2}=\begin{bmatrix} 0\\1\\0\end{bmatrix}, \overrightarrow{x_3}=\begin{bmatrix} 0\\0\\1\end{bmatrix}$\\
-		The set \big\{$\overrightarrow{x_1},\overrightarrow{x_2},\overrightarrow{x_3}$\big\} is a linear independant combination. There doesn't exist numbers $a_1\neq0$, $a_2\neq0$, $a_3\neq0$ such that $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+a_n\overrightarrow{x_3}=0$. The set of all vectors $\overrightarrow{y}= a_1\overrightarrow{x_1}+ a_2\overrightarrow{x_2}+ a_n\overrightarrow{x_3}$ is the three dimensional vectrospace $V^3$.\\
-		If $\overrightarrow{y}=\begin{bmatrix} 3\\2\\1\end{bmatrix}$. Then is $3\overrightarrow{x_1}+2\overrightarrow{x_2}+\overrightarrow{x_3}$ the only way to write $\overrightarrow{y}$ as a linear combination of $\overrightarrow{x_1},\overrightarrow{x_2},\overrightarrow{x_3}$.
+		The set \{$\overrightarrow{x_1},\overrightarrow{x_2},\overrightarrow{x_3}$\} is a linear independent combination. There doesn't exist numbers $a_1\neq0$, $a_2\neq0$, $a_3\neq0$ such that $a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}+a_n\overrightarrow{x_3}=0$. The set of all vectors $\overrightarrow{y}= a_1\overrightarrow{x_1}+ a_2\overrightarrow{x_2}+ a_n\overrightarrow{x_3}$ is the three dimensional vector space $V^3$.\\
+		If $\overrightarrow{y}=\begin{bmatrix} 3\\2\\1\end{bmatrix}$. Then $3\overrightarrow{x_1}+2\overrightarrow{x_2}+\overrightarrow{x_3}$ is the only way to write $\overrightarrow{y}$ as a linear combination of $\overrightarrow{x_1},\overrightarrow{x_2},\overrightarrow{x_3}$.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Example}
-		The set of vectors $\overrightarrow{y}=a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}$ is a {\bf two dimensional} subspace $V^2$.\\
+		The set vectors $\overrightarrow{y}=a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}$ is a {\bf two dimensional} subspace $V^2$.\\
 		The vectors in this subspace are: $\overrightarrow{y}=\begin{bmatrix} y_1\\y_2\\y_3\end{bmatrix}=a_1\begin{bmatrix} 1\\0\\0\end{bmatrix}+ a_2\begin{bmatrix} 0\\1\\0\end{bmatrix}=\begin{bmatrix} a_1\\a_2\\0\end{bmatrix}$.
 	\end{block}
 	\begin{block}{Important difference}
@@ -149,21 +149,21 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Convention of notation}
-		Given: a n-dimensional vectorspace $V^n$.\\
-		The elements of this vectorspace are the elements: $\overrightarrow{x},\overrightarrow{y},..$. If we choose $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_n}$ as a basis of $V^n$. Then we can write every vector of $V^n$ as a linear combination of those basis vectors in only one way: $\overrightarrow{x}=x_1\overrightarrow{e_1}+x_2\overrightarrow{e_2}+ ...+x_n\overrightarrow{e_n}$. The numbers $x_i$ are the coordinates of vector $\overrightarrow{x}$ relative to the basis $\overrightarrow{e_1},\overrightarrow{e_2},..., \overrightarrow{e_n}$.\vspace{5mm}
-		Between the vectorspace of dimension n and the number space of dimension n exists a isomorphism.	
+		Given: a n-dimensional vector space $V^n$.\\
+		The elements of this vector space are: $\overrightarrow{x},\overrightarrow{y},..$. If we choose $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_n}$ as a basis of $V^n$, then we can write every vector of $V^n$ as a linear combination of those basis vectors in only one way: $\overrightarrow{x}=x_1\overrightarrow{e_1}+x_2\overrightarrow{e_2}+ ...+x_n\overrightarrow{e_n}$. The numbers $x_i$ are the coordinates of vector $\overrightarrow{x}$ relative to the basis $\overrightarrow{e_1},\overrightarrow{e_2},..., \overrightarrow{e_n}$.\vspace{5mm}
+		Between the vector space of dimension n and the number space of dimension n exists a isomorphism.	
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
-	\begin{block}{Vectorspace $V^p$}
-		Given: a p-dimensional vectorspace $V^p$ where the vectors are n-couples (with $n\geq p$).
+	\frametitle{Linear independence, basis, dimensions}
+	\begin{block}{Vector space $V^p$}
+		Given: a p-dimensional vector space $V^p$ where the vectors are n-couples (with $n\geq p$).
 		\begin{enumerate}
-			\item In $V^p$ you can choose a basis with p linear independant vectors.
-			\item Every vector $\overrightarrow{x}$ $\epsilon$ $V^p$ can be writed in only one way as a linear combination of the p basis vectors using coordinates.
+			\item In $V^p$ exists a basis with p linear independent vectors.
+			\item Every vector $\overrightarrow{x}$ $\in$ $V^p$ can be written in only one way as a linear combination of the p basis vectors using coordinates.
 		\end{enumerate}	
 	\end{block}
 	\begin{block}{Example 1}
@@ -172,28 +172,29 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Example 1}
-		The vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ are linear independant, so they span a two dimensional subspace: $\overrightarrow{y}=a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}$ with $a_1, a_2$ $\epsilon$ $\mathbb{R}$.\\
-		The coordinates of the vector $y_1=\begin{bmatrix} 5\\-6\\1\\2\\5\end{bmatrix}$, relative to the basis \big\{$\overrightarrow{x_1},\overrightarrow{x_2}$\big\}, are $a_1=1$ and $a_2=2$.
+		The vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ are linear independent, so they span a two dimensional subspace: $\overrightarrow{y}=a_1\overrightarrow{x_1}+a_2\overrightarrow{x_2}$ with $a_1, a_2$ $\in$ $\mathbb{R}$.\\
+		The coordinates of the vector $y_1=\begin{bmatrix} 5\\-6\\1\\2\\5\end{bmatrix}$ are $a_1=1$ and $a_2=2$, relative to the basis \{$\overrightarrow{x_1},\overrightarrow{x_2}$\}.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{Example 1}
-		The vector $\overrightarrow{y_2}=\begin{bmatrix} 5\\-7\\1\\2\\5\end{bmatrix}$ can't be writen as a linear combination of the vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$. So $y_2$ doesn't belong to the subspace spanned by $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.\\
-		This implies that $\overrightarrow{y_2}$ is linear independant of $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$. Thus the subspace spanned by $\overrightarrow{y_2}$, $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ is a 3 dimensional subspace.
+		The vector $\overrightarrow{y_2}=\begin{bmatrix} 5\\-7\\1\\2\\5\end{bmatrix}$ can't be written as a linear combination of the vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$. So $y_2$ doesn't belong to the subspace spanned by $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.\\
+		This implies that $\overrightarrow{y_2}$ is linear independent with $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.\\
+		 Hence, the subspace spanned by $\overrightarrow{y_2}$, $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ is a 3 dimensional subspace.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Linear independance, basis, dimensions}
+	\frametitle{Linear independence, basis, dimensions}
 	\begin{block}{In general}
-		When the set vectors $\overrightarrow{x_1},\overrightarrow{x_2},..., \overrightarrow{x_p}$ is linear independant, then lays $\overrightarrow{x_i}$ not totally in the subspace spanned by the vectors $\overrightarrow{x_1},..., \overrightarrow{x}_{i-1}, \overrightarrow{x}_{i+1},...,\overrightarrow{x_p}$.\\
-		The vector $\overrightarrow{x_i}$ can be writen as a sum of 2 components: $\overrightarrow{x}_{i\alpha}$ and $\overrightarrow{x}_{i\beta}$.
+		When the set vectors $\overrightarrow{x_1},\overrightarrow{x_2},..., \overrightarrow{x_p}$ is linear independent, then is $\overrightarrow{x_i}$ not totally in the subspace spanned by the vectors $\overrightarrow{x_1},..., \overrightarrow{x}_{i-1}, \overrightarrow{x}_{i+1},...,\overrightarrow{x_p}$.\\
+		The vector $\overrightarrow{x_i}$ can be written as a sum of 2 components: $\overrightarrow{x}_{i\alpha}$ and $\overrightarrow{x}_{i\beta}$.
 		\begin{enumerate}
-			\item $\overrightarrow{x}_{i\alpha}$ $\epsilon$ subspace spanned by $\overrightarrow{x_1},..., \overrightarrow{x}_{i-1}, \overrightarrow{x}_{i+1},...,\overrightarrow{x_p}$.
+			\item $\overrightarrow{x}_{i\alpha}$ $\in$ subspace spanned by $\overrightarrow{x_1},..., \overrightarrow{x}_{i-1}, \overrightarrow{x}_{i+1},...,\overrightarrow{x_p}$.
 			\item $\overrightarrow{x}_{i\beta}$ $\bot$ subspace spanned by $\overrightarrow{x_1},..., \overrightarrow{x}_{i-1}, \overrightarrow{x}_{i+1},...,\overrightarrow{x_p}$.
 		\end{enumerate}
 	\end{block}
@@ -202,13 +203,13 @@
 \begin{frame}
 	\frametitle{Inner product}
 	\begin{block}{Defenition}
-		The inproduct of two vectors $\overrightarrow{x}$ and $\overrightarrow{y}$ $\epsilon$ $E^n$ (n-couples) is defined as the image: $E^nxE^n\to\mathbb{R}:\{\overrightarrow{x},\overrightarrow{y}\}\to\overrightarrow{x}.\overrightarrow{y}$ $\epsilon$ $\mathbb{R}$. This image is:
+		The inner product of two vectors $\overrightarrow{x}$ and $\overrightarrow{y}$ $\in$ $E^n$ (n-couples) is defined as the image: $E^nxE^n\to\mathbb{R}:\{\overrightarrow{x},\overrightarrow{y}\}\to\overrightarrow{x}.\overrightarrow{y}$ $\in$ $\mathbb{R}$. This image is:
 		\begin{enumerate}
 			\item Bilinear:\\ $(\overrightarrow{x}+\overrightarrow{v}).\overrightarrow{y}=\overrightarrow{x}.\overrightarrow{y}+\overrightarrow{v}.\overrightarrow{y}$\\
-			$\overrightarrow{x}+(\overrightarrow{v}).\overrightarrow{y})=\overrightarrow{x}.\overrightarrow{v}+\overrightarrow{x}.\overrightarrow{y}$\\
+			$\overrightarrow{x}(\overrightarrow{v}+\overrightarrow{y})=\overrightarrow{x}.\overrightarrow{v}+\overrightarrow{x}.\overrightarrow{y}$\\
 			$(a\overrightarrow{x})\overrightarrow{y}=a(\overrightarrow{x}.\overrightarrow{y})$\\
 			$\overrightarrow{x}(a\overrightarrow{y})=a(\overrightarrow{x}.\overrightarrow{y})$
-			\item Symetric:\\
+			\item Symmetric:\\
 			$\overrightarrow{x}.\overrightarrow{y}=\overrightarrow{y}.\overrightarrow{x}$
 			\item Positive definite:\\
 			$\forall \overrightarrow{x} \neq \overrightarrow{0}$: $\overrightarrow{x} .\overrightarrow{x} > 0$
@@ -219,16 +220,16 @@
 \begin{frame}
 	\frametitle{Inner product}
 	\begin{block}{Matricial notation}
-		The inproduct is a {\bf scalar}. If $\overrightarrow{x}$, $\overrightarrow{y}$ and the basis $\epsilon$ $E^n$ then can the inproduct be noted matricial:\\
+		The inner product is a {\bf scalar}. If $\overrightarrow{x}$, $\overrightarrow{y}$ and the basis $\in$ $E^n$, then can the inner product be noted matricial:\\
 		$\overrightarrow{x}.\overrightarrow{y}=y^tAx=x^tAy=(x_1...x_n)A\begin{pmatrix} y_1\\...\\y_n\end{pmatrix}$\\
-		with A positive definite and symetric ($A=A^t$).
+		with A positive definite and symmetric ($A=A^t$).
 	\end{block} 
 \end{frame}
 
 \begin{frame}
 	\frametitle{Inner product}
 	\begin{block}{Norm of a vector}
-		$\|\overrightarrow{x}\|^2=\overrightarrow{x}.\overrightarrow{x}$ and because $\overrightarrow{x}.\overrightarrow{x}>0$ applies:\\
+		$\|\overrightarrow{x}\|^2=\overrightarrow{x}.\overrightarrow{x}$ and because $\overrightarrow{x}.\overrightarrow{x}>0$:\\
 		$\|\overrightarrow{x}\|=\sqrt{\overrightarrow{x}.\overrightarrow{x}}$ where $\|\overrightarrow{x}\|$ is called the norm of $\overrightarrow{x}$.\\
 		Normalizing is dividing a vector by its norm. The result is a vector with norm $=1$.\\
 		$\|\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}\|= \sqrt{\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|} \frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}}= \sqrt{\frac{\|\overrightarrow{x}\|^2}{\|\overrightarrow{x}\|\|\overrightarrow{x}\|}}=1$.
@@ -237,13 +238,13 @@
 
 \begin{frame}
 	\frametitle{Inner product}
-	\begin{block}{Cauchy–Schwarz inequality}
+	\begin{block}{Cauchy Schwarz inequality}
 		$|\overrightarrow{x}.\overrightarrow{y}|\leq \|\overrightarrow{x}\|\|\overrightarrow{y}\|$ or \\
-		$-\|\overrightarrow{x}\|\|\overrightarrow{y}\|\leq \overrightarrow{x}.\overrightarrow{y}\leq \|\overrightarrow{x}\|\|\overrightarrow{y}\|$ from wich follows:\\
+		$-\|\overrightarrow{x}\|\|\overrightarrow{y}\|\leq \overrightarrow{x}.\overrightarrow{y}\leq \|\overrightarrow{x}\|\|\overrightarrow{y}\| \Rightarrow$ \\
 		$-1 \leq\frac{\overrightarrow{x}\overrightarrow{y}} {\|\overrightarrow{x}\|\|\overrightarrow{y}\|} \leq 1$\\
-		By defenition follows:\\
-		$\cos(\theta)=cos(\angle (\overrightarrow{x}, \overrightarrow{y}))= \frac{\overrightarrow{x}\overrightarrow{y}} {\|\overrightarrow{x}\|\|\overrightarrow{y}\|}$\\
-		Therefor: the angle between the vectors $\overrightarrow{x}$ and $\overrightarrow{y}$ = Bgcos(inproduct of $\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}$ and $\frac{\overrightarrow{y}}{\|\overrightarrow{y}\|}$).
+		By definition is:\\
+		$\cos(\theta)=cos(\angle (\overrightarrow{x}, \overrightarrow{y}))= \frac{\overrightarrow{x}\overrightarrow{y}} {\|\overrightarrow{x}\|\|\overrightarrow{y}\|}$ (with $\theta$ the angle between the two vectors)\\
+		Hence: the angle between the vectors $\overrightarrow{x}$ and $\overrightarrow{y}=\theta=$ Bgcos(in product of $\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}$ and $\frac{\overrightarrow{y}}{\|\overrightarrow{y}\|}$).
 	\end{block} 
 \end{frame}
 
@@ -253,7 +254,7 @@
 		$\overrightarrow{x}$ and $\overrightarrow{y}$ are orthogonal $\Leftrightarrow$\\ $\theta=\angle(\overrightarrow{x},\overrightarrow{y})=90^{\circ}=\frac{\Pi}{2} rad$ $\Leftrightarrow$\\
 		$cos(\theta)=0$ $\Leftrightarrow$\\
 		$\overrightarrow{x}.\overrightarrow{y}=0$\\
-		\vspace{5mm}
+		\vspace{4mm}
 		Hence, if $\overrightarrow{x},\overrightarrow{y} \neq 0$:\\
 		$\overrightarrow{x}\perp\overrightarrow{y} \Leftrightarrow \overrightarrow{x}.\overrightarrow{y}=0$.
 	\end{block} 
@@ -261,7 +262,7 @@
 		$\overrightarrow{x}\parallel\overrightarrow{y}\Leftrightarrow
 		\theta=0^{\circ}$ or $180^{\circ} \Leftrightarrow
 		cos(\theta)=\pm 1 \Leftrightarrow
-		|\overrightarrow{x}\overrightarrow{y}|=\|\overrightarrow{x}\|\|\overrightarrow{y}\|$
+		|\overrightarrow{x}.\overrightarrow{y}|=\|\overrightarrow{x}\|\|\overrightarrow{y}\|$
 	\end{block} 
 \end{frame}
 
@@ -282,13 +283,13 @@
 
 \begin{frame}
 	\frametitle{Inner product}
-	\begin{block}{The 'simple' inproduct}
+	\begin{block}{The 'simple' inner product}
 		If in the definition $\overrightarrow{x}.\overrightarrow{y}=y^tAx=x^tAy$ 
-		(with A positive definite and symetric) A=I, then the inproduct becomes the simple inproduct: $\overrightarrow{x}.\overrightarrow{y}=y^tIx=x^tIy=(x_1...x_n)\begin{pmatrix} y_1\\...\\y_n\end{pmatrix}=\sum_{i=1}^{n}x_iy_i$.\\
-		This simple inproduct can always be found by a basis transformation: x=Rx' and y=Ry', then $\overrightarrow{x}.\overrightarrow{y}=y'^t(R^tAR)x'$.\\
-		Now, R must be taken such that $R^tAR=I$. This can be done by converting A to its normal form by a congruent transformation (e.g. the method of kwadratic forms). \\
+		(with A positive definite and symmetric) A=I, then the inner product becomes the simple inner product: $\overrightarrow{x}.\overrightarrow{y}=y^tIx=x^tIy=(x_1...x_n)\begin{pmatrix} y_1\\...\\y_n\end{pmatrix}=\sum_{i=1}^{n}x_iy_i$.\\
+		This simple inner product can always be found in a basis transformation: x=Rx' and y=Ry', then $\overrightarrow{x}.\overrightarrow{y}=y'^t(R^tAR)x'$.\\
+		Now, R must be taken such that $R^tAR=I$. This can be done by converting A to its normal form by a congruent transformation (e.g. the method of quadratic forms). \\
 		\vspace{5mm}
-		In what follows we mean by 'inproduct' always 'simple inproduct'.
+		In what follows, we mean by 'inner product' always ' the simple inner product'.
 	\end{block} 
 \end{frame}
 
@@ -308,7 +309,7 @@
 					\put(15,10){\vector(1,0){25}}	
 					\put(15,10){\vector(0,1){25}}
 					\put(40,4){$\overrightarrow{y_1}$}
-					\put(10,35){$\overrightarrow{y_2}$}			
+					\put(10,35){$\overrightarrow{y_2}$}	
 				\end{picture}
 			\end{column}
 			\begin{column}{.49\textwidth}
@@ -320,16 +321,16 @@
 
 \begin{frame}
 	\frametitle{Gram Schmidt orthogonalization}
-	\begin{block}{Making two indepentent vectors orthogonal}
+	\begin{block}{Making two independent vectors orthogonal}
 		\begin{enumerate}
 			\item Project $\overrightarrow{y}$ orthogonal on $\overrightarrow{x}$, this generates the vector $\overrightarrow{y_1}$, the component parallel with $\overrightarrow{x}$.
-			\item Subtract $\overrightarrow{y}$ by $\overrightarrow{y_1}$, the result is $\overrightarrow{y_2}$ wich is orthogonal to $\overrightarrow{x}$.
+			\item Subtract $\overrightarrow{y}$ by $\overrightarrow{y_1}$, the result is $\overrightarrow{y_2}$ which is orthogonal to $\overrightarrow{x}$.
 		\end{enumerate}
-		$\overrightarrow{y_1}$ is a specific multiple of the normilised vector $\overrightarrow{x}$:
+		$\overrightarrow{y_1}$ is a multiple of the normalized vector $\overrightarrow{x}$:
 		$\overrightarrow{y_1}=\alpha\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}$.\\
 		$\overrightarrow{y_1}\parallel\overrightarrow{x}$: $\overrightarrow{y_1}\overrightarrow{x}=\pm\|\overrightarrow{y_1}\|\|\overrightarrow{x}\|$ (+ if $\theta\leq90^{\circ}$ and - if $\theta>90^{\circ}$).\\
 		From fig. 1: $\|\overrightarrow{y_1}\|=cos(\theta)\|\overrightarrow{y}\|$.\\
-		From the inproduct: $cos(\theta)=\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|\|\overrightarrow{y}\|}$.
+		From the inner product: $cos(\theta)=\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|\|\overrightarrow{y}\|}$.
 		So $\overrightarrow{y_1}\overrightarrow{x}=\alpha\frac{\overrightarrow{x}}{\|\overrightarrow{x}\|}\overrightarrow{x}=\alpha\|\overrightarrow{x}\|=\|\overrightarrow{y_1}\|\|\overrightarrow{x}\|=cos(\theta)\|\overrightarrow{y}\|\|\overrightarrow{x}\|=\overrightarrow{x}\overrightarrow{y}$.\\
 		So we get: $\alpha=\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|}$.
 	\end{block} 
@@ -342,10 +343,10 @@
 		And $\overrightarrow{y_2}=\overrightarrow{y}-\overrightarrow{y_1}=\overrightarrow{y}-(\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|^2})\overrightarrow{x}$.\\
 		Hence:
 		\fbox{
-			\begin{minipage}{10cm}{The vector $\overrightarrow{y}$ gets orthogonalised on the vector $\overrightarrow{x}$ by subtract $\overrightarrow{y}$ by the component of $\overrightarrow{y}$ parallel with $\overrightarrow{x}$}.
+			\begin{minipage}{10cm}{The vector $\overrightarrow{y}$ gets orthogonalized on the vector $\overrightarrow{x}$ by subtract $\overrightarrow{y}$ by the component of $\overrightarrow{y}$ parallel with $\overrightarrow{x}$}.
 			\end{minipage}
 		}
-		Control of $\overrightarrow{y_2}\perp\overrightarrow{x}$:\\
+		Verify of $\overrightarrow{y_2}\perp\overrightarrow{x}$:\\
 		$\overrightarrow{y_2}\overrightarrow{x}=(\overrightarrow{y}-(\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|^2})\overrightarrow{x})\overrightarrow{x}=\overrightarrow{y}\overrightarrow{x}-(\frac{\overrightarrow{x}\overrightarrow{y}}{\|\overrightarrow{x}\|^2})\|\overrightarrow{x}\|^2=0$.
 	\end{block} 
 \end{frame}
@@ -354,7 +355,7 @@
 	\frametitle{Gram Schmidt orthogonalization}
 	\begin{block}{Generalization to multiple vectors}
 		Given: 3 vectors: 2 orthogonal unit vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ ($\|\overrightarrow{x_1}\|=1=\|\overrightarrow{x_2}\|,\overrightarrow{x_1}\overrightarrow{x_2}=0)$ and a vector $\overrightarrow{y}$.\\
-		Asked: orthogonilise $\overrightarrow{y}$ on $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.\\
+		Asked: orthogonalize $\overrightarrow{y}$ on $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.\\
 		Solution:\\
 		We first search the component of $\overrightarrow{y}$ parallel with $\overrightarrow{x_1}$ and subtract $\overrightarrow{y}$ by this component. This gives $\overrightarrow{y_1}$.\\
 		$\overrightarrow{y_1}=\overrightarrow{y}-(\frac{\overrightarrow{x_1}\overrightarrow{y}}{\|\overrightarrow{x_1}\|^2})\overrightarrow{x_1}=\overrightarrow{y}-(\overrightarrow{x_1}\overrightarrow{y})\overrightarrow{x_1}$ ($\|\overrightarrow{x_1}\|^2=1$)\\
@@ -365,23 +366,23 @@
 \begin{frame}
 	\frametitle{Gram Schmidt orthogonalization}
 	\begin{block}{Generalization to multiple vectors}
-		Next, we subtract $\overrightarrow{y_1}$ by the component of $\overrightarrow{y_1}$ that is parallel with $\overrightarrow{x_2}$, to get $\overrightarrow{z}$ (wich is perpendicular to both $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$).\\
+		Next, we subtract $\overrightarrow{y_1}$ by the component of $\overrightarrow{y_1}$ that is parallel with $\overrightarrow{x_2}$, to get $\overrightarrow{z}$ (which is perpendicular to both $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$).\\
 		$\overrightarrow{z}=\overrightarrow{y_1}-\overrightarrow{x_2}(\overrightarrow{y_1}\overrightarrow{x_2})$. We can write $\overrightarrow{z}$ in another way:\\
-		$\overrightarrow{z}=\overrightarrow{y_1}-\overrightarrow{x_2}(\overrightarrow{y_1}\overrightarrow{x_2})=\overrightarrow{y}-(\overrightarrow{x_1}\overrightarrow{y})\overrightarrow{x_1}-\overrightarrow{x_2}([\overrightarrow{y}-(\overrightarrow{x_1}\overrightarrow{y})\overrightarrow{x_1}]\overrightarrow{x_2})$\\
+		$\overrightarrow{z}=\overrightarrow{y_1}-\overrightarrow{x_2}(\overrightarrow{y_1}\overrightarrow{x_2})=\overrightarrow{y}-(\overrightarrow{x_1}\overrightarrow{y})\overrightarrow{x_1}-\overrightarrow{x_2}([\overrightarrow{y}-(\overrightarrow{x_1}\overrightarrow{y})\overrightarrow{x_1}]\overrightarrow{x_2})$
 		$\overrightarrow{z}=\overrightarrow{y}-\overrightarrow{x_1}(\overrightarrow{x_1\overrightarrow{y}})-\overrightarrow{x_2}(\overrightarrow{x_2}\overrightarrow{y})$
 	\end{block} 
 	\begin{block}{Conclusion}
-		The vector $\overrightarrow{y}$ becomes orthogonilised on two orthogonal unit vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ by subtracting $\overrightarrow{y}$ by the components of $\overrightarrow{y}$ parallel with $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.
+		The vector $\overrightarrow{y}$ becomes orthogonalized on two orthogonal unit vectors $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$ by subtracting $\overrightarrow{y}$ by the components of $\overrightarrow{y}$ parallel with $\overrightarrow{x_1}$ and $\overrightarrow{x_2}$.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Complementary subspace}
 	\begin{block}{Defenition}
-		Given: a n dimensional vector space $V^n$, with $p<n$ linear independent vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$. This vectors create a p dimensional subspace $V^p$ and can be orthogonilised via the Gram schidt method to a orthonormal basis $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$ with $\overrightarrow{e_i}\overrightarrow{e_j}=\delta_{ij}$ (with $\delta_{ij}=1$ if $i=j$ and $\delta_{ij}=0$ if $i\neq j$).\\
-		This p vectors can be complemented by $n-p$ linear independent vectors $\overrightarrow{f_1},\overrightarrow{f_2},...,\overrightarrow{f_{n-p}}$ that are linear independent with $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$ and orthonormal.\\
+		Given: a n dimensional vector space $V^n$, with $p<n$ linear independent vectors $\overrightarrow{x_1},\overrightarrow{x_2},...,\overrightarrow{x_p}$. This vectors create a p dimensional subspace $V^p$ and can be orthogonalized via the Gram Schmidt method to a orthonormal basis $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$ with $\overrightarrow{e_i}\overrightarrow{e_j}=\delta_{ij}$ (with $\delta_{ij}=1$ if $i=j$ and $\delta_{ij}=0$ if $i\neq j$).\\
+		This p vectors can be complemented by $n-p$ linear independent vectors $\overrightarrow{f_1},\overrightarrow{f_2},...,\overrightarrow{f}_{n-p}$ that are linear independent with $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$ and orthonormal.\\
 		\vspace{4mm}
-		These vectors $\overrightarrow{f_1},\overrightarrow{f_2},...,\overrightarrow{f_{n-p}}$ generate the orthogonal complement of the subspace created by $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$. \\
+		These vectors $\overrightarrow{f_1},\overrightarrow{f_2},...,\overrightarrow{f}_{n-p}$ generate the orthogonal complement of the subspace created by $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$. \\
 		The orthogonal complement of the p-dimensional subspace $V^p$ of $V^n$ ($p<n$), has dimension $n-p$.
 	\end{block}
 \end{frame}
@@ -390,7 +391,7 @@
 	\frametitle{Complementary subspace}
 	\begin{block}{Example}
 		Given: $n=5,p=3, \overrightarrow{e_1}=\begin{bmatrix} 2\\0\\-1\\0\\0 \end{bmatrix}, \overrightarrow{e_2}=\begin{bmatrix} 1\\0\\0\\4\\0 \end{bmatrix}, \overrightarrow{e_3}=\begin{bmatrix} 1\\3\\1\\0\\0 \end{bmatrix}$.\\
-		Asked: The orthogonal complement\\
+		Asked: the orthogonal complement\\
 		Solution: The orthogonal complement has dimension $n-p=5-3=2$ and consists of the set vectors that are perpendicular to the vectors $\overrightarrow{e_1},\overrightarrow{e_2},...,\overrightarrow{e_p}$.\\
 		$\begin{cases}
 			\overrightarrow{e_1}\overrightarrow{x}=0\\
@@ -416,7 +417,7 @@
 		\begin{bmatrix}
 		x_1\\ x_2\\ x_3\\ x_4\\ x_5
 		\end{bmatrix}=0$\\
-		This is a homogenous system of equetions. The solution of this system is the orthogonal complement. 	
+		This is a homogeneous system of equations. The solution of this system is the orthogonal complement. 	
 	\end{block}
 \end{frame}
 
@@ -436,24 +437,24 @@
 \begin{frame}
 	\frametitle{Row- and column space, rank}
 	\begin{block}{Column space}
-		We consider the columns of $A^{mxn}$ as vectors with m components and difine the vectors $\overrightarrow{x}$ as every possible linear combination of the column vectors $\overrightarrow{k_i}$:\\
-		$\overrightarrow{x}=a_1\overrightarrow{k_1}+a_2\overrightarrow{k_2}+...+a_n\overrightarrow{k_n}$ with $a_i\in\mathbb{R}$ and i means the $i^{th}$ column of A.\\
+		We consider the columns of $A^{mxn}$ as vectors with m components and define the vectors $\overrightarrow{x}$ as every possible linear combination of the column vectors $\overrightarrow{k_i}$:\\
+		$\overrightarrow{x}=a_1\overrightarrow{k_1}+a_2\overrightarrow{k_2}+...+a_n\overrightarrow{k_n}$ with $a_i\in\mathbb{R}$ and i the $i^{th}$ column of A.\\
 		The set of all the vectors $\overrightarrow{x}$ is called the column space of A.\\
-		The column space = all possible linear combinations of columns of A .
+		The column space = all possible linear combinations that can be created of the columns of A.
 		\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Row- and column space, rank}
 	\begin{block}{Column space}
-		if only r of the n vectors are linear independent, that means\\
+		If only r of the n vectors are linear independent, that means\\
 		\begin{itemize}
 			\item None of this r vectors can be written as a linear combination of the other $r-1$ vectors
-			\item all others $n-r$ column vectors can be written as linear combinations of the r linear independant vectors
+			\item all others $n-r$ column vectors can be written as linear combinations of the r linear independent vectors
 		\end{itemize} 
-		then r is called:
+		Then r is called:
 		\begin{enumerate}
-			\item the rank of (column) matrix A
+			\item the (column) rank of matrix A
  			\item the dimension of the column space of matrix A
 		\end{enumerate}
 	\end{block}
@@ -466,7 +467,7 @@
 	\end{block}
 	\begin{block}{Rank}
 		It is a fundamental matrix property that: $\framebox[1.1\width]{row rank A = column rank A}$\\
-		That means: the number linear independant columns in a matrix is equal to the number linear independant rows. Thus: \\
+		That means: the number linear independent columns in a matrix is equal to the number linear independent rows.\\ Hence: \\
 		{rank A = row rank A = column rank A \par
 		= dimension row space A = dimension column space A} 	
 	\end{block}
@@ -477,18 +478,18 @@
 	\begin{block}{Example}
 		$A^{4x3}=\begin{bmatrix} 1 & 2 & -1 \\ 0 & 1 & 0 \\ 1 & 3 & -1 \\ 2 & 4 & -2 \end{bmatrix}= \begin{bmatrix} k_1 & k_2 & k_3 \end{bmatrix}= \begin{bmatrix} r_1\\r_2\\r_3\\r_4
 		\end{bmatrix}$ \\
-		We determine the rank of A by converting it to his echlon form by elementary row operations (explaned in the appendix).\\
+		We determine the rank of A by converting it to his echelon form by elementary row operations (explained in the appendix).\\
 		$\begin{bmatrix} 1 & 2 & -1 \\ 0 & 1 & 0 \\ 1 & 3 & -1 \\ 2 & 4 & -2 \end{bmatrix} \sim \begin{bmatrix} 1 & 2 & -1 \\ 0 & 1 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix} \sim \begin{bmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$\\
-		Canonical form: the first element of every row is 1. Above and below this ones is every number 0.\\
+		Canonical form: the first element of every row is 1. Above and below this ones is every number 0.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Row- and column space, rank}
 	\begin{block}{Conclusion}
-		Rank = the number of rows that differs from zero. So the rank is 2. In other words: there are only 2 linear independent rows and columns in A. \\
+		The rank = the number of rows that differs from zero. So the rank is 2. In other words: there are only 2 linear independent rows and columns in A. \\
 		Hence:\\
-		The column space of A is a 2 dimensional subspace of the 4 dimensional vectorspace.\\
+		The column space of A is a 2 dimensional subspace of the 4 dimensional vector space.\\
 		The row space is a 2 dimensional subspace of the 3 dimensional space.
 	\end{block}
 \end{frame}
@@ -496,9 +497,10 @@
 \begin{frame}
 	\frametitle{Link between determinant and rank by square matrices}
 	\begin{block}{Determinant-rank}
-		If all the columns of a square matrix are linear dependent, then the determinant is 0. If $A^{mxm}$: \\
-		det A=0 $\Leftrightarrow$ rank A=0 $\Leftrightarrow$ columns depentent $\Leftrightarrow$ rows dependent.
-		If det A $\neq 0$ then rank A = m and A is of {\bf full rank}. A matrix can be inverted is his determinant when different from 0 (when its of full rank).
+		If all the columns of a square matrix are linear dependent, then the determinant is 0. \\
+		If $A^{mxm}$: \\
+		det A=0 $\Leftrightarrow$ rank A$<$m $\Leftrightarrow$ columns dependent $\Leftrightarrow$ rows dependent.
+		If det A $\neq 0$ then rank A = m and A is of {\bf full rank}. A matrix can be inverted if his determinant differs from 0 (when its of full rank).
 	\end{block}
 \end{frame}
 
@@ -515,7 +517,7 @@
 	\frametitle{Column space test}
 	\begin{block}{Belongs the vector to the column space?}
 		Given: n vectors with m components relative to a basis in $V^m$:\\
-		$\begin{bmatrix} x_{11}\\x_{21}\\...\\x_{m1} \end{bmatrix},...,\begin{bmatrix} x_{1n}\\x_{2n}\\...\\x_{nn}\end{bmatrix}$.\\
+		$\begin{bmatrix} x_{11}\\x_{21}\\...\\x_{m1} \end{bmatrix},...,\begin{bmatrix} x_{1n}\\x_{2n}\\...\\x_{mn}\end{bmatrix}$.\\
 		If r of this n vectors are linear independent then has the matrix \\
 		$X^{mxn}=\begin{bmatrix} \overrightarrow{x_1},...,\overrightarrow{x_n}\end{bmatrix}=\begin{bmatrix} x_{11} & ... & x_{1n}\\ ... & & ...\\ x_{m1} & ... & x_{mn}\end{bmatrix}$\\
 		rank r. The column space of X has dimension r.
@@ -539,7 +541,7 @@
 \begin{frame}
 	\frametitle{Column space test}
 	\begin{block}{Vector $\overrightarrow{y}$ not in column space}
-		If $\overrightarrow{y}$ doesn't belong to the column space of X, then can't $\overrightarrow{y}$ be written as a linear combination of the vectors $\overrightarrow{x_1},...,\overrightarrow{x_n}$, in other words: $\overrightarrow{y}$ can be splitted in two vectors $\overrightarrow{y}=\overrightarrow{z_1}+\overrightarrow{z_2}$ with $\overrightarrow{z_1}$ in the column space of X and $\overrightarrow{z_2}$ not in the column space of X. By adding $\overrightarrow{y}$ to the vectors $\overrightarrow{x_1},...,\overrightarrow{x_n}$ increases the dimension of the spannend space.\\
+		If $\overrightarrow{y}$ doesn't belong to the column space of X, then can't $\overrightarrow{y}$ be written as a linear combination of the vectors $\overrightarrow{x_1},...,\overrightarrow{x_n}$, in other words: $\overrightarrow{y}$ can be splitted in two vectors $\overrightarrow{y}=\overrightarrow{z_1}+\overrightarrow{z_2}$ with $\overrightarrow{z_1}$ in the column space of X and $\overrightarrow{z_2}$ not in the column space of X. By adding $\overrightarrow{y}$ to the vectors $\overrightarrow{x_1},...,\overrightarrow{x_n}$ increases the dimension of the spanned space.\\
 		\vspace{4mm}
 		\framebox[1.1\width]{$\overrightarrow{y}\not\in$ column space $\Leftrightarrow rank\begin{bmatrix}
 		X & \overrightarrow{y} \end{bmatrix}=r+1$}\\
@@ -622,8 +624,8 @@
 			\item $\overrightarrow{e_i}\perp\overrightarrow{e_j}$ or $\overrightarrow{e_i}.\overrightarrow{e_j}=0$ with $i\neq j$
 		\end{itemize}
 		This is noted as:\\
-		$\overrightarrow{e_i}.\overrightarrow{e_j}=\delta_{ij}$ with $\delta_{ij}=0$ if $i\neq j$ and $\delta_{ij}=1$ if $i=j$ ($\delta_{ij}$ is called 'kronecker delta').\\
-		If $\overrightarrow{e_{1i}}$ has the components $\begin{bmatrix} \overrightarrow{e_{1i}}\\...\\\overrightarrow{e_{ni}}\end{bmatrix}$ relative to some basis, then applies for the inproduct:\\
+		$\overrightarrow{e_i}.\overrightarrow{e_j}=\delta_{ij}$ with $\delta_{ij}=0$ if $i\neq j$ and $\delta_{ij}=1$ if $i=j$ ($\delta_{ij}$ is called 'Kronecker delta').\\
+		If $\overrightarrow{e_{i}}$ has the components $\begin{bmatrix} \overrightarrow{e_{1i}}\\...\\\overrightarrow{e_{ni}}\end{bmatrix}$ relative to some basis, then:\\
 		$\overrightarrow{e_{1i}}.\overrightarrow{e_{1j}}=\begin{bmatrix} e_{1i} & ... & e_{ni}\end{bmatrix} \begin{bmatrix} e_{1i}\\...\\e_{ni}\end{bmatrix}=e_{1i}e_{1j}+...+e_{ni}e_{nj}=\delta_{ij}$
 	\end{block}
 \end{frame}
@@ -648,7 +650,7 @@
 		0 & 1 & ... & 0\\
 		... & ... & ... & ...\\
 		0 & 0 & ... & 1\end{bmatrix}=I^{nxn}$\\
-		Hence, if the columns and rows of a matrix form a orthonomal system then is the matrix onthonormal: $E^tE=I=EE^t$.
+		Hence, if the columns and rows of a matrix form a orthonormal system, then is the matrix orthonormal: $E^tE=I=EE^t$.
 	\end{block}
 \end{frame}
 
@@ -656,11 +658,11 @@
 	\frametitle{Orthonormal matrices}
 	\begin{block}{Properties}
 		\begin{enumerate}
-			\item The inverse of a orthonormal matrix is his transform:\\
+			\item The inverse of a orthonormal matrix is his transpose:\\
 			$E^tE=I=EE^t \Rightarrow E^{-1}EE^t=E^{-1}I \Rightarrow IE^t=E^{-1} \Rightarrow E^t=E^{-1}$
-			\item Maintaining the norm of a vector: $\overrightarrow{x}$ is a vector with norm $\|\overrightarrow{x}\|$ and E an orthonormal matrix then applies $\|E\overrightarrow{x}\|=\|\overrightarrow{x}\|$.\\
+			\item Maintaining the norm of a vector: $\overrightarrow{x}$ is a vector with norm $\|\overrightarrow{x}\|$ and E an orthonormal matrix $\|E\overrightarrow{x}\|=\|\overrightarrow{x}\|$.\\
 			When there is a 'fault' $\Delta x$ on x, then is $\|E(\overrightarrow{x}+\Delta\overrightarrow{x})\|=\|\overrightarrow{x}+\Delta\overrightarrow{x}\|$.\\
-			Hence, an orthogonal matrix doesn't change the magnitude of a fault. This is important in numerical applications.
+			Hence, an orthonormal matrix doesn't change the magnitude of a fault. This is important in numerical applications.
 			\item The determinant of an orthonormal matrix is $\pm1$, when it is 1 the matrix represent a rotation matrix.
 		\end{enumerate}
 	\end{block}
@@ -669,7 +671,7 @@
 \begin{frame}
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Change of basis}
-		In a n dimension vectorspace $V^n$ are two different bases given:\\
+		In a n dimensional vector space $V^n$ are two different bases given:\\
 		'old basis': $\overrightarrow{e_1},....,\overrightarrow{e_n}$\\
 		'new basis': $\overrightarrow{f_1},...,\overrightarrow{f_n}$\\
 		A vector x has coordinates $\begin{bmatrix} a_1\\...\\a_n\end{bmatrix}$ relative to the old basis and coordinates $\begin{bmatrix} b_1\\...\\b_n\end{bmatrix}$ relative to the new basis.
@@ -679,7 +681,7 @@
 \begin{frame}
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Change of basis}
-		Every basisvector $\overrightarrow{f_i}$ can be expressed as a linear combination of the old basis vectors:$\overrightarrow{f_i}=f_{1i}\overrightarrow{e_1}+...+f_{ni}\overrightarrow{e_n}$. So $\overrightarrow{f_i}$ has coordinates $\begin{bmatrix} f_{1i}\\...\\f_{ni}
+		Every basis vector $\overrightarrow{f_i}$ can be expressed as a linear combination of the old basis vectors:$\overrightarrow{f_i}=f_{1i}\overrightarrow{e_1}+...+f_{ni}\overrightarrow{e_n}$. So $\overrightarrow{f_i}$ has coordinates $\begin{bmatrix} f_{1i}\\...\\f_{ni}
 		\end{bmatrix}$ relative to the old basis.\\
 		If we group the old basis vectors in a matrix:
 		$E=\begin{bmatrix} \overrightarrow{e_1} & ... & \overrightarrow{e_n} \end{bmatrix}$ then you can write: $\overrightarrow{x}=\begin{bmatrix} \overrightarrow{e_1} & ... & \overrightarrow{e_n} \end{bmatrix} \begin{bmatrix} a_1 \\ ... \\ a_n \end{bmatrix}=E\overrightarrow{x}_{old}$ and $\overrightarrow{f_i}=\begin{bmatrix} \overrightarrow{e_1} & ... & \overrightarrow{e_n} \end{bmatrix} \begin{bmatrix} f_{1i} \\ ... \\ f_{ni} \end{bmatrix}=E\begin{bmatrix} f_{1i} \\ ... \\ f_{ni} \end{bmatrix}$.
@@ -689,7 +691,7 @@
 \begin{frame}
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Change of basis}
-		If we now consider x as a linear combination of the 'new' basis vectors $\overrightarrow{x}=b_1\overrightarrow{f_1}+...+b_n\overrightarrow{f_n}=\begin{bmatrix} \overrightarrow{f_1} & ... & \overrightarrow{f_n} \end{bmatrix} \begin{bmatrix} b_1 \\ ...\\ b_n \end{bmatrix}=\begin{bmatrix} \overrightarrow{f_1} & ... & \overrightarrow{f_n} \end{bmatrix}\overrightarrow{x}_{new}= \begin{bmatrix} E\begin{bmatrix} f_{11} \\ ... \\ f_{n1} \end{bmatrix} & ... & E\begin{bmatrix} f_{1n} \\ ... \\ f_{nn} \end{bmatrix} \end{bmatrix}\overrightarrow{x}_{new}= EF\overrightarrow{x}_{new}$ with $F=\begin{bmatrix} 
+		If we now consider $\overrightarrow{x}$ as a linear combination of the 'new' basis: $\overrightarrow{x}=b_1\overrightarrow{f_1}+...+b_n\overrightarrow{f_n}=\begin{bmatrix} \overrightarrow{f_1} & ... & \overrightarrow{f_n} \end{bmatrix} \begin{bmatrix} b_1 \\ ...\\ b_n \end{bmatrix}=\begin{bmatrix} \overrightarrow{f_1} & ... & \overrightarrow{f_n} \end{bmatrix}\overrightarrow{x}_{new}= \begin{bmatrix} E\begin{bmatrix} f_{11} \\ ... \\ f_{n1} \end{bmatrix} & ... & E\begin{bmatrix} f_{1n} \\ ... \\ f_{nn} \end{bmatrix} \end{bmatrix}\overrightarrow{x}_{new}= EF\overrightarrow{x}_{new}$ with $F=\begin{bmatrix} 
 		f_{11} & ... & f_{1n}\\
 		... & & ...\\
 		f_{n1} & ... & f_{nn} \end{bmatrix}$. The columns of F contains the coordinates of the new basis vectors relative to the old basis vectors $\overrightarrow{e_1},....,\overrightarrow{e_n}$. 
@@ -700,13 +702,13 @@
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Change of basis}
 		So we get: $\overrightarrow{x}=E\overrightarrow{x}_{old}=EF\overrightarrow{x}_{new}$.\\ 
-		From wich follows:\\
+		From which follows:\\
 		\fbox{
 			\begin{minipage}{10cm}{$\overrightarrow{x}_{old}=\begin{bmatrix} a_1\\...\\a_n \end{bmatrix}=F\overrightarrow{x}_{new}=F\begin{bmatrix} b_1\\...\\b_n \end{bmatrix}$ with the columns of F the coordinates of the new basis vectors relative to the old basis.}
 			\end{minipage}
 		}
 		So, $\overrightarrow{x}_{old}=F\overrightarrow{x}_{new}$\\
-		from wich: \\ \framebox[1.1\width]{$\overrightarrow{x}_{new}=F^{-1}\overrightarrow{x}_{old}$}
+		or: \\ \framebox[1.1\width]{$\overrightarrow{x}_{new}=F^{-1}\overrightarrow{x}_{old}$}
 	\end{block}
 \end{frame}
 
@@ -730,20 +732,20 @@
 \begin{frame}
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Example}
-		Solution: The components of $\overrightarrow{f_1}$ relative to the other basis are: $\begin{bmatrix} 1\\-1\\1\end{bmatrix}$.\\
-		The components of $\overrightarrow{f_2}$ relative to the other basis are: $\begin{bmatrix} 2\\3\\0\end{bmatrix}$.\\
-		The components of $\overrightarrow{f_3}$ relative to the other basis are: $\begin{bmatrix} -1\\1\\2\end{bmatrix}$.\\
-		The components of $\overrightarrow{x}$ relative to the other basis are: $\begin{bmatrix} 2\\1\\-1\end{bmatrix}$.
+		Solution: The components of $\overrightarrow{f_1}$ are: $\begin{bmatrix} 1\\-1\\1\end{bmatrix}$.\\
+		The components of $\overrightarrow{f_2}$ are: $\begin{bmatrix} 2\\3\\0\end{bmatrix}$.\\
+		The components of $\overrightarrow{f_3}$ are: $\begin{bmatrix} -1\\1\\2\end{bmatrix}$.\\
+		The components of $\overrightarrow{x}$ are: $\begin{bmatrix} 2\\1\\-1\end{bmatrix}$.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Change of basis and matrix representation}
 	\begin{block}{Example}
-		So, $\overrightarrow{x}_old=\begin{bmatrix} 2\\1\\-1\end{bmatrix}$. We know that $\overrightarrow{x}_{old}=F\overrightarrow{x}_{new}$ with $F=\begin{bmatrix}
+		So, $\overrightarrow{x}_{old}=\begin{bmatrix} 2\\1\\-1\end{bmatrix}$. We know that $\overrightarrow{x}_{old}=F\overrightarrow{x}_{new}$ with $F=\begin{bmatrix}
 		1 & 2 & -1 \\
 		-1 & 3 & 1\\
-		-1 & 1 & 2
+		1 & 0 & 2
 		\end{bmatrix}$.\\
 		Now is $\overrightarrow{x}_{new}=F^{-1}\overrightarrow{x}_{old}=
 		\frac{1}{15} \begin{bmatrix} 
@@ -773,7 +775,7 @@
 \begin{frame}
 	\frametitle{Systems of linear equations}
 	\begin{block}{Defenitions}
-		In general, a system of linear equations is described in a matrix-vector identity: Ax=y. If y$\neq$0 then the system is called not homogeneous, if y=0 then the system is called homogeneous. It will turn out that in all the possible cases, the rank r of the matrix A is important for the existance of a solution and the number of solutions.\\
+		In general, a system of linear equations is described in a matrix-vector identity: $A^{mxn}x^{nx1}=y^{mx1}$. If y$\neq$0 then the system is called not homogeneous, if y=0 then the system is called homogeneous. It will turn out that in all the possible cases, the rank r of the matrix A is important for the existence of a solution and the number of solutions.\\
 		A good \underline{geometric} view in the properties and solutions of homogeneous and not homogeneous systems is essential for an understanding of linear images, eigenvalues, etc.
 	\end{block}
 \end{frame}
@@ -781,7 +783,7 @@
 \begin{frame}
 	\frametitle{Not homogeneous equations}
 	\begin{block}{Existance of a solution}
-		In general, a system of m equations in n variables $x_1,x_2,...,x_n$ has the form: $A^{mxn}x^{nx1}=y^{mx1}$. The problem is: search the variables $x_1,x_2,...,x_n$ wich statisfy this relationship (A and y are known).\\
+		In general, a system of m equations in n variables $x_1,x_2,...,x_n$ has the form: $A^{mxn}x^{nx1}=y^{mx1}$. The problem is: search the variables $x_1,x_2,...,x_n$ which satisfy this relationship (A and y are known).\\
 		$\begin{bmatrix}
 		a_{11} & ... & a_{1n}\\
 		... & & ...\\
@@ -802,12 +804,12 @@
 \begin{frame}
 	\frametitle{Not homogeneous equations}
 	\begin{block}{Existance of a solution}
-		If we think of A as column vectors with m components $A=\begin{bmatrix} \overrightarrow{a_1} & ... & \overrightarrow{a_n} \end{bmatrix}$, then we can write the system in antother way:\\
+		If we think of A as column vectors with m components $A=\begin{bmatrix} \overrightarrow{a_1} & ... & \overrightarrow{a_n} \end{bmatrix}$, then we can write the system in another way:\\
 		$x_1\begin{bmatrix} a_{11} \\...\\a_{m1}\end{bmatrix} + ... + x_n \begin{bmatrix} a_{1n}\\...\\a_{mn} \end{bmatrix}= \begin{bmatrix}
 		y_1\\...\\y_m
 		\end{bmatrix}$ or $x_1\overrightarrow{a_1}+...+x_n\overrightarrow{a_n}=\overrightarrow{y}$. \\
 		The geometric interpretation: \\
-		Given a vector $\overrightarrow{y}$ of m components and n vectors $\overrightarrow{a_i}$ of m components, search {\bf all} numbers $x_i$, i=1,n , so that vector $\overrightarrow{y}$ can be written as a linear combination of the vectors $\overrightarrow{a_i}$.\\
+		Given a vector $\overrightarrow{y}$ of m components and n vectors $\overrightarrow{a_i}$ of m components, search {\bf all} numbers $x_i$, i=1,...,n , so that vector $\overrightarrow{y}$ can be written as a linear combination of the vectors $\overrightarrow{a_i}$.\\
 		All the linear combinations of the vectors $\overrightarrow{a_i}$ can be written as: $x_1\overrightarrow{a_1}+...+x_n\overrightarrow{a_n}=\overrightarrow{y}$ and is called the column space of A. 
 	\end{block}
 \end{frame}
@@ -815,10 +817,10 @@
 \begin{frame}
 	\frametitle{Not homogeneous equations}
 	\begin{block}{Existance of a solution}
-		If rank(A)=r, then has the colums space dimension r. In other words: there are r linear independent columns in A and the other n-r columns in A can be written as a linear combination of the r linear independent columns. \\
+		If rank(A)=r, then has the columns space dimension r. In other words: there are r linear independent columns in A and the other n-r columns in A can be written as a linear combination of the r linear independent columns. \\
 		\fbox{
 			\begin{minipage}{10cm}{Since $\overrightarrow{y}$ has to be a linear combination of the columns of A, $\overrightarrow{y}$ has to be in the columns space of A. \\
-			If $\overrightarrow{y}$ doesn't exist of the column space of A, then $\overrightarrow{y}$ can't be written as a linear combination of the columns of A, then the system \textbf{doesn't have} a solution.}
+			If $\overrightarrow{y}$ isn't in the column space of A, then $\overrightarrow{y}$ can't be written as a linear combination of the columns of A, then the system \textbf{doesn't have} a solution.}
 			\end{minipage}
 		}
 	\end{block}
@@ -827,7 +829,7 @@
 \begin{frame}
 	\frametitle{Not homogeneous equations}
 	\begin{block}{Existance of a solution}
-		The condition for the existence of a solution is that $\overrightarrow{y}$ belongs to the column space of A. Now, the column space test beccomes the solution test.\\
+		The condition for the existence of a solution is that $\overrightarrow{y}$ belongs to the column space of A. Now, the column space test becomes the solution test.\\
 		\fbox{
 			\begin{minipage}{10cm}{The system Ax=y with rank(A)=r, has a solution only if rank(A)=rank(Ay)=r with Ay a mx(n+1) matrix.}
 			\end{minipage}
@@ -885,9 +887,9 @@
 		\end{center}
 		There are \textbf{three} cases:
 		\begin{enumerate}
-			\item m$>$n: overdetermined system (more equations than variables)
+			\item m$>$n: overdetermined system 
 			\item m=n: square system
-			\item m$<$n: underdetermined system
+			\item m$<$n: under determined system
 		\end{enumerate}
 	\end{block}
 \end{frame}
@@ -895,7 +897,7 @@
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m$>$n: overdetermined system}
-		There is a solution if rang(A)=rang(Ay)=r. If this condition is statisfied, we can write: $x_1\overrightarrow{a_1}+...+x_n\overrightarrow{a_n}=\overrightarrow{y}$ with $a_i$ the i$^{th}$ column of A. As rank(A)=r, there are r linear independent columns
+		There is a solution if rang(A)=rang(Ay)=r. If this condition is satisfied, we can write: $x_1\overrightarrow{a_1}+...+x_n\overrightarrow{a_n}=\overrightarrow{y}$ with $a_i$ the i$^{th}$ column of A. As rank(A)=r, there are r linear independent columns
 		$\overrightarrow{a_1},..., \overrightarrow{a_r}$. Now we can write: \\
 		$x_1\overrightarrow{a_1}+...+x_r\overrightarrow{a_r}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a_n}$\\
 		If: $\overrightarrow{y'}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a_n}$ then $\begin{bmatrix}
@@ -903,16 +905,16 @@
 		\end{bmatrix} \begin{bmatrix}
 		x_1\\...\\x_r
 		\end{bmatrix}=\overrightarrow{y'}$. \\
-		From the columntest follows that $\overrightarrow{y}$ belongs to the columnspace of A. The vectors $\overrightarrow{a}_{r+1},...,\overrightarrow{a_n}$ belong to the same space. The vectors $\overrightarrow{a}_{1},...,\overrightarrow{a_r}$ create the \textbf{basis} of this space.
+		From the column test follows that $\overrightarrow{y}$ belongs to the column space of A. The vectors $\overrightarrow{a}_{r+1},...,\overrightarrow{a_n}$ belong to the same space. The vectors $\overrightarrow{a}_{1},...,\overrightarrow{a_r}$ create the \textbf{basis} of this space.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m$>$n: overdetermined system}
-		For every choice of the vector $\overrightarrow{y'}$, there exist a \textbf{unique} set (only one solution) of numbers $x_1,...,x_r$: this are the coordinates of the vector $\overrightarrow{y'}$ in the basis $\overrightarrow{a_1},...,\overrightarrow{a_r}$. There is only one solution because every vector in only one way can be descibed as a linear combination of basis vectors. \\
+		For every choice of the vector $\overrightarrow{y'}$, there exist a \textbf{unique} set (only one solution) of numbers $x_1,...,x_r$: this are the coordinates of the vector $\overrightarrow{y'}$ in the basis $\overrightarrow{a_1},...,\overrightarrow{a_r}$. There is only one solution because every vector in only one way can be described as a linear combination of basis vectors. \\
 		Now is: $\overrightarrow{y'}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a_n}$. \\
-		For each set [$x_{r+1},...,x_{n}$] there is a vector $\overrightarrow{y'}$, and for every vector $\overrightarrow{y'}$ exist just one solution [$x_1,...,x_r$]. For the choise of the set [$x_{r+1},...,x_{n}$], there are $\infty ^{n-r}$ possibilities.
+		For each set [$x_{r+1},...,x_{n}$] there is a vector $\overrightarrow{y'}$, and for every vector $\overrightarrow{y'}$ exist just one solution [$x_1,...,x_r$]. For the choice of the set [$x_{r+1},...,x_{n}$], there are $\infty ^{n-r}$ possibilities.
 	\end{block}
 \end{frame}
 
@@ -934,7 +936,7 @@
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m$>$n: overdetermined system}
-		How do you determine the solution for a certain set help variables [$x_{r+1},x_{r+2},...,x_n$].\\
+		How do you determine the solution for a set help variables [$x_{r+1},x_{r+2},...,x_n$].\\
 		If $\begin{bmatrix} \overrightarrow{a_1} & ... & \overrightarrow{a_r} \end{bmatrix} \begin{bmatrix}
 		x_1\\...\\x_r \end{bmatrix}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a_n}
 		\Rightarrow A'x'=y'$ with $A'=\begin{bmatrix} \overrightarrow{a_1} & ... & \overrightarrow{a_r} \end{bmatrix}$ and $\overrightarrow{y'}=\overrightarrow{y}-x_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a_n}=\begin{bmatrix}
@@ -947,7 +949,7 @@
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m$>$n: overdetermined system}
-		The same is true for the matrix Ay, since rank(Ay)=r has matrix Ay r linear independent rows. The other rows can be created by linear combinations of the linear independent rows. This means that there are only r rows necessery to solve the system. The other m-r equations are linear combinations of the r independent equations.\vspace{4mm}
+		The same is true for the matrix Ay, since rank(Ay)=r has matrix Ay r linear independent rows. The other rows can be created by linear combinations of the linear independent rows. This means that there are only r rows necessary to solve the system. The other m-r equations are linear combinations of the r independent equations.\vspace{4mm}
 		
 		Thus: select from A' r linear independent equations with the components of y' according to this equations: \\
 		$A''=\begin{bmatrix}
@@ -966,7 +968,7 @@
 		\fbox{
 			\begin{minipage}{10cm}{$\underbrace{x'}_\text{rx1}=\underbrace{(A'')^{-1}}_\text{rxr}\underbrace{y'}_\text{rx1}$}
 			\end{minipage}
-		} \vspace{2mm}
+		} 
 		This is the general solution of the overdetermined system. The matrix A'' is the main matrix of the system. A'' is created by the choice of help variables and independent rows. There are m-r help variables, and for each set of them there is a vector y''. So there exist $\infty^{n-r}$ solutions in x. 
 	\end{block}
 \end{frame}
@@ -1058,13 +1060,13 @@
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m=n: square system}
-		We suppose there is a solution: rank(Ay)=rank(A)=r. The same rules can be apllied here: if $\overrightarrow{a_1},...,\overrightarrow{a_r}$ are the linear independent columns of A, we can write:\\
+		We suppose there is a solution: rank(Ay)=rank(A)=r. The same rules can be applied here: if $\overrightarrow{a_1},...,\overrightarrow{a_r}$ are the linear independent columns of A, we can write:\\
 		$\begin{bmatrix}
 		\overrightarrow{a_1} & ... & \overrightarrow{a_r}
 		\end{bmatrix} \begin{bmatrix}
 		x_1\\...\\x_r
 		\end{bmatrix}=y-r_{r+1}\overrightarrow{a}_{r+1}-...-x_n\overrightarrow{a}_n$ and again there are $\infty^{n-r}$ solutions (one solution for each set [$x_{r+1},...,x_{n}$]).\vspace{4mm}
-		Remark: if m=n=r, there is exactly one solution, the system is called \textbf{Cramers system}.\\
+		Remark: if m=n=r, there is exactly one solution, the system is called \textbf{Cramer's system}.\\
 		Conclusion: A square system can be solved on the same way as a overdetermined system. 
 	\end{block}
 \end{frame}
@@ -1072,7 +1074,7 @@
 \begin{frame}
 	\frametitle{Number of solutions and solution methods}
 	\begin{block}{m$<$n: underdetermined system}
-		Again there has to be statisfied to: rank(A)=rank(Ay)=r. If this condition is true, then we can find a solution on the same way as described above.\vspace{4mm} 
+		Again there has to be satisfied to: rank(A)=rank(Ay)=r. If this condition is true, then we can find a solution on the same way as described above.\vspace{4mm} 
 		
 		\underline{Example 1}:\\
 		$\begin{bmatrix}
@@ -1196,7 +1198,25 @@
 		\end{bmatrix}=\begin{bmatrix}
 		-x_2+2x_4\\2-x_4
 		\end{bmatrix}$\\
-		There are $\infty^{nr}=\infty^2$ solutions. Verify via substitution: $\begin{bmatrix}
+		There are $\infty^{n-r}=\infty^2$ solutions. Verify via substitution: $\begin{bmatrix}
+		1 & 1 & 3 & 1\\
+		1 & 1 & -4 & -6\\
+		2 & 2 & -2 & -5
+		\end{bmatrix}\begin{bmatrix}
+		-x_2+2x_4\\
+		x_2\\
+		2-x_4\\
+		x_4
+		\end{bmatrix}=\begin{bmatrix}
+		6\\-8\\-2
+		\end{bmatrix}$.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Number of solutions and solution methods}
+	\begin{block}{m$<$n: underdetermined system}
+		There are $\infty^{n-r}=\infty^2$ solutions. Verify via substitution: $\begin{bmatrix}
 		1 & 1 & 3 & 1\\
 		1 & 1 & -4 & -6\\
 		2 & 2 & -2 & -5
@@ -1215,7 +1235,7 @@
 	\frametitle{Not homogeneous systems}
 	\begin{block}{Resume}
 		\begin{center}
-			$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=\underbrace{y}_\text{mx1}$
+			$A^{mxn}x^{nx1}=y^{mx1}$
 		\end{center}
 		\begin{enumerate}
 			\item Determine rank(A):\\
@@ -1233,7 +1253,7 @@
 	\frametitle{Not homogeneous systems}
 	\begin{block}{Resume}
 		For every choice of [$x_{r+1},...,x_n$] exist one solution. Hence, there are $\infty^{n-r}$ solutions.\\
-		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear cominations of it. Choose r independent rows of Ay. Then is
+		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear combinations of it. Choose r independent rows of Ay. Then is
 		\begin{center}
 			$\underbrace{A''}_\text{rxr}\underbrace{x'}_\text{rx1}=\underbrace{y''}_\text{mx1} \Rightarrow x'=A''^{-1}y''$
 		\end{center}
@@ -1245,7 +1265,7 @@
 	\frametitle{Not homogeneous systems}
 	\begin{block}{Resume}
 		For every choice of [$x_{r+1},...,x_n$] exist one solution. Hence, there are $\infty^{n-r}$ solutions.\\
-		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear cominations of it. Choose r independent rows of Ay. Then is
+		Because rank(Ay)=r, there are r rows of Ay linear independent and the other m-r rows are linear combinations of it. Choose r independent rows of Ay. Then is
 		\begin{center}
 			$\underbrace{A''}_\text{rxr}\underbrace{x'}_\text{rx1}=\underbrace{y''}_\text{mx1} \Rightarrow x'=A''^{-1}y''$
 		\end{center}
@@ -1307,7 +1327,7 @@
 	\frametitle{Homogeneous systems}
 	\begin{block}{Existance of a solution}
 		The inner product of two vectors is zero if the two vectors are orthogonal. In other words: $\overrightarrow{x} \perp $ on every row of A. \\
-		Hence, the solution of the homogeneous system consists of all the vectors $\overrightarrow{x}$ wich are perpendicular to the rows of A. \vspace{4mm}
+		Hence, the solution of the homogeneous system consists of all the vectors $\overrightarrow{x}$ which are perpendicular to the rows of A. \vspace{4mm}
 		
 		Because rank(A)=r is the dimension of the row space r. In A are r linear independent rows, the other rows are a linear combination of the independent rows.
 	\end{block}
@@ -1319,7 +1339,7 @@
 		The rows of A are vectors with n components. The row space is a r dimensional subspace of the n dimensional vector space. This global n dimensional space consists of two subspaces. 
 		\begin{enumerate}
 			\item The subspace spanned by the rows of A: subspace with dimension r. 
-			\item The complementary subspace: the vectors in this space are linear independently from the rows of A. The complementar subspace has dimension n-r. 
+			\item The complementary subspace: the vectors in this space are linear independently from the rows of A. The complementary subspace has dimension n-r. 
 		\end{enumerate} 
 	\end{block}
 \end{frame}
@@ -1331,7 +1351,7 @@
 			\begin{minipage}{10cm}{The solution of $\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0$ with rank(A)=r is a n-r dimension space: the complementary space of the row space of A. }
 			\end{minipage}
 		} 
-		When n=r, the \textbf{only} solution of the homogeneous system is 0. There isn't a vector wich is perpendicular to the the rows of A. Since n=r, the rows of A span the total n dimensional space and the complementary space has dimension 0.\vspace{4mm}
+		When n=r, the \textbf{only} solution of the homogeneous system is 0. There isn't a vector which is perpendicular to the the rows of A. Since n=r, the rows of A span the total n dimensional space and the complementary space has dimension 0.\vspace{4mm}
 		\fbox{
 			\begin{minipage}{10cm}{$\underbrace{A}_\text{mxn}\underbrace{x}_\text{nx1}=0$ with rank(A)=r has a solution different from 0 if rank(A)$<$n}
 			\end{minipage}
@@ -1344,7 +1364,7 @@
 	\begin{block}{Number of solutions}
 		The solutions of Ax=0 lay in the orthogonal complement of the row space of A. \vspace{4mm}
 		
-		The number of linear independent solutions of the homogeneous system is equal to the number of linear independent vectors in the orthoganal complement. The dimension of this space is n-r, so there are n-r basis vectors in the complement. All the solutions of Ax=0 are a linear combination of these n-r basis vectors.\\
+		The number of linear independent solutions of the homogeneous system is equal to the number of linear independent vectors in the orthogonal complement. The dimension of this space is n-r, so there are n-r basis vectors in the complement. All the solutions of Ax=0 are a linear combination of these n-r basis vectors.\\
 		If $x_1,...,x_{n-r}$ are the basis vectors, then are the linear combinations: $\overrightarrow{x}=a_1\overrightarrow{x_1}+...+a_{n-r}\overrightarrow{x}_{n-r}$ and we get: $Ax=A(a_1x_1+...+a_{n-r}x_{n-r})=0$.
 	\end{block}
 \end{frame}
@@ -1356,7 +1376,7 @@
 		The solutions $\overrightarrow{x}=a_1\overrightarrow{x_1}+...+a_{n-r}\overrightarrow{x}_{n-r}$ and $x_1+\frac{a_2}{a_1}...+\frac{a_{n-r}}{a-1}x_{n-r}$ are actually the same: they differs from a factor $a_1$. 
 		We get \textbf{different} solutions for each choice of numbers $b_1=\frac{a_2}{a_1},...,b_{n-r-1}\frac{a_{n-r}}{a_1}$. \\
 		\vspace{4mm}
-		Since there are $\infty^{n-r-1}$ possible choices, the solutions of the homogeneous system Ax=0 with rank(A)=r are $\infty^{n-r-1}$ fold undertermined.
+		Since there are $\infty^{n-r-1}$ possible choices, the solutions of the homogeneous system Ax=0 with rank(A)=r are $\infty^{n-r-1}$ fold under determined.
 	\end{block}
 \end{frame}
 
@@ -1370,7 +1390,7 @@
 		\end{bmatrix}\begin{bmatrix}
 			x_1\\...\\x_n
 		\end{bmatrix}=0$\\
-		Covert the matrix A by elementary row operations to its echelon form: \\
+		Convert A by elementary row operations to its echelon form: \\
 		$A\sim\begin{bmatrix}
 		\overbrace{\begin{matrix}
 		1 & 0 &...& 0\\
@@ -1461,7 +1481,7 @@
 \begin{frame}
 	\frametitle{Homogeneous systems}
 	\begin{block}{Solution method}
-		Wich gives:
+		Which gives:
 		$\begin{bmatrix}
 			x_1\\...\\x_r\\x_{r+1}\\...\\x_n
 		\end{bmatrix}=x_{r+1}\begin{bmatrix}
@@ -1475,7 +1495,7 @@
 \begin{frame}
 	\frametitle{Homogeneous systems}
 	\begin{block}{Solution method}
-		The n-r vectors $\begin{bmatrix} b_{1i}\\...\\b_{ri}\\0\\...\\1\\...\\0 \end{bmatrix}$ with i=1,n-r form a basis for the solution space (the orthogonal complement of the row space of A) of the homogeneous system. All the linear commbinations of this bases are solutions of the homogeneous system. 
+		The n-r vectors $\begin{bmatrix} b_{1i}\\...\\b_{ri}\\0\\...\\1\\...\\0 \end{bmatrix}$ with i=1,n-r form a basis for the solution space (the orthogonal complement of the row space of A) of the homogeneous system. All the linear combinations of this bases are solutions of the homogeneous system. 
 	\end{block}
 \end{frame}
 
@@ -1521,7 +1541,7 @@
 		0 & 0 & 1 & 8 & 0
 		\end{bmatrix}\begin{bmatrix}
 		x_1\\ x_2\\ x_3\\ x_4\\ x_5
-		\end{bmatrix}=0$ from wich follows:\\
+		\end{bmatrix}=0$ from which follows:\\
 		$\begin{cases}
 		x_1=-4x_4+0x_5\\
 		x_2=4x_4+0x_5\\
@@ -1564,7 +1584,7 @@
 \begin{frame}
 	\frametitle{Systems with complex coefficients}
 	\begin{block}{Notation}
-		Complexe systems emerge for example by eigenvalue problems.\\
+		Complex systems emerge for example by eigenvalue problems.\\
 		If A=$A_r+jA_i$ with j=$\sqrt{-1}, x=x_r+jx_i$ and $y=y_r+jy_i$, then applies: $\begin{bmatrix}
 			A_r+jA_i
 		\end{bmatrix}\begin{bmatrix}
@@ -1649,11 +1669,11 @@
 \begin{frame}
 	\frametitle{Linear images}
 	\begin{block}{General}
-		Applications and excercises of linear images can always be reduced to the theory and geometry of linear equations.
+		Applications and exercises of linear images can always be reduced to the theory and geometry of linear equations.
 	\end{block}
 	\begin{block}{Defenition}
 		Given: a n dimensional space $V^n$ and a m dimensional space $V^m$. \\
-		A linear image is a image $\theta: V^n \rightarrow V^m:\overrightarrow{x}\in V^n \rightarrow \overrightarrow{y} \in V^m$ for wich: $\begin{cases}
+		A linear image is a image $\theta: V^n \rightarrow V^m:\overrightarrow{x}\in V^n \rightarrow \overrightarrow{y} \in V^m$ for which: $\begin{cases}
 			\theta(\overrightarrow{x}+\overrightarrow{y})=\theta(\overrightarrow{x})+\theta(\overrightarrow{y})\\
 			\theta(k\overrightarrow{x})=k\theta(\overrightarrow{x})
 		\end{cases}$
@@ -1663,9 +1683,9 @@
 \begin{frame}
 	\frametitle{Linear images}
 	\begin{block}{Matrix representation}
-		$\overrightarrow{x}$ is written relative to a basis $\overrightarrow{e_1},...,\overrightarrow{e_n}$ in $V^n$ wich gives: $\overrightarrow{x}=\begin{bmatrix}
+		$\overrightarrow{x}$ is written relative to a basis $\overrightarrow{e_1},...,\overrightarrow{e_n}$ in $V^n$ which gives: $\overrightarrow{x}=\begin{bmatrix}
 		x_1\\...\\x_n
-		\end{bmatrix}$ or $ \overrightarrow{x}=x_1\overrightarrow{e_1}+...+x_n\overrightarrow{e_n}$.\\ $\overrightarrow{y}$ is written relative to a basis $\overrightarrow{f_1},...,\overrightarrow{f_n}$ in $V^m$ wich gives: $\overrightarrow{y}=\begin{bmatrix}
+		\end{bmatrix}$ or $ \overrightarrow{x}=x_1\overrightarrow{e_1}+...+x_n\overrightarrow{e_n}$.\\ $\overrightarrow{y}$ is written relative to a basis $\overrightarrow{f_1},...,\overrightarrow{f_n}$ in $V^m$ which gives: $\overrightarrow{y}=\begin{bmatrix}
 		y_1\\...\\y_m
 		\end{bmatrix}$ or $ \overrightarrow{y}=y_1\overrightarrow{f_1}+...+y_m\overrightarrow{f_m}$. \\
 		There is a linear image $\theta$ that $\overrightarrow{x}$ maps on $\overrightarrow{y}:\overrightarrow{y}=\theta(\overrightarrow{x})=\theta(x_1\overrightarrow{e_1}+...+x_n\overrightarrow{e_n})=x_1\theta(\overrightarrow{e_1})+...+x_n\theta(\overrightarrow{e_n})$ with $\theta(\overrightarrow{e_i})\in V^m$.
@@ -1712,9 +1732,9 @@
 \begin{frame}
 	\frametitle{Linear images}
 	\begin{block}{Kernell}
-		The kernell is the set of all vectors $\overrightarrow{x}$ that are projected on the null vector. The kernell is a subspace of $V^n$. It is the solution space of Ax=0 with rank(A)=r. The dimension of this solution space is n-r.\vspace{4mm}
+		The kernell is the set of all vectors $\overrightarrow{x}$ that are projected on the null vector. The kernel is a subspace of $V^n$. It is the solution space of Ax=0 with rank(A)=r. The dimension of this solution space is n-r.\vspace{4mm}
 		\fbox{
-			\begin{minipage}{10cm}{Kernell= solution space of Ax=0 with dimension n-r.}
+			\begin{minipage}{10cm}{Kernel= solution space of Ax=0 with dimension n-r.}
 			\end{minipage}
 		}
 	\end{block}
@@ -1725,14 +1745,14 @@
 \begin{frame}
 	\frametitle{Defenition}
 	\begin{block}{Defenition}
-		Every vector $\overrightarrow{x}$ and each number $\lambda$ that statisfy  Ax=$\lambda$x, are called eigenvectors and eigenvalues of the square matrix A.\vspace{4mm}
+		Every vector $\overrightarrow{x}$ and each number $\lambda$ that satisfy  Ax=$\lambda$x, are called eigenvectors and eigenvalues of the square matrix A.\vspace{4mm}
 		
 		The matrix A represent a linear mapping: $V^n \rightarrow V^n$.\\
-		$Ax=\lambda x$ is the set of all vectors $\overrightarrow{x}$ wich are projected on a complex multiple of itself.
+		$Ax=\lambda x$ is the set of all vectors $\overrightarrow{x}$ which are projected on a complex multiple of itself.
 	\end{block}
 	\begin{block}{General}
 		$Ax=\lambda x \Rightarrow (A-\lambda I)x=0$. This is a square homogeneous system and has only a solution if: det($A-\lambda I$)=0.\\
-		This is the condition for the existance of a solution and so of the existance of a eigenvector.
+		This is the condition for the existence of a solution and so of the existence of a eigenvector.
 	\end{block}
 \end{frame}
 
@@ -1740,19 +1760,19 @@
 	\frametitle{Solutions}
 	\begin{block}{General}
 		$Ax=\lambda x \Rightarrow (A-\lambda I)x=0$. This is a square homogeneous system and has only a solution if: det($A-\lambda I$)=0.\\
-		This is the condition for the existance of a solution and so of the existance of a eigenvector.
+		This is the condition for the existence of a solution and so of the existence of a eigenvector.
 	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Solutions}
 	\begin{block}{General - polynomials}
-		$Det(A-\lambda I)$ is a \textbf{polynomial of degree n}. A fundemental theorem of algebra: 
+		$Det(A-\lambda I)$ is a \textbf{polynomial of degree n}. A fundamental theorem of algebra: 
 		\fbox{
 			\begin{minipage}{10cm}{Every polynomial of degree n has n (complex) zeros.}
 			\end{minipage}
 		}\vspace{4mm}
-		So det$(A-\lambda I)=a_n\lambda^n +...+a_1\lambda+a_0=0$ has zeros $\lambda_1,...\lambda_n$. Some zeros can a multiple. The number of occurance of a zero $\lambda_i$ is called the multiplicity of the zero$\lambda_i$.\\
+		So det$(A-\lambda I)=a_n\lambda^n +...+a_1\lambda+a_0=0$ has zeros $\lambda_1,...\lambda_n$. Some zeros can a multiple. The number of occurrence of a zero $\lambda_i$ is called the multiplicity of the zero$\lambda_i$.\\
 		If $\lambda_i$ is a complex zero $\lambda_i=a_i+jb_i$ then is the complex conjugate $\lambda*=a_i-jb_i$ also a zero.
 		\fbox{
 			\begin{minipage}{10cm}{The eigenvalues of A: $\lambda_1,...,\lambda_n$ are the zeros of the characteristic polynomial det($A-\lambda I$)=0.}
@@ -1764,7 +1784,7 @@
 \begin{frame}
 	\frametitle{Solutions}
 	\begin{block}{General - solutions}
-		For every eigenvalue $\lambda_i$, we can find the related eigenvectors as a solution of the homogeneous system: $(A-\lambda_i I)x=0$. The number of eigenvectors that belong to a eingevalue $\lambda_i$ is the dimension of the solution space  $(A-\lambda_i I)x=0$.
+		For every eigenvalue $\lambda_i$, we can find the related eigenvectors as a solution of the homogeneous system: $(A-\lambda_i I)x=0$. The number of eigenvectors that belong to a eigenvalue $\lambda_i$ is the dimension of the solution space  $(A-\lambda_i I)x=0$.
 		\fbox{
 			\begin{minipage}{10cm}{If rank($A-\lambda_i I)=r_i$, then $n-r_i$ eigenvectors belong to $\lambda_i$.}
 			\end{minipage}
@@ -1790,9 +1810,9 @@
 	\frametitle{Solutions}
 	\begin{block}{Properties}
 		\begin{enumerate}
-			\item Independence  between eigenvectors: The eigenvectors of \textbf{different} eigenvalues are linear indpendent. 
-			\item If the eigenvalue $\lambda_i$ has a multiplicity $\geq 1$, then different eigenvectors can be related to this eigenvalue.If rank(A-$\lambda_i I)=r_i$, then $\lambda_i$ has n-$r_i$ independent eigenvectors. These n-$r_i$ eigenvectors span the eigenspace of eigenvalue $\lambda_i$.\\
-			According to property 1, the different eigenspaces are independent. That means: all eigenvectors span the full n dimensional space only if:\\ $\underbrace{(n-r_1)}_\text{dimension eigenspace 1}+(n-r_2)+...=n$ or if: $\forall i (n-r_i)=\eta_i$\\
+			\item Independence  between eigenvectors: The eigenvectors of \textbf{different} eigenvalues are linear independent. 
+			\item If the eigenvalue $\lambda_i$ has a multiplicity $\geq 1$, then different eigenvectors can be related to this eigenvalue. If rank(A-$\lambda_i I)=r_i$, then $\lambda_i$ has n-$r_i$ independent eigenvectors. These n-$r_i$ eigenvectors span the eigenspace of eigenvalue $\lambda_i$.\\
+			According to property 1, the different eigenspaces are independent. That means: all eigenvectors span the full n dimensional space only if:\\ $(n-r_1)+(n-r_2)+...=n$ or if: $\forall i (n-r_i)=\eta_i$\\
 			Remark: this property is not always true: the eigenvalue 0 of the matrix $\begin{bmatrix}
 			0 & 1\\0 & 0
 			\end{bmatrix}$ has multiplicity 2, while n-r=2-1=1.
@@ -1846,10 +1866,10 @@
 	\begin{block}{Eigenvalues of a symetric matrix}
 		Properties of a symetric matrix A=A$^t$:
 		\begin{enumerate}
-			\item The eigenvalues of a real symetric matrix are real.
+			\item The eigenvalues of a real symmetric matrix are real.
 			\item The eigenvectors of a real symetric matrix of full rank form a orthonormal set.\\
 			- Eigenvectors of different eigenvalues are orthogonal.\\
-			- A eigenvalue with multiplicity $\eta_i$ has $n-r_i$ eigenvectors. Via Gram-Schmidt can these vectors be orthogonalised.
+			- A eigenvalue with multiplicity $\eta_i$ has $n-r_i$ eigenvectors. Via Gram-Schmidt can these vectors be orthogonalized.
 			\item If there are n eigenvectors: X=$\begin{bmatrix}
 			\overrightarrow{x_1}& ... & \overrightarrow{x_n}
 			\end{bmatrix}$, then we can write: $X^tX=I_n \Rightarrow X^{-1}=X^t$.
@@ -1865,7 +1885,7 @@
 		3 & 0 & 0\\
 		0 & 1 & 1\\
 		0 & 1 & 1
-		\end{bmatrix}$ A is symetric, so all the eigenvalues are real. The characteristic polynomial:\\
+		\end{bmatrix}$ A is symmetric, so all the eigenvalues are real. The characteristic polynomial:\\
 		$(3-y)((1-\lambda)^2-1)=(3-\lambda)(\lambda^2-2\lambda)=0 \Rightarrow \lambda_1=3, \lambda_2=2, \lambda_3=0$\\
 		Eigenvectors of $\lambda_1$: homogeneous system:\\
 		$\begin{bmatrix}
@@ -1948,10 +1968,10 @@
 	\end{block}
 \end{frame}
 
-\section{Appendix 1}
+\section{Appendixes}
 
 \begin{frame}
-	\frametitle{Inverting a square matrix A}
+	\frametitle{Appendix 1: inverting a square matrix A}
 		A necessary condition: det(A)$\neq$0.
 		\begin{enumerate}
 			\item Change each element by its cofactor
@@ -1960,7 +1980,7 @@
 		\end{enumerate}
 		Cofactor of element $a_{ij}$ (a scalar):
 		\begin{itemize}
-			\item Remove the row and column wich contains the element $a_{ij}$ (row i and column j). Result: a (n-1)x(n-1) matrix $M_{ij}$.
+			\item Remove the row and column which contains the element $a_{ij}$ (row i and column j). Result: a (n-1)x(n-1) matrix $M_{ij}$.
 			\item cofactor$(a_{ij})=(-1)^{i+j}det(M_{ij})$
 		\end{itemize}
 		\underline{Example}: A=$\begin{bmatrix} 1 & 3& 4\\
@@ -1971,10 +1991,8 @@
 		\end{bmatrix}$ with det($M_{22}$)=-8. Cofactor$(a_{22})=(-1)^{2+2}(-8)=8$.
 \end{frame}
 
-\section{Appendix 2}
-
 \begin{frame}
-	\frametitle{Elementary row operations}
+	\frametitle{Appendix 2: elementary row operations}
 	When you multiply a matrix with a elementary matrix you can:
 	\begin{enumerate}
 		\item change rows/columns  
@@ -1995,7 +2013,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Elementary row operations}
+	\frametitle{Appendix 2: elementary row operations}
 	The row operations:
 	\begin{enumerate}
 		\item Changing two rows:
@@ -2007,10 +2025,194 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Elementary row operations}
-		So $RA=\begin{bmatrix}
+	\frametitle{Appendix 2: elementary row operations}
+		If $RA=\begin{bmatrix}
 		a_1\\...\\a_j\\...\\a_i\\...\\a_n 
-		\end{bmatrix}$, then has r the form: $R=\begin{bmatrix}
-		1
-		\end{bmatrix}$
+		\end{bmatrix}$, then has R the form: $R=\begin{bmatrix}
+		1 & 0 & & ...& & 0\\
+		0 & 1 & & ... &  & \\
+		... & & & & & \\
+		0 & .. & 0 & 1 & .. & 0\\
+		... & & &  & & \\
+		0 & .. & 1 & 0 & .. & 0\\
+		... &  & & & & \\
+		0 & & & & & 1
+		\end{bmatrix}$\\
+		This is the unit matrix with changing elements: $ii,ij,ji,jj$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	\begin{enumerate}
+		\setcounter{enumi}{1}
+		\item Scale with a factor $\alpha$: \\
+		If we want to scale the $i^{th}$ row of A with $\alpha$, then we have to multiply $A^{mxn}$ with $R^{mxm}=\begin{bmatrix}
+			1 & 0 & ... & & 0\\
+			0 & 1 & ... & & \\
+			... & & & \\
+			0 & ... & \alpha & ... & 0\\
+			... & & & & \\
+			0 & & & & 1
+		\end{bmatrix}$. \\
+		This is the unit matrix with $\alpha$ on element $ii$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item Add two rows and one of the two rows change by this sum:\\
+		Row i + row j $\rightarrow$ row i. $R=\begin{bmatrix}
+			1 & 0 & & ...& & 0\\
+			0 & 1 & & ... &  & \\
+			... & & & & & \\
+			0 & .. & 1 & 1 & .. & 0\\
+			... & & &  & & \\
+			0 & .. & 0 & 1 & .. & 0\\
+			... &  & & & & \\
+			0 & & & & & 1
+		\end{bmatrix}$\\
+		This is the unit matrix with a 1 on element $ij$.\\
+		By using elementar row  operations we can determine rank(A) by reducing A to its canonical form.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	$A=\begin{bmatrix}
+	1 & 2& 3 & 4\\
+	5 & 6 & 7 & 8 \\
+	4 & 4 & 4 & 4\\
+	10 & 12 & 14 & 16
+	\end{bmatrix}$\\
+	$\begin{cases}
+		\text{row 3+row 1} \rightarrow \text{row 3}\\
+		\text{row 4-row 2} \rightarrow \text{row 4}
+	\end{cases}$\\ $R_1A=\begin{bmatrix}
+	1 & 0 & 0& 0\\
+	0 & 1 & 0 & 0\\
+	1 & 0 & 1 & 0\\
+	0 & -1 & 0 & 1
+	\end{bmatrix}A=\begin{bmatrix}
+	1 & 2 & 3 & 4\\
+	5 & 6 & 7 & 8\\
+	5 & 6 & 7 & 8\\
+	5 & 6 & 7 & 8
+	\end{bmatrix}$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	$\begin{cases}
+	\text{row 3-row 2} \rightarrow \text{row 3}\\
+	\text{row 4-row 2} \rightarrow \text{row 4}
+	\end{cases}$\\ $R_2[R_1A]=\begin{bmatrix}
+	1 & 0 & 0& 0\\
+	0 & 1 & 0 & 0\\
+	0 & -1 & 1 & 0\\
+	0 & -1 & 0 & 1
+	\end{bmatrix}R_1A=\begin{bmatrix}
+	1 & 2 & 3 & 4\\
+	5 & 6 & 7 & 8\\
+	0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0
+	\end{bmatrix}$\\
+	$\begin{cases}
+	\text{row 2-4xrow 1} \rightarrow \text{row 2}\\
+	\end{cases}$\\ $R_3[R_2R_1A]=\begin{bmatrix}
+	1 & 0 & 0& 0\\
+	-4 & 1 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}R_2R_1A=\begin{bmatrix}
+	1 & 2 & 3 & 4\\
+	1 & -2 & -5 & -16\\
+	0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0
+	\end{bmatrix}$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	$\begin{cases}
+	\text{row 2-row 1} \rightarrow \text{row 2}
+	\end{cases}$\\ $R_4[R_3R_2R_1A]=\begin{bmatrix}
+	1 & 0 & 0& 0\\
+	-1 & 1 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}R_3R_2R_1A=\begin{bmatrix}
+	1 & 2 & 3 & 4\\
+	0 & -4 & -8 & -20\\
+	0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0
+	\end{bmatrix}$\\
+	$\begin{cases}
+	\text{(row 2)/(-4)} \rightarrow \text{row 2}\\
+	\end{cases}$\\ $R_5[R_4R_3R_2R_1A]=\begin{bmatrix}
+	1 & 0 & 0& 0\\
+	0 & \frac{-1}{4} & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}R_4R_3R_2R_1A=\begin{bmatrix}
+	1 & 2 & 3 & 4\\
+	0 & 1 & 2 & 5\\
+	0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0
+	\end{bmatrix}$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 2: elementary row operations}
+	$\begin{cases}
+	\text{row 1 - 2xrow 2} \rightarrow \text{row 1}\\
+	\end{cases}$\\ $R_6[R_5R_4R_3R_2R_1A]=\begin{bmatrix}
+	1 & -2 & 0& 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}R_5R_4R_3R_2R_1A=\begin{bmatrix}
+	1 & 0 & -1 & -6\\
+	0 & 1 & 2 & 5\\
+	0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0
+	\end{bmatrix}$\\
+	So, rank(A)=2 because the canonical form has two rows different from 0.\\
+	\textbf{Remark}: column operations can be derived on the same way.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 3: canonical form}
+	The canonical form of a matrix $A^{mxn}$ with rank(A)=r can be derived by row/column operations. \\
+	With \textbf{row operations}:\\
+	$A \sim \begin{bmatrix}
+	1 & 0 & ... & 0 &  & x & x & ... & x\\
+	0 & 1 & ... & 0 &  & x & x & ... & x\\
+	...\\
+	0 & ... & & 1 & & x& x& ...& x\\
+	 \\
+	 0 & 0 & ... & 0 & & 0 & ... &... & 0\\
+	...\\
+	0 & ... & ... & 0 & & 0 & ... &... & 0
+	\end{bmatrix}$ (x is a number $\neq$0)\\
+	- m-r rows will be zero \\
+	- Above and below every 1 are zeros
+\end{frame}
+
+\begin{frame}
+	\frametitle{Appendix 3: canonical form}
+	With \textbf{column operations}:\\
+	$A \sim \begin{bmatrix}
+	1 & 0 & ... & 0 &  & 0 & 0 & ... & 0\\
+	0 & 1 & ... & 0 &  & 0 & ...  &  & 0 \\
+	... & & & & & ... & & & ...\\
+	0 & ... & & 1 & & 0 & ... & & 0\\
+	\\
+	x & x & ... & x & & 0 & ... & & 0\\
+	...\\
+	x & ... & ... & x & & 0 & & & 0
+	\end{bmatrix}$ (x is a number $\neq$0)\\
+	- n-r rows will be zero \\
+	- Left and right of every 1 are zeros
 \end{frame}
