@@ -71204,7 +71204,7 @@ module.exports = {
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
         rlocus: function(container, sys, interactive) {
-			//window.alert(1);
+		
         interactive = interactive === undefined ? false : interactive;
         var systf = system.tf(sys),
             numerator = systf.getNumerator(),
@@ -71335,7 +71335,7 @@ module.exports = {
 
             });
 
-            // Add method to the graph to update the K value of the points traveling along the root locus
+            // Add method to the graph to update the K value of the points travelling along the root locus
 
             graph.set_k = function(k) {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
@@ -71489,7 +71489,7 @@ module.exports = {
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     stepwithreference: function(container, sys, bounds, settle, poles) {
-		//window.alert(1);
+		
         var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
@@ -71672,7 +71672,7 @@ module.exports = {
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     step: function(container, sys, bounds, settle, poles) {
-		//window.alert(1);
+		
         var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
@@ -71934,13 +71934,13 @@ System.prototype.bode = function(omega_exp_bounds) {
  * @returns {Array<Number>} response.x - The value of the response.
  */
 System.prototype.step = function(bounds, settle, poles) {
-	//window.alert(2);
+	
     return module.exports.ss(this).step(bounds, settle, poles);
 };
 
 
 /**
- * Calculates the impulse reponse of the system.
+ * Calculates the impulse response of the system.
  * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
  * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
  * @returns {Object} response - An object containing the impulse response of the system.
@@ -72318,7 +72318,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
  * @inheritdoc
  */
 Ss.prototype.step = function(bounds, settle, poles) {
-	//window.alert(3);
+	
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -72577,7 +72577,7 @@ module.exports = {
     },
 
     /**
-     * Returns the transfer function of the sytem corresponding to the closed loop negative feedback system of sys1 with sys2 on the feeback connection.
+     * Returns the transfer function of the system corresponding to the closed-loop negative feedback system of sys1 with sys2 on the feedback connection.
      * @param {(Zpk|Tf)} G - The system of which the feedback should be calculated.
      * @param {(Zpk|Tf|Number)} [H=1] - The system on the feedback connection.
      */
