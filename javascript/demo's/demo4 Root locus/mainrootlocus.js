@@ -4,7 +4,7 @@ function main(){
 	var current_arrayDenominator = [1,1];
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
+    var plt2 = control.plot.stepwithreference(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
 	plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
 	
 	var Slider1 = document.getElementById('slider_1');
