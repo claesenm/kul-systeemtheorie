@@ -2,12 +2,17 @@
 #input
 {
 	float: left;
-	width: 50%;
+	width: 25%;
+}
+#bode
+{
+	display: inline-block;
+	width: 37.5%;
 }
 #output
 {
 	float: right;
-	width: 50%;
+	width: 37.5%;
 }
 
 #tf-fucntion
