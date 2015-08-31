@@ -71239,7 +71239,7 @@ module.exports = {
         var points = [poles],
             ks = math.zeros(points.length),
             k = step;
-        for (i = 1; i < 1000; ++i){
+        for (i = 1; i < 2000; ++i){
             var next_roots = num.roots(gen_poly(k)),
                 next_roots_closest = [];
             // Determine which of the new roots belongs to the which previous root.
