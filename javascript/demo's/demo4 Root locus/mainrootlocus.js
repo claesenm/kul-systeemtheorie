@@ -101,6 +101,7 @@ function main(){
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
 		
+		
 		var container1 = document.getElementById('root-locus');
 		plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
 		
