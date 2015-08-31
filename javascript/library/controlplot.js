@@ -71224,7 +71224,7 @@ module.exports = {
             step = 0.001,
             S_STEP = biggest_range / 500;
 			
-		window.alert(x_min);
+		
 
         function gen_poly(k) {
             return num.polyadd(math.multiply(numerator, k), denominator); 
@@ -71279,13 +71279,13 @@ module.exports = {
 
         // Remove points that have gone too far away from the poles/zeros (presumably to infinity)
 
-        function too_far(p) {
-            return ! (p.x > (x_max + x_range) || p.x < (x_min - x_range) || p.y > (y_max + y_range) || p.y < (y_min - y_range));
-        }
-
-        for (i = 0; i < series_data.length; ++i) {
-            series_data[i] = series_data[i].filter(too_far);
-        }
+      //  function too_far(p) {
+     //       return ! (p.x > (x_max + x_range) || p.x < (x_min - x_range) || p.y > (y_max + y_range) || p.y < (y_min - y_range));
+     //   }
+//
+      //  for (i = 0; i < series_data.length; ++i) {
+     //       series_data[i] = series_data[i].filter(too_far);
+     //   }
 
         // Put the zeros as the last element of the points to 'finish' the root loci. (Have the path connect to the zeros)
 
