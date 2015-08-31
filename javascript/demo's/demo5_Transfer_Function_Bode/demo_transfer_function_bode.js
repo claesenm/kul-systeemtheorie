@@ -5,11 +5,12 @@ var bodePlot 	= 	null;
 var ouputPlot 	=	null;
 var dynSys 		= 	null;
 
-var checkBoxAutoScale = null;
-var sliderAmplitude = null;
-var sliderFrequency = null;
-var sliderAmpVal	= 1;
-var	sliderOmegaVal	= 1;
+var buttonSubmit		= null;
+var checkBoxAutoScale 	= null;
+var sliderAmplitude 	= null;
+var sliderFrequency 	= null;
+var sliderAmpVal		= 1;
+var	sliderOmegaVal		= 1;
 
 var tfNum		= [1, 2];
 var tfDen		= [8, 3, 4];
@@ -57,6 +58,12 @@ var outputChartOptions = {
 							}
 						};
 
+// Additonal options to control the tooltip
+var bodePlotChartOptions =	{ 
+								tooltip: {
+											enabled: false
+										 }
+							};
 var inputFunction = function(t, mult, phaseShift ) 	
 	{
 		// default values for optional parameters
@@ -79,9 +86,18 @@ function setup()
 	
 	update_tf(tfNum, tfDen);
 	
-	// set up global variables to identify the various containers
+	// set up global variables to identify the various elements
 	bodePlot 	= 	document.getElementById('bode-plot-container');
 	outputPlot	=	document.getElementById('output-plot-container');
+	
+	dynSys		=	control.system.tf(tfNum,tfDen);
+	
+	checkBoxAutoScale	=	document.getElementById('check-auto-scale');
+	
+	sliderAmplitude 	= 	document.getElementById('slider-amplitude');
+	sliderFrequency		=   document.getElementById('slider-omega');
+	
+	buttonSubmit		=	document.getElementById('submit-button');
 	
 	// Add outputPlot container to HighChart plot options
 	if( 'chart' in outputChartOptions)
@@ -93,12 +109,8 @@ function setup()
 		outputChartOptions['chart'] = {renderTo: outputPlot};
 	}
 	
-	dynSys		=	control.system.tf(tfNum,tfDen);
-	
-	checkBoxAutoScale	=	document.getElementById('check-auto-scale');
-	
-	sliderAmplitude 	= 	document.getElementById('slider-amplitude');
-	sliderFrequency		=   document.getElementById('slider-omega');
+	// Attach event to button
+	buttonSubmit.onclick = submit_transfer_function; 
 	
 	// create the sliders
 	noUiSlider.create(sliderAmplitude, 
@@ -136,10 +148,41 @@ function setup()
 			update_output_plot();
 		});
 		
-	// checkBox
+	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
-	// populate graphs
-	var plts = control.plot.bode(bodePlot, dynSys);
+	
+	// populate bode plot, without the automatic syncing because we are going to define our own
+	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
+	
+	//New sync function 
+	var sync = function(e)
+			{
+				plts.forEach(function(chart) {
+					e = chart.pointer.normalize(e);
+					var point = chart.series[0].searchPoint(e, true);
+
+					if (point) {
+						point.onMouseOver();
+						chart.tooltip.refresh(point);
+						chart.xAxis[0].drawCrosshair(e, point);
+					}
+
+					// Hides both pointers when the mouse leaves the graph
+					chart.pointer.reset = function() {
+						//window.alert("hey!");
+						// graphs.forEach(function(graph) {
+							// Highcharts.Pointer.prototype.reset.call(graph.pointer);
+							//})
+						};
+                });
+			};
+	// for(i in bodePlot.children)
+	// { 
+		// bodePlot.children[i].addEventListener('mousemove',sync)
+	// };
+			
+	//replace the default event syncronizing the bode plots by one which shows tooltip on given point when no mouseover
+	
 	
 }
 /**
@@ -260,11 +303,13 @@ function update_output_plot()
 								series:	[
 											{
 												name: 'input',
-												data: generate_output_data(lowBound, highBound, step)
+												data: generate_output_data(lowBound, highBound, step),
+												animation: false
 											},
 											{
 												name: 'output',
-												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal))
+												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal)),
+												animation: false
 											}
 										]
 							 };
@@ -303,5 +348,49 @@ function recursiveExtend(target, source) {
     return target;
 }
 
+function areAllNumbers( chkArray )
+{
+	var allNumbers = true;
+	for(var i = 0; ((i < chkArray.length) && allNumbers); i++)
+	{
+		allNumbers = allNumbers && !(isNaN(chkArray[i]));
+	}
+	return allNumbers;
+}
+function submit_transfer_function()
+{
+	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
+	var arrayDenominator	= document.getElementById('input-denominator').value.toString().split(/[,;:]+/);
+	
+	// Remove possible empty string element on end
+	if(arrayDenominator[arrayDenominator.length - 1] == "")
+		arrayDenominator.pop();
+	if(arrayNumerator[arrayNumerator.length -1] == "")
+		arrayNumerator.pop();
+	
+	// check for mistakes
+	if( (arrayNumerator.length == 0) || (arrayDenominator.length==0) )
+		{alert("Please fill in a transfer function. One or more boxes is empty.");return;}
+	if( !(areAllNumbers(arrayNumerator) && areAllNumbers(arrayDenominator)) )
+		{alert("Please fill in a correct transfer function according to the given syntax");return}
+	if(arrayDenominator.length == 1 && arrayDenominator[0] == "0")
+		{alert("Please do not devide by zero");return;}
+	if(arrayDenominator.length < arrayNumerator.length)
+		{alert("The order of the denominator should be greater than the order of the numerator.");return;}
+	
+	// convert array to numbers
+	arrayNumerator		= arrayNumerator.map( function(el) { return parseFloat(el);});
+	arrayDenominator	= arrayDenominator.map( function(el) { return parseFloat(el);});
+	
+	// Update everything
+	dynSys		=	control.system.tf(arrayNumerator,arrayDenominator);
+	update_tf(arrayNumerator, arrayDenominator);
+	update_output_plot();
+	//workaround for bug in lib: first clear containter, than fill it up
+	while (bodePlot.firstChild) {
+		bodePlot.removeChild(bodePlot.firstChild);
+	}
+	control.plot.bode(bodePlot, dynSys, undefined, true);
+}
 window.onload = setup;
 	

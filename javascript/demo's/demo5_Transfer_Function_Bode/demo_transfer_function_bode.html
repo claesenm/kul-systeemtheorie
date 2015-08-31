@@ -27,9 +27,18 @@
 		<div id="demo-container">
 			<div id="input">
 				<h3>Transfer Function</h3>
-				<span class="formula" id="tf-function">
-					$$ H(s) = \frac{\kappa}{\tau s + 1} $$
-				</span>
+				<form id="input-form">
+					<p>Fill in a transfer function below by entering the coefficients separated by commas. </p>
+					<span>Nominator: </span> <input type="text" id="input-numerator"></input> <br>
+					<span>Denominator: </span><input type="text" id="input-denominator"></input> 
+					<p><input type="button" id="submit-button" value="Submit"></input></p>
+				</form>
+				<p> Transfer Funtion:
+					<span class="formula" id="tf-function">
+					<!-- $$ h(s) = \frac{\kappa}{\tau s + 1} $$ -->
+					</span>
+				</p>
+				
 				
 				<h3>Input Signal</h3>
 				<div id="input-signal-box">

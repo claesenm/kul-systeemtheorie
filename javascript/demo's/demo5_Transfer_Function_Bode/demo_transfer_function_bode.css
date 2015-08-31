@@ -48,3 +48,9 @@
 {
 	height: 15em;
 }
+
+#input-form   span
+{
+	float: left; 
+	width: 6em;
+}
