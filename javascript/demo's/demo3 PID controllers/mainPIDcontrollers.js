@@ -6,7 +6,7 @@ function main(){
 	var D_box = document.getElementById("D");
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([1],[1,2]), [0.01, 20], true);
+    var plt2 = control.plot.stepwithreference(container2, control.system.tf([1],[1,2]), [0.01, 20], true);
 	document.getElementById("rise_time").innerHTML=1.0998;
 	document.getElementById("final_value").innerHTML=0.49998;	
 	document.getElementById("settling_time").innerHTML=1.9483;

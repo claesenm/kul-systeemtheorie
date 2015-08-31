@@ -71203,9 +71203,9 @@ module.exports = {
      * can be changed by calling chart.set_k(K).
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
-    rlocus: function(container, sys, interactive) {
+        rlocus: function(container, sys, interactive) {
+			//window.alert(1);
         interactive = interactive === undefined ? false : interactive;
-
         var systf = system.tf(sys),
             numerator = systf.getNumerator(),
             denominator = systf.getDenominator(),
@@ -71223,6 +71223,8 @@ module.exports = {
             biggest_range = Math.max(x_range, y_range),
             step = 0.001,
             S_STEP = biggest_range / 500;
+			
+		window.alert(x_min);
 
         function gen_poly(k) {
             return num.polyadd(math.multiply(numerator, k), denominator); 
@@ -71237,11 +71239,9 @@ module.exports = {
         var points = [poles],
             ks = math.zeros(points.length),
             k = step;
-
         for (i = 1; i < 1000; ++i){
             var next_roots = num.roots(gen_poly(k)),
                 next_roots_closest = [];
-
             // Determine which of the new roots belongs to the which previous root.
             // This chooses a root based on the closest distance.
             for (var j = 0; j < points[points.length - 1].length; ++j) {
@@ -71251,34 +71251,34 @@ module.exports = {
             }
 
             points.push(next_roots_closest);
-
-
             // Calculate the biggest distance a root has travelled this iteration and adjust the step size accordingly.
             // (i.e. decrease the step size if the distance a root has travelled based on the ration of a desired distance and the actual distance)
             var max_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
             if (max_dist === 0) {
                 break;
             }
+
             ks.push(k);
             step *= S_STEP / max_dist;
             k += step;
         }
 
-
-
         // Convert to a format Highcharts understands
+
         var series_data = new Array(points[0].length);
         for (i = 0; i < series_data.length; ++i) {
             series_data[i] = new Array(points.length + 1);
+
         }
+
         points.forEach(function(data, j) {
             data.forEach(function(point, i) {
                 series_data[i][j] = {x: math.re(point), y: math.im(point), k: ks[j]};
             });
         });
 
-
         // Remove points that have gone too far away from the poles/zeros (presumably to infinity)
+
         function too_far(p) {
             return ! (p.x > (x_max + x_range) || p.x < (x_min - x_range) || p.y > (y_max + y_range) || p.y < (y_min - y_range));
         }
@@ -71288,8 +71288,10 @@ module.exports = {
         }
 
         // Put the zeros as the last element of the points to 'finish' the root loci. (Have the path connect to the zeros)
+
         var numerator_roots = sys.getZeros(),
             last_points = points[points.length - 1].slice();
+
         for (i = 0; i < numerator_roots.length; ++i) {
             var zero = numerator_roots[i],
                 closest_pole = num.extreme_by(points[points.length -1], Math.min, function(p) { return dist(p, zero); });
@@ -71309,17 +71311,18 @@ module.exports = {
                         turboThreshold: 10000
                     };
                 })),
+
                 tooltip: {
                     formatter: function() {
                         return (this.point.k !== undefined ? '<b> K: ' + ((this.point.k !== Infinity) ? math.round(this.point.k, 4) : 'Infinity') + '</b><br>' : '') +
                                '<b>' + math.round(this.x, 4) + ' ' + (this.y < 0 ? '-' : '+') + ' ' + math.abs(math.round(this.y, 4)) + 'j' + '</b>';
                     }
+
                 }
+
             };
 
         var graph = new Highcharts.Chart(recursiveExtend(default_options, custom_options));
-
-
         if (interactive) {
             // Add a series for the movable poles
             graph.addSeries({type: 'scatter',
@@ -71329,25 +71332,31 @@ module.exports = {
                                 symbol: 'circle'
                             },
                             data: poles.map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: 0}; }, true)
+
             });
 
-            // Add method to the graph to update the K value of the points travelling along the root locus
+            // Add method to the graph to update the K value of the points traveling along the root locus
+
             graph.set_k = function(k) {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
             };
+
         }
 
-
         return graph;
+
     },
+
     time_series_options: {
         chart: {
             type: 'line'
         },
+
         title: {
             text: '',
             y: 0
         },
+
         xAxis: {
             type: 'linear',
             title: {
@@ -71355,11 +71364,10 @@ module.exports = {
             }
         },
         yAxis: {
-            startOnTick: true,
-            minPadding: 1,
-            endOnTick: true,
-            maxPadding: 1,
-			minRange: 0.5,
+            startOnTick: false,
+            minPadding: 0.01,
+            endOnTick: false,
+            maxPadding: 0.01,
             title: {
                 text: ''
             },
@@ -71382,6 +71390,7 @@ module.exports = {
             }
 
         }
+
     },
 
     /**
@@ -71403,6 +71412,255 @@ module.exports = {
         };
         return new Highcharts.Chart([this.time_series_options, options, extra_options].reduce(recursiveExtend));
     },
+	
+	time_series_reference_options: {
+        chart: {
+            type: 'line'
+        },
+
+        title: {
+            text: '',
+            y: 0
+        },
+
+        xAxis: {
+            type: 'linear',
+            title: {
+                text: 't (s)'
+            }
+        },
+        yAxis: {
+            startOnTick: false,
+          //  minPadding: 1,
+            endOnTick: true,
+           // maxPadding: 10,
+			minRange: 2,
+            title: {
+                text: ''
+            },
+            lineWidth: 1,
+            gridLineWidth: 0,
+            tickWidth: 1
+        },
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            crosshairs: [true, false],
+            headerFormat: '',
+            formatter: function() {
+                return '<b>' + 't: ' + math.round(this.x, 5) + 's' + '</b>' + '<br>' +
+                    '<b>' + 'x: ' + math.round(this.y, 5) + '</b>';
+            }
+
+        }
+
+    },
+
+    /**
+     * Creates a default chart with a time series.
+     * @param {HTMLElement} container - The container to render to.
+     * @param {Array<Array<Number>>} data - The data for the plot.
+     * @param {Object} [extra_options] - Extra options for Highcharts.
+     * @returns {Highcharts.Chart} The reference to the created chart.
+     */
+    time_series_reference: function(container, data, extra_options) {
+        extra_options = extra_options || {};
+        var options = {
+            chart: {
+                renderTo: container
+            },
+            series: [{
+                data: data
+            }]
+        };
+        return new Highcharts.Chart([this.time_series_reference_options, options, extra_options].reduce(recursiveExtend));
+    },
+	 /**
+     * Plots the step response of sys to container with a reference.
+     * @param {HTMLElement} container - The container to render to.
+     * @param {System} sys - The system of which to plot the step response.
+     * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
+	 * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
+     * @param {Array<(Number|Complex)>} [poles] - The poles of the system. (Speeds up calculation if the poles were previously calculated).
+     * @returns {Highcharts.Chart} The reference to the created chart.
+     */
+    stepwithreference: function(container, sys, bounds, settle, poles) {
+		//window.alert(1);
+        var step_data = sys.step(bounds, settle, poles),
+            input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
+            show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
+
+        // Create graph and add drawing commands
+        var svgs = [];
+        var graph = this.time_series_reference(container, input_data, {chart: {events: {redraw: function() {
+
+            // Destroy previous svgs
+            svgs.forEach(function(svg) {
+                if (svg) {
+                    svg.destroy();
+                }
+            });
+            svgs = [];
+			
+            var renderer = this.renderer,
+                xAxis = this.axes[0],
+                yAxis = this.axes[1],
+                line_attrs = {
+                'stroke-width': 1,
+                stroke: 'blue',
+                'stroke-dasharray': [1, 3]
+            };
+			
+            var line_attrs_one = {
+                'stroke-width': 1,
+                stroke: 'red',
+                'stroke-dasharray': [1, 0]
+            };
+
+            function toX(v) {
+                return math.round(xAxis.toPixels(v));
+            }
+            function toY(v) {
+                return math.round(yAxis.toPixels(v));
+            }
+
+            var yfinal = this.series[0].data[this.series[0].data.length - 1].y;
+            if (show_info.settled) {
+                // Add line for the final value
+                svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
+            }
+			
+			svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
+		
+            if (show_info.settle_time || show_info.rise_time || show_info.peak) {
+
+                // Gather new step data in case the plot's data has been updated
+                var step_data_new = {
+                    t: new Array(this.series[0].data.length),
+                    x: new Array(this.series[0].data.length)
+                };
+                for (var i = 0; i < this.series[0].data.length; ++i) {
+                    step_data_new.t[i] = this.series[0].data[i].x;
+                    step_data_new.x[i] = this.series[0].data[i].y;
+                }
+                var step_info = num.stepinfo(step_data_new);
+
+
+                if (show_info.peak) {
+                    // Render peak
+                    var peak_svg = renderer.path(['M', toX(xAxis.min), toY(step_info.peak),
+                                                 'L', toX(step_info.peak_time), toY(step_info.peak),
+                    'M', toX(step_info.peak_time), toY(yAxis.min),
+                    'L', toX(step_info.peak_time), toY(step_info.peak)])
+                    .attr(line_attrs)
+                    .add();
+                    svgs.push(peak_svg);
+                }
+
+                if (show_info.rise_time) {
+                    // Render rise time
+                    var rise_time_svg = renderer.path([
+                        // Rise time high
+                        'M', toX(xAxis.min), toY(0.9*yfinal),
+                        'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
+                        'M', toX(step_info.rise_time_high), toY(yAxis.min),
+                        'L', toX(step_info.rise_time_high), toY(step_info.meta.high*yfinal),
+
+                        // Rise time low
+                        'M', toX(xAxis.min), toY(0.1*yfinal),
+                        'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
+                        'M', toX(step_info.rise_time_low), toY(yAxis.min),
+                        'L', toX(step_info.rise_time_low), toY(step_info.meta.low*yfinal),
+                    ])
+                    .attr(line_attrs)
+                    .add();
+
+                    var ARROW_HEIGHT = toY(yAxis.min) - 13,
+                        ARROW_FIN_LENGTH = 5,
+                        ARROW_ANGLE = math.multiply([math.cos(math.pi / 4), math.sin(math.pi / 4)], ARROW_FIN_LENGTH),
+                        X_PADDING = 5,
+                        X_LOW = toX(step_info.rise_time_low) + X_PADDING,
+                        X_HIGH = toX(step_info.rise_time_high) - X_PADDING;
+
+                    var rise_time_arrow_svg = renderer.path(['M', X_LOW, ARROW_HEIGHT,
+                                                            'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
+                    'M', X_LOW, ARROW_HEIGHT,
+                    'L', X_LOW + ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
+
+                    'M', X_LOW, ARROW_HEIGHT,
+                    'L', X_HIGH, ARROW_HEIGHT,
+
+                    'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT + ARROW_ANGLE[1],
+                    'M', X_HIGH, ARROW_HEIGHT,
+                    'L', X_HIGH - ARROW_ANGLE[0], ARROW_HEIGHT - ARROW_ANGLE[1],
+                    ])
+                    .attr({
+                        'stroke-width': 2,
+                        stroke: 'black'
+                    })
+                    .add();
+
+                    svgs.push(rise_time_svg);
+                    svgs.push(rise_time_arrow_svg);
+
+                    if (show_info.rise_time_text) {
+                        var rise_time_text_svg = renderer.text('' + math.round(step_info.rise_time, 4) + 's', math.round((X_LOW + X_HIGH) / 2 - (20)), ARROW_HEIGHT + 12)
+                        .css({color: 'black', fontSize: '10px'})
+                        .add();
+                        svgs.push(rise_time_text_svg);
+                    }
+                }
+
+
+                if (show_info.settle_time) {
+                    // Render settling time 
+                    var settling_time_svg = renderer.path(['M', toX(step_info.settling_time), toY(yAxis.min),
+                                                          'L', toX(step_info.settling_time), toY(step_info.settling_value)])
+                    .attr(line_attrs)
+                    .add();
+                    var settling_band_svg = renderer.path(['M', toX(xAxis.min), toY(yfinal*(1 + step_info.meta.settling_threshold)),
+                                                          'L', toX(xAxis.max), toY(yfinal*(1 + step_info.meta.settling_threshold)),
+                    'M', toX(xAxis.min), toY(yfinal*(1 - step_info.meta.settling_threshold)),
+                    'L', toX(xAxis.max), toY(yfinal*(1 - step_info.meta.settling_threshold))])
+                    .attr({
+                        'stroke-width': 1,
+                        stroke: 'black',
+                        opacity: 0.5
+                    })
+                    .add();
+                    svgs.push(settling_time_svg);
+                    svgs.push(settling_band_svg);
+                }
+            }
+        }  }}});
+
+
+        graph.show_step_info = function(show) {
+            show = ((show === undefined || show === true) ? {settled: true,
+                                         peak: true,
+                                         settle_time: true,
+                                         rise_time: true,
+                                         rise_time_text: false} : show);
+            if (show === false) {
+                show = {settled: false, peak: false, settle_time: false, rise_time: false, rise_time_text: false};
+            }
+
+            show_info = recursiveExtend(show_info, show);
+            this.redraw();
+        };
+
+        graph.update = function(newsys) {
+            var step_data = newsys.step(bounds, settle, poles);
+            graph.series[0].setData(step_data.t.map(function(time, i){return [time, step_data.x[i]];}), true, false, true);
+        };
+
+        graph.redraw();
+        return graph;
+    },
 
     /**
      * Plots the step response of sys to container.
@@ -71414,6 +71672,7 @@ module.exports = {
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     step: function(container, sys, bounds, settle, poles) {
+		//window.alert(1);
         var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
@@ -71458,10 +71717,6 @@ module.exports = {
                 svgs.push(renderer.path(['M', toX(xAxis.min), toY(yfinal), 'L', toX(xAxis.max), toY(yfinal)]).attr(line_attrs).add());
             }
 			
-		//	if (show_one == true){
-				svgs.push(renderer.path(['M', toX(xAxis.min), toY(1), 'L', toX(xAxis.max), toY(1)]).attr(line_attrs_one).add());
-		//	}
-		
             if (show_info.settle_time || show_info.rise_time || show_info.peak) {
 
                 // Gather new step data in case the plot's data has been updated
@@ -71679,6 +71934,7 @@ System.prototype.bode = function(omega_exp_bounds) {
  * @returns {Array<Number>} response.x - The value of the response.
  */
 System.prototype.step = function(bounds, settle, poles) {
+	//window.alert(2);
     return module.exports.ss(this).step(bounds, settle, poles);
 };
 
@@ -72062,6 +72318,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
  * @inheritdoc
  */
 Ss.prototype.step = function(bounds, settle, poles) {
+	//window.alert(3);
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 

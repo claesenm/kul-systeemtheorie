@@ -4,7 +4,7 @@ function main(){
 	var current_arrayDenominator = [1,1];
 	
 	var container2 = document.getElementById('step-plot');
-    var plt2 = control.plot.step(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
+    var plt2 = control.plot.stepwithreference(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
 	plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
 	
 	var Slider1 = document.getElementById('slider_1');
@@ -100,6 +100,7 @@ function main(){
 		var step_data = sys.step([0.00000000000001,10000000],true);
 		
 		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+		
 		
 		var container1 = document.getElementById('root-locus');
 		plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
