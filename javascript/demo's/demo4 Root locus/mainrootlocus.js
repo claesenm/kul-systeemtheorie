@@ -2,10 +2,12 @@ function main(){
 	
 	var current_arrayNumerator = [1];
 	var current_arrayDenominator = [1,1];
+	var current_closedLoopNumerator = [0.5];
+	var current_closedLoopDenominator = [1,1.5];
 	
 	var container2 = document.getElementById('step-plot');
     var plt2 = control.plot.stepwithreference(container2, control.system.tf([0.5],[1,1.5]), [0.01, 20], true);
-	plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
+	plt2.show_step_info({rise_time: false, settling_time: false, settled: false});
 	
 	var Slider1 = document.getElementById('slider_1');
 
@@ -14,7 +16,7 @@ function main(){
 			step: 0.002,
 			range: {
 				'min': [  0.01 ],
-				'max': [ 0.99 ]
+				'max': [ 2 ]
 			}
 		});
 		
@@ -29,6 +31,9 @@ function main(){
 	plt1.set_k(0.501);
 	
 	document.getElementById('update').addEventListener('click', update);
+	document.getElementById('yes').addEventListener('click', updateYes);
+	document.getElementById('no').addEventListener('click',updateNo);
+	
 	
 	function update(){
 		var arrayNumerator = document.getElementById("numerator").value.toString().split(',');
@@ -79,6 +84,7 @@ function main(){
 		} else if (numeratorDegree == 0 && arrayNumerator[0] == 0) {
 			alert("Don't take a transfer function of zero please!");
 		} else {
+			
 		var plant_simplified = doHorner(arrayNumerator,arrayDenominator);
 		arrayNumerator = plant_simplified[0];
 		numeratorDegree = arrayNumerator.length - 1;
@@ -86,6 +92,14 @@ function main(){
 		denominatorDegree = arrayDenominator.length - 1;
 		document.getElementById("numerator_plant").innerHTML = writeAsFormula(arrayNumerator,numeratorDegree);
 		document.getElementById("denominator_plant").innerHTML = writeAsFormula(arrayDenominator,denominatorDegree);
+		
+		for (i = 0; i < closedLoopNumerator.length; i++){
+			closedLoopNumerator[i] = roundresultHorner(closedLoopNumerator[i]);
+		}
+			
+		for (i = 0; i < closedLoopDenominator.length; i++){
+			closedLoopDenominator[i] = roundresultHorner(closedLoopDenominator[i]);
+		}
 		
 		var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
 		closedLoopNumerator = closedLoop_simplified[0];
@@ -97,20 +111,69 @@ function main(){
 		
 		var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 		
-		var step_data = sys.step([0.00000000000001,10000000],true);
-		
-		plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
 		
 		var container1 = document.getElementById('root-locus');
 		plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
 		
 		current_arrayNumerator = arrayNumerator;
 		current_arrayDenominator = arrayDenominator;
+		current_closedLoopNumerator = closedLoopNumerator;
+		current_closedLoopDenominator = closedLoopDenominator;
+		
+		if(document.getElementById('yes').checked) {
+			updateYes();
+		}else if(document.getElementById('no').checked) {
+			updateNo();
+		}
+		
+		var break_points = control.system.tf(arrayNumerator,arrayDenominator).getBreakPoints(),
+            break_points_re = break_points.map(function(v) { return math.re(v); }),
+            break_points_im = break_points.map(function(v) { return math.im(v); }),
+            x_min = math.min.apply(math, break_points_re),
+            x_max = math.max.apply(math, break_points_re),
+            x_range = math.max((x_max - x_min), 1),
+            y_min = math.min.apply(math, break_points_im),
+            y_max = math.max.apply(math, break_points_im),
+            y_range = math.max((y_max - y_min), 1),
+            biggest_range = Math.max(x_range, y_range),
+            step = 0.001,
+            S_STEP = biggest_range / 500;
+		
+		function gen_poly(k) {
+            return control.num.polyadd(math.multiply(arrayNumerator, k), arrayDenominator); 
+        }
+
+        function dist(c1, c2) {
+            return math.abs(math.subtract(c1, c2));
+        }
+		
+        var points = [control.system.tf(arrayNumerator,arrayDenominator).getPoles()],
+            k = step;
+        for (i = 1; i < 2000; ++i){
+            var next_roots = control.num.roots(gen_poly(k)),
+                next_roots_closest = [];
+            for (var j = 0; j < points[points.length - 1].length; ++j) {
+                var nearest = next_roots.indexOf(control.num.extreme_by(next_roots, Math.min, function(root) { return dist(root, points[points.length - 1][j]); }));
+                next_roots_closest.push(next_roots[nearest]);
+                next_roots.splice(nearest, 1);
+            }
+
+            points.push(next_roots_closest);
+            var max_dist = Math.max.apply(Math, points[points.length - 2].map(function(p, i){ return dist(p, points[points.length - 1][i]); }));
+            if (max_dist === 0) {
+                break;
+            }
+
+          
+            step *= S_STEP / max_dist;
+            k += step;
+        }
 		
 		plt1.set_k(0.5);
 		
 		Slider1.noUiSlider.set(0.5);
 		
+		if (numeratorDegree != denominatorDegree){
 		document.getElementById('slider_1').noUiSlider.destroy();
 		Slider1 = document.getElementById('slider_1');
 		noUiSlider.create(Slider1, {
@@ -118,9 +181,24 @@ function main(){
 			step: 0.002,
 			range: {
 				'min': [  0.01 ],
-				'max': [ 10 ]
+				'max': [ math.min(k,1000000000000000000) ]
 			}
 		});
+		}
+		else {
+		document.getElementById('slider_1').noUiSlider.destroy();
+		Slider1 = document.getElementById('slider_1');
+		noUiSlider.create(Slider1, {
+			start: [ 0.5 ],
+			step: 0.002,
+			range: {
+				'min': [  0.01 ],
+				'max': [ math.min(k,100) ]
+			}
+		});
+		}
+	
+		
 		Slider1_ValueElement = document.getElementById('slider-value');
 		Slider1.noUiSlider.on('update', function( values, handle ) {
 			Slider1_ValueElement.innerHTML = values[handle];
@@ -149,6 +227,14 @@ function main(){
 			denominatorDegree = arrayDenominator.length - 1;
 			document.getElementById("numerator_plant").innerHTML = writeAsFormula(arrayNumerator,numeratorDegree);
 			document.getElementById("denominator_plant").innerHTML = writeAsFormula(arrayDenominator,denominatorDegree);
+			
+			for (i = 0; i < closedLoopNumerator.length; i++){
+				closedLoopNumerator[i] = roundresultHorner(closedLoopNumerator[i]);
+			}
+			
+			for (i = 0; i < closedLoopDenominator.length; i++){
+				closedLoopDenominator[i] = roundresultHorner(closedLoopDenominator[i]);
+			}
 		
 			var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
 			closedLoopNumerator = closedLoop_simplified[0];
@@ -163,9 +249,14 @@ function main(){
 			
 			var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 			
-			var step_data = sys.step([0.00000000000001,10000000],true);
+			current_closedLoopNumerator = closedLoopNumerator;
+			current_closedLoopDenominator = closedLoopDenominator;
 			
-			plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+			if(document.getElementById('yes').checked) {
+				updateYes();
+			}else if(document.getElementById('no').checked) {
+				updateNo();
+			}
 			});
 		
 		document.getElementById("slider-value").innerHTML = 0.5;
@@ -189,6 +280,14 @@ function main(){
 			}
 			var closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
 			var closedLoopDenominatorDegree = closedLoopDenominator.length - 1;
+			
+			for (i = 0; i < closedLoopNumerator.length; i++){
+				closedLoopNumerator[i] = roundresultHorner(closedLoopNumerator[i]);
+			}
+			
+			for (i = 0; i < closedLoopDenominator.length; i++){
+				closedLoopDenominator[i] = roundresultHorner(closedLoopDenominator[i]);
+			}
 		
 			var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
 			closedLoopNumerator = closedLoop_simplified[0];
@@ -198,16 +297,31 @@ function main(){
 			document.getElementById("numerator_comp").innerHTML = writeAsFormula(closedLoopNumerator,closedLoopNumeratorDegree);
 			document.getElementById("denominator_comp").innerHTML = writeAsFormula(closedLoopDenominator,closedLoopDenominatorDegree);
 			
-		//	var plt1 = control.plot.rlocus(container1, control.system.tf(arrayNumerator,arrayDenominator), true);
+			current_closedLoopDenominator = closedLoopDenominator;
+			current_closedLoopNumerator = closedLoopNumerator;
 			plt1.set_k(K);
 			
 			var sys = control.system.tf(closedLoopNumerator, closedLoopDenominator);
 			
-			var step_data = sys.step([0.00000000000001,10000000],true);
-			
-			plt2.series[0].setData(control.num.zip(step_data.t, step_data.x), true, false, true);
+			if(document.getElementById('yes').checked) {
+				updateYes();
+			}else if(document.getElementById('no').checked) {
+				updateNo();
+			}
 			});
 			
+			
+	function updateYes(){
+		var container2 = document.getElementById('step-plot');
+		var plt2 = control.plot.stepwithreference(container2, control.system.tf(current_closedLoopNumerator,current_closedLoopDenominator), [0.000000000000000000001, 10000000000000], true);
+		plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
+	}
+	
+	function updateNo(){
+		var container2 = document.getElementById('step-plot');
+		var plt2 = control.plot.step(container2, control.system.tf(current_closedLoopNumerator,current_closedLoopDenominator), [0.000000000000000000001, 10000000000000], true);
+		plt2.show_step_info({rise_time: false, settling_time: false, settled: true});
+	}
 		
 	}
 
