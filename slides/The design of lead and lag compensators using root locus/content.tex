@@ -1,0 +1,115 @@
+\section{Introduction}
+
+\begin{frame}
+	\frametitle{Definitions}
+		The main objective of this chapter: design and compensation of single-input-sigle-output linear time-invariant control systems.
+		\begin{itemize}
+			\item Compensation: the modification of the system dynamics to satisfy the given specifications.
+			\item Specifications (transient response and steady-state requirements): given before the design.
+			\item Design by root-locus method: making a new root locus by adding poles and zeros to the system's open-loop transfer function.
+			\item Compensator: an other system inserted in parallel or in cascade with the system for the purpose of satisfying the specifications of the original system (e.g. lead, lag, lag-lead compensator's or PID controllers).
+		\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Compensators}
+	A sinusoidal input is applied to the input of a network. We got a:
+	\begin{itemize}
+		\item lead network: if the steady-state output has a phase lead.
+		\item lag network: if the steady-state output has a phase lag.
+		\item lag-lead network: if we have phase lag and phase lead in the output but in different frequentcy regions (lag when the input has low frequency and lead in high frequentcy). 
+	\end{itemize}
+	The amount of lag/lead is a function of the frequency. \vspace{4mm}
+	
+	A compensator with characteristic of a lead network, lag network, or lag-lead network is called a lead compensator, lag compensator, or lag-lead compensator. 
+	
+	\textbf{Remark}: with trail and error we find the optimal compensator
+\end{frame}
+
+\section{General design}
+
+\begin{frame}
+	\frametitle{Controllers}
+		Scetching the problem:
+		\begin{enumerate}
+			\item We got a plant that not achieve all the specifications (and we cannot change the parameters of the original system).
+			\item We have to change other parameters such that the system will achieve all the specifications.
+			\item These other parameters can be changed by changing the root loci of the closed-loop system. 
+			\item So we search the root loci of a compensator such that the overall system achieve the specifications. 
+			\item We let the original system interact (cascade or parallel) with the compensator.
+		\end{enumerate}
+		\vspace{3mm}
+		
+		\textbf{Remark}: we discuss only continu time systems. 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Root locus approach}
+	\underline{The method}:\\
+	Given: the root loci of the open-loop system (this are the parameters).\\
+	Now, the method consist of graphical determining the root loci of the closed-loop system.\vspace{3mm}
+
+	\underline{Example}: 
+	We want a certain gain of a system:
+	\begin{itemize}
+		\item The system is not stable at that gain.
+		\item We have to change the root loci (and make the system stable) by designing a compensator
+		\item Now, we got different root loci and the system is stable at the certain gain. So, the specifications are achieved.
+	\end{itemize}
+	\vspace{2mm}
+	
+	In \textbf{general}: we want to have the root loci of the system on the good locations.
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}
+	\frametitle{Addition of poles/zeros}
+	 \begin{block}{Addition of poles}
+	 	The addition of a pole to the open-loop transfer function has the effect of pulling the root locus to the right, tending to lower the system's relative stability and to slow down the settling of the response.
+	 \end{block}
+	 \begin{block}{Addition of zeros}
+	 	The addition of a zero to the open-loop trans- fer function has the effect of pulling the root locus to the left, tending to make the system more stable and to speed up the settling of the response.\\
+	 	It also increase:
+	 	\begin{itemize}
+	 		\item the degree of anticipation into the system
+	 		\item the speed of the transient response
+	 	\end{itemize}
+	 \end{block}
+\end{frame}
+
+\section{Lead copensations}
+
+\begin{frame}
+	\frametitle{Lead compensators}
+		Steps for creating a compensator: 
+		\begin{enumerate}
+			\item Determine the desired location for the dominant closed-loop poles (from specifications). 
+			\item If the adjustment of the gain connot yield the desired closed loop poles, then calculate the angle deficiency $\phi$. This deficiency has to by contributed by the lead compensator.
+			\item We take a compensator of this form: $C(s)=K\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}}$ with $0<\alpha<1$. 
+			\item $\alpha$ and T must be created such that there isn't a angle deficiency. If this already be done, then take $\alpha$ as graet as possible. K can be found by the requirements of the open loop gain.
+		\end{enumerate}
+\end{frame}
+
+\section{Lag compensation}
+
+\begin{frame}
+	\frametitle{Lag compensators}
+	When the system unsatisfactory the steady state (but can satisfy the transient response)\\
+	
+	We go increase the open loop gain, while we try to untouch the transient response (concreet: don't change the root locus in the neigbourhood of the dominant closed-loops, but increase the open loop gain)\\
+	
+	How to fix a small changing of the root loci -> the angle contribution of the lag compensator should be not larger than 5° (how? we place the pole and zero of the lag network close togheter and close to the origin of the s-plane)\\
+	
+	$C(s)=K\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $\beta>1$ beta can e large if the poles and zeros are close to the origin, T has to be taken large.
+\end{frame}
