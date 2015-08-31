@@ -70869,9 +70869,11 @@ module.exports = {
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
      * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
+	 * @param {boolean} disable_tooltip - Disables the automatic tooltips on mouseover when true.
      * @returns {Array<Highcharts.Chart>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
-    bode: function(container, system, omega_bounds) {
+    bode: function(container, system, omega_bounds, disable_tooltip_sync) {
+		if (typeof(disable_tooltip_sync)==='undefined') disable_tooltip_sync = false;
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
@@ -70987,9 +70989,11 @@ module.exports = {
                 };
             });
         }
-        magnitude_div.addEventListener('mousemove', sync);
-        phase_div.addEventListener('mousemove', sync);
-
+		if( !disable_tooltip_sync)
+		{
+			magnitude_div.addEventListener('mousemove', sync);
+			phase_div.addEventListener('mousemove', sync);
+		}
 
         graphs.update = function(system) {
             var bode_data = system.bode(omega_bounds),
