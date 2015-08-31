@@ -70343,7 +70343,7 @@ module.exports = {
      * @param {Number|Complex} start - The start exponent of the sequence
      * @param {Number|Complex} end - The end exponent of the sequence
      * @param {Number|Complex} [n=50] - The amount of points to return
-     * @param {Boolean|Complex} [inclusive=true] - Wheter or not the endpoint exponent should be included.
+     * @param {Boolean|Complex} [inclusive=true] - Whether or not the endpoint exponent should be included.
      * @return {Array<(Number|Complex)>} The array of equidistant points in logspace.
      */
     logspace: function(start, end, num, inclusive, base) {
@@ -70352,7 +70352,7 @@ module.exports = {
     },
 
     /**
-     * Evaluates a list of (Complex) numbers in s as if the list containes zeros/poles.
+     * Evaluates a list of (Complex) numbers in s as if the list contains zeros/poles.
      * @param {Array<(Complex|Number)>} a - the array of numbers.
      * @param {(Complex|Number)} s - The point in which to evaluate.
      * @returns {(Complex|Number)} The result of the evaluation.
@@ -70365,7 +70365,7 @@ module.exports = {
 
 
     /**
-     * Evaluates the list in s as if the list contains coëfficients of a polynomial in descending order.
+     * Evaluates the list in s as if the list contains coefficients of a polynomial in descending order.
      * @param {Array<(Number|Complex)>} p - The polynomial to evaluate.
      * @param {(Number|Complex)} s - The value in which to evaluate the polynomial.
      * @returns {(Number|Complex)} Returns the result of evaluating the polynomial in s
@@ -70382,7 +70382,7 @@ module.exports = {
 
 
     /**
-     * Finds all the (complex) roots of a polynomial with real coëfficients.
+     * Finds all the (complex) roots of a polynomial with real coefficients.
      * @param {Array<Number>} poly - The polynomial.
      * @returns {Array<(Number|Complex)>} The roots of the polynomial
      */
@@ -70848,7 +70848,7 @@ function recursiveClone(obj) {
 
 function recursiveExtend(target, source) {
     for (var prop in source) {
-        if (prop in target && ( target[prop] && (target[prop].toString() === '[object Object]') )) {
+        if (prop in target && (target[prop] && ((target[prop].toString() === '[object Object]')))) {
             recursiveExtend(target[prop], source[prop]);
         } else {
             target[prop] = source[prop];
@@ -71208,7 +71208,7 @@ module.exports = {
      * @returns {Highcharts.Chart} A reference to the root locus plot.
      */
         rlocus: function(container, sys, interactive) {
-			//window.alert(1);
+		
         interactive = interactive === undefined ? false : interactive;
         var systf = system.tf(sys),
             numerator = systf.getNumerator(),
@@ -71243,7 +71243,7 @@ module.exports = {
         var points = [poles],
             ks = math.zeros(points.length),
             k = step;
-        for (i = 1; i < 1000; ++i){
+        for (i = 1; i < 2000; ++i){
             var next_roots = num.roots(gen_poly(k)),
                 next_roots_closest = [];
             // Determine which of the new roots belongs to the which previous root.
@@ -71339,7 +71339,7 @@ module.exports = {
 
             });
 
-            // Add method to the graph to update the K value of the points traveling along the root locus
+            // Add method to the graph to update the K value of the points travelling along the root locus
 
             graph.set_k = function(k) {
                 graph.series[graph.series.length - 1].setData(num.roots(gen_poly(k)).map(function(pole) { return {x: math.re(pole), y: math.im(pole), k: k}; }), true, false, true);
@@ -71493,7 +71493,7 @@ module.exports = {
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     stepwithreference: function(container, sys, bounds, settle, poles) {
-		//window.alert(1);
+		
         var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
@@ -71676,7 +71676,7 @@ module.exports = {
      * @returns {Highcharts.Chart} The reference to the created chart.
      */
     step: function(container, sys, bounds, settle, poles) {
-		//window.alert(1);
+		
         var step_data = sys.step(bounds, settle, poles),
             input_data = step_data.t.map(function(t, i) { return [t, step_data.x[i]]; }),
             show_info = {settled: false, peak: false, rise_time: false, settle_time: false};
@@ -71938,13 +71938,13 @@ System.prototype.bode = function(omega_exp_bounds) {
  * @returns {Array<Number>} response.x - The value of the response.
  */
 System.prototype.step = function(bounds, settle, poles) {
-	//window.alert(2);
+	
     return module.exports.ss(this).step(bounds, settle, poles);
 };
 
 
 /**
- * Calculates the impulse reponse of the system.
+ * Calculates the impulse response of the system.
  * @param {Array<Number>} [bounds=[0, 20]] - The bounds of the simulation.
  * @param {Boolean} [settle=false] - Whether to terminate the simulation when the signal has settled.
  * @returns {Object} response - An object containing the impulse response of the system.
@@ -72322,7 +72322,7 @@ Ss.prototype.solveODE = function(bounds, settle, dx, sol, initial, poles) {
  * @inheritdoc
  */
 Ss.prototype.step = function(bounds, settle, poles) {
-	//window.alert(3);
+	
     bounds = bounds || [0, 20];
     settle = (settle !== undefined ? settle : false);
 
@@ -72452,7 +72452,7 @@ module.exports = {
      * @returns {Ss} The state-space representation of sys.
      */
     tf2ss: function(sys) {
-        // Controlable canonical form
+        // Controllable canonical form
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),
@@ -72581,7 +72581,7 @@ module.exports = {
     },
 
     /**
-     * Returns the transfer function of the sytem corresponding to the closed loop negative feedback system of sys1 with sys2 on the feeback connection.
+     * Returns the transfer function of the system corresponding to the closed-loop negative feedback system of sys1 with sys2 on the feedback connection.
      * @param {(Zpk|Tf)} G - The system of which the feedback should be calculated.
      * @param {(Zpk|Tf|Number)} [H=1] - The system on the feedback connection.
      */

@@ -103,6 +103,14 @@ function main(){
 		document.getElementById("numerator_plant").innerHTML = writeAsFormula(arrayNumerator,numeratorDegree);
 		document.getElementById("denominator_plant").innerHTML = writeAsFormula(arrayDenominator,denominatorDegree);
 		
+		for (i = 0; i < closedLoopNumerator.length; i++){
+			closedLoopNumerator[i] = roundresultHorner(closedLoopNumerator[i]);
+		}
+			
+		for (i = 0; i < closedLoopDenominator.length; i++){
+			closedLoopDenominator[i] = roundresultHorner(closedLoopDenominator[i]);
+		}
+		
 		var closedLoop_simplified = doHorner(closedLoopNumerator,closedLoopDenominator);
 		closedLoopNumerator = closedLoop_simplified[0];
 		closedLoopNumeratorDegree = closedLoopNumerator.length - 1;
