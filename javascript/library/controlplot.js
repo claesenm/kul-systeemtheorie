@@ -70848,7 +70848,7 @@ function recursiveClone(obj) {
 
 function recursiveExtend(target, source) {
     for (var prop in source) {
-        if (prop in target && ( target[prop] && (target[prop].toString() === '[object Object]') )) {
+        if (prop in target && (target[prop] && ((target[prop].toString() === '[object Object]')))) {
             recursiveExtend(target[prop], source[prop]);
         } else {
             target[prop] = source[prop];
