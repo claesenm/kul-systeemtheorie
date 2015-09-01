@@ -23,13 +23,26 @@
     </head>
 	<body>
 		<h1>Transfer function and bode plot</h1>
-		<span id="demo-description"> This is the description</span>
+		<p id="demo-description"> 
+			This demo illustrates the effect of a dynamic system described by a transfer function on a sine input. <br>
+			You can select the amplitude and angular frequency using the sliders below and see the amplification and phase shift highlighted in the bode plot. The output shows the input-sine in blue, the output in black.
+			You can also enter a custom transfer function if you want to.
+		</p>
 		<div id="demo-container">
 			<div id="input">
 				<h3>Transfer Function</h3>
-				<span class="formula" id="tf-function">
-					$$ H(s) = \frac{\kappa}{\tau s + 1} $$
-				</span>
+				<form id="input-form">
+					<p>Fill in a transfer function below by entering the coefficients separated by commas. </p>
+					<span>Nominator: </span> <input type="text" id="input-numerator"></input> <br>
+					<span>Denominator: </span><input type="text" id="input-denominator"></input> 
+					<p><input type="button" id="submit-button" value="Submit"></input></p>
+				</form>
+				<p> Transfer Funtion:
+					<span class="formula" id="tf-function">
+					<!-- $$ h(s) = \frac{\kappa}{\tau s + 1} $$ -->
+					</span>
+				</p>
+				
 				
 				<h3>Input Signal</h3>
 				<div id="input-signal-box">
@@ -49,13 +62,14 @@
 					</div>
 				</div>
 			</div>
-			<div id="output">
+			<div id="bode">
 				<h3>Bode Plot of Transfer Function</h3>
-				<div id="bode-plot-container">
-				</div>
+				<div id="bode-plot-container"></div>
+			</div>
+			<div id="output">
 				<h3>Output</h3>
 				<div id="output-plot-container"></div>
-				<input type="checkbox" id="check-auto-scale" checked>Auto-scale</input>
+				<input type="checkbox" id="check-auto-scale" style="margin-left: 3em"checked>Auto-scale</input>
 			</div>
 		</div>
 	</body>

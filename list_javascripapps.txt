@@ -1,0 +1,7 @@
+<ul>
+	<li><a href="http://homes.esat.kuleuven.be/~magudelo/_html5/test11.html" target="_blank">Inverted Pendulum demo</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo1/firstorderfinal.html" target="_blank">Time response and Frequency response of a first order system in standard&nbsp;form</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo2/secondorderfinal.html" target="_blank">Time reponse and frequency response of a second order system in standard form</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo3/PIDcontrollers.html" target="_blank">PID controller demo</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo4/rootlocus.html" target="_blank">Root Locus demo</a></li>
+</ul>

@@ -70343,7 +70343,7 @@ module.exports = {
      * @param {Number|Complex} start - The start exponent of the sequence
      * @param {Number|Complex} end - The end exponent of the sequence
      * @param {Number|Complex} [n=50] - The amount of points to return
-     * @param {Boolean|Complex} [inclusive=true] - Wheter or not the endpoint exponent should be included.
+     * @param {Boolean|Complex} [inclusive=true] - Whether or not the endpoint exponent should be included.
      * @return {Array<(Number|Complex)>} The array of equidistant points in logspace.
      */
     logspace: function(start, end, num, inclusive, base) {
@@ -70352,7 +70352,7 @@ module.exports = {
     },
 
     /**
-     * Evaluates a list of (Complex) numbers in s as if the list containes zeros/poles.
+     * Evaluates a list of (Complex) numbers in s as if the list contains zeros/poles.
      * @param {Array<(Complex|Number)>} a - the array of numbers.
      * @param {(Complex|Number)} s - The point in which to evaluate.
      * @returns {(Complex|Number)} The result of the evaluation.
@@ -70365,7 +70365,7 @@ module.exports = {
 
 
     /**
-     * Evaluates the list in s as if the list contains coëfficients of a polynomial in descending order.
+     * Evaluates the list in s as if the list contains coefficients of a polynomial in descending order.
      * @param {Array<(Number|Complex)>} p - The polynomial to evaluate.
      * @param {(Number|Complex)} s - The value in which to evaluate the polynomial.
      * @returns {(Number|Complex)} Returns the result of evaluating the polynomial in s
@@ -70382,7 +70382,7 @@ module.exports = {
 
 
     /**
-     * Finds all the (complex) roots of a polynomial with real coëfficients.
+     * Finds all the (complex) roots of a polynomial with real coefficients.
      * @param {Array<Number>} poly - The polynomial.
      * @returns {Array<(Number|Complex)>} The roots of the polynomial
      */
@@ -70869,14 +70869,19 @@ module.exports = {
      * @param {HTMLElement} container - The container in which to show the plot.
      * @param {System} system - The system of which to show the bode plot.
      * @param {Array<Number>} [omega_bounds] - The boundaries of the pulsation to plot in logspace (e.g. 10^2 is entered as 2).
+	 * @param {boolean} disable_tooltip - Disables the automatic tooltips on mouseover when true.
      * @returns {Array<Highcharts.Chart>} - An array of 2 plots. The first is the magnitude plot and the second is the phase plot.
      */
-    bode: function(container, system, omega_bounds) {
+    bode: function(container, system, omega_bounds, disable_tooltip_sync) {
+		if (typeof(disable_tooltip_sync)==='undefined') disable_tooltip_sync = false;
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
-            d.style.width = container.offsetWidth + "px";
-            d.style.height = container.offsetHeight / 2 + "px";
+			// This resizes the plot correctly when the window is resized:
+			d.style.width = "100%";
+			d.style.height = "50%";
+            //d.style.width = container.offsetWidth + "px";
+            //d.style.height = container.offsetHeight / 2 + "px";
             container.appendChild(d);
             return d;
         }
@@ -70987,9 +70992,11 @@ module.exports = {
                 };
             });
         }
-        magnitude_div.addEventListener('mousemove', sync);
-        phase_div.addEventListener('mousemove', sync);
-
+		if( !disable_tooltip_sync)
+		{
+			magnitude_div.addEventListener('mousemove', sync);
+			phase_div.addEventListener('mousemove', sync);
+		}
 
         graphs.update = function(system) {
             var bode_data = system.bode(omega_bounds),
@@ -72448,7 +72455,7 @@ module.exports = {
      * @returns {Ss} The state-space representation of sys.
      */
     tf2ss: function(sys) {
-        // Controlable canonical form
+        // Controllable canonical form
         var A, B, C, D,
             numer = sys.getNumerator(),
             denom = sys.getDenominator(),

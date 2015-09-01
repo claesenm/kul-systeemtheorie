@@ -1,15 +1,15 @@
-//TODO: zie blad + update plot alleen als slider klaar is
-//TODO: Fixed axis for output so you can cleary see difference when using sliders
+//TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
 var ouputPlot 	=	null;
 var dynSys 		= 	null;
 
-var checkBoxAutoScale = null;
-var sliderAmplitude = null;
-var sliderFrequency = null;
-var sliderAmpVal	= 1;
-var	sliderOmegaVal	= 1;
+var buttonSubmit		= null;
+var checkBoxAutoScale 	= null;
+var sliderAmplitude 	= null;
+var sliderFrequency 	= null;
+var sliderAmpVal		= 1;
+var	sliderOmegaVal		= 1;
 
 var tfNum		= [1, 2];
 var tfDen		= [8, 3, 4];
@@ -57,8 +57,13 @@ var outputChartOptions = {
 							}
 						};
 
-var inputFunction = function(t, mult, phaseShift ) 	
-	{
+// Additonal options to control the tooltip
+var bodePlotChartOptions =	{ 
+								tooltip: {
+											enabled: false
+										 }
+							};
+var inputFunction = function(t, mult, phaseShift ) 	{
 		// default values for optional parameters
 		if (typeof(mult)==='undefined') mult = 1;
 		if (typeof(phaseShift)==='undefined') phaseShift = 0;
@@ -79,9 +84,18 @@ function setup()
 	
 	update_tf(tfNum, tfDen);
 	
-	// set up global variables to identify the various containers
+	// set up global variables to identify the various elements
 	bodePlot 	= 	document.getElementById('bode-plot-container');
 	outputPlot	=	document.getElementById('output-plot-container');
+	
+	dynSys		=	control.system.tf(tfNum,tfDen);
+	
+	checkBoxAutoScale	=	document.getElementById('check-auto-scale');
+	
+	sliderAmplitude 	= 	document.getElementById('slider-amplitude');
+	sliderFrequency		=   document.getElementById('slider-omega');
+	
+	buttonSubmit		=	document.getElementById('submit-button');
 	
 	// Add outputPlot container to HighChart plot options
 	if( 'chart' in outputChartOptions)
@@ -93,12 +107,8 @@ function setup()
 		outputChartOptions['chart'] = {renderTo: outputPlot};
 	}
 	
-	dynSys		=	control.system.tf(tfNum,tfDen);
-	
-	checkBoxAutoScale	=	document.getElementById('check-auto-scale');
-	
-	sliderAmplitude 	= 	document.getElementById('slider-amplitude');
-	sliderFrequency		=   document.getElementById('slider-omega');
+	// Attach event to button
+	buttonSubmit.onclick = submit_transfer_function; 
 	
 	// create the sliders
 	noUiSlider.create(sliderAmplitude, 
@@ -136,20 +146,19 @@ function setup()
 			update_output_plot();
 		});
 		
-	// checkBox
+	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
-	// populate graphs
-	var plts = control.plot.bode(bodePlot, dynSys);
+	
+	update_bode_plot();
 	
 }
-/**
- *	Updates the formula of the Transfer Function under input.
+/** Updates the formula of the Transfer Function under input.
  *	
  *	@param {Array} num -
- *	Array containing the coëfficiënts of the numerator, highest degree first
+ *	Array containing the coefficients of the numerator, highest degree first
  *
  *	@param {Array} den -
- *	Array containing the coëfficiënts of the denominator, highest degree first
+ *	Array containing the coefficients of the denominator, highest degree first
 */
 function update_tf(num, den)
 {
@@ -160,7 +169,7 @@ function update_tf(num, den)
 	 *	Makes a in latex formated polynom
 	 *	
 	 *	@param {Array} coeff -
-	 *	Array containing the coëfficiënts of the polynom
+	 *	Array containing the coefficients of the polynom
 	 *
 	*/
 	var makeLatexPolynom = function(coeff)
@@ -172,6 +181,9 @@ function update_tf(num, den)
 				switch(coeff[i])
 				{
 					case 0:
+						// If the last coefficient is zero, remove the '+' sign
+						if( i == (coeff.length-1) )
+							returnString = returnString.slice(0,-1);
 						break;
 					default:
 						returnString += coeff[i];
@@ -260,11 +272,13 @@ function update_output_plot()
 								series:	[
 											{
 												name: 'input',
-												data: generate_output_data(lowBound, highBound, step)
+												data: generate_output_data(lowBound, highBound, step),
+												animation: false
 											},
 											{
 												name: 'output',
-												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal))
+												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal)),
+												animation: false
 											}
 										]
 							 };
@@ -303,5 +317,139 @@ function recursiveExtend(target, source) {
     return target;
 }
 
-window.onload = setup;
+function areAllNumbers( chkArray )
+{
+	var allNumbers = true;
+	for(var i = 0; ((i < chkArray.length) && allNumbers); i++)
+	{
+		allNumbers = allNumbers && !(isNaN(chkArray[i]));
+	}
+	return allNumbers;
+}
+
+function  update_bode_plot()
+{
+	// workaround for bug in lib: first clear containter, than fill it up.
+	// otherwise a new plot is created beneath the old one
+	while (bodePlot.firstChild) {
+		bodePlot.removeChild(bodePlot.firstChild);
+	}
 	
+	// populate bode plot, without the automatic syncing because we are going to define our own
+	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
+	
+	//New sync function  that will highlight the frequency when mouse is not on chart
+	var sync = function(e)
+			{
+				plts.forEach(function(chart) {
+					e = chart.pointer.normalize(e);
+					
+					// The x and y elements of this point contains coordinates of the data 
+					// plotX and plotY are the true relative coordinates.
+					var point = chart.series[0].searchPoint(e, true);
+					
+					// if it's a valid point corresponding to one on the plot
+					if (point) {
+						point.onMouseOver();
+						chart.tooltip.refresh(point);
+						chart.xAxis[0].drawCrosshair(e, point);
+					}
+
+					// Change the reset function to a function highlighting the current frequency
+					chart.pointer.reset = function() {
+						// get point-index we want to select
+						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
+						
+						plts.forEach(function(graph) {
+							// get the point on the actual graph
+							var newPoint = graph.series[0].data[i];
+							
+							// fire MouseOver event for this point like we are really selecting this point
+							newPoint.onMouseOver();
+							
+							//display tooltip arround this point
+							graph.tooltip.refresh(newPoint);
+							
+							//draw crosshair
+							graph.xAxis[0].drawCrosshair(e, newPoint);
+							})
+						};
+                });
+			};
+	
+	// Attach the new sync to the mousemove event handler
+	for(i in bodePlot.children)
+	{ 
+		bodePlot.children[i].onmousemove = sync;
+	};
+	for(var i = 0; i < plts.length; i++ )
+	{
+		var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
+		plts[i].tooltip.refresh(plts[i].series[0].points[index]);
+	}
+}
+function submit_transfer_function()
+{
+	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
+	var arrayDenominator	= document.getElementById('input-denominator').value.toString().split(/[,;:]+/);
+	
+	// Remove possible empty string element on end
+	if(arrayDenominator[arrayDenominator.length - 1] == "")
+		arrayDenominator.pop();
+	if(arrayNumerator[arrayNumerator.length -1] == "")
+		arrayNumerator.pop();
+	
+	// Remove possible leading zeros
+	while(arrayNumerator[0]=="0")
+		arrayNumerator.shift();
+	while(arrayDenominator[0]=="0")
+		arrayDenominator.shift();
+	
+	// check for mistakes
+	if( (arrayNumerator.length == 0) || (arrayDenominator.length==0) )
+		{alert("Please fill in a transfer function. One or more boxes is empty.");return;}
+	if( !(areAllNumbers(arrayNumerator) && areAllNumbers(arrayDenominator)) )
+		{alert("Please fill in a correct transfer function according to the given syntax");return}
+	if(arrayDenominator.length == 1 && arrayDenominator[0] == "0")
+		{alert("Please do not devide by zero");return;}
+	if(arrayDenominator.length < arrayNumerator.length)
+		{alert("The order of the denominator should be greater than the order of the numerator.");return;}
+	
+	// convert array to numbers
+	arrayNumerator		= arrayNumerator.map( function(el) { return parseFloat(el);});
+	arrayDenominator	= arrayDenominator.map( function(el) { return parseFloat(el);});
+	
+	// Update everything
+	dynSys		=	control.system.tf(arrayNumerator,arrayDenominator);
+	update_tf(arrayNumerator, arrayDenominator);
+	update_output_plot();
+	
+	update_bode_plot();
+}
+
+/** Returns the index of the point closest to the given x-value
+ *
+ * @param{number} x_val - The abscis on the x-axis for which a point as close as possible has to be found
+ *
+ * @param{Array<Point>} data - the set of data in which the point has to be found
+ *
+ * @returns{number} index - the index in data of the closest point
+ */
+function find_point_in_chart_series(x_val, data) {
+	var prev_distance = Infinity;
+	var i = 0;
+	// loop through data as long as distance to point is decreasing
+	for(i = 0; i < data.length ; i++ )
+	{
+		var current_distance =  Math.abs(data[i].x - x_val);
+		
+		if(current_distance > prev_distance)
+			break;
+		else
+			prev_distance = current_distance;
+	}
+	
+	return i;
+}
+
+window.onload = setup;
