@@ -42,10 +42,14 @@
 
 .slider-value
 {
-	padding-bottom: 1em;
+	
 	display:block;
 	float: left;
 	
+}
+.slider-value-container
+{
+	padding-bottom: 1em;
 }
 #bode-plot-container
 {
