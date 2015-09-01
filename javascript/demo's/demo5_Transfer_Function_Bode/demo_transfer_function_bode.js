@@ -181,6 +181,9 @@ function update_tf(num, den)
 				switch(coeff[i])
 				{
 					case 0:
+						// If this the last coëfficient is zero, remove the '+' sign
+						if( i == (coeff.length-1) )
+							returnString = returnString.slice(0,-1);
 						break;
 					default:
 						returnString += coeff[i];
@@ -395,6 +398,12 @@ function submit_transfer_function()
 		arrayDenominator.pop();
 	if(arrayNumerator[arrayNumerator.length -1] == "")
 		arrayNumerator.pop();
+	
+	// Remove possible leading zeros
+	while(arrayNumerator[0]=="0")
+		arrayNumerator.shift();
+	while(arrayDenominator[0]=="0")
+		arrayDenominator.shift();
 	
 	// check for mistakes
 	if( (arrayNumerator.length == 0) || (arrayDenominator.length==0) )
