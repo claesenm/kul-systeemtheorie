@@ -70877,8 +70877,11 @@ module.exports = {
         omega_bounds = omega_bounds || num.interesting_region_logspace(system);
         function div_half_height() {
             var d = document.createElement('div');
-            d.style.width = container.offsetWidth + "px";
-            d.style.height = container.offsetHeight / 2 + "px";
+			// This resizes the plot correctly when the window is resized:
+			d.style.width = "100%";
+			d.style.height = "50%";
+            //d.style.width = container.offsetWidth + "px";
+            //d.style.height = container.offsetHeight / 2 + "px";
             container.appendChild(d);
             return d;
         }
