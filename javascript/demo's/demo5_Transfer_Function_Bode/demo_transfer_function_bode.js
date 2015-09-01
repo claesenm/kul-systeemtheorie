@@ -175,29 +175,36 @@ function update_tf(num, den)
 	var makeLatexPolynom = function(coeff)
 		{
 			var returnString = "";
-			
+
 			for(var i = 0; i < coeff.length; i++)
 			{
+				// Add sign expect for highest degree
+				if( i != 0 )
+					returnString += (coeff[i] < 0) ? '' : '+';
 				switch(coeff[i])
 				{
 					case 0:
-						// If the last coefficient is zero, remove the '+' sign
-						if( i == (coeff.length-1) )
-							returnString = returnString.slice(0,-1);
+						// If the coefficient is zero, remove the sign
+						returnString = returnString.slice(0,-1);
 						break;
 					default:
 						returnString += coeff[i];
 					case 1:
+					case -1:
+						// Minus sign in case of -1
+						returnString += ( coeff[i] == -1 ) ? '-' : '';
 						var degree = coeff.length - i - 1;
 						switch(degree)
 						{
 							case 1:
-								returnString += "s+";
+								returnString += "s";
 								break;
 							case 0:
+								if(coeff[i] == 1)
+									returnString += "1";
 								break;
 							default:
-								returnString += "s^" + (degree) + "+";
+								returnString += "s^{" + (degree) + "}";
 						}
 						break;
 				}
@@ -359,7 +366,7 @@ function  update_bode_plot()
 					chart.pointer.reset = function() {
 						// get point-index we want to select
 						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
-						
+						console.log("hey");
 						plts.forEach(function(graph) {
 							// get the point on the actual graph
 							var newPoint = graph.series[0].data[i];
