@@ -1,5 +1,4 @@
-//TODO: zie blad + update plot alleen als slider klaar is
-//TODO: Fixed axis for output so you can cleary see difference when using sliders
+//TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
 var ouputPlot 	=	null;
@@ -154,45 +153,61 @@ function setup()
 	// populate bode plot, without the automatic syncing because we are going to define our own
 	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
 	
-	//New sync function 
+	//New sync function  that will highlight the frequency when mouse is not on chart
 	var sync = function(e)
 			{
 				plts.forEach(function(chart) {
 					e = chart.pointer.normalize(e);
+					
+					// The x and y elements of this point contains coordinates of the data 
+					// plotX and plotY are the true relative coordinates.
 					var point = chart.series[0].searchPoint(e, true);
-
+					
+					// if it's a valid point corresponding to one on the plot
 					if (point) {
 						point.onMouseOver();
 						chart.tooltip.refresh(point);
 						chart.xAxis[0].drawCrosshair(e, point);
 					}
 
-					// Hides both pointers when the mouse leaves the graph
+					// Change the reset function to a function highlighting the current frequency
 					chart.pointer.reset = function() {
-						//window.alert("hey!");
-						// graphs.forEach(function(graph) {
-							// Highcharts.Pointer.prototype.reset.call(graph.pointer);
-							//})
+						
+						// get point-index we want to select
+						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
+						
+						plts.forEach(function(graph) {
+							// get the point on the actual graph
+							var newPoint = graph.series[0].data[i];
+							
+							// fire MouseOver event for this point like we are really selecting this point
+							newPoint.onMouseOver();
+							
+							//display tooltip arround this point
+							graph.tooltip.refresh(newPoint);
+							
+							//draw crosshair
+							graph.xAxis[0].drawCrosshair(e, newPoint);
+							})
 						};
                 });
 			};
-	// for(i in bodePlot.children)
-	// { 
-		// bodePlot.children[i].addEventListener('mousemove',sync)
-	// };
-			
-	//replace the default event syncronizing the bode plots by one which shows tooltip on given point when no mouseover
 	
+	// Attach the new sync to the mousemove event handler
+	for(i in bodePlot.children)
+	{ 
+		bodePlot.children[i].onmousemove = sync;
+	};
 	
 }
 /**
  *	Updates the formula of the Transfer Function under input.
  *	
  *	@param {Array} num -
- *	Array containing the coëfficiënts of the numerator, highest degree first
+ *	Array containing the coefficients of the numerator, highest degree first
  *
  *	@param {Array} den -
- *	Array containing the coëfficiënts of the denominator, highest degree first
+ *	Array containing the coefficients of the denominator, highest degree first
 */
 function update_tf(num, den)
 {
@@ -203,7 +218,7 @@ function update_tf(num, den)
 	 *	Makes a in latex formated polynom
 	 *	
 	 *	@param {Array} coeff -
-	 *	Array containing the coëfficiënts of the polynom
+	 *	Array containing the coefficients of the polynom
 	 *
 	*/
 	var makeLatexPolynom = function(coeff)
@@ -392,5 +407,30 @@ function submit_transfer_function()
 	}
 	control.plot.bode(bodePlot, dynSys, undefined, true);
 }
-window.onload = setup;
+
+/** Returns the index of the point closest to the given x-value
+ *
+ * @param{number} x_val - The abscis on the x-axis for which a point as close as possible has to be found
+ *
+ * @param{Array<Point>} data - the set of data in which the point has to be found
+ *
+ * @returns{number} index - the index in data of the closest point
+ */
+function find_point_in_chart_series(x_val, data) {
+	var prev_distance = Infinity;
+	var i = 0;
+	// loop through data as long as distance to point is decreasing
+	for(i = 0; i < data.length ; i++ )
+	{
+		var current_distance =  Math.abs(data[i].x - x_val);
+		
+		if(current_distance > prev_distance)
+			break;
+		else
+			prev_distance = current_distance;
+	}
 	
+	return i;
+}
+
+window.onload = setup;
