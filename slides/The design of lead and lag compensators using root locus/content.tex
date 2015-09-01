@@ -61,55 +61,203 @@
 	In \textbf{general}: we want to have the root loci of the system on the good locations.
 \end{frame}
 
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{frame}
 	\frametitle{Addition of poles/zeros}
-	 \begin{block}{Addition of poles}
-	 	The addition of a pole to the open-loop transfer function has the effect of pulling the root locus to the right, tending to lower the system's relative stability and to slow down the settling of the response.
-	 \end{block}
-	 \begin{block}{Addition of zeros}
-	 	The addition of a zero to the open-loop trans- fer function has the effect of pulling the root locus to the left, tending to make the system more stable and to speed up the settling of the response.\\
-	 	It also increase:
-	 	\begin{itemize}
-	 		\item the degree of anticipation into the system
-	 		\item the speed of the transient response
-	 	\end{itemize}
-	 \end{block}
+	\underline{Addition of poles}:\\
+	\begin{itemize}
+		\item Pulls the root locus to the right.
+		\item Lowers the system's relative stability.
+		\item Slows down the setting of the response.
+	\end{itemize}
+	\vspace{3mm}
+	
+	\underline{Addition of zeros}:
+	\begin{itemize}
+		\item Pulls the root locus to the left.
+		\item Increase the system's relative stability.
+		\item Speeds up the settling of the response.
+		\item Speeds up the transient response.
+		\item Increases the anticipation of the system. 
+	\end{itemize}
 \end{frame}
 
 \section{Lead copensations}
 
 \begin{frame}
 	\frametitle{Lead compensators}
-		Steps for creating a compensator: 
+		There are 3 ways to make a \underline{lead compensator}:
 		\begin{enumerate}
-			\item Determine the desired location for the dominant closed-loop poles (from specifications). 
-			\item If the adjustment of the gain connot yield the desired closed loop poles, then calculate the angle deficiency $\phi$. This deficiency has to by contributed by the lead compensator.
-			\item We take a compensator of this form: $C(s)=K\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}}$ with $0<\alpha<1$. 
-			\item $\alpha$ and T must be created such that there isn't a angle deficiency. If this already be done, then take $\alpha$ as graet as possible. K can be found by the requirements of the open loop gain.
+			\item Electronic networks using operational amplifiers.
+			\item Electrical RC networks.
+			\item Mechanical spring-dashpot systems.
 		\end{enumerate}
+		\vspace{3mm}
+		
+		When to use the \underline{root locus approach} for lead compensators:\\
+		$\rightarrow$ When the specifications are given in terms of time-domain quantities. Examples:
+		\begin{itemize}
+			\item damping ratio
+			\item rise time
+			\item setting time
+			\item maximum overshoot
+			\item undamped natural frequency
+		\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lead compensators}
+	Steps to make a lead compensator (in cascade with the original system):
+	\begin{enumerate}
+		\item Determine the locations of the desired dominant poles (from the specifications).
+		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the good locations of the poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the good locations, then we have to make a lead compensator. 
+		\item Assume the lead compensator of this form: \\
+		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lead compensators}
+		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$\\
+		\begin{itemize}
+			\item Determining $\alpha$ and T:\\
+			$\alpha$ and T are determined by the angle $\phi$. This is the angle $\angle(C(s))$ must be equal to the difference between the angle of the desired pole and the angle of the original transfer function. \\
+			Result: the closed-loop pole has the same angle as the desired angle (angle of the desired pole). (And by determine T and $\alpha$ we determine the poles and zeros of the compensator.)
+			\item Determine $K_c$ (=the open-loop gain) from the magnitude specifications.\\
+			Result: the closed-loop pole has the desired magnitude. 
+		\end{itemize}
+		\textbf{Remark}: if there is some freedom about the parameter $\alpha$, then take $\alpha$ as high as possible. 
 \end{frame}
 
 \section{Lag compensation}
 
 \begin{frame}
 	\frametitle{Lag compensators}
-	When the system unsatisfactory the steady state (but can satisfy the transient response)\\
-	
-	We go increase the open loop gain, while we try to untouch the transient response (concreet: don't change the root locus in the neigbourhood of the dominant closed-loops, but increase the open loop gain)\\
-	
-	How to fix a small changing of the root loci -> the angle contribution of the lag compensator should be not larger than 5° (how? we place the pole and zero of the lag network close togheter and close to the origin of the s-plane)\\
-	
-	$C(s)=K\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $\beta>1$ beta can e large if the poles and zeros are close to the origin, T has to be taken large.
+		 \textbf{Problem}: A system that satisfy the desired transient response but don't satisfy the steady-state. \\
+		 $\rightarrow$ We got to compensate the system in such a way that it also satisfy the steady-state specifications (we have to make a lag compensator in cascade with the original system).
+		 \vspace{4mm}
+		  
+		 \textbf{Concrete}:
+		 \begin{itemize}
+		 	\item Changing the steady-state by increasing the open-loop gain.
+		 	\item Untouch the transient response by untouch the root locus in the neighbourhood of dominant closed-loop poles:
+		 	\begin{description}
+		 		\item [a)] poles and zeros close to each other;
+		 		\item [b)] poles and zeros close to the origin;
+		 		\item [c)] angle of the compensator must be small, $\angle(C(s))<5^{\circ}$.
+		 	\end{description}
+		 \end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Lag compensators}
+		$C(s)=K_c \beta\frac{Ts+1}{\beta Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $\beta>1$\\
+		\begin{itemize}
+			\item Choose poles and zeros close together
+			\item Choose $K_c$ close to 1 (if $K_c$ is exact 1, the transient response won't change)
+			\item Take $\beta$ as large as possible
+			\item Take T as large as possible 
+		\end{itemize}
+		\vspace{3mm}
+		
+		\textbf{Remark}: by the choice of $\beta$ and T, we have to take account of the reality (the physical realisation), so there is a limitation on the values.  \vspace{3mm}
+		
+		The \textbf{downside} of the lag compensator: the settling time will increase because the pole and zero of the closed-loop system are close to the origin. 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag compensators}
+		Steps to make a lag compensator (in cascade with the original system):
+		\begin{enumerate}
+			\item Draw the root locus of the uncompensated open loop system and search the dominant closed loop poles on the root-locus (from the specifications).
+			\item The lag compensator is $C(s)=K_c \beta\frac{Ts+1}{\beta Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$.
+			\item Calculate the static error constant. 
+			\item Calculate the new static error constant if we achieve all the specifications.
+			\item From this difference we make the lag compensator. Now, we can see the pole and the zero of the compensator. 
+		\end{enumerate}
+		\textbf{Remark}: we assume that the lag compensator achieved the transient response specifications. If not: make a lead-lag-compensator.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag compensators}
+		\begin{enumerate}
+			\setcounter{enumi}{5}
+			\item Draw the root locus of the compensated closed-loop system. Determine the locations of the dominant closed loop poles on the root-locus. 
+			\item Adjust $K_c$ from the magnitude conditions such that the closed-loop poles lie at the desired location. ($K_c\approx 1$)
+		\end{enumerate}
+		\vspace{3mm}
+		
+		\underline{Some notes}:
+		\begin{itemize}
+			\item The ratio of the value of gain required in the specifications and the gain found in the uncompensated system is equal to the ratio between the distance of the zero from the origin and that of the pole from the origin.
+			\item If the angle of the lag compensator is very small, then the original root loci and the new root loci are almost equal.
+			\item In some circumstances can be used both a lead or a lag compensator. 
+		\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+		\underline{General}:\\
+		Lead compensators: 
+		\begin{itemize}
+			\item speeds up the response;
+			\item increase stability of the system.
+		\end{itemize}
+		Lag compensators:
+		\begin{itemize}
+			\item improves steady-state accuracy;
+			\item reduces the speed of the response.
+		\end{itemize}
+		Lag-lead compensator:
+		\begin{itemize}
+			\item If both transient response and steady-state must be improved.
+			\item When 1 global component is more economical then both a lead and a lag component.
+		\end{itemize}
+		The lag-lead compensator has the advantages of both compensator. It has 2 poles and zeros, so the system has order 2.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+	The lag-lead compensator C(s) has this form: \\
+	$C(s)=K_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
+	(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})$ with $\beta>1$ and $\gamma>1$.\vspace{4mm}
+	Notes:
+	\begin{itemize}
+		\item The value $\beta T_2$ may not be to large, it must be fysical realizable.
+		\item  There are two cases of this type compensator: $\gamma\neq \beta$ or $\gamma= \beta$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+	Case 1:$\gamma\neq \beta$,  the design process is a combination of the design of the lead compensator and that of the lag compensator:
+	\begin{enumerate}
+		\item Determine the location of the closed-loop poles (from the specifications)
+		\item The lead part of the compensator must contribute the angle $\phi$: $\phi=\angle$(desired pole)$-\angle$(uncompensated open-loop system)
+		\item 
+		\begin{itemize}
+			\item Take $T_2$ as large as possible.
+			\item Determine $T_1$ and $\gamma$ such that:\\ 
+			$\angle(\frac{s_1+\frac{1}{T_1}}{s_1+\frac{\gamma}{T_1}})=\phi$
+			\item Determine $K_c$ from the condition:\\
+			$|K_c\frac{s_1+\frac{1}{T_1}}{s_1+\frac{\gamma}{T_1}}G(s)|=1$ with G(s) the open loop transfer function.
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+	Case 1: $\gamma\neq \beta$,  the design process is a combination of the design of the lead compensator and that of the lag compensator:
+	\begin{enumerate}
+		\setcounter{enumerate}{3}
+		\item Determine $\beta$ if $K_v$ is given:
+		$K_v=lim_{s\to0}sC(s)G(s)=
+		lim_{s\to0}sK_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=
+		K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
+		(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s)=
+		lim_{s\to0}sK_cG(s)\frac{\beta}{\gamma}$
+	\end{enumerate}
+\end{frame}
+
+
+
+
