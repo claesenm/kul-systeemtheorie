@@ -63,8 +63,7 @@ var bodePlotChartOptions =	{
 											enabled: false
 										 }
 							};
-var inputFunction = function(t, mult, phaseShift ) 	
-	{
+var inputFunction = function(t, mult, phaseShift ) 	{
 		// default values for optional parameters
 		if (typeof(mult)==='undefined') mult = 1;
 		if (typeof(phaseShift)==='undefined') phaseShift = 0;
@@ -150,58 +149,10 @@ function setup()
 	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
 	
-	// populate bode plot, without the automatic syncing because we are going to define our own
-	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
-	
-	//New sync function  that will highlight the frequency when mouse is not on chart
-	var sync = function(e)
-			{
-				plts.forEach(function(chart) {
-					e = chart.pointer.normalize(e);
-					
-					// The x and y elements of this point contains coordinates of the data 
-					// plotX and plotY are the true relative coordinates.
-					var point = chart.series[0].searchPoint(e, true);
-					
-					// if it's a valid point corresponding to one on the plot
-					if (point) {
-						point.onMouseOver();
-						chart.tooltip.refresh(point);
-						chart.xAxis[0].drawCrosshair(e, point);
-					}
-
-					// Change the reset function to a function highlighting the current frequency
-					chart.pointer.reset = function() {
-						
-						// get point-index we want to select
-						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
-						
-						plts.forEach(function(graph) {
-							// get the point on the actual graph
-							var newPoint = graph.series[0].data[i];
-							
-							// fire MouseOver event for this point like we are really selecting this point
-							newPoint.onMouseOver();
-							
-							//display tooltip arround this point
-							graph.tooltip.refresh(newPoint);
-							
-							//draw crosshair
-							graph.xAxis[0].drawCrosshair(e, newPoint);
-							})
-						};
-                });
-			};
-	
-	// Attach the new sync to the mousemove event handler
-	for(i in bodePlot.children)
-	{ 
-		bodePlot.children[i].onmousemove = sync;
-	};
+	update_bode_plot();
 	
 }
-/**
- *	Updates the formula of the Transfer Function under input.
+/** Updates the formula of the Transfer Function under input.
  *	
  *	@param {Array} num -
  *	Array containing the coefficients of the numerator, highest degree first
@@ -372,6 +323,68 @@ function areAllNumbers( chkArray )
 	}
 	return allNumbers;
 }
+
+function  update_bode_plot()
+{
+	// workaround for bug in lib: first clear containter, than fill it up.
+	// otherwise a new plot is created beneath the old one
+	while (bodePlot.firstChild) {
+		bodePlot.removeChild(bodePlot.firstChild);
+	}
+	
+	// populate bode plot, without the automatic syncing because we are going to define our own
+	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
+	
+	//New sync function  that will highlight the frequency when mouse is not on chart
+	var sync = function(e)
+			{
+				plts.forEach(function(chart) {
+					e = chart.pointer.normalize(e);
+					
+					// The x and y elements of this point contains coordinates of the data 
+					// plotX and plotY are the true relative coordinates.
+					var point = chart.series[0].searchPoint(e, true);
+					
+					// if it's a valid point corresponding to one on the plot
+					if (point) {
+						point.onMouseOver();
+						chart.tooltip.refresh(point);
+						chart.xAxis[0].drawCrosshair(e, point);
+					}
+
+					// Change the reset function to a function highlighting the current frequency
+					chart.pointer.reset = function() {
+						// get point-index we want to select
+						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
+						
+						plts.forEach(function(graph) {
+							// get the point on the actual graph
+							var newPoint = graph.series[0].data[i];
+							
+							// fire MouseOver event for this point like we are really selecting this point
+							newPoint.onMouseOver();
+							
+							//display tooltip arround this point
+							graph.tooltip.refresh(newPoint);
+							
+							//draw crosshair
+							graph.xAxis[0].drawCrosshair(e, newPoint);
+							})
+						};
+                });
+			};
+	
+	// Attach the new sync to the mousemove event handler
+	for(i in bodePlot.children)
+	{ 
+		bodePlot.children[i].onmousemove = sync;
+	};
+	for(var i = 0; i < plts.length; i++ )
+	{
+		var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
+		plts[i].tooltip.refresh(plts[i].series[0].points[index]);
+	}
+}
 function submit_transfer_function()
 {
 	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
@@ -401,11 +414,8 @@ function submit_transfer_function()
 	dynSys		=	control.system.tf(arrayNumerator,arrayDenominator);
 	update_tf(arrayNumerator, arrayDenominator);
 	update_output_plot();
-	//workaround for bug in lib: first clear containter, than fill it up
-	while (bodePlot.firstChild) {
-		bodePlot.removeChild(bodePlot.firstChild);
-	}
-	control.plot.bode(bodePlot, dynSys, undefined, true);
+	
+	update_bode_plot();
 }
 
 /** Returns the index of the point closest to the given x-value
