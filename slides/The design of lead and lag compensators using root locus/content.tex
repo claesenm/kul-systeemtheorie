@@ -128,6 +128,131 @@
 		\textbf{Remark}: if there is some freedom about the parameter $\alpha$, then take $\alpha$ as high as possible. 
 \end{frame}
 
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Given}:
+	\begin{itemize}
+		\item Feed-forward transfer function: $G(s)=\frac{4}{s(s+2)}$
+		\item Root locus plot of the uncompensated open-loop system:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.3\linewidth]{Ex1_rootlocus}
+		\end{figure}
+	\end{itemize}
+	\underline{Asked}:
+	\begin{itemize}
+		\item Undamped frequency: $w_n=4$ rad/s
+		\item Don't change the damping ratio
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\item Find the closed-loop poles: 
+		\begin{itemize}
+			\item The closed-loop transfer function: $\frac{C(s)}{R(s)}=\frac{4}{s^2+2s+4}$ with poles $s=-1\pm\sqrt{3}j$
+			\item Damping ratio: $\zeta=0.5$
+			\item undamped natural frequency: 2 rad/s
+			\item Static velocity constant: $K_v=2s^{-1}$
+		\end{itemize}
+		\vspace{3mm}
+		$\begin{cases}
+			\zeta \text{ must be the same} \rightarrow \text{let the angle } (60^{\circ}) \text{ of the poles constant}\\
+			\text{Undamped frequency = 4rad/s} \rightarrow \text{determine magnitude}
+		\end{cases}$
+		\vspace{1mm}
+		
+		The desired poles are: $s=-2\pm j2\sqrt{3}$
+		\vspace{3mm}
+		
+		\underline{Note}: in some cases, the desired poles can be obtained by adjustment of the gain. But in this case not, so we have to create a compensator. 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{1}
+		\item  Find the sum of the angles at the desired location of one of the dominant closed-loop poles with the open-loop poles and zeros of the original system, and determine the necessary angle $\phi$ to be added so that the total sum of the angles is equal to $\pm 180^{\circ}(2k + 1)$. The lead compensator must contribute this angle $\phi$.
+		\item Transfer function of the open-loop system: $$C(s)G(s)=(K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}})G(s) \text{ with } 0<\alpha<1$$
+		\textbf{Remark}: there are many solutions for T and $\alpha$. 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{3}
+		\item Determine the pole and zero of the compensator (there are many possibilities): we use an algorithm to find the the pole and zero and to get an $\alpha$ as big as possible:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{Ex1_draw_algoritme}
+		\end{figure}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Algorithm}:
+	\begin{enumerate}
+		\item Draw a horizontal line trough the desired dominant closed-loop pole P $\rightarrow$ PA
+		\item Connect the origin with P $\rightarrow$ PO
+		\item Bisect the two previous lines $\rightarrow$ PB
+		\item Draw two lines that make an angle $\phi/2$ with the line PB $\rightarrow$ PC, PD
+		\item The intersections of the negative real axis and the lines PC and PD are the zero and pole of the compensator. 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item We determine the angle $\phi$: $$\angle(\frac{4}{s(s+2)})|_{s=-2+j2\sqrt{3}}=-210^{\circ}$$
+		And so we find $\phi=30^{\circ}$. From the algorithm we get:\\ zero: -2.9 and pole: -5.4.\\
+		$$T=\frac{1}{2.9}=0.345,\text{   } \alpha T=\frac{1}{5.4}=0.185$$
+		So, we find $\alpha$: $\alpha=\frac{1}{5.4T}=0.537$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item Determine $K_c$ from the magnitude condition.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item The open-loop transfer function of the compensated system becomes:\\
+		$C(s)G(s)=K_c\frac{s+2.9}{s+5.4}\frac{4}{s(s+2)}=\frac{K(s+2.9)}{s(s+2)(s+5.4)}$ with K=$4K_c$.\vspace{3mm}
+		
+		The magnitude condition:
+		$$|\frac{K(s+2.9)}{s(s+2)(s+5.4)}|_{s=-2+j2\sqrt{3}}=1 \Rightarrow K=18.7 \Rightarrow K_c=\frac{K}{4}=4.68$$
+		And we get the transfer function of the lead compensator:
+		$$C(s)=4.68\frac{s+2.9}{s+5.4}$$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Ex1_response}
+	\end{figure}
+\end{frame}
+
+
 \section{Lag compensation}
 
 \begin{frame}
@@ -190,9 +315,61 @@
 		\begin{itemize}
 			\item The ratio of the value of gain required in the specifications and the gain found in the uncompensated system is equal to the ratio between the distance of the zero from the origin and that of the pole from the origin.
 			\item If the angle of the lag compensator is very small, then the original root loci and the new root loci are almost equal.
-			\item In some circumstances can be used both a lead or a lag compensator. 
+			\item Sometimes can be used both a lead or a lag compensator. 
 		\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lead compensators}
+	\underline{Given}:
+	\begin{itemize}
+		\item Feed-forward transfer function: $G(s)=\frac{1.06}{s(s+1)(s+2)}$
+		\item Root locus plot of the uncompensated open-loop system:
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.3\linewidth]{Ex2_rootlocus}
+		\end{figure}
+	\end{itemize}
+	\underline{Asked}:
+	\begin{itemize}
+		\item Increase of the static velocity error constant $K_v$ to $5s^{-1}$
+		\item Don't change the dominant closed-loop poles
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\item General calculations:
+		\begin{itemize}
+			\item The transfer function of the closed-loop system:
+			$$\frac{Y(s)}{R(s)}=\frac{1.06}{s(s+1)(s+2)+1.06}$$ with poles: $s=-0.3307\pm j0.5864$
+			\item Damping ratio: $\zeta=0.491$
+			\item Undamped natural frequency: 0.673 rad/s
+			\item Static velocity error constant: $K_v=0.53s^{-1}$
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{1}
+		\item We assume a lag compensator C(s): $$C(s)=K_c\frac{s+\frac{1}{T}}{s+\frac{1}{T\beta}}$$
+		\item To achieve the specifications, we choose: 
+		\begin{itemize}
+			\item $\beta=10$
+			\item zero: s=-0.05
+			\item pole: s=-0.005
+		\end{itemize}
+		\item C(s) becomes: 
+		$$C(s)=K_c\frac{s+0.05}{s+0.005}$$
+	\end{enumerate}
+\end{frame}
+
+\section{Lag-lead compensators}
 
 \begin{frame}
 	\frametitle{Lag-lead compensators}
@@ -248,16 +425,84 @@
 	\frametitle{Lag-lead compensators}
 	Case 1: $\gamma\neq \beta$,  the design process is a combination of the design of the lead compensator and that of the lag compensator:
 	\begin{enumerate}
-		\setcounter{enumerate}{3}
+		\setcounter{enumi}{3}
 		\item Determine $\beta$ if $K_v$ is given:
-		$K_v=lim_{s\to0}sC(s)G(s)=
-		lim_{s\to0}sK_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=
-		K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
-		(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s)=
-		lim_{s\to0}sK_cG(s)\frac{\beta}{\gamma}$
+		$$K_v=\lim_{s\to0}sC(s)G(s)=\lim_{s\to 0}sK_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
+		(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s)$$
+		$$=\lim_{s\to0}sK_cG(s)\frac{\beta}{\gamma}$$
+		\item Determine $T_2$ from:\\
+		$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1$ and $-5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$
 	\end{enumerate}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+	Case 2: $\gamma= \beta$:
+	\begin{enumerate}
+		\item Determine the location of the closed-loop poles (from the specifications)
+		\item If $K_v$ is specified, determine $K_c$ from:\\
+		$$K_v=\lim_{s \to 0} sC(s)G(s)=\lim_{s\to 0}sK_c(\frac{s+\frac{1}{T_1}}{s+\frac{\beta}{T_1}})
+		(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s)$$
+		$$=\lim_{s\to0}sK_cG(s)$$\item Determine the deficiency $\phi$, that must be contributed by the lead part of the lag-lead compensator, such that we get the dominant closed-loop poles on the desired location. 
+	\end{enumerate}
+\end{frame}
 
+\begin{frame}
+	\frametitle{Lag-lead compensators}
+	Case 2: $\gamma= \beta$:
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item Determine $T_1$ and$\beta$ from:\\
+		$|K_c(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s_1)|=1$ and $\angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})=\phi$
+		\item Determine $T_2$ from:\\
+		$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1$ and $-5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$
+	\end{enumerate}
+\end{frame}
 
+\section{Parallel compensation}
+
+\begin{frame}
+	\frametitle{Serial compensation}
+	$\rightarrow$ Up to now, we have only disused serial compensator's. \vspace{4mm}
+	
+	Derivation of the characteristic equation:\\
+	\underline{Serial}:
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Serial_compensator}
+	\end{figure}
+	The closed-loop transfer function: $\frac{C}{R}=\frac{GC}{1+GCH}$.\vspace{3mm}
+	
+	The characteristic equation is: $1+GCH=0$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Parallel compensation}
+	Derivation of the characteristic equation:\\
+	\underline{Parallel}:
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{Parallel_compensator}
+	\end{figure}
+	The closed-loop transfer function: $\frac{C}{R}=\frac{G_1G_2}{1+CG_2+G_1G_2H}$.\vspace{3mm}
+	
+	The characteristic equation is: $1+G_1G_2H+G_2C=0$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Parallel compensation}
+	Derivation of the characteristic equation:\\
+	\underline{Parallel}:\\
+	If we divide the characteristic equation by $1+G_1G_2H$ we obtain: $$1+\frac{CG_2}{1+G_1G_2H}=0$$
+	Now, we define: $G_f=\frac{G_2}{1+G_1G_2H}$.\\
+	So, we become a characteristic equation: $1+CG_f=0$\\
+	$\rightarrow$ This has the same form as the serial characteristic equation. So, the same methods can be applied. 
+	\vspace{3mm}
+	
+	Notes:
+	\begin{itemize}
+	\item A paralle compensator system is called a velocity feedback system.
+	\item The compensator can be saw as a gain element.
+	\end{itemize}
+\end{frame}
 
