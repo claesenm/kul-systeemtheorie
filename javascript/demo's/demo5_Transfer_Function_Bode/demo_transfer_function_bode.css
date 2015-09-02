@@ -66,3 +66,8 @@
 	float: left; 
 	width: 6em;
 }
+
+#output-formulas ul li span:first-child
+{
+	width: 6em;
+}

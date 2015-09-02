@@ -71,7 +71,20 @@ var inputFunction = function(t, mult, phaseShift ) 	{
 		
 		return sliderAmpVal * mult * Math.sin(t*sliderOmegaVal + phaseShift); 
 	};
-		
+
+// better performance than innerHTML, uses textContent or innerText according to browser support
+function set_text_of_node(node, str)
+{
+	if ('textContent' in node) 
+	{
+		node.textContent = str;
+	} 
+	else 
+	{
+		node.innerText = str;
+	}
+}	
+
 function setup()
 {
 	//confirm("Hello");
@@ -138,22 +151,46 @@ function setup()
 		{
 			sliderAmpVal = parseFloat(values[handle]);
 			document.getElementById('amplitude-value').innerHTML = values[handle];
-			update_output_plot();
 			update_bode_tooltip();
+			update_output_plot();
 		});
+	sliderAmplitude.noUiSlider.on('set', function()
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	});
 	sliderFrequency.noUiSlider.on('update', function ( values, handle )
 		{
 			sliderOmegaVal = parseFloat(values[handle]);
 			document.getElementById('omega-value').innerHTML = values[handle];
-			update_output_plot();
 			update_bode_tooltip();
+			update_output_plot();
 		});
+	sliderFrequency.noUiSlider.on('set', function()
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	});
 		
 	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
 	
 	update_bode_plot();
 	
+	//ouput Formula's
+	var outputFormulas = get_output_formulas();
+	set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
+	set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
 }
 /** Updates the formula of the Transfer Function under input.
  *	
@@ -168,8 +205,7 @@ function update_tf(num, den)
 	
 	var tfLatex		= " $$ H(s) = \\frac{";
 	
-	/**
-	 *	Makes a in latex formated polynom
+	/**	Makes a in latex formated polynom
 	 *	
 	 *	@param {Array} coeff -
 	 *	Array containing the coefficients of the polynom
@@ -229,7 +265,7 @@ function update_tf(num, den)
 	//MathJax.Hub.Queue(["Text",math,tfLatex]);
 };
 
-function get_amp_phase_shift( sys, freq)
+function get_polar_gain( sys, freq)
 {
 	var tf_eval = sys.evalS( math.multiply(math.complex(0,1),freq));
 	return tf_eval.toPolar();
@@ -287,7 +323,7 @@ function update_output_plot()
 											},
 											{
 												name: 'output',
-												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal)),
+												data: generate_output_data(lowBound, highBound, step, get_polar_gain(dynSys, sliderOmegaVal)),
 												animation: false
 											}
 										]
@@ -472,4 +508,34 @@ function find_point_in_chart_series(x_val, data) {
 	return i;
 }
 
+function get_output_formulas(withLatexDolars)
+{
+	if (typeof(withLatexDolars)==='undefined') withLatexDolars = true;
+	var latexDolars = function() { return withLatexDolars? "$$" : ""};
+	
+	// Fill in the Latex
+	var nb_print = function(nb)	{
+										switch(nb)
+										{
+											case -1:
+												return "-";
+											case 1:
+												return "";
+											default:
+												return nb;
+										}
+								};
+	var latexSine = function(amp,phaseSft) 	{
+												return "" + nb_print(amp) + "\sin{(" + nb_print(sliderOmegaVal) + "t" +
+													( (phaseSft == 0)? "" : 
+														( ( (phaseSft < 0)? "" : "+") + phaseSft) ) 
+													+ ")}" ;
+											};
+	var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
+	
+	var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
+	var outputFormulaLatexStr =  latexDolars() + "u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) + latexDolars();
+	
+	return [inputFormulaLatexStr, outputFormulaLatexStr]
+}
 window.onload = setup;
