@@ -227,7 +227,7 @@ function update_tf(num, den)
 								returnString += "s";
 								break;
 							case 0:
-								if(coeff[i] == 1)
+								if( Math.abs(coeff[i]) == 1)
 									returnString += "1";
 								break;
 							default:
@@ -459,6 +459,7 @@ function update_bode_tooltip()
 		});
 	}
 }
+
 function submit_transfer_function()
 {
 	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
