@@ -48,7 +48,7 @@
 	
 	display:block;
 	float: left;
-	
+	display: none;
 }
 .slider-value-container
 {
