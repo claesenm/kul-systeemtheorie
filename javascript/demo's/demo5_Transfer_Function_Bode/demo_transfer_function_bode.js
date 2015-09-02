@@ -1,6 +1,7 @@
 //TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
+var bodeCharts	=	null;
 var ouputPlot 	=	null;
 var dynSys 		= 	null;
 
@@ -138,12 +139,14 @@ function setup()
 			sliderAmpVal = parseFloat(values[handle]);
 			document.getElementById('amplitude-value').innerHTML = values[handle];
 			update_output_plot();
+			update_bode_tooltip();
 		});
 	sliderFrequency.noUiSlider.on('update', function ( values, handle )
 		{
 			sliderOmegaVal = parseFloat(values[handle]);
 			document.getElementById('omega-value').innerHTML = values[handle];
 			update_output_plot();
+			update_bode_tooltip();
 		});
 		
 	// Updat plot when checkbox is (un)checked
@@ -343,12 +346,12 @@ function  update_bode_plot()
 	}
 	
 	// populate bode plot, without the automatic syncing because we are going to define our own
-	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
+	bodeCharts = control.plot.bode(bodePlot, dynSys, undefined, true);
 	
 	//New sync function  that will highlight the frequency when mouse is not on chart
 	var sync = function(e)
 			{
-				plts.forEach(function(chart) {
+				bodeCharts.forEach(function(chart) {
 					e = chart.pointer.normalize(e);
 					
 					// The x and y elements of this point contains coordinates of the data 
@@ -363,36 +366,46 @@ function  update_bode_plot()
 					}
 
 					// Change the reset function to a function highlighting the current frequency
-					chart.pointer.reset = function() {
-						// get point-index we want to select
-						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
-						console.log("hey");
-						plts.forEach(function(graph) {
-							// get the point on the actual graph
-							var newPoint = graph.series[0].data[i];
-							
-							// fire MouseOver event for this point like we are really selecting this point
-							newPoint.onMouseOver();
-							
-							//display tooltip arround this point
-							graph.tooltip.refresh(newPoint);
-							
-							//draw crosshair
-							graph.xAxis[0].drawCrosshair(e, newPoint);
-							})
-						};
+					chart.pointer.reset = update_bode_tooltip;
                 });
 			};
 	
 	// Attach the new sync to the mousemove event handler
-	for(i in bodePlot.children)
+	for(var i = 0; i < bodePlot.children.length; i++)
 	{ 
 		bodePlot.children[i].onmousemove = sync;
 	};
-	for(var i = 0; i < plts.length; i++ )
+	
+	update_bode_tooltip();
+	// for(var i = 0; i < plts.length; i++ )
+	// {
+		// var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
+		// plts[i].tooltip.refresh(plts[i].series[0].points[index]);
+	// }
+}
+
+function update_bode_tooltip()
+{
+	
+	if(bodeCharts)
 	{
-		var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
-		plts[i].tooltip.refresh(plts[i].series[0].points[index]);
+		// get point-index we want to select
+		
+		
+		bodeCharts.forEach(function(graph) {
+			var i = find_point_in_chart_series(sliderOmegaVal, graph.series[0].data);
+			// get the point on the actual graph
+			var newPoint = graph.series[0].data[i];
+			
+			// fire MouseOver event for this point like we are really selecting this point
+			newPoint.onMouseOver();
+			
+			//display tooltip arround this point
+			graph.tooltip.refresh(newPoint);
+			
+			//draw crosshair
+			graph.xAxis[0].drawCrosshair(null, newPoint);
+		});
 	}
 }
 function submit_transfer_function()
