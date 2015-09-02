@@ -4,6 +4,7 @@ var bodePlot 	= 	null;
 var bodeCharts	=	null;
 var ouputPlot 	=	null;
 var dynSys 		= 	null;
+var noUnstablePoles = true;
 
 var buttonSubmit		= null;
 var checkBoxAutoScale 	= null;
@@ -64,6 +65,7 @@ var bodePlotChartOptions =	{
 											enabled: false
 										 }
 							};
+
 var inputFunction = function(t, mult, phaseShift ) 	{
 		// default values for optional parameters
 		if (typeof(mult)==='undefined') mult = 1;
@@ -155,15 +157,9 @@ function setup()
 			update_output_plot();
 		});
 	sliderAmplitude.noUiSlider.on('set', function()
-	{
-		var outputFormulas = get_output_formulas(false);
-		
-		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
-		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
-		
-		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
-		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
-	});
+		{
+			update_output_formulas(false);
+		});
 	sliderFrequency.noUiSlider.on('update', function ( values, handle )
 		{
 			sliderOmegaVal = parseFloat(values[handle]);
@@ -173,13 +169,7 @@ function setup()
 		});
 	sliderFrequency.noUiSlider.on('set', function()
 	{
-		var outputFormulas = get_output_formulas(false);
-		
-		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
-		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
-		
-		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
-		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+		update_output_formulas(false);
 	});
 		
 	// Updat plot when checkbox is (un)checked
@@ -187,11 +177,9 @@ function setup()
 	
 	update_bode_plot();
 	
-	//ouput Formula's
-	var outputFormulas = get_output_formulas();
-	set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
-	set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
+	update_output_formulas(true);
 }
+
 /** Updates the formula of the Transfer Function under input.
  *	
  *	@param {Array} num -
@@ -310,11 +298,17 @@ function generate_output_data(lowerBound, upperBound, step, gainPolar)
 }
 
 function update_output_plot()
-{
+{	
 	var lowBound = 0;
 	var highBound = 10;
 	var step = 0.07;
-	var seriesChartOptions = {
+	
+	if(noUnstablePoles)
+	{
+		//Hide eventual message over bode plot
+		document.getElementById("output-plot-no-ss").style.visibility = "hidden";
+		
+		var seriesChartOptions = {
 								series:	[
 											{
 												name: 'input',
@@ -329,6 +323,16 @@ function update_output_plot()
 										]
 							 };
 	
+	}
+	else
+	{
+		//draw an empty output
+		var seriesChartOptions = { series: [] };
+	
+		//show message over output plot
+		document.getElementById("output-plot-no-ss").style.visibility = "visible";
+	}
+
 	if (checkBoxAutoScale.checked)
 	{
 		var yScaleOptions = {
@@ -488,10 +492,25 @@ function submit_transfer_function()
 	
 	// Update everything
 	dynSys		=	control.system.tf(arrayNumerator,arrayDenominator);
-	update_tf(arrayNumerator, arrayDenominator);
-	update_output_plot();
 	
+	// Check on unstable poles
+	var poles = dynSys.getPoles();
+	
+	noUnstablePoles = true;
+	for( var i = 0; (i < poles.length) && noUnstablePoles; i++)
+	{
+			if(math.complex(poles[i]).re >=0)
+			{
+				noUnstablePoles = false;
+				alert("This transfer function contains poles in the right half-plane (including the imaginary axis). Calculating the steady-state output using the bode plot does not make sense because the transient response does not die out.");
+			}
+	}
+	
+	update_tf(arrayNumerator, arrayDenominator);
 	update_bode_plot();
+	update_output_plot();
+	update_output_formulas(false);
+	
 }
 
 /** Returns the index of the point closest to the given x-value
@@ -502,7 +521,8 @@ function submit_transfer_function()
  *
  * @returns{number} index - the index in data of the closest point
  */
-function find_point_in_chart_series(x_val, data) {
+function find_point_in_chart_series(x_val, data) 
+{
 	var prev_distance = Infinity;
 	var i = 0;
 	// loop through data as long as distance to point is decreasing
@@ -517,6 +537,63 @@ function find_point_in_chart_series(x_val, data) {
 	}
 	
 	return i;
+}
+
+function update_output_formulas(first_load)
+{
+	//if(typeof(first_load)==undefined) console.warn("update_output_formulas: first_load argument is undefined")
+		
+	var get_output_formulas = function(withLatexDolars) {
+			if (typeof(withLatexDolars)==='undefined') withLatexDolars = true;
+			var latexDolars = function() { return withLatexDolars? "$$" : ""};
+			
+			// Fill in the Latex
+			var nb_print = function(nb)	{
+												switch(nb)
+												{
+													case -1:
+														return "-";
+													case 1:
+														return "";
+													default:
+														return nb;
+												}
+										};
+			var latexSine = function(amp,phaseSft) 	{
+														return "" + nb_print(amp) + "\sin{(" + nb_print(sliderOmegaVal) + "t" +
+															( (phaseSft == 0)? "" : 
+																( ( (phaseSft < 0)? "" : "+") + phaseSft) ) 
+															+ ")}" ;
+													};
+			var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
+			
+			var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
+			var outputFormulaLatexStr =  latexDolars() + 
+											(
+												(noUnstablePoles)?
+													("u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
+											)
+										+ latexDolars();
+			
+			return [inputFormulaLatexStr, outputFormulaLatexStr]
+		}
+
+	if(first_load)
+	{
+		var outputFormulas = get_output_formulas();
+		set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
+		set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
+	}
+	else
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	}
 }
 
 function get_output_formulas(withLatexDolars)
@@ -545,7 +622,12 @@ function get_output_formulas(withLatexDolars)
 	var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
 	
 	var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
-	var outputFormulaLatexStr =  latexDolars() + "u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) + latexDolars();
+	var outputFormulaLatexStr =  latexDolars() + 
+									(
+										(noUnstablePoles)?
+											("u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
+									)
+								+ latexDolars();
 	
 	return [inputFormulaLatexStr, outputFormulaLatexStr]
 }

@@ -16,6 +16,9 @@
 {
 	float: right;
 	width: 37.5%;
+	
+	/* Does nothing but to output-element but enables children to position relative to this */
+	position: relative; 
 }
 
 #tf-fucntion
@@ -70,4 +73,14 @@
 #output-formulas ul li span:first-child
 {
 	width: 6em;
+}
+
+#output-plot-no-ss
+{
+	position: absolute;
+	top: 30%;
+	left: 40%;
+	visibility: hidden;
+	font-weight: bold;
+	font-family: sans-serif;
 }
