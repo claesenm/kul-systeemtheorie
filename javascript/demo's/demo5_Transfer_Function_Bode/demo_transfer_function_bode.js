@@ -387,12 +387,24 @@ function  update_bode_plot()
 	//New sync function  that will highlight the frequency when mouse is not on chart
 	var sync = function(e)
 			{
+				var point = null;
+				
 				bodeCharts.forEach(function(chart) {
 					e = chart.pointer.normalize(e);
 					
-					// The x and y elements of this point contains coordinates of the data 
-					// plotX and plotY are the true relative coordinates.
-					var point = chart.series[0].searchPoint(e, true);
+					if( !point)
+					{
+						// The x and y elements of this point contains coordinates of the data 
+						// plotX and plotY are the true relative coordinates.
+						point = chart.series[0].searchPoint(e, true);
+	
+					}
+					else
+					{
+						// If point is already defined, use it's index to get exactly the same point in the other graph.
+						// Otherwise (using assignment above) there is a small errror
+						point = chart.series[0].data[point.index];
+					}
 					
 					// if it's a valid point corresponding to one on the plot
 					if (point) {
@@ -413,11 +425,6 @@ function  update_bode_plot()
 	};
 	
 	update_bode_tooltip();
-	// for(var i = 0; i < plts.length; i++ )
-	// {
-		// var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
-		// plts[i].tooltip.refresh(plts[i].series[0].points[index]);
-	// }
 }
 
 function update_bode_tooltip()
@@ -425,11 +432,15 @@ function update_bode_tooltip()
 	
 	if(bodeCharts)
 	{
-		// get point-index we want to select
-		
+		var i = null
 		
 		bodeCharts.forEach(function(graph) {
-			var i = find_point_in_chart_series(sliderOmegaVal, graph.series[0].data);
+			if(!i)
+			{
+				// get point-index we want to select
+				i = find_point_in_chart_series(sliderOmegaVal, graph.series[0].data);
+			}
+			
 			// get the point on the actual graph
 			var newPoint = graph.series[0].data[i];
 			

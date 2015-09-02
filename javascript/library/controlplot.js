@@ -70974,10 +70974,15 @@ module.exports = {
 
         // Synch the charts
         function sync(e) {
+			var point = null;
+			
             graphs.forEach(function(chart) {
                 e = chart.pointer.normalize(e);
-                var point = chart.series[0].searchPoint(e, true);
-
+				if(!point)
+					point = chart.series[0].searchPoint(e, true);
+				else 
+					// Use index to find point in new chart data (more accurate)
+					point = chart.series[0].data[point.index];
                 if (point) {
                     point.onMouseOver();
                     chart.tooltip.refresh(point);
