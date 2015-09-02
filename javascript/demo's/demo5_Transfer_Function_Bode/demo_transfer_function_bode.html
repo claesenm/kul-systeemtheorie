@@ -2,7 +2,7 @@
 <html>
     <head>
 		<meta charset="utf-8">
-		
+		<title>Transfer function and bode plot</title>
 		<!-- Load highcharts.js before controlplot.js -->
 		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
 		<script src="http://code.highcharts.com/highcharts.js"></script>
@@ -33,9 +33,9 @@
 				<h3>Transfer Function</h3>
 				<form id="input-form">
 					<p>Fill in a transfer function below by entering the coefficients separated by commas. </p>
-					<span>Numerator: </span> <input type="text" id="input-numerator"></input> <br>
-					<span>Denominator: </span><input type="text" id="input-denominator"></input> 
-					<p><input type="button" id="submit-button" value="Submit"></input></p>
+					<span>Numerator: </span> <input type="text" id="input-numerator"> <br>
+					<span>Denominator: </span><input type="text" id="input-denominator"> 
+					<p><input type="button" id="submit-button" value="Submit"></p>
 				</form>
 				<p> Transfer Funtion:
 					<span class="formula" id="tf-function">
@@ -69,7 +69,7 @@
 			<div id="output">
 				<h3>Output</h3>
 				<div id="output-plot-container"></div>
-				<input type="checkbox" id="check-auto-scale" style="margin-left: 3em"checked>Auto-scale</input>
+				<input type="checkbox" id="check-auto-scale" style="margin-left: 3em" checked>Auto-scale
 				<div id="output-formulas">
 					<ul>
 						<li><span>Input Function:</span>  <span id="output-input-formula"></span></li>
