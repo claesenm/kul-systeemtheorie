@@ -1,6 +1,7 @@
 //TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
+var bodeCharts	=	null;
 var ouputPlot 	=	null;
 var dynSys 		= 	null;
 
@@ -70,7 +71,20 @@ var inputFunction = function(t, mult, phaseShift ) 	{
 		
 		return sliderAmpVal * mult * Math.sin(t*sliderOmegaVal + phaseShift); 
 	};
-		
+
+// better performance than innerHTML, uses textContent or innerText according to browser support
+function set_text_of_node(node, str)
+{
+	if ('textContent' in node) 
+	{
+		node.textContent = str;
+	} 
+	else 
+	{
+		node.innerText = str;
+	}
+}	
+
 function setup()
 {
 	//confirm("Hello");
@@ -137,20 +151,46 @@ function setup()
 		{
 			sliderAmpVal = parseFloat(values[handle]);
 			document.getElementById('amplitude-value').innerHTML = values[handle];
+			update_bode_tooltip();
 			update_output_plot();
 		});
+	sliderAmplitude.noUiSlider.on('set', function()
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	});
 	sliderFrequency.noUiSlider.on('update', function ( values, handle )
 		{
 			sliderOmegaVal = parseFloat(values[handle]);
 			document.getElementById('omega-value').innerHTML = values[handle];
+			update_bode_tooltip();
 			update_output_plot();
 		});
+	sliderFrequency.noUiSlider.on('set', function()
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	});
 		
 	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
 	
 	update_bode_plot();
 	
+	//ouput Formula's
+	var outputFormulas = get_output_formulas();
+	set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
+	set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
 }
 /** Updates the formula of the Transfer Function under input.
  *	
@@ -165,8 +205,7 @@ function update_tf(num, den)
 	
 	var tfLatex		= " $$ H(s) = \\frac{";
 	
-	/**
-	 *	Makes a in latex formated polynom
+	/**	Makes a in latex formated polynom
 	 *	
 	 *	@param {Array} coeff -
 	 *	Array containing the coefficients of the polynom
@@ -175,29 +214,36 @@ function update_tf(num, den)
 	var makeLatexPolynom = function(coeff)
 		{
 			var returnString = "";
-			
+
 			for(var i = 0; i < coeff.length; i++)
 			{
+				// Add sign expect for highest degree
+				if( i != 0 )
+					returnString += (coeff[i] < 0) ? '' : '+';
 				switch(coeff[i])
 				{
 					case 0:
-						// If the last coefficient is zero, remove the '+' sign
-						if( i == (coeff.length-1) )
-							returnString = returnString.slice(0,-1);
+						// If the coefficient is zero, remove the sign
+						returnString = returnString.slice(0,-1);
 						break;
 					default:
 						returnString += coeff[i];
 					case 1:
+					case -1:
+						// Minus sign in case of -1
+						returnString += ( coeff[i] == -1 ) ? '-' : '';
 						var degree = coeff.length - i - 1;
 						switch(degree)
 						{
 							case 1:
-								returnString += "s+";
+								returnString += "s";
 								break;
 							case 0:
+								if(coeff[i] == 1)
+									returnString += "1";
 								break;
 							default:
-								returnString += "s^" + (degree) + "+";
+								returnString += "s^{" + (degree) + "}";
 						}
 						break;
 				}
@@ -219,7 +265,7 @@ function update_tf(num, den)
 	//MathJax.Hub.Queue(["Text",math,tfLatex]);
 };
 
-function get_amp_phase_shift( sys, freq)
+function get_polar_gain( sys, freq)
 {
 	var tf_eval = sys.evalS( math.multiply(math.complex(0,1),freq));
 	return tf_eval.toPolar();
@@ -277,7 +323,7 @@ function update_output_plot()
 											},
 											{
 												name: 'output',
-												data: generate_output_data(lowBound, highBound, step, get_amp_phase_shift(dynSys, sliderOmegaVal)),
+												data: generate_output_data(lowBound, highBound, step, get_polar_gain(dynSys, sliderOmegaVal)),
 												animation: false
 											}
 										]
@@ -336,17 +382,29 @@ function  update_bode_plot()
 	}
 	
 	// populate bode plot, without the automatic syncing because we are going to define our own
-	var plts = control.plot.bode(bodePlot, dynSys, undefined, true);
+	bodeCharts = control.plot.bode(bodePlot, dynSys, undefined, true);
 	
 	//New sync function  that will highlight the frequency when mouse is not on chart
 	var sync = function(e)
 			{
-				plts.forEach(function(chart) {
+				var point = null;
+				
+				bodeCharts.forEach(function(chart) {
 					e = chart.pointer.normalize(e);
 					
-					// The x and y elements of this point contains coordinates of the data 
-					// plotX and plotY are the true relative coordinates.
-					var point = chart.series[0].searchPoint(e, true);
+					if( !point)
+					{
+						// The x and y elements of this point contains coordinates of the data 
+						// plotX and plotY are the true relative coordinates.
+						point = chart.series[0].searchPoint(e, true);
+	
+					}
+					else
+					{
+						// If point is already defined, use it's index to get exactly the same point in the other graph.
+						// Otherwise (using assignment above) there is a small errror
+						point = chart.series[0].data[point.index];
+					}
 					
 					// if it's a valid point corresponding to one on the plot
 					if (point) {
@@ -356,36 +414,45 @@ function  update_bode_plot()
 					}
 
 					// Change the reset function to a function highlighting the current frequency
-					chart.pointer.reset = function() {
-						// get point-index we want to select
-						var i = find_point_in_chart_series(sliderOmegaVal, chart.series[0].data);
-						
-						plts.forEach(function(graph) {
-							// get the point on the actual graph
-							var newPoint = graph.series[0].data[i];
-							
-							// fire MouseOver event for this point like we are really selecting this point
-							newPoint.onMouseOver();
-							
-							//display tooltip arround this point
-							graph.tooltip.refresh(newPoint);
-							
-							//draw crosshair
-							graph.xAxis[0].drawCrosshair(e, newPoint);
-							})
-						};
+					chart.pointer.reset = update_bode_tooltip;
                 });
 			};
 	
 	// Attach the new sync to the mousemove event handler
-	for(i in bodePlot.children)
+	for(var i = 0; i < bodePlot.children.length; i++)
 	{ 
 		bodePlot.children[i].onmousemove = sync;
 	};
-	for(var i = 0; i < plts.length; i++ )
+	
+	update_bode_tooltip();
+}
+
+function update_bode_tooltip()
+{
+	
+	if(bodeCharts)
 	{
-		var index = find_point_in_chart_series(sliderOmegaVal, plts[i].series[0].data);
-		plts[i].tooltip.refresh(plts[i].series[0].points[index]);
+		var i = null
+		
+		bodeCharts.forEach(function(graph) {
+			if(!i)
+			{
+				// get point-index we want to select
+				i = find_point_in_chart_series(sliderOmegaVal, graph.series[0].data);
+			}
+			
+			// get the point on the actual graph
+			var newPoint = graph.series[0].data[i];
+			
+			// fire MouseOver event for this point like we are really selecting this point
+			newPoint.onMouseOver();
+			
+			//display tooltip arround this point
+			graph.tooltip.refresh(newPoint);
+			
+			//draw crosshair
+			graph.xAxis[0].drawCrosshair(null, newPoint);
+		});
 	}
 }
 function submit_transfer_function()
@@ -452,4 +519,34 @@ function find_point_in_chart_series(x_val, data) {
 	return i;
 }
 
+function get_output_formulas(withLatexDolars)
+{
+	if (typeof(withLatexDolars)==='undefined') withLatexDolars = true;
+	var latexDolars = function() { return withLatexDolars? "$$" : ""};
+	
+	// Fill in the Latex
+	var nb_print = function(nb)	{
+										switch(nb)
+										{
+											case -1:
+												return "-";
+											case 1:
+												return "";
+											default:
+												return nb;
+										}
+								};
+	var latexSine = function(amp,phaseSft) 	{
+												return "" + nb_print(amp) + "\sin{(" + nb_print(sliderOmegaVal) + "t" +
+													( (phaseSft == 0)? "" : 
+														( ( (phaseSft < 0)? "" : "+") + phaseSft) ) 
+													+ ")}" ;
+											};
+	var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
+	
+	var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
+	var outputFormulaLatexStr =  latexDolars() + "u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) + latexDolars();
+	
+	return [inputFormulaLatexStr, outputFormulaLatexStr]
+}
 window.onload = setup;
