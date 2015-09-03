@@ -2,24 +2,24 @@
 
 \begin{frame}
 	\frametitle{Definitions}
-		The main objective of this chapter: design and compensation of single-input-sigle-output linear time-invariant control systems.
+		The main objective of this chapter: \textbf{design} and \textbf{compensation} of single-input-sigle-output, linear, time-invariant control systems.
 		\begin{itemize}
 			\item Compensation: the modification of the system dynamics to satisfy the given specifications.
 			\item Specifications (transient response and steady-state requirements): given before the design.
 			\item Design by root-locus method: making a new root locus by adding poles and zeros to the system's open-loop transfer function.
-			\item Compensator: an other system inserted in parallel or in cascade with the system for the purpose of satisfying the specifications of the original system (e.g. lead, lag, lag-lead compensator's or PID controllers).
+			\item Compensator: another system inserted in parallel or in cascade with the system for the purpose of satisfying the specifications of the original system (e.g. lead, lag, lag-lead compensator's or PID controllers).
 		\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Compensators}
-	A sinusoidal input is applied to the input of a network. We got a:
+	When a sinusoidal input is applied to the input of a network. We got a:
 	\begin{itemize}
 		\item lead network: if the steady-state output has a phase lead.
 		\item lag network: if the steady-state output has a phase lag.
 		\item lag-lead network: if we have phase lag and phase lead in the output but in different frequentcy regions (lag when the input has low frequency and lead in high frequentcy). 
 	\end{itemize}
-	The amount of lag/lead is a function of the frequency. \vspace{4mm}
+	$\rightarrow$ The amount of lag/lead is a function of the frequency. \vspace{4mm}
 	
 	A compensator with characteristic of a lead network, lag network, or lag-lead network is called a lead compensator, lag compensator, or lag-lead compensator. 
 	
@@ -30,7 +30,7 @@
 
 \begin{frame}
 	\frametitle{Controllers}
-		Scetching the problem:
+		Sketching the problem:
 		\begin{enumerate}
 			\item We got a plant that not achieve all the specifications (and we cannot change the parameters of the original system).
 			\item We have to change other parameters such that the system will achieve all the specifications.
@@ -53,8 +53,8 @@
 	We want a certain gain of a system:
 	\begin{itemize}
 		\item The system is not stable at that gain.
-		\item We have to change the root loci (and make the system stable) by designing a compensator
-		\item Now, we got different root loci and the system is stable at the certain gain. So, the specifications are achieved.
+		\item We have to change the root loci (and make the system stable) by designing a compensator.
+		\item Now, we got a different root loci and the system is stable at the certain gain. So, the specifications are achieved.
 	\end{itemize}
 	\vspace{2mm}
 	
@@ -67,14 +67,14 @@
 	\begin{itemize}
 		\item Pulls the root locus to the right.
 		\item Lowers the system's relative stability.
-		\item Slows down the setting of the response.
+		\item Slows down the settling of the response.
 	\end{itemize}
 	\vspace{3mm}
 	
 	\underline{Addition of zeros}:
 	\begin{itemize}
 		\item Pulls the root locus to the left.
-		\item Increase the system's relative stability.
+		\item Increases the system's relative stability.
 		\item Speeds up the settling of the response.
 		\item Speeds up the transient response.
 		\item Increases the anticipation of the system. 
@@ -109,7 +109,7 @@
 	Steps to make a lead compensator (in cascade with the original system):
 	\begin{enumerate}
 		\item Determine the locations of the desired dominant poles (from the specifications).
-		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the good locations of the poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the good locations, then we have to make a lead compensator. 
+		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the good locations of the poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the good locations by adjusting the gain, then we have to make a lead compensator. 
 		\item Assume the lead compensator of this form: \\
 		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$.
 	\end{enumerate}
@@ -120,7 +120,7 @@
 		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$\\
 		\begin{itemize}
 			\item Determining $\alpha$ and T:\\
-			$\alpha$ and T are determined by the angle $\phi$. This is the angle $\angle(C(s))$ must be equal to the difference between the angle of the desired pole and the angle of the original transfer function. \\
+			$\alpha$ and T are determined by the angle $\phi$. This is the angle $\angle(C(s))$ and must be equal to the difference between the angle of the desired pole and the angle of the original transfer function. \\
 			Result: the closed-loop pole has the same angle as the desired angle (angle of the desired pole). (And by determine T and $\alpha$ we determine the poles and zeros of the compensator.)
 			\item Determine $K_c$ (=the open-loop gain) from the magnitude specifications.\\
 			Result: the closed-loop pole has the desired magnitude. 
@@ -154,7 +154,7 @@
 		\begin{itemize}
 			\item The closed-loop transfer function: $\frac{C(s)}{R(s)}=\frac{4}{s^2+2s+4}$ with poles $s=-1\pm\sqrt{3}j$
 			\item Damping ratio: $\zeta=0.5$
-			\item undamped natural frequency: 2 rad/s
+			\item Undamped natural frequency: 2 rad/s
 			\item Static velocity constant: $K_v=2s^{-1}$
 		\end{itemize}
 		\vspace{3mm}
@@ -167,7 +167,7 @@
 		The desired poles are: $s=-2\pm j2\sqrt{3}$
 		\vspace{3mm}
 		
-		\underline{Note}: in some cases, the desired poles can be obtained by adjustment of the gain. But in this case not, so we have to create a compensator. 
+		\underline{Note}: in some cases, the desired poles can be obtained by adjustment of the gain. 
 	\end{enumerate}
 \end{frame}
 
@@ -197,7 +197,7 @@
 
 \begin{frame}
 	\frametitle{Example 1: Lead compensators}
-	\underline{Algorithm}:
+	\underline{Algorithm} (figure previous slide):
 	\begin{enumerate}
 		\item Draw a horizontal line trough the desired dominant closed-loop pole P $\rightarrow$ PA
 		\item Connect the origin with P $\rightarrow$ PO
@@ -211,7 +211,7 @@
 	\frametitle{Example 1: Lead compensators}
 	\underline{Solution}
 	\begin{enumerate}
-		\setcounter{enumi}{4}
+		\setcounter{enumi}{3}
 		\item We determine the angle $\phi$: $$\angle(\frac{4}{s(s+2)})|_{s=-2+j2\sqrt{3}}=-210^{\circ}$$
 		And so we find $\phi=30^{\circ}$. From the algorithm we get:\\ zero: -2.9 and pole: -5.4.\\
 		$$T=\frac{1}{2.9}=0.345,\text{   } \alpha T=\frac{1}{5.4}=0.185$$
@@ -224,22 +224,13 @@
 	\underline{Solution}:
 	\begin{enumerate}
 		\setcounter{enumi}{4}
-		\item Determine $K_c$ from the magnitude condition.
-	\end{enumerate}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Example 1: Lead compensators}
-	\underline{Solution}:
-	\begin{enumerate}
-		\setcounter{enumi}{4}
-		\item The open-loop transfer function of the compensated system becomes:\\
+		\item Determine $K_c$ from the magnitude condition: the open-loop transfer function of the compensated system becomes:\\
 		$C(s)G(s)=K_c\frac{s+2.9}{s+5.4}\frac{4}{s(s+2)}=\frac{K(s+2.9)}{s(s+2)(s+5.4)}$ with K=$4K_c$.\vspace{3mm}
 		
 		The magnitude condition:
 		$$|\frac{K(s+2.9)}{s(s+2)(s+5.4)}|_{s=-2+j2\sqrt{3}}=1 \Rightarrow K=18.7 \Rightarrow K_c=\frac{K}{4}=4.68$$
 		And we get the transfer function of the lead compensator:
-		$$C(s)=4.68\frac{s+2.9}{s+5.4}$$
+		$$C(s)=4.68\frac{s+2.9}{s+5.4}$$.
 	\end{enumerate}
 \end{frame}
 
@@ -291,7 +282,7 @@
 
 \begin{frame}
 	\frametitle{Lag compensators}
-		Steps to make a lag compensator (in cascade with the original system):
+		Steps to make a lag compensator:
 		\begin{enumerate}
 			\item Draw the root locus of the uncompensated open loop system and search the dominant closed loop poles on the root-locus (from the specifications).
 			\item The lag compensator is $C(s)=K_c \beta\frac{Ts+1}{\beta Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$.
@@ -320,7 +311,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Example 2: Lead compensators}
+	\frametitle{Example 2: Lag compensators}
 	\underline{Given}:
 	\begin{itemize}
 		\item Feed-forward transfer function: $G(s)=\frac{1.06}{s(s+1)(s+2)}$
@@ -338,7 +329,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Example 2: Lead compensators}
+	\frametitle{Example 2: Lag compensators}
 	\underline{Solution}:
 	\begin{enumerate}
 		\item General calculations:
@@ -353,7 +344,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Example 2: Lead compensators}
+	\frametitle{Example 2: Lag compensators}
 	\underline{Solution}:
 	\begin{enumerate}
 		\setcounter{enumi}{1}
@@ -367,6 +358,66 @@
 		\item C(s) becomes: 
 		$$C(s)=K_c\frac{s+0.05}{s+0.005}$$
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lag compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item Determine $K_c$:\\
+		The open-loop transfer function of the compensated system becomes:\\
+		$C(s)G(s)=K_c\frac{s+0.05}{s+0.005}\frac{1.06}{s(s+1)(s+2)} \Rightarrow K=1.06K_c$\\
+		Holding the damping ratio the same, we find on the root locus plot (next slide) the poles: $s_1=-0.31\pm0.55j$.\\
+		The open-loop gain is:
+		$$K=|\frac{s(s+0.005)(s+1)(s+2)}{s+0.05}|_{s=-0.31+0.55j}=1.0235$$
+		$\Rightarrow K_c=\frac{K}{1.06}=0.9656$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lag compensators}
+	\underline{Solution}:
+			\begin{figure}
+				\centering
+				\includegraphics[width=1\linewidth]{Ex2_rootlocusnew}
+			\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lag compensators}
+	\underline{Solution}:\\
+	The transfer function of the lag compensator: 
+	$$C(s)=0.9656\frac{s+0.05}{s+0.005}$$
+	The transfer function of the compensated system:
+	$$G(s)=\frac{1.0235(s+0.05)}{s(s+0.005)(s+1)(s+2)}$$
+	The static velocity error constant:
+	$$K_v=\lim_{s\to 0}sG(s)=5.12s^{-1}$$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lag compensators}
+	\underline{Solution}:
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.65\linewidth]{Ex2_response}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 2: Lag compensators}
+	\underline{Conclusions}:
+	\begin{itemize}
+		\item A pole and zero 
+		$\begin{cases} \text{close to each other} \\ \text{close to the origin} \end{cases}$ don't change the root-locus.
+		\item The compensator increases the order of the system from 3 to 4 by adding a pole. 
+		\item If a pole is more away from the jw axis, the pole is less dominant and it will have less effect on the transient response.
+		\item If the undamped natural frequency is low, then:
+		\begin{itemize}
+			\item the speed of the transient response will be less (the response will take a longer time to settle down).
+			\item the overshoot step response will increase
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
 \section{Lag-lead compensators}
@@ -389,7 +440,7 @@
 			\item If both transient response and steady-state must be improved.
 			\item When 1 global component is more economical then both a lead and a lag component.
 		\end{itemize}
-		The lag-lead compensator has the advantages of both compensator. It has 2 poles and zeros, so the system has order 2.
+		The lag-lead compensator has the advantages of both compensator's. It has 2 poles and zeros, so the system has order 2.
 \end{frame}
 
 \begin{frame}
@@ -397,6 +448,7 @@
 	The lag-lead compensator C(s) has this form: \\
 	$C(s)=K_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
 	(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})$ with $\beta>1$ and $\gamma>1$.\vspace{4mm}
+	
 	Notes:
 	\begin{itemize}
 		\item The value $\beta T_2$ may not be to large, it must be fysical realizable.
@@ -410,7 +462,7 @@
 	\begin{enumerate}
 		\item Determine the location of the closed-loop poles (from the specifications)
 		\item The lead part of the compensator must contribute the angle $\phi$: $\phi=\angle$(desired pole)$-\angle$(uncompensated open-loop system)
-		\item 
+		\item Calculate the parameters:
 		\begin{itemize}
 			\item Take $T_2$ as large as possible.
 			\item Determine $T_1$ and $\gamma$ such that:\\ 
@@ -451,7 +503,7 @@
 	\frametitle{Lag-lead compensators}
 	Case 2: $\gamma= \beta$:
 	\begin{enumerate}
-		\setcounter{enumi}{2}
+		\setcounter{enumi}{3}
 		\item Determine $T_1$ and$\beta$ from:\\
 		$|K_c(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s_1)|=1$ and $\angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})=\phi$
 		\item Determine $T_2$ from:\\
@@ -459,11 +511,175 @@
 	\end{enumerate}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Given}:
+	\begin{itemize}
+		\item Feed-forward transfer function: $$G(s)=\frac{4}{s(s+0.5)}$$
+	\end{itemize}
+	\underline{Asked}:
+	\begin{itemize}
+		\item The damping ratio of the dominant closed-loop poles must be: $\zeta=0.5$
+		\item Increase the undamped natural frequency to 5 rad/s
+		\item Increase the static velocity error constant $K_v$ to 80 $s^{-1}$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\item General calculations:
+		\begin{itemize}
+			\item The closed loop poles: $s=-0.2500\pm1.9843j$
+			\item Damping ratio: $\zeta=0.125$
+			\item Undamped natural frequency: 2 rad/s
+			\item Static velocity error constant: $K_v=8s^{-1}$
+		\end{itemize}
+	\item We use a lag-lead compensator with transfer function:
+	$$C(s)=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}}) \text{ with } \gamma>1, \beta>1, \gamma\neq\beta$$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item The desired locations of the closed loop poles (from specifications) are: $s=-2.5\pm4.33j$
+		\item Determine the angle of deficience $\phi$:
+		$$\angle(\frac{4}{s(s+0.5)})|_{s=-2.5+4.33j}=-235^{\circ}=-180^{\circ}-55^{\circ} \Rightarrow \phi=55^{\circ}$$
+		This angle must be contributed by the lead part of the compensator, such that the root locus passes trough the desired closed-loop poles. 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item Determine the zero and pole of the compensator (many possibilities):\\
+		We take a zero at -0.5 (this will cancel the pole -0.5 of the plant) and a pole at -5.021 (such that the angle $\phi$ is contributed).
+		The lead part becomes:\\
+		$K_c\frac{s+0.5}{s+5.021}$\vspace{3mm}
+		
+		and we find:
+		\begin{itemize}
+			\item $T_1=2$
+			\item $\gamma=5.021/0.5=10.04$
+			\item From the magnitude condition: \\
+			$|K_c\frac{4(s+0.5)}{(s+5.021)s(s+0.5)}|_{s=-2.5+4.33j}=1 \Rightarrow K_c=6.26$
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{5}
+		\item Determine the lag part of the compensator:\\
+		Determining $\beta$:
+		$$K_v=\lim_{s \to 0}sC(s)G(s)=\lim_{s\to0}sK_c\frac{\beta}{\gamma}G(s)=4.988\beta=80 \Rightarrow \beta=16.04$$
+		Determining $T_2$: $T_2$ must satisfy:
+		$$|\frac{s+\frac{1}{T_2}}{s+\frac{1}{16.04T_2}}|_{s=s_1}\approx1 \text{ and } -5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{16.04T_2}})|_{s=s_1}<0^{\circ}$$\\
+		 $\Rightarrow T_2=5$ with ($s_1=-2.5+4.33j$)
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Results}:\\
+	\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{Ex3_rootlocus}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 3: Lag-lead compensators}
+	\underline{Results}:\\
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.65\linewidth]{Ex3_response}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 4: Lag-lead compensators}
+	\underline{Given}:
+	\begin{itemize}
+		\item Feed-forward transfer function: $$G(s)=\frac{4}{s(s+0.5)}$$
+	\end{itemize}
+	\underline{Asked}:
+	\begin{itemize}
+		\item The damping ratio of the dominant closed-loop poles must be: $\zeta=0.5$
+		\item Increase the undamped natural frequency to 5 rad/s
+		\item Increase the static velocity error constant $K_v$ to 80 $s^{-1}$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 4: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\item General calculations:
+		\begin{itemize}
+			\item The closed loop poles: $s=-0.2500\pm1.9843j$
+			\item Damping ratio: $\zeta=0.125$
+			\item Undamped natural frequency: 2 rad/s
+			\item Static velocity error constant: $K_v=8s^{-1}$
+		\end{itemize}
+		\item We use a lag-lead compensator with transfer function ($\beta=\gamma$):
+		$$C(s)=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}}) \text{ with } \beta>1$$
+		\item The desired locations of the dominant closed-loop poles: $s=-2.5\pm 4.33j$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 4: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{3}
+		\item The compensated open-loop transfer function:
+		$$C(s)G(s)=K_c (\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})\frac{4}{s(s+0.5)}$$
+		\item Calculation of the parameters:\\
+		$K_v$ must be 80 $s^{-1}$:
+		$$K_v=\lim_{s\to0}sG(s)C(s)=\lim_{s\to0}K_c\frac{4}{0.5}=8K_c=80 \Rightarrow K_c=10$$
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 4: Lag-lead compensators}
+	\underline{Solution}:
+	\begin{enumerate}
+		\setcounter{enumi}{4}
+		\item From
+		$$|\frac{s+\frac{1}{T_1}}{s+\frac{\beta}{T_1}}||\frac{40}{s(s+0.5)}|_{s=s_1}=1 \text{ and } \angle(\frac{s+\frac{1}{T_1}}{s+\frac{\beta}{T_1}})|_{s=s_1}=55^{\circ}(=\phi)$$
+		we get: $T_1=0.420$ and $\beta=3.503$.\\
+		For $T_2$ we may choose 10.
+	\end{enumerate}
+	\underline{Results}:\\
+	The transfer function of the compensator:
+	$$C(s)=10\frac{(s+2.38)(s+0.1)}{(s+8.34)(s+0.0285)}$$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example 4: Lag-lead compensators}
+	\underline{Results}:\\
+	The transfer function of the compensated open-loop system:
+	$$C(s)G(s)=\frac{40(s+2.38)(s+0.1)}{(s+8.34)(s+0.0285)s(s+0.5)}$$
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.48\linewidth]{Ex4_response}
+	\end{figure}
+\end{frame}
+
 \section{Parallel compensation}
 
 \begin{frame}
 	\frametitle{Serial compensation}
-	$\rightarrow$ Up to now, we have only disused serial compensator's. \vspace{4mm}
+	$\rightarrow$ Up to now, we have only discussed serial compensator's. \vspace{4mm}
 	
 	Derivation of the characteristic equation:\\
 	\underline{Serial}:
@@ -497,11 +713,11 @@
 	Now, we define: $G_f=\frac{G_2}{1+G_1G_2H}$.\\
 	So, we become a characteristic equation: $1+CG_f=0$\\
 	$\rightarrow$ This has the same form as the serial characteristic equation. So, the same methods can be applied. 
-	\vspace{3mm}
+	\vspace{2mm}
 	
 	Notes:
 	\begin{itemize}
-	\item A paralle compensator system is called a velocity feedback system.
+	\item A parallel compensator system is called a velocity feedback system.
 	\item The compensator can be saw as a gain element.
 	\end{itemize}
 \end{frame}
