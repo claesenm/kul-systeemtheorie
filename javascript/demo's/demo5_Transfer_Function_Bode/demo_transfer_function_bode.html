@@ -2,10 +2,10 @@
 <html>
     <head>
 		<meta charset="utf-8">
-		
+		<title>Transfer function and bode plot</title>
 		<!-- Load highcharts.js before controlplot.js -->
-		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
-		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/adapters/standalone-framework.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script type="text/javascript" src="../../library/controlplot.js"></script>
 		
 		<!-- mathJs -->
@@ -15,7 +15,7 @@
 		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 		<script type="text/javascript" src="nouislider.min.js"></script>
-		<!--<link rel="stylesheet" type="text/css" href="nouislider_modified.css">-->
+		<link rel="stylesheet" type="text/css" href="nouislider.pips.css">
 		
 		<script type="text/javascript" src="demo_transfer_function_bode.js"></script>
 		<link rel="stylesheet" type="text/css" href="../style.css">
@@ -33,9 +33,9 @@
 				<h3>Transfer Function</h3>
 				<form id="input-form">
 					<p>Fill in a transfer function below by entering the coefficients separated by commas. </p>
-					<span>Numerator: </span> <input type="text" id="input-numerator"></input> <br>
-					<span>Denominator: </span><input type="text" id="input-denominator"></input> 
-					<p><input type="button" id="submit-button" value="Submit"></input></p>
+					<span>Numerator: </span> <input type="text" id="input-numerator"> <br>
+					<span>Denominator: </span><input type="text" id="input-denominator"> 
+					<p><input type="button" id="submit-button" value="Submit"></p>
 				</form>
 				<p> Transfer Funtion:
 					<span class="formula" id="tf-function">
@@ -49,13 +49,13 @@
 					<span class="formula" id="input-function">
 						$$ u(t) = A \sin{(\omega t)} $$
 					</span>
-					<span class="slider-text">Choose a value of A: </span>
+					<span class="slider-text">Choose a value for A: </span>
 					<div style="width:250px" id="slider-amplitude" class="slider" ></div>
 					<div class="slider-value-container">
 						<span class="slider-value">A = </span> <span id="amplitude-value" class="slider-value"></span>
 					</div>
 					<br>
-					<span class="slider-text">Choose a value of ω: </span>
+					<span class="slider-text">Choose a value for ω: </span>
 					<div style="width:250px" id="slider-omega" class="slider"></div>
 					<div class="slider-value-container">
 						<span class="slider-value">ω = </span> <span id="omega-value" class="slider-value"></span>
@@ -69,7 +69,8 @@
 			<div id="output">
 				<h3>Output</h3>
 				<div id="output-plot-container"></div>
-				<input type="checkbox" id="check-auto-scale" style="margin-left: 3em"checked>Auto-scale</input>
+				<div id="output-plot-no-ss"> No steady-state solution </div>
+				<input type="checkbox" id="check-auto-scale" style="margin-left: 3em" checked>Auto-scale
 				<div id="output-formulas">
 					<ul>
 						<li><span>Input Function:</span>  <span id="output-input-formula"></span></li>

@@ -1,9 +1,13 @@
+// This library is tested with Highcharts 4.1.8
+
 //TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
 var bodeCharts	=	null;
 var ouputPlot 	=	null;
+var outputChart	=	null;
 var dynSys 		= 	null;
+var noUnstablePoles = true;
 
 var buttonSubmit		= null;
 var checkBoxAutoScale 	= null;
@@ -64,6 +68,7 @@ var bodePlotChartOptions =	{
 											enabled: false
 										 }
 							};
+
 var inputFunction = function(t, mult, phaseShift ) 	{
 		// default values for optional parameters
 		if (typeof(mult)==='undefined') mult = 1;
@@ -121,77 +126,23 @@ function setup()
 		outputChartOptions['chart'] = {renderTo: outputPlot};
 	}
 	
+	
 	// Attach event to button
 	buttonSubmit.onclick = submit_transfer_function; 
 	
-	// create the sliders
-	noUiSlider.create(sliderAmplitude, 
-	{
-		start: [ sliderAmpVal ],
-		step: 0.01,
-		range: 
-		{
-			'min': [  0 ],
-			'max': [ 10 ]
-		}
-	});
-	noUiSlider.create(sliderFrequency, 
-	{
-		start: [ sliderOmegaVal ],
-		step: 0.01,
-		range: 
-		{
-			'min': [ 0 ],
-			'max': [ 5 ]
-		}
-	});
-	
-	//dispaly the values of the sliders
-	sliderAmplitude.noUiSlider.on('update', function ( values, handle )
-		{
-			sliderAmpVal = parseFloat(values[handle]);
-			document.getElementById('amplitude-value').innerHTML = values[handle];
-			update_bode_tooltip();
-			update_output_plot();
-		});
-	sliderAmplitude.noUiSlider.on('set', function()
-	{
-		var outputFormulas = get_output_formulas(false);
-		
-		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
-		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
-		
-		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
-		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
-	});
-	sliderFrequency.noUiSlider.on('update', function ( values, handle )
-		{
-			sliderOmegaVal = parseFloat(values[handle]);
-			document.getElementById('omega-value').innerHTML = values[handle];
-			update_bode_tooltip();
-			update_output_plot();
-		});
-	sliderFrequency.noUiSlider.on('set', function()
-	{
-		var outputFormulas = get_output_formulas(false);
-		
-		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
-		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
-		
-		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
-		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
-	});
 		
 	// Updat plot when checkbox is (un)checked
 	checkBoxAutoScale.onchange = update_output_plot;
 	
 	update_bode_plot();
 	
-	//ouput Formula's
-	var outputFormulas = get_output_formulas();
-	set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
-	set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
+	update_output_formulas(true);
+	
+	// make sliders - bode plot must be build before
+	var bodeChartRange = bodeCharts[0].xAxis[0].getExtremes();
+	build_sliders( [bodeChartRange.dataMin, bodeChartRange.dataMax] );
 }
+
 /** Updates the formula of the Transfer Function under input.
  *	
  *	@param {Array} num -
@@ -239,7 +190,7 @@ function update_tf(num, den)
 								returnString += "s";
 								break;
 							case 0:
-								if(coeff[i] == 1)
+								if( Math.abs(coeff[i]) == 1)
 									returnString += "1";
 								break;
 							default:
@@ -282,7 +233,7 @@ function get_polar_gain( sys, freq)
  *	@param {number} step -
  *	Distance between the x-values
  *
- *	@param {Polar Coord Complex Number} gainPolar -
+ *	@param {Polar Coord Complex Number} [gainPolar] -
  *	The complex Gain in polar notation.
  *
  *	@return {Array} -
@@ -310,11 +261,23 @@ function generate_output_data(lowerBound, upperBound, step, gainPolar)
 }
 
 function update_output_plot()
-{
+{	
+	// Calculate the step and range according to freqency (nyquist-shannon sampling theorem)
 	var lowBound = 0;
-	var highBound = 10;
-	var step = 0.07;
-	var seriesChartOptions = {
+	// 50 steps in one period
+	var step = (Math.PI*2)/sliderOmegaVal/40;
+	// 5 periods long
+	var highBound = (Math.PI*2)/sliderOmegaVal*5;
+	//  round to second most signifact number so we get a domain that changes step-wise so the user notices change in frequency
+	var posFirstSignificantNb = math.ceil(math.abs(math.log(highBound,10))) * ( (highBound < 1)? -1:1);
+	highBound = math.floor(highBound*math.pow(10,-(posFirstSignificantNb - 1))) * math.pow(10,posFirstSignificantNb - 1);
+	
+	if(noUnstablePoles)
+	{
+		//Hide eventual message over bode plot
+		document.getElementById("output-plot-no-ss").style.visibility = "hidden";
+		
+		var seriesChartOptions = {
 								series:	[
 											{
 												name: 'input',
@@ -329,6 +292,16 @@ function update_output_plot()
 										]
 							 };
 	
+	}
+	else
+	{
+		//draw an empty output
+		var seriesChartOptions = { series: [] };
+	
+		//show message over output plot
+		document.getElementById("output-plot-no-ss").style.visibility = "visible";
+	}
+
 	if (checkBoxAutoScale.checked)
 	{
 		var yScaleOptions = {
@@ -349,7 +322,17 @@ function update_output_plot()
 	}
 	
 	var finalChartOptions = [outputChartOptions, seriesChartOptions,yScaleOptions].reduce(recursiveExtend);
-	return new Highcharts.Chart(finalChartOptions);
+	
+	// Update function appears slower or no real gain, and there is no implementation for auto-scale checkbox yet if uncommenting this code
+	// if(!outputChart)
+	// {
+		outputChart = new Highcharts.Chart(finalChartOptions);
+	// }
+	// else for(var i = 0; i < seriesChartOptions.series.length; i++)	
+	// {
+			// outputChart.series[i].update(seriesChartOptions.series[i]);
+	// };
+	return outputChart;
 }
 
 function recursiveExtend(target, source) {
@@ -455,6 +438,7 @@ function update_bode_tooltip()
 		});
 	}
 }
+
 function submit_transfer_function()
 {
 	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
@@ -488,10 +472,28 @@ function submit_transfer_function()
 	
 	// Update everything
 	dynSys		=	control.system.tf(arrayNumerator,arrayDenominator);
-	update_tf(arrayNumerator, arrayDenominator);
-	update_output_plot();
 	
+	// Check on unstable poles
+	var poles = dynSys.getPoles();
+	
+	noUnstablePoles = true;
+	for( var i = 0; (i < poles.length) && noUnstablePoles; i++)
+	{
+			if(math.complex(poles[i]).re >=0)
+			{
+				noUnstablePoles = false;
+				alert("This transfer function contains poles in the right half-plane (including the imaginary axis). Calculating the steady-state output using the bode plot does not make sense because the transient response does not die out.");
+			}
+	}
+	
+	update_tf(arrayNumerator, arrayDenominator);
 	update_bode_plot();
+	update_output_plot();
+	update_output_formulas(false);
+	
+	// change the range from the sliders according to new plot
+	var bodeChartRange = bodeCharts[0].xAxis[0].getExtremes();
+	build_sliders( [bodeChartRange.dataMin, bodeChartRange.dataMax] );
 }
 
 /** Returns the index of the point closest to the given x-value
@@ -502,7 +504,8 @@ function submit_transfer_function()
  *
  * @returns{number} index - the index in data of the closest point
  */
-function find_point_in_chart_series(x_val, data) {
+function find_point_in_chart_series(x_val, data) 
+{
 	var prev_distance = Infinity;
 	var i = 0;
 	// loop through data as long as distance to point is decreasing
@@ -516,7 +519,64 @@ function find_point_in_chart_series(x_val, data) {
 			prev_distance = current_distance;
 	}
 	
-	return i;
+	return i - 1;
+}
+
+function update_output_formulas(first_load)
+{
+	//if(typeof(first_load)==undefined) console.warn("update_output_formulas: first_load argument is undefined")
+		
+	var get_output_formulas = function(withLatexDolars) {
+			if (typeof(withLatexDolars)==='undefined') withLatexDolars = true;
+			var latexDolars = function() { return withLatexDolars? "$$" : ""};
+			
+			// Fill in the Latex
+			var nb_print = function(nb)	{
+												switch(nb)
+												{
+													case -1:
+														return "-";
+													case 1:
+														return "";
+													default:
+														return nb;
+												}
+										};
+			var latexSine = function(amp,phaseSft) 	{
+														return "" + nb_print(amp) + "\sin{(" + nb_print(sliderOmegaVal) + "t" +
+															( (phaseSft == 0)? "" : 
+																( ( (phaseSft < 0)? "" : "+") + phaseSft) ) 
+															+ ")}" ;
+													};
+			var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
+			
+			var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
+			var outputFormulaLatexStr =  latexDolars() + 
+											(
+												(noUnstablePoles)?
+													("u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
+											)
+										+ latexDolars();
+			
+			return [inputFormulaLatexStr, outputFormulaLatexStr]
+		}
+
+	if(first_load)
+	{
+		var outputFormulas = get_output_formulas();
+		set_text_of_node(document.getElementById('output-input-formula'), outputFormulas[0]);
+		set_text_of_node(document.getElementById('output-output-formula'), outputFormulas[1]);
+	}
+	else
+	{
+		var outputFormulas = get_output_formulas(false);
+		
+		var mathInput = MathJax.Hub.getAllJax("output-input-formula")[0];
+		MathJax.Hub.Queue(["Text", mathInput, outputFormulas[0]]);
+		
+		var mathOutput = MathJax.Hub.getAllJax("output-output-formula")[0];
+		MathJax.Hub.Queue(["Text", mathOutput, outputFormulas[1]]);
+	}
 }
 
 function get_output_formulas(withLatexDolars)
@@ -545,8 +605,92 @@ function get_output_formulas(withLatexDolars)
 	var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
 	
 	var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
-	var outputFormulaLatexStr =  latexDolars() + "u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) + latexDolars();
+	var outputFormulaLatexStr =  latexDolars() + 
+									(
+										(noUnstablePoles)?
+											("y(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
+									)
+								+ latexDolars();
 	
 	return [inputFormulaLatexStr, outputFormulaLatexStr]
 }
+
+function build_sliders(omega_range)
+{
+	// Destroy old sliders if necessairy
+	if(sliderAmplitude.noUiSlider)
+		sliderAmplitude.noUiSlider.destroy();
+	if(sliderFrequency.noUiSlider)
+		sliderFrequency.noUiSlider.destroy();
+	
+	// create the sliders
+	noUiSlider.create(sliderAmplitude, 
+	{
+		start: [ sliderAmpVal ],
+		step: 0.01,
+		pips: 
+		{
+			mode: 'count',
+			values: 5,
+			density: 5
+		},
+		range: 
+		{
+			'min': [  0 ],
+			'max': [ 10 ]
+		}
+	});
+	noUiSlider.create(sliderFrequency, 
+	{
+		start: [ math.log(sliderOmegaVal,10) ],
+		step: 0.01,
+		pips: 
+		{
+			mode: 'count',
+			density: 10,
+			values:	 5,
+			format: 
+			{
+				to: function ( value ) {
+					return math.round(math.pow(10,value),4);
+					},
+				// from: function ( value ) {
+					// return value.replace(',-', '');
+					// }
+			}
+		},
+		range: 
+		{
+			// log scale
+			'min': [ math.log(omega_range[0],10) ],
+			'max': [ math.log(omega_range[1],10) ]
+		}
+	});
+	
+	// Attach necessairy events
+	sliderAmplitude.noUiSlider.on('update', function ( values, handle )
+		{
+			sliderAmpVal = parseFloat(values[handle]);
+			document.getElementById('amplitude-value').innerHTML = values[handle];
+			update_bode_tooltip();
+			update_output_plot();
+		});
+	sliderAmplitude.noUiSlider.on('set', function()
+		{
+			update_output_formulas(false);
+		});
+	sliderFrequency.noUiSlider.on('update', function ( values, handle )
+		{
+			sliderOmegaVal = math.round(math.pow(10,parseFloat(values[handle])),3);
+			// logarithmic
+			document.getElementById('omega-value').innerHTML = sliderOmegaVal;
+			update_bode_tooltip();
+			update_output_plot();
+		});
+	sliderFrequency.noUiSlider.on('set', function()
+	{
+		update_output_formulas(false);
+	});
+}
+
 window.onload = setup;
