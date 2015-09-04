@@ -23,7 +23,7 @@
 	
 	A compensator with characteristic of a lead network, lag network, or lag-lead network is called a lead compensator, lag compensator, or lag-lead compensator. 
 	
-	\textbf{Remark}: with trail and error we find the optimal compensator
+	\textbf{Remark}: with trial and error we find the optimal compensator
 \end{frame}
 
 \section{General design}
@@ -32,30 +32,24 @@
 	\frametitle{Controllers}
 		Sketching the problem:
 		\begin{enumerate}
-			\item We got a plant that not achieve all the specifications (and we cannot change the parameters of the original system).
+			\item We got a plant that not fulfil all the specifications (and we cannot change the parameters of the original system).
 			\item We have to change other parameters such that the system will achieve all the specifications.
-			\item These other parameters can be changed by changing the root loci of the closed-loop system. 
-			\item So we search the root loci of a compensator such that the overall system achieve the specifications. 
+			\item These other parameters can be changed by changing the root locus of the closed-loop system. 
+			\item So we look for a compensator that changes the root locus of the overall system such that the overall system achieve the specifications. 
 			\item We let the original system interact (cascade or parallel) with the compensator.
 		\end{enumerate}
 		\vspace{3mm}
 		
-		\textbf{Remark}: we only discuss continue time systems. 
+		\textbf{Remark}: we only discuss continuous time systems. 
 \end{frame}
 
 \begin{frame}
 	\frametitle{Root locus approach}
-	\underline{The method}:\\
-	Given: the root loci of the open-loop system.\\
-	Now, the method consist of graphical determining the root loci of the closed-loop system.\vspace{3mm}
-
-	\underline{Example}: 
-	We want a certain gain of a system:
-	\begin{itemize}
-		\item The system is not stable at that gain.
-		\item We have to change the root loci (and make the system stable) by designing a compensator.
-		\item We let the compensator interact with the system. Now, we got a different root loci and the system is stable at the certain gain. So, the specifications are achieved.
-	\end{itemize}
+	Looking at the transfer function $G(s)$, we can see that the closed-loop poles depend on the gain $K$. We can now plot the locus of all possible roots of the characteristic equation: 
+		$$1 + KG(s) = 0 $$
+	as $K$ varies from $0$ to $\infty$. This results in a graph which can help us in selecting the best value of $K$.\\
+	\vspace{1em}
+	Furthermore, by studying the effects of additional poles and zeros, we can determine the consequences of additional dynamics in the loop. We can also extend this technique to examine the effect of other plant-parameter changes in order to achieve the best overall control design.
 	\vspace{2mm}
 	
 	In \textbf{general}: we want to have the root loci of the system on the good locations.
@@ -81,7 +75,7 @@
 	\end{itemize}
 \end{frame}
 
-\section{Lead copensations}
+\section{Lead compensation}
 
 \begin{frame}
 	\frametitle{Lead compensators}
@@ -98,7 +92,7 @@
 		\begin{itemize}
 			\item damping ratio
 			\item rise time
-			\item setting time
+			\item settling time
 			\item maximum overshoot
 			\item undamped natural frequency
 		\end{itemize}
@@ -109,9 +103,9 @@
 	Steps to make a lead compensator (in cascade with the original system):
 	\begin{enumerate}
 		\item Determine the locations of the desired dominant poles (from the specifications).
-		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the good locations of the poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the good locations by adjusting the gain, then we have to make a lead compensator. 
+		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the locations of the desired poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the desired locations by adjusting the gain, then we have to make a lead compensator. 
 		\item Assume the lead compensator with this transfer function: \\
-		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$.
+		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}}$ with $0<\alpha<1$.
 	\end{enumerate}
 \end{frame}
 
@@ -139,7 +133,7 @@
 			\includegraphics[width=0.3\linewidth]{Ex1_rootlocus}
 		\end{figure}
 	\end{itemize}
-	\underline{Asked}:
+	\underline{Specifications}:
 	\begin{itemize}
 		\item Undamped frequency: $w_n=4$ rad/s
 		\item Don't change the damping ratio
@@ -159,7 +153,7 @@
 		\end{itemize}
 		\vspace{3mm}
 		$\begin{cases}
-			\zeta \text{ must be the same} \rightarrow \text{let the angle } (60^{\circ}) \text{ of the poles constant}\\
+			\zeta \text{ must be the same} \rightarrow \text{let the angle of the poles constant}\\
 			\text{Undamped frequency = 4rad/s} \rightarrow \text{magnitude of the poles}
 		\end{cases}$
 		\vspace{1mm}
@@ -176,9 +170,9 @@
 	\underline{Solution}:
 	\begin{enumerate}
 		\setcounter{enumi}{1}
-		\item  Find the sum of the angles at the desired location of one of the dominant closed-loop poles with the open-loop poles and zeros of the original system, and determine the necessary angle $\phi$ to be added so that the total sum of the angles is equal to $\pm 180^{\circ}(2k + 1)$. The lead compensator must contribute this angle $\phi$.
-		\item Transfer function of the open-loop system: $$C(s)G(s)=(K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}})G(s) \text{ with } 0<\alpha<1$$
-		\textbf{Remark}: there are many solutions for T and $\alpha$. 
+		\item  Find the sum of the angles at the desired location of one of the dominant closed-loop poles with the open-loop poles and zeros of the original system, and determine the necessary angle $\phi$ to be added so that the total sum of the angles is equal to $\pm 180^{\circ}(2k + 1)$. The lead compensator must contribute this angle $\phi$.\\
+		Calculation of $\phi$: $$\angle(\frac{4}{s(s+2)})|_{s=-2+j2\sqrt{3}}=-210^{\circ}=-180^{\circ}-30^{\circ}$$
+		And so we find $\phi=30^{\circ}$.
 	\end{enumerate}
 \end{frame}
 
@@ -197,6 +191,7 @@
 
 \begin{frame}
 	\frametitle{Example 1: Lead compensators}
+	\underline{Solution}:
 	\underline{Algorithm} (figure previous slide):
 	\begin{enumerate}
 		\item Draw a horizontal line trough the desired dominant closed-loop pole P $\rightarrow$ PA
@@ -212,8 +207,9 @@
 	\underline{Solution}
 	\begin{enumerate}
 		\setcounter{enumi}{3}
-		\item We determine the angle $\phi$: $$\angle(\frac{4}{s(s+2)})|_{s=-2+j2\sqrt{3}}=-210^{\circ}$$
-		And so we find $\phi=30^{\circ}$. From the algorithm we get:\\ zero: -2.9 and pole: -5.4.\\
+		\item Transfer function of the lead compensator: $$C(s)=K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\alpha T}} \text{ with } 0<\alpha<1$$
+		(there are many solutions for T and $\alpha$). \\
+		From the algorithm we get:\\ zero: -2.9 and pole: -5.4.\\
 		$$T=\frac{1}{2.9}=0.345,\text{   } \alpha T=\frac{1}{5.4}=0.185$$
 		So, we find $\alpha$: $\alpha=\frac{1}{5.4T}=0.537$.
 	\end{enumerate}
@@ -248,8 +244,8 @@
 
 \begin{frame}
 	\frametitle{Lag compensators}
-		 \textbf{Problem}: A system that satisfy the desired transient response but don't satisfy the steady-state. \\
-		 $\rightarrow$ We got to compensate the system in such a way that it also satisfy the steady-state specifications (we have to make a lag compensator in cascade with the original system).
+		 \textbf{Problem}: A system that satisfies the desired transient response but don't satisfy the steady-state. \\
+		 $\rightarrow$ We have to compensate the system in such a way that it also satisfy the steady-state specifications (we have to make a lag compensator in cascade with the original system).
 		 \vspace{4mm}
 		  
 		 \textbf{Concrete}:
@@ -281,20 +277,19 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Lag compensators}
-		Steps to make a lag compensator:
+	\frametitle{Steps to make a lag compensator}
 		\begin{enumerate}
 			\item Draw the root locus of the uncompensated open loop system and search the dominant closed loop poles on the root-locus (from the specifications).
 			\item The lag compensator is $C(s)=K_c \beta\frac{Ts+1}{\beta Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$.
-			\item Calculate the static error constant. 
-			\item Calculate the new static error constant if we achieve all the specifications.
-			\item From this difference we make the lag compensator. Now, we can see the pole and the zero of the compensator. 
+			\item Calculate the static error constant $K_c$. 
+			\item Calculate the new static error constant $K_c'$ if we achieve all the specifications.
+			\item From this difference between $K_c$ and $K_c'$, we make the lag compensator. Now, we can see the pole and the zero of the compensator. 
 		\end{enumerate}
 		\textbf{Remark}: we assume that the lag compensator achieved the transient response specifications. If not: make a lead-lag-compensator.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Lag compensators}
+	\frametitle{Steps to make a lag compensator}
 		\begin{enumerate}
 			\setcounter{enumi}{5}
 			\item Draw the root locus of the compensated closed-loop system. Determine the locations of the dominant closed loop poles on the root-locus. 
@@ -321,7 +316,7 @@
 			\includegraphics[width=0.3\linewidth]{Ex2_rootlocus}
 		\end{figure}
 	\end{itemize}
-	\underline{Asked}:
+	\underline{Specifications}:
 	\begin{itemize}
 		\item Increase of the static velocity error constant $K_v$ to $5s^{-1}$
 		\item Don't change the dominant closed-loop poles
@@ -541,7 +536,7 @@
 	\begin{itemize}
 		\item Feed-forward transfer function: $$G(s)=\frac{4}{s(s+0.5)}$$
 	\end{itemize}
-	\underline{Asked}:
+	\underline{Specifications}:
 	\begin{itemize}
 		\item The damping ratio of the dominant closed-loop poles must be: $\zeta=0.5$
 		\item Increase the undamped natural frequency to 5 rad/s
@@ -634,7 +629,7 @@
 	\begin{itemize}
 		\item Feed-forward transfer function: $$G(s)=\frac{4}{s(s+0.5)}$$
 	\end{itemize}
-	\underline{Asked}:
+	\underline{Specifications}:
 	\begin{itemize}
 		\item The damping ratio of the dominant closed-loop poles must be: $\zeta=0.5$
 		\item Increase the undamped natural frequency to 5 rad/s
