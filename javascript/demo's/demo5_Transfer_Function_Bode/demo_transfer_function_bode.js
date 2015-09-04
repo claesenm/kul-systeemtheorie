@@ -16,6 +16,7 @@ var sliderFrequency 	= null;
 var sliderAmpVal		= 1;
 var	sliderOmegaVal		= 1;
 
+// the default tranfer function
 var tfNum		= [1, 2];
 var tfDen		= [8, 3, 4];
 
@@ -92,7 +93,19 @@ function set_text_of_node(node, str)
 
 function setup()
 {
-	//confirm("Hello");
+	// Fill in the default transfer function in the input boxes as example
+	var inputBoxNumerator = document.getElementById('input-numerator');
+	var inputBoxDenominator = document.getElementById('input-denominator');
+	var inputBoxValue = function(arr) 	{
+											var returnStr = "";
+											for (var i = 0; i < arr.length; i++)
+											{
+												returnStr += arr[i].toString() +  ( i==(arr.length - 1) ? "" : "," );
+											}
+											return returnStr;
+										};
+	inputBoxNumerator.value = inputBoxValue(tfNum);
+	inputBoxDenominator.value = inputBoxValue(tfDen);
 	
 	// make math allign left
 	MathJax.Hub.Config(
@@ -482,7 +495,7 @@ function submit_transfer_function()
 			if(math.complex(poles[i]).re >=0)
 			{
 				noUnstablePoles = false;
-				alert("This transfer function contains poles in the right half-plane (including the imaginary axis). Calculating the steady-state output using the bode plot does not make sense because the transient response does not die out.");
+				alert("This transfer function contains poles in the right-half plane and/or poles on the imaginary axis.  This application only computes the output signal for stable systems.  Keep in mind that for unstable systems the transient response never dies out, and the output of the system goes to infinity.");
 			}
 	}
 	
