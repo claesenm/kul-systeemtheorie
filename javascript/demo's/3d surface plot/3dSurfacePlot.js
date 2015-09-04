@@ -119,6 +119,7 @@ function makePlotShape(func, x_min, x_max, y_min, y_max)
 function funcToPlot(x,y)
 {
 	// paraboloid
-	return Math.pow(x,2) + Math.pow(y,2);
+	// return Math.pow(x,2) + Math.pow(y,2);
+	return (Math.cos(x*0.5) + Math.cos(y*0.5))*3;
 }
 window.onload = start3d;
