@@ -17,7 +17,7 @@
 	\begin{itemize}
 		\item lead network: if the steady-state output has a phase lead.
 		\item lag network: if the steady-state output has a phase lag.
-		\item lag-lead network: if we have phase lag and phase lead in the output but in different frequentcy regions (lag when the input has low frequency and lead in high frequentcy). 
+		\item lag-lead network: if we have phase lag and phase lead in the output but in different frequency regions (lag when the input has low frequency and lead in high frequency). 
 	\end{itemize}
 	$\rightarrow$ The amount of lag/lead is a function of the frequency. \vspace{4mm}
 	
@@ -40,13 +40,13 @@
 		\end{enumerate}
 		\vspace{3mm}
 		
-		\textbf{Remark}: we discuss only continu time systems. 
+		\textbf{Remark}: we only discuss continue time systems. 
 \end{frame}
 
 \begin{frame}
 	\frametitle{Root locus approach}
 	\underline{The method}:\\
-	Given: the root loci of the open-loop system (this are the parameters).\\
+	Given: the root loci of the open-loop system.\\
 	Now, the method consist of graphical determining the root loci of the closed-loop system.\vspace{3mm}
 
 	\underline{Example}: 
@@ -54,7 +54,7 @@
 	\begin{itemize}
 		\item The system is not stable at that gain.
 		\item We have to change the root loci (and make the system stable) by designing a compensator.
-		\item Now, we got a different root loci and the system is stable at the certain gain. So, the specifications are achieved.
+		\item We let the compensator interact with the system. Now, we got a different root loci and the system is stable at the certain gain. So, the specifications are achieved.
 	\end{itemize}
 	\vspace{2mm}
 	
@@ -93,7 +93,7 @@
 		\end{enumerate}
 		\vspace{3mm}
 		
-		When to use the \underline{root locus approach} for lead compensators:\\
+		When to use the \underline{root locus approach} for lead compensator's:\\
 		$\rightarrow$ When the specifications are given in terms of time-domain quantities. Examples:
 		\begin{itemize}
 			\item damping ratio
@@ -110,21 +110,21 @@
 	\begin{enumerate}
 		\item Determine the locations of the desired dominant poles (from the specifications).
 		\item Draw the root locus of the uncompensated system. If we change the gain, then the poles will change. If we can achieve the good locations of the poles on this way, then there is no need for a lead compensator. Else, if we cannot achieve the good locations by adjusting the gain, then we have to make a lead compensator. 
-		\item Assume the lead compensator of this form: \\
+		\item Assume the lead compensator with this transfer function: \\
 		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$.
 	\end{enumerate}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Lead compensators}
-		$C(s)=K_c \alpha\frac{Ts+1}{\alpha Ts+1}= K_c\frac{s+\frac{1}{T}}{s+\frac{1}{\beta T}}$ with $0<\alpha<1$\\
-		\begin{itemize}
+		\begin{enumerate}
+			\setcounter{enumi}{3}
 			\item Determining $\alpha$ and T:\\
 			$\alpha$ and T are determined by the angle $\phi$. This is the angle $\angle(C(s))$ and must be equal to the difference between the angle of the desired pole and the angle of the original transfer function. \\
-			Result: the closed-loop pole has the same angle as the desired angle (angle of the desired pole). (And by determine T and $\alpha$ we determine the poles and zeros of the compensator.)
+			Result: the closed-loop pole has the desired angle (angle of the desired pole). (And by determine T and $\alpha$ we determine the poles and zeros of the compensator.)
 			\item Determine $K_c$ (=the open-loop gain) from the magnitude specifications.\\
 			Result: the closed-loop pole has the desired magnitude. 
-		\end{itemize}
+		\end{enumerate}
 		\textbf{Remark}: if there is some freedom about the parameter $\alpha$, then take $\alpha$ as high as possible. 
 \end{frame}
 
@@ -150,7 +150,7 @@
 	\frametitle{Example 1: Lead compensators}
 	\underline{Solution}:
 	\begin{enumerate}
-		\item Find the closed-loop poles: 
+		\item Determine the desired poles: 
 		\begin{itemize}
 			\item The closed-loop transfer function: $\frac{C(s)}{R(s)}=\frac{4}{s^2+2s+4}$ with poles $s=-1\pm\sqrt{3}j$
 			\item Damping ratio: $\zeta=0.5$
@@ -160,7 +160,7 @@
 		\vspace{3mm}
 		$\begin{cases}
 			\zeta \text{ must be the same} \rightarrow \text{let the angle } (60^{\circ}) \text{ of the poles constant}\\
-			\text{Undamped frequency = 4rad/s} \rightarrow \text{determine magnitude}
+			\text{Undamped frequency = 4rad/s} \rightarrow \text{magnitude of the poles}
 		\end{cases}$
 		\vspace{1mm}
 		
@@ -368,7 +368,7 @@
 		\item Determine $K_c$:\\
 		The open-loop transfer function of the compensated system becomes:\\
 		$C(s)G(s)=K_c\frac{s+0.05}{s+0.005}\frac{1.06}{s(s+1)(s+2)} \Rightarrow K=1.06K_c$\\
-		Holding the damping ratio the same, we find on the root locus plot (next slide) the poles: $s_1=-0.31\pm0.55j$.\\
+		Holding the damping ratio the same, we find on the root locus plot (next slide) the poles: $s_{1,2}=-0.31\pm0.55j$.\\
 		The open-loop gain is:
 		$$K=|\frac{s(s+0.005)(s+1)(s+2)}{s+0.05}|_{s=-0.31+0.55j}=1.0235$$
 		$\Rightarrow K_c=\frac{K}{1.06}=0.9656$
@@ -411,26 +411,50 @@
 		\item A pole and zero 
 		$\begin{cases} \text{close to each other} \\ \text{close to the origin} \end{cases}$ don't change the root-locus.
 		\item The compensator increases the order of the system from 3 to 4 by adding a pole. 
-		\item If a pole is more away from the jw axis, the pole is less dominant and it will have less effect on the transient response.
+		\item If a pole is further away from the jw axis, the pole is less dominant and it will have less effect on the transient response.
 		\item If the undamped natural frequency is low, then:
 		\begin{itemize}
-			\item the speed of the transient response will be less (the response will take a longer time to settle down).
-			\item the overshoot step response will increase
+			\item the speed of the transient response will be less (the response will take a longer time to settle down);
+			\item the overshoot of the step response will increase.
 		\end{itemize}
 	\end{itemize}
 \end{frame}
 
-\section{Lag-lead compensators}
+\begin{frame}
+	\frametitle{Resume}
+	\underline{Effect}:
+	\begin{itemize}
+		\item Lead compensator's increase the gain by high frequencies and so increases the band with.
+		\item Lag comp. reduce bandwidth.
+	\end{itemize}
+	\underline{Advantages}:
+	\begin{itemize}
+		\item Lead comp. increase the dynamical response.
+		\item Lag comp. reduce high frequent noise.
+	\end{itemize}
+	\underline{Disadvantages}:
+	\begin{itemize}
+		\item Lead comp. require extra gain and are sensitive to high frequencies (because the big bandwidth).
+		\item Lag comp. worsens the transient response.  
+	\end{itemize}
+	\underline{Usage}:
+	\begin{itemize}
+		\item Lead comp. for quick transient response.
+		\item Lag comp. for specified steady-state error.
+	\end{itemize}
+\end{frame}
+
+\section{Lag-lead compensator's}
 
 \begin{frame}
 	\frametitle{Lag-lead compensators}
 		\underline{General}:\\
-		Lead compensators: 
+		Lead compensator's: 
 		\begin{itemize}
 			\item speeds up the response;
 			\item increase stability of the system.
 		\end{itemize}
-		Lag compensators:
+		Lag compensator's:
 		\begin{itemize}
 			\item improves steady-state accuracy;
 			\item reduces the speed of the response.
@@ -445,14 +469,14 @@
 
 \begin{frame}
 	\frametitle{Lag-lead compensators}
-	The lag-lead compensator C(s) has this form: \\
-	$C(s)=K_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
-	(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})$ with $\beta>1$ and $\gamma>1$.\vspace{4mm}
+	The lag-lead compensator C(s) has this transfer function: 
+	$$C(s)=K_c\frac{\beta (T_1s+1)(T_2s+1)}{\gamma (\frac{T_1}{\gamma}s+1)(\beta T_2s+1)}=K_c(\frac{s+\frac{1}{T_1}}{s+\frac{\gamma}{T_1}})
+	(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})$$ with $\beta>1$ and $\gamma>1$.\vspace{4mm}
 	
 	Notes:
 	\begin{itemize}
-		\item The value $\beta T_2$ may not be to large, it must be fysical realizable.
-		\item  There are two cases of this type compensator: $\gamma\neq \beta$ or $\gamma= \beta$.
+		\item The value $\beta T_2$ may not be to large, it must be physical realizable.
+		\item  There are two cases of this type compensator: $\gamma\neq \beta$ and $\gamma= \beta$.
 	\end{itemize}
 \end{frame}
 
@@ -460,8 +484,8 @@
 	\frametitle{Lag-lead compensators}
 	Case 1:$\gamma\neq \beta$,  the design process is a combination of the design of the lead compensator and that of the lag compensator:
 	\begin{enumerate}
-		\item Determine the location of the closed-loop poles (from the specifications)
-		\item The lead part of the compensator must contribute the angle $\phi$: $\phi=\angle$(desired pole)$-\angle$(uncompensated open-loop system)
+		\item Determine the location of the closed-loop poles (from the specifications).
+		\item The lead part of the compensator must contribute the angle $\phi$: $\phi=\angle$(desired pole)$-\angle$(uncompensated open-loop system).
 		\item Calculate the parameters:
 		\begin{itemize}
 			\item Take $T_2$ as large as possible.
@@ -475,7 +499,7 @@
 
 \begin{frame}
 	\frametitle{Lag-lead compensators}
-	Case 1: $\gamma\neq \beta$,  the design process is a combination of the design of the lead compensator and that of the lag compensator:
+	Case 1:
 	\begin{enumerate}
 		\setcounter{enumi}{3}
 		\item Determine $\beta$ if $K_v$ is given:
@@ -483,7 +507,7 @@
 		(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s)$$
 		$$=\lim_{s\to0}sK_cG(s)\frac{\beta}{\gamma}$$
 		\item Determine $T_2$ from:\\
-		$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1$ and $-5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$
+		$$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1 \text{ and } -5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$$
 	\end{enumerate}
 \end{frame}
 
@@ -504,10 +528,10 @@
 	Case 2: $\gamma= \beta$:
 	\begin{enumerate}
 		\setcounter{enumi}{3}
-		\item Determine $T_1$ and$\beta$ from:\\
-		$|K_c(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s_1)|=1$ and $\angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})=\phi$
+		\item Determine $T_1$ and$\beta$ from:
+		$$|K_c(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})G(s_1)|=1 \text{ and } \angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{\beta T_2}})=\phi$$
 		\item Determine $T_2$ from:\\
-		$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1$ and $-5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$
+		$$|\frac{s_1+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}}|\approx 1 \text{ and } -5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s_1+\frac{1}{\beta T_2}})<0^{\circ}$$
 	\end{enumerate}
 \end{frame}
 
@@ -547,7 +571,7 @@
 	\begin{enumerate}
 		\setcounter{enumi}{2}
 		\item The desired locations of the closed loop poles (from specifications) are: $s=-2.5\pm4.33j$
-		\item Determine the angle of deficience $\phi$:
+		\item Determine the angle of deficiency $\phi$:
 		$$\angle(\frac{4}{s(s+0.5)})|_{s=-2.5+4.33j}=-235^{\circ}=-180^{\circ}-55^{\circ} \Rightarrow \phi=55^{\circ}$$
 		This angle must be contributed by the lead part of the compensator, such that the root locus passes trough the desired closed-loop poles. 
 	\end{enumerate}
@@ -560,9 +584,8 @@
 		\setcounter{enumi}{4}
 		\item Determine the zero and pole of the compensator (many possibilities):\\
 		We take a zero at -0.5 (this will cancel the pole -0.5 of the plant) and a pole at -5.021 (such that the angle $\phi$ is contributed).
-		The lead part becomes:\\
-		$K_c\frac{s+0.5}{s+5.021}$\vspace{3mm}
-		
+		The lead part becomes:
+		$$K_c\frac{s+0.5}{s+5.021}$$
 		and we find:
 		\begin{itemize}
 			\item $T_1=2$
@@ -579,9 +602,9 @@
 	\begin{enumerate}
 		\setcounter{enumi}{5}
 		\item Determine the lag part of the compensator:\\
-		Determining $\beta$:
+		Determine $\beta$:
 		$$K_v=\lim_{s \to 0}sC(s)G(s)=\lim_{s\to0}sK_c\frac{\beta}{\gamma}G(s)=4.988\beta=80 \Rightarrow \beta=16.04$$
-		Determining $T_2$: $T_2$ must satisfy:
+		Determine $T_2$: $T_2$ must satisfy:
 		$$|\frac{s+\frac{1}{T_2}}{s+\frac{1}{16.04T_2}}|_{s=s_1}\approx1 \text{ and } -5^{\circ}<\angle(\frac{s+\frac{1}{T_2}}{s+\frac{1}{16.04T_2}})|_{s=s_1}<0^{\circ}$$\\
 		 $\Rightarrow T_2=5$ with ($s_1=-2.5+4.33j$)
 	\end{enumerate}
@@ -679,7 +702,7 @@
 
 \begin{frame}
 	\frametitle{Serial compensation}
-	$\rightarrow$ Up to now, we have only discussed serial compensator's. \vspace{4mm}
+	$\rightarrow$ Up to now, we have only discussed compensator's in cascade with the system. \vspace{4mm}
 	
 	Derivation of the characteristic equation:\\
 	\underline{Serial}:
