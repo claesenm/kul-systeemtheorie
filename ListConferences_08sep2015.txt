@@ -1,0 +1,13 @@
+<ul>
+	<li><a href="http://21stcenturywiener.org/" target="_blank">IEEE 2014 Conference on Norbert Wiener in the 21st century</a></li>
+	<li><a href="http://www.cdc2015.ctrl.titech.ac.jp/" target="_blank">54th IEEE Conference on Decision and Control (CDC 2015)</a></li>
+	<li><a href="http://www.ecc15.at/" target="_blank">European Control Conference 2015 (ECC 15)</a></li>
+	<li><a href="http://acc2016.a2c2.org/" target="_blank">American Control Conference 2016 (ACC 2016)</a></li>
+	<li><a href="http://www.msc2015.org/" target="_blank">IEEE Multi-Conference on Systems and Control 2015 (MSC 2015)</a></li>
+	<li><a href="http://www.ifac2017.org/" target="_blank">The 20th World Congress of the International Federation of Automatic Control (IFAC)</a></li>
+	<li><a href="http://www.siam.org/meetings/ct15/" target="_blank">SIAM Conference on Control and Applications</a></li>
+	<br />
+	<li><a href="http://www.ifac-control.org/events/@@events_view" target="_blank">List of the coming IFAC (International Federation of Automatic Control) conferences</a></li>
+	<li><a href="http://www.ieee.org/conferences_events/conferences/search/index.html?KEYWORDS=automatic+control&amp;CONF_SRCH_RDO=conf_date&amp;RANGE_FROM_DATE=&amp;RANGE_TO_DATE=&amp;REGION=ALL&amp;COUNTRY=ALL&amp;STATE=ALL&amp;CITY=&amp;SPONSOR=ALL&amp;RowsPerPage=10&amp;PageLinkNum=10&amp;ActivePage=1&amp;SORTORDER=desc&amp;SORTFIELD=start_date" target="_blank">List of the coming/past IEEE conferences on Automatic Control</a></li>
+	<li><a href="http://www.siam.org/meetings/calendar.php" target="_blank">List of the coming SIAM conferences</a></li>
+</ul>

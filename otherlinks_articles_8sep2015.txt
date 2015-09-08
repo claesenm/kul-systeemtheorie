@@ -1,0 +1,27 @@
+Other links / Interesting Articles on Control theory
+
+<ul>
+	<li><a href="http://intothecontinuum.tumblr.com/post/57654628209/each-of-the-white-circles-are-really-just-moving" target="_blank">Archery: A&nbsp;perspective on mathematics, the pattern, and the abstract</a></li>
+	<li><a href="http://money.cnn.com/2015/03/27/news/companies/pilotless-passenger-planes/index.html?sr=tw032915pilotlessplane630pStoryPhoto" target="_blank">Would pilotless planes make sense?</a></li>
+	<li><a href="http://www.nytimes.com/2015/05/11/science/the-right-ratio-to-engineer-a-swim.html?partner=rss&amp;emc=rss&amp;smid=tw-nytimesscience&amp;_r=1" target="_blank">The Right Ratio to Engineer a Swim</a></li>
+	<li>Programmable self-assembly in a thousand-robot swarm:
+	<ul>
+		<li><a href="http://www.sciencemag.org/content/345/6198/795" target="_blank">Article in Science Magazine</a></li>
+		<li><a href="https://www.youtube.com/watch?v=xK54Bu9HFRw&amp;feature=youtu.be" target="_blank">Demonstration (youtube video) </a></li>
+		<li><a href="http://spectrum.ieee.org/automaton/robotics/robotics-hardware/a-thousand-kilobots-self-assemble" target="_blank">More information: &quot;A Thousand Kilobots Self-Assemble Into Complex Shapes&quot; </a></li>
+	</ul>
+	</li>
+	<li><a href="http://www.comsol.com/zmags/comsol-news-2014" target="_blank">COMSOL News: The multiphysics Simulation Magazine</a></li>
+	<li><a href="http://www.blindjuggler.org/controlling-the-uncontrollable/" target="_blank">Controlling the Uncontrollable (4 balls on a paddle)</a></li>
+	<li><a href="http://holbert.faculty.asu.edu/analogy.html" target="_blank">Interdisciplinary Electrical Analogies</a></li>
+	<li><a href="https://www.youtube.com/user/ControlLectures/playlists" target="_blank">Youtube channel explaining many of the concepts covered in this course</a></li>
+	<li><a href="http://www.spiritscienceandmetaphysics.com/our-model-of-the-solar-system-has-been-wrong-this-entire-time/" target="_blank">Our model of the solar system has been wrong this entire time!</a></li>
+	<li><a href="http://spectrum.ieee.org/automaton/robotics/robotics-hardware/cyborg-drumming-arm-makes-amputee-into-superhuman-musician" target="_blank">Cyborg Drumming Arm Makes Amputee Into Superhuman Musician</a></li>
+	<li><a href="http://ieeecss.org/general/IoCT2-report" target="_blank">The Impact of Control Technology&mdash;2nd Ed. Editors: Tariq Samad (Honeywell) and Anuradha Annaswamy (MIT)</a>
+	<ul>
+		<li><a href="http://ieeecss.org/sites/ieeecss.org/files/documents/IoCT-FullReport_v2.pdf" target="_blank">Full Report</a></li>
+	</ul>
+	</li>
+	<li><a href="http://singularityhub.com/2015/01/18/top-5-spacex-videos-in-quest-for-reusable-rockets/" target="_blank">Top 5 Videos in Elon Musk and SpaceX&rsquo;s Quest For Reusable Rockets</a></li>
+	<li><a href="http://www.iflscience.com/technology/meet-spot-newest-dog-robot-boston-dynamics" target="_blank">New Dog Robot Can Run and Climb Just Like The Real Thing</a></li>
+</ul>

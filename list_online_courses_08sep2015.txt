@@ -1,0 +1,7 @@
+<ul>
+	<li><a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-241j-dynamic-systems-and-control-spring-2011/" target="_blank">MIT - Dynamic Systems and Control</a></li>
+	<li><a href="https://www.coursera.org/course/conrob" target="_blank">Control of Mobile Robots</a></li>
+	<li><a href="https://www.youtube.com/playlist?list=PLUMWjy5jgHK1NC52DXXrriwihVrYZKqjk" target="_blank">Classical Control Theory &nbsp;by &nbsp;Brian Douglas</a></li>
+	<li><a href="http://nptel.ac.in/video.php?subjectId=108101037" target="_blank">Control Engineering</a></li>
+	<li><a href="http://www.cds.caltech.edu/~murray/amwiki/index.php/Main_Page" target="_blank">Feedback Systems: An Introduction for Scientists and Engineers</a></li>
+</ul>

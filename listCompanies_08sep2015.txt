@@ -1,0 +1,10 @@
+<ul>
+	<li><a href="http://www.ipcos.be/" target="_blank">IPCOS</a><br />
+	This company provides high end products and services for automation and optimization. They provide solutions in different industries all over the world. They have experts for the chemical, glass, power and oil producing industries and their products range from advanced PID tuning packages, performance monitoring systems, softsensors, MPC controllers to dynamic optimizers.</li>
+	<li><a href="http://www.dsquare.be/" target="_blank">D square</a><br />
+	This company helps plant managers to detect, analyze and solve critical bottlenecks so they can reach and even surpass the most challenging production targets. D square offers innovative and market leading data mining software for the industry, packaged as real-time software applications. Its solutions enable custom support and interaction for each operational role. In addition, D square offers high-level data mining services that result in process optimization.</li>
+	<li><a href="http://www.abb.com/" target="_blank">ABB</a><br />
+	It is a multinational corporation headquartered in Zurich, Switzerland, operating in robotics and mainly in the power and automation technology areas.</li>
+	<li><a href="http://www.lmsintl.com/" target="_blank">LMS</a></li>
+	<li><a href="http://www.siemens.com/entry/cc/en/" target="_blank">Siemens</a></li>
+</ul>

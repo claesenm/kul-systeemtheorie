@@ -1,0 +1,8 @@
+Professional organizations
+
+<ul>
+	<li><a href="http://www.ifac-control.org/" target="_blank">International Federation of Automatic Control (IFAC)</a></li>
+	<li><a href="http://www.ieeecss.org/" target="_blank">IEEE Control System Society</a></li>
+	<li><a href="https://www.siam.org/" target="_blank">Society for Industrial and Applied Mathematics (SIAM)</a></li>
+	<li><a href="https://www.isa.org/default.aspx" target="_blank">International Society of Automation (ISA)</a></li>
+</ul>
