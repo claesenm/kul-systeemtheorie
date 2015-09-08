@@ -4,4 +4,5 @@
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo2/secondorderfinal.html" target="_blank">Time reponse and frequency response of a second order system in standard form</a></li>
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo3/PIDcontrollers.html" target="_blank">PID controller demo</a></li>
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo4/rootlocus.html" target="_blank">Root Locus demo</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo5/demo_transfer_function_bode.html" target="_blank">Understanding the Bode plot</a></li>
 </ul>
