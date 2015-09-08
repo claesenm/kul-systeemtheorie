@@ -220,7 +220,8 @@ function update_tf(num, den)
 	tfLatex += makeLatexPolynom(num) + "}{" + makeLatexPolynom(den) + "} $$";
 	
 	// update Math
-	var math = document.getElementById('tf-function').innerHTML = tfLatex;
+	var math = document.getElementById('tf-function')
+	set_text_of_node(math,tfLatex);
 	MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
 	
 	// update MathJax 
