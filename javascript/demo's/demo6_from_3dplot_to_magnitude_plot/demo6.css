@@ -1,13 +1,17 @@
 
 #left-pane
 {
-	width: 50%;
+	width: 40%;
 	float: left;
 }
 #right-pane
 {
-	width: 50%;
 	float: left;
+	width: 50%;
+	margin-left:  5%;
+	margin-right: 5%;
+	/* mathbox sets absolute positioning for its overlay:*/
+	position: relative;
 }
 
 
@@ -31,9 +35,6 @@
 	max-height: 300px;
 }
 
-
-
-
 :not{.open}.step-header:after
 {
 	content: " (click me)";
@@ -44,4 +45,20 @@
 {
 	width:100%;
 	height:800px;
+}
+
+#step-1-content>div
+{
+	margin-left: 5pt;
+}
+
+#step-1-content>div>span
+{
+	float: left; 
+	width: 6em;
+}
+
+#step-1-content button
+{
+	margin: 5pt 0pt;
 }

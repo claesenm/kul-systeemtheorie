@@ -1,33 +1,71 @@
 
+
+var dyn_sys = new control.system.tf([2,3], [1,8,16])
+
+var mathbox = null;
+
 function surfaceFunc(x, y) 
 {
-    return [x, Math.cos(x*5) + Math.cos(y*5), y];
+    return dyn_sys.evalS(math.complex(x,y)).toPolar().r;
 };
 
 
 function main()
 {
-	animationSetup();
+	MathJax.Hub.Config(
+	{
+		displayAlign: "left",
+		displayIndent: "1em"
+	});
 	
+	stepSetup();
+	
+	
+	// STEP 1
+	// -------
+	
+	
+	var inputBoxNumerator = document.getElementById('input-tf-numerator');
+	var inputBoxDenominator = document.getElementById('input-tf-denominator');
+	var buttonSubmit = document.getElementById('button-step-1-submit');
+	
+	// fill in default transfer function in step1
+	inputBoxNumerator.value = dyn_sys.getNumerator().join(',');
+	inputBoxDenominator.value = dyn_sys.getDenominator().join(',');
+	
+	// add event to submit button
+	buttonSubmit.addEventListener('click', step1Submit);
+	
+	// draw formula
+	step1Formula();
+	
+	
+	// STEP 2
+	// --------
+	
+	
+	// mathbox
+	// ---------
 	var element = document.getElementById("drawing");
 	
 	// TODO: keep matbox in it's right pane
-	var mathbox = mathBox(element,{
+	mathbox = mathBox(element,{
         cameraControls: true,
         cursor:         true,
         controlClass:   ThreeBox.OrbitControls,
         elementResize:  true,
         fullscreen:     true,
       }).start();
-											 
-	/*mathbox
+					
+	
+	mathbox
 	.viewport({
 	  type: 'cartesian',
 	  range: [[-3, 3], [-3, 3], [-3, 3]],
-	  //scale: [0.5, 0.5,0.5],
+	  scale: [0.5, 0.5,0.5],
 	  scale: [1,1,1]
 	 })
-	// Add XYZ axes
+	//Add XYZ axes
 	// Axes
         .axis({
           id: 'a',
@@ -68,14 +106,14 @@ function main()
 	})
 
 	// Curve, explicit function
-	// .curve({
-	  // id: 'my-curve',
-	  // domain: [-3, 3],
-	  // expression: function (x) { return Math.cos(x); },
-	  // line: true,
-	  // points: true,
-	  // lineWidth: 2,
-	// })
+	.curve({
+	  id: 'my-curve',
+	  domain: [-3, 3],
+	  expression: function (x) { return Math.cos(x); },
+	  line: true,
+	  points: true,
+	  lineWidth: 2,
+	})
 
 	.surface({
 	  n: [ 40, 40 ],
@@ -90,7 +128,7 @@ function main()
 		orbit: 5
 	})
 	;
-	*/
+	
 }
 
 // adds a class name to an HTMLelement, does not add duplicates
@@ -115,8 +153,32 @@ function removeClassName(element, class_name_to_remove)
 	element.className = element_new_class_names.join(" ");
 }
 
+// checks if all entries in array are numbers
+function areAllNumbers( chkArray )
+{
+	var allNumbers = true;
+	for(var i = 0; ((i < chkArray.length) && allNumbers); i++)
+	{
+		allNumbers = allNumbers && !(isNaN(chkArray[i]));
+	}
+	return allNumbers;
+}
+
+// better performance than innerHTML, uses textContent or innerText according to browser support
+function setTextOfNode(node, str)
+{
+	if ('textContent' in node) 
+	{
+		node.textContent = str;
+	} 
+	else 
+	{
+		node.innerText = str;
+	}
+}
+
 // set's up the folding of the steps
-function animationSetup()
+function stepSetup()
 {
 	var step_headers	= document.getElementsByClassName("step-header");
 	var step_contents	= document.getElementsByClassName("step-content");
@@ -158,5 +220,58 @@ function animationSetup()
 	{
 		step_headers[i].addEventListener('click', stepClick);
 	}
+}
+
+// function for when submitting tf in step 1
+function step1Submit()
+{
+	var arrayNumerator 		= document.getElementById('input-tf-numerator').value.toString().split(/[,;:]+/);
+	var arrayDenominator	= document.getElementById('input-tf-denominator').value.toString().split(/[,;:]+/);
+	
+	// Remove possible empty string element on end
+	if(arrayDenominator[arrayDenominator.length - 1] == "")
+		arrayDenominator.pop();
+	if(arrayNumerator[arrayNumerator.length -1] == "")
+		arrayNumerator.pop();
+	
+	// Remove possible leading zeros
+	while(arrayNumerator[0]=="0")
+		arrayNumerator.shift();
+	while(arrayDenominator[0]=="0")
+		arrayDenominator.shift();
+	
+	// check for mistakes
+	if( (arrayNumerator.length == 0) || (arrayDenominator.length==0) )
+		{alert("Please fill in a transfer function. One or more boxes is empty.");return;}
+	if( !(areAllNumbers(arrayNumerator) && areAllNumbers(arrayDenominator)) )
+		{alert("Please fill in a correct transfer function according to the given syntax");return}
+	if(arrayDenominator.length == 1 && arrayDenominator[0] == "0")
+		{alert("Please do not devide by zero");return;}
+	if(arrayDenominator.length < arrayNumerator.length)
+		{alert("The order of the denominator should be greater than the order of the numerator.");return;}
+	
+	// convert array to numbers
+	arrayNumerator		= arrayNumerator.map( function(el) { return parseFloat(el);});
+	arrayDenominator	= arrayDenominator.map( function(el) { return parseFloat(el);});
+	
+	// use these array to update dynsys
+	dyn_sys = new control.system.tf(arrayNumerator,arrayDenominator);
+	
+	//update mathbox plot
+	mathbox.surface();
+	
+	//update formula
+	step1Formula();
+}
+
+function step1Formula()
+{
+	var span_formula = document.getElementById("step-1-tf-function");
+	
+	var latexStr = dyn_sys.toLatex();
+	latexStr = "$$ H(s) = " + latexStr + "$$";
+	
+	setTextOfNode(span_formula, latexStr);
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub,span_formula]);
 }
 window.onload = main;

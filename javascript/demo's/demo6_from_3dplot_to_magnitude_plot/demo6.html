@@ -4,6 +4,17 @@
 		<meta charset="utf-8">
 		<title>From transfer function to magnitude plot</title>
 		
+		<!-- Load highcharts.js before controlplot.js -->
+		<script src="https://code.highcharts.com/adapters/standalone-framework.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="../../library/controlplot.js"></script>
+		
+		<!-- mathJs -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+		
+		<!-- Pretty Math -->
+		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		
 		<script src="MathBox-bundle.js"></script>
 		<script src="demo6.js"></script>
 		
@@ -551,21 +562,23 @@
 		
 		<section>
 			<div id="left-pane">
-				<div id="step-1-header" class="step-header">Step 1</div>
+				<div id="step-1-header" class="step-header open">Step 1</div>
 				<div id="step-1-content" class="step-content">
-					<p>
-					bla
-					<br>
-					bla
-					<br>
-					bla
-					<br>
-					bla
-					<br>
-					bla
-					<br>
-					bla
-					</p>
+					<div>
+						<p> The current transfer function is: <br>
+							<span class="formula" id="step-1-tf-function"></span>
+						</p>
+							
+						<p>
+							Fill in your transfer function by specifing the coefficients, separted by commas.						
+						</p>
+						
+						<span>Numerator:</span> <input id="input-tf-numerator" type="text">
+						<br>
+						<span>Denominator:</span><input id="input-tf-denominator" type="text">
+						<br>
+						<button id="button-step-1-submit">Submit</button>
+					</div>
 				</div>
 				<div id="step-2-header" class="step-header">Step 2</div>
 				<div id="step-2-content" class="step-content"></div>
