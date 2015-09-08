@@ -1,0 +1,27 @@
+<ul>
+	<li><a href="http://www.springer.com/engineering/robotics/journal/12555" target="_blank">International Journal of Control, Automation and Systems</a></li>
+	<li><a href="http://www3.nd.edu/~ieeetac/contents.html" target="_blank">IEEE Transactions on Automatic Control</a></li>
+	<li><a href="http://ieeecss.org/publications/e-letter/archive/current" target="_blank">E-LETTER on Systems, Control, and Signal Processing</a></li>
+	<li><a href="http://ieeecss.org/publications-content-digest" target="_blank">IEEE Control Systems Society Publications Content Digest</a></li>
+	<li><a href="http://www.journals.elsevier.com/journal-of-process-control/call-for-papers/iterative-learning-control-and-their-applications/" target="_blank">Journal of Process Control: Special Issue on Latest Updates of Iterative Learning Control and Their Applications</a></li>
+	<li><a href="http://ieeexplore.ieee.org/xpl/RecentIssue.jsp?reload=true&amp;punumber=87" target="_blank">IEEE transactions on Control Systems Technology</a></li>
+	<li><a href="http://www.journals.elsevier.com/automatica/" target="_blank">Automatica</a></li>
+	<li><a href="http://www.siam.org/journals/sicon.php" target="_blank">SIAM Journal on Control and Optimization (SICON)</a></li>
+	<li><a href="http://www.journals.elsevier.com/european-journal-of-control/" target="_blank">European Journal of Control</a></li>
+	<li><a href="http://www.tandfonline.com/toc/tcon20/current#.UvSpbqz0FBl" target="_blank">International Journal of Control</a></li>
+	<li><a href="http://www.journals.elsevier.com/journal-of-process-control/" target="_blank">Journal of process control</a></li>
+	<li><a href="http://www.journals.elsevier.com/control-engineering-practice/" target="_blank">Control Engineering Practice</a></li>
+	<li><a href="http://www.journals.elsevier.com/systems-and-control-letters/" target="_blank">Systems &amp; Control Letters</a></li>
+	<li><a href="http://www.springer.com/mathematics/journal/10513" target="_blank">Automation and Remote Control</a></li>
+	<li><a href="http://www.ijcet.org/" target="_blank">Journal of Control Engineering and Technology</a></li>
+	<li><a href="http://www.springer.com/engineering/robotics/journal/11633" target="_blank">International Journal of Automation and Computing</a></li>
+	<li><a href="http://www.springer.com/materials/mechanics/journal/40435" target="_blank">International Journal of Dynamics and Control</a></li>
+	<li><a href="http://www.springer.com/engineering/control/journal/11768" target="_blank">Journal of Control Theory and Applications</a></li>
+	<li><a href="http://www.springer.com/engineering/electronics/journal/40313" target="_blank">Journal of Control, Automation and Electrical Systems</a></li>
+	<li><a href="http://www.springer.com/materials/mechanics/journal/10883" target="_blank">Journal of Dynamical and Control Systems</a></li>
+	<li><a href="http://www.springer.com/mathematics/applications/journal/498" target="_blank">Mathematics of Control, Signals, and Systems</a></li>
+	<li><a href="http://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=37" target="_blank">IEEE Control Systems Magazine</a></li>
+	<li><a href="http://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=100" target="_blank">IEEE Robotics &amp; Automation Magazine</a></li>
+	<li><a href="http://www.journals.elsevier.com/mechatronics/" target="_blank">Mechatronics</a></li>
+	<li><a href="http://www.automation.com/automation-news/e-newsletter-archives/automation-weekly-e-newsletter-archive" target="_blank">Automation Weekly</a></li>
+</ul>
