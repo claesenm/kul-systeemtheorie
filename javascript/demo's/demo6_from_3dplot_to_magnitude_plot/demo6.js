@@ -269,9 +269,17 @@ function step1Formula()
 	var span_formula = document.getElementById("step-1-tf-function");
 	
 	var latexStr = dyn_sys.toLatex();
-	latexStr = "$$ H(s) = " + latexStr + "$$";
+	latexStr = "H(s) = " + latexStr;
 	
-	setTextOfNode(span_formula, latexStr);
-	MathJax.Hub.Queue(["Typeset",MathJax.Hub,span_formula]);
+	var jaxMath = MathJax.Hub.getAllJax("step-1-tf-function")[0];
+	if(jaxMath)
+	{
+		MathJax.Hub.Queue(["Text",jaxMath,latexStr]);
+	}
+	else
+	{
+		setTextOfNode(span_formula, "$$" + latexStr + "$$");
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,span_formula]);
+	}
 }
 window.onload = main;
