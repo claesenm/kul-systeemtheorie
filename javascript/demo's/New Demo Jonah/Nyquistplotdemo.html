@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<title>Frequency response of dynamical systems</title>
+		<!-- Load highcharts.js before controlplot.js -->
+		<script src="https://code.highcharts.com/adapters/standalone-framework.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="../../library/controlplot.js"></script>
+		
+		<!-- mathJs -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+		
+		<!-- Pretty Math -->
+		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+		<script type="text/javascript" src="nouislider.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="nouislider.pips.css">
+		
+		<script type="text/javascript" src="Nyquistplotdemo.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style.css">
+		<link rel="stylesheet" type="text/css" href="demo_transfer_function_bode.css">
+    </head>
+	<body>
+	<h1>Frequency response of dynamical systems</h1>
+	<div id="demo-container">
+	
+	<div id="input">
+				<h3>Transfer Function</h3>
+				<form id="input-form">
+					<p>Fill in a transfer function below by entering the coefficients separated by commas. </p>
+					<span>Numerator: </span> <input type="text" id="input-numerator"> <br>
+					<span>Denominator: </span><input type="text" id="input-denominator"> 
+					<p><input type="button" id="submit-button" value="Submit"></p>
+				</form>
+				<p> Transfer Funtion:
+					<span class="formula" id="tf-function">
+					<!-- $$ h(s) = \frac{\kappa}{\tau s + 1} $$ -->
+					</span>
+				</p>
+				</div>
+			<div id="bode">
+				<h3>Bode Plot of Transfer Function</h3>
+				<div id="bode-plot-container"></div>
+			</div>
+			<div id="output">
+			<h3>Nyquist Plot</h3>
+		<div id="Nyquistcontainer" style="width:400px;height:400px"> </div>	
+		</div>
+	</div>
+	</body>
+</html>
