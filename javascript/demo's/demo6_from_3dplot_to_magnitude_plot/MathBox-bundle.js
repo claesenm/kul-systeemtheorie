@@ -46903,7 +46903,8 @@ MathBox.Renderable.Labels.prototype = _.extend(new MathBox.Renderable(null), {
         sprite.measure = true;
 
         if (mathjax) {
-          inner.innerHTML = "\\(" + text + "\\)";
+		  // I modified the delimiters: appearantly mathbox also uses mathjax, and thus my config has an effect on mathbox!
+          inner.innerHTML = "\\\\(" + text + "\\\\)";
           MathJax.Hub.queue.Push(["Typeset", MathJax.Hub, inner]);
         }
         else {

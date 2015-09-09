@@ -32,7 +32,7 @@
 
 .step-header.open  + .step-content
 {
-	max-height: 300px;
+	max-height: 700px;
 }
 
 :not{.open}.step-header:after
@@ -47,9 +47,9 @@
 	height:800px;
 }
 
-#step-1-content>div
+.step-content > div
 {
-	margin-left: 5pt;
+	margin: 0pt 5pt;
 }
 
 #step-1-content>div>span

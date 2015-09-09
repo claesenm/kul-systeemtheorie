@@ -13,6 +13,15 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
 		
 		<!-- Pretty Math -->
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config(
+				{
+					displayAlign: "left",
+					displayIndent: "1em",
+					// set delimiter as //( ... //)
+					tex2jax: {inlineMath: [ [ '\\\\(', '\\\\)'] ]}
+				});
+		</script>
 		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 		
 		<script src="MathBox-bundle.js"></script>
@@ -22,6 +31,7 @@
 	</head>
 	<body>
 		<!-- For mathbox to work, does not show on webpage -->
+		<!-- TODO: Remove unused shaders when all the rest is done to improve load time -->
 		<div id="mathbox-shaders">
 			<script type="application/x-glsl" id="bezierSurface3">
 			// Vertex shader: bicubic bezier surface
@@ -581,7 +591,27 @@
 					</div>
 				</div>
 				<div id="step-2-header" class="step-header">Step 2</div>
-				<div id="step-2-content" class="step-content"></div>
+				<div id="step-2-content" class="step-content">
+					<div>
+						<p>
+							The bode plot gives use information on the steady-state response on sine-like inputs. More precisely, the
+							steady-state output will be the same sine but amplified and shifted in time as indicated in the bode plot for
+							the given frequency. 
+						</p>
+						<p>
+							This steady-state response can also be calculated by using the transfer function. As seen in class, if the input can be written as a complex exponential,
+								$$ \cos{(\omega t + \theta)} = \Re{(e^{j(\omega t + \theta)})} $$
+							by using the formula for the general response \\( Y(s) \\) in the Laplace domain, we found that the steady-state output is given by (An analog also exists for discete time):
+								$$ \left| H(j\omega) \right| \cos{(\omega t + \theta \angle H(j\omega))} $$
+						</p>
+						<p>
+							Now, there must be a link between these two approaches: they both give the steady-state response.
+						</p>
+						<p>
+							We will now	step by step construct the magnitude plot of the bode diagram out of the modulus of the transfer function \\( \left| H(s) \right| \\), evaluated over the complex plane, as you can see on your right (A similar reasoning can be made for the phase plot starting from \\( \angle H(s) \\) over the complex plane). The amplification of the steady-state response, which is shown in the magnitude plot, is given by \\( \left| H(j\omega) \right| \\). The red curve selects these	values on the complex axis. 
+						</p>
+					</div>
+				</div>
 				<div id="step-3-header" class="step-header">Step 3</div>
 				<div id="step-3-content" class="step-content"></div>
 				<div id="step-4-header" class="step-header">Step 4</div>

@@ -1,6 +1,17 @@
 
 
+// dynamic system with default trasfer function
 var dyn_sys = new control.system.tf([2,3], [1,8,16])
+
+// range imaginairy plane
+var RANGE = [ [-5,5], [-5,5] ];
+var GRID_RANGE = [ [-6,6], [-6,6], [-6,6] ];
+
+// determines how much further curve goest than surface
+var CURVE_CONT = 0.5;
+
+// ofset so the curves appear on the surface and not beneath
+var CURVE_Y_OFFSET = 0.01;
 
 var mathbox = null;
 
@@ -9,15 +20,14 @@ function surfaceFunc(x, y)
     return dyn_sys.evalS(math.complex(x,y)).toPolar().r;
 };
 
+function imgCurveFunc(omega)
+{
+	// parametric
+	return [0, dyn_sys.evalS(math.complex(0,omega)).toPolar().r + CURVE_Y_OFFSET, omega ];
+}
 
 function main()
-{
-	MathJax.Hub.Config(
-	{
-		displayAlign: "left",
-		displayIndent: "1em"
-	});
-	
+{	
 	stepSetup();
 	
 	
@@ -44,7 +54,7 @@ function main()
 	// --------
 	
 	
-	// mathbox
+	// mathboxcall
 	// ---------
 	var element = document.getElementById("drawing");
 	
@@ -61,8 +71,7 @@ function main()
 	mathbox
 	.viewport({
 	  type: 'cartesian',
-	  range: [[-3, 3], [-3, 3], [-3, 3]],
-	  scale: [0.5, 0.5,0.5],
+	  range: GRID_RANGE,
 	  scale: [1,1,1]
 	 })
 	//Add XYZ axes
@@ -105,27 +114,32 @@ function main()
 	  lineWidth: 1,
 	})
 
-	// Curve, explicit function
+	//Curve on imaginairy axis, is invisble at first
 	.curve({
-	  id: 'my-curve',
-	  domain: [-3, 3],
-	  expression: function (x) { return Math.cos(x); },
+	  id: 'img-curve',
+	  
+	  // Should not be visible yet:
+	  domain: [0,0 ],
+	  expression: imgCurveFunc,
 	  line: true,
-	  points: true,
-	  lineWidth: 2,
+	  points: false,
+	  lineWidth: 8,
+	  color: 0xFF0000,
+	  n: 200
 	})
 
 	.surface({
+	  id: 'tf-modulus', 
 	  n: [ 40, 40 ],
-	  id: 'my-plot',
-	  domain: [[-3, 3],[-3, 3]],
+	  domain: RANGE,
 	  expression: surfaceFunc,
 	  points: false,
 	  shaded: true,
 	  mesh: true
 	})
 	.camera({
-		orbit: 5
+		orbit: 5,
+		phi: Math.PI / 4
 	})
 	;
 	
@@ -181,15 +195,15 @@ function setTextOfNode(node, str)
 function stepSetup()
 {
 	var step_headers	= document.getElementsByClassName("step-header");
-	var step_contents	= document.getElementsByClassName("step-content");
+	//var step_contents	= document.getElementsByClassName("step-content");
 	
 	var stepClick = function()
 	{
 		// an extra class open on the headers marks open steps
 		
 		// get index of clicked step and its content (first step is number 0)
-		var clicked_step = this.id.split('-')[1] ;
-		var	content_element = step_contents[clicked_step - 1] - 1;
+		var clicked_step = this.id.split('-')[1] - 1;
+		//var	content_element = step_contents[clicked_step];
 		
 		// see if there is an already expanded step
 		var open_step = null;
@@ -212,6 +226,10 @@ function stepSetup()
 		
 		// set this step to open
 		addClassName(this, "open");
+		
+		// temporairy to test
+		if(clicked_step == 1)
+			enterStep2();
 		
 	}
 	
@@ -259,6 +277,7 @@ function step1Submit()
 	
 	//update mathbox plot
 	mathbox.surface();
+	mathbox.curve();
 	
 	//update formula
 	step1Formula();
@@ -281,5 +300,19 @@ function step1Formula()
 		setTextOfNode(span_formula, "$$" + latexStr + "$$");
 		MathJax.Hub.Queue(["Typeset",MathJax.Hub,span_formula]);
 	}
+}
+
+// defines what has to happen in the plot when step 2 is entered
+function enterStep2(previous_step)
+{
+	mathbox.animate	(	'curve', 
+						{ domain: RANGE[1].map(function(x){ return Math.sign(x) * (Math.abs(x) + CURVE_CONT);})},
+						{duration: 2000}
+					);
+}
+// defines what has to happen in the plot when step 2 is left
+function leaveStep2(next_step)
+{
+	return;
 }
 window.onload = main;
