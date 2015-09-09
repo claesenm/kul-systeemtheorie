@@ -15,6 +15,8 @@ var CURVE_Y_OFFSET = 0.01;
 
 var mathbox = null;
 
+var stepMngr = null;
+
 function surfaceFunc(x, y) 
 {
     return dyn_sys.evalS(math.complex(x,y)).toPolar().r;
@@ -26,10 +28,99 @@ function imgCurveFunc(omega)
 	return [0, dyn_sys.evalS(math.complex(0,omega)).toPolar().r + CURVE_Y_OFFSET, omega ];
 }
 
+// stepKeper class
+// --------------
+
+// step container is the html element that contains the step titles and step content
+// the children should be denoted by the class names "step-content" and "step-header"
+// for content and headers of the step respectively
+// further, it expects the id of a step header/container to begin with "step-x" where x
+// is the number of the step
+
+var stepKeeper = function(step_container, open_step)
+{
+	if ( open_step === undefined)
+			open_step = 0;
+	// steps start by 1, zero means no open step
+	this.current_step = open_step;
+	
+	this.step_container = step_container;
+	
+	// TODO: store this or call this every time?
+	var step_headers	= step_container.getElementsByClassName("step-header");
+	
+	// add click events to all steps
+	var _my_this = this;
+	var stepClick = function()
+	{
+		
+		// an extra class open on the headers marks open steps
+		
+		// get index of clicked step and its content (first step is number 0)
+		var clicked_step = this.id.split('-')[1] - 1;
+		
+		// see if there is an already expanded step
+		var open_step = null;
+		
+		for( var i= 0; i < step_headers.length; i++)
+		{
+			if( step_headers[i].className.search("open") != -1)
+			{
+				open_step = i;
+				
+				// assumption: only one open step
+				break;
+			}
+		}
+		
+		// close a pontential open step that is not the current step
+		if(open_step !== null && open_step != clicked_step)
+		{
+			removeClassName(step_headers[open_step], "open");
+		}
+		
+		// set this step to open
+		addClassName(this, "open");
+		
+		_my_this.gotoStep(clicked_step);
+	}
+	
+	// add stepClick to all headers click event
+	for( var i = 0; i < step_headers.length; i++)
+	{
+		step_headers[i].addEventListener('click', stepClick);
+	}
+	
+	// functions that have to be called when step is left/enter functions
+	this.step_leave_functions = [];
+	this.step_enter_functions = [];
+}
+
+stepKeeper.prototype.getStep = function()
+{
+	return current_step;
+}
+
+stepKeeper.prototype.gotoStep = function(nxt_step)
+{
+	console.log("Went from step to step " + this.current_step + " to step " + nxt_step );
+	this.current_step = nxt_step;
+}
+
+// to set the step internally without making any changes to plot or step list
+stepKeeper.prototype.updateStep = function(nb_step)
+{
+	this.current_step = nxt_step;
+}
+
+// end class
+// -----------
+
 function main()
 {	
-	stepSetup();
+	// stepSetup();
 	
+	stepMngr = new stepKeeper(document.getElementById("left-pane"));
 	
 	// STEP 1
 	// -------
@@ -194,50 +285,8 @@ function setTextOfNode(node, str)
 // set's up the folding of the steps
 function stepSetup()
 {
-	var step_headers	= document.getElementsByClassName("step-header");
+	
 	//var step_contents	= document.getElementsByClassName("step-content");
-	
-	var stepClick = function()
-	{
-		// an extra class open on the headers marks open steps
-		
-		// get index of clicked step and its content (first step is number 0)
-		var clicked_step = this.id.split('-')[1] - 1;
-		//var	content_element = step_contents[clicked_step];
-		
-		// see if there is an already expanded step
-		var open_step = null;
-		for( var i= 0; i < step_headers.length; i++)
-		{
-			if( step_headers[i].className.search("open") != -1)
-			{
-				open_step = i;
-				
-				// assumption: only one open step
-				break;
-			}
-		}
-		
-		// close a pontential open step that is not the current step
-		if(open_step !== null && open_step != clicked_step)
-		{
-			removeClassName(step_headers[open_step], "open");
-		}
-		
-		// set this step to open
-		addClassName(this, "open");
-		
-		// temporairy to test
-		if(clicked_step == 1)
-			enterStep2();
-		
-	}
-	
-	// add stepClick to all headers click event
-	for( var i = 0; i < step_headers.length; i++)
-	{
-		step_headers[i].addEventListener('click', stepClick);
-	}
 }
 
 // function for when submitting tf in step 1
