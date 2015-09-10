@@ -9,8 +9,8 @@ var buttonSubmit		= null;
 var checkBoxAutoScale 	= null;
 
 
-var tfNum		= [1, 2];
-var tfDen		= [8, 3, 4];
+var tfNum		= [1,];
+var tfDen		= [1,1];
 
 var bodePlotChartOptions =	{ 
 								tooltip: {
@@ -26,36 +26,37 @@ var evaluation = function(Dyn, omega)
 	{
 		return Dyn.evalS(math.complex(0,omega));
 	};
-var punten1 =[];
+var points1 =[];
+var points2 =[];
 
-for (i=0;i<115;i++){
-	if (i==0){
-	var j = evaluation(dynSys,i);
-	punten1[i] = [j.im,j.re];
+ for (i = 0; i<33;i++){
+	 var j = evaluation(dynSys,2*math.PI*math.pow(10,i-36))
+	 
+	 points1.push([[j.im,j.re],math.pow(10,i-36)]);
+	 points2.push([[-j.im,j.re],,math.pow(10,i-36)]);
+	 
+ }
+ 
+  for (i = 33; i<533;i++){
+	 var j = evaluation(dynSys,2*math.PI*(math.pow(1.14,i-93)))
 	
-	}
-	else{
-	if(i<20){
-	var j = evaluation(dynSys,math.pow(10,21-i));
-	punten1[i] = [j.im,j.re];
-    
-	}
-	else{
-	if (i<90){
-	var j = evaluation(dynSys,math.pow(1.14,(i-19)));
-	punten1[i] = [j.im,j.re];	
+	 points1.push([[j.im,j.re],math.pow(1.14,i-93)]);
+	 points2.push([[-j.im,j.re],math.pow(1.14,i-93)]);
+	 
+ }
+ 
+ for(i=533;i<566;i++){     
+	 var j = evaluation(dynSys,2*math.PI*(math.pow(10,i-507)))
 	
-    }
-    else{
-	var j = evaluation(dynSys,10970.96*math.pow(10,(i-89)));
-	punten1[i] = [j.im,j.re];
-    
-	}	
-	}
+	 points1.push([[j.im,j.re],math.pow(10,i-507)]);
+	 points2.push([[j.im,j.re],math.pow(10,i-507)]);
+	 
+ }
 
-}
-}
-return punten1;
+points2.reverse()
+var points = points2.concat(points1);
+points.pop
+return [points1,points2];
 }
 	
 function setup()
@@ -264,22 +265,24 @@ function Nyquistplotting(){
             text: ''
         },
         xAxis: {
+			
             reversed: false,
             title: {
                 enabled: true,
                 text: 'Imaginary',
-				align: 'low'
+				//align: 'low'
             },
             labels: {
                 formatter: function () {
                     return this.value; //+ 'km';
                 }
             },
-			offset: -110,
+			offset: 0,
             maxPadding: 0.05,
             showLastLabel: true
         },
         yAxis: {
+			
             title: {
                 text: 'Real'
 				
@@ -289,7 +292,7 @@ function Nyquistplotting(){
                     return this.value;  //+ '°';
                 }
             },
-			offset: -165,
+			offset: 0,
             lineWidth: 2,
 			gridLineWidth: 0
         },
@@ -297,8 +300,20 @@ function Nyquistplotting(){
             enabled: false
         },
         tooltip: {
-            headerFormat: '<b>{series.name}</b><br/>',
-            pointFormat: '{point.y} : {point.x}'
+            
+			formatter: function () {
+				var coordinates1 = Nyquistdata()[0];
+				var coordinates2 = Nyquistdata()[1];
+				for (i=0;i<1132;i++){
+				if (coordinates1[i][0][0] == this.x && coordinates1[i][0][1]==this.y){
+				return 'The frequency is <b>'+coordinates1[i][1]+'</b>'+ '<b> <br> Imaginary is '+ this.x +'</b>'+ '<b> <br> Real is ' + this.y + '</b>'; 	
+				}
+                if (coordinates2[i][0][0] == this.x && coordinates2[i][0][1]==this.y){
+				return 'The frequency is <b>'+coordinates2[i][1]+'</b>'+ '<b> <br> Imaginary is '+ this.x +'</b>'+ '<b> <br> Real is ' + this.y + '</b>'; 	
+				}				
+				}
+			},
+			pointFormat: "Value: {point.y:.2f} mm"
         },
         plotOptions: {
             spline: {
@@ -309,7 +324,10 @@ function Nyquistplotting(){
         },
         series: [{
             name: 'Points',
-            data: Nyquistdata()[0]
+            data: Nyquistdata()[0].map(function(element){return element[0];})
+        },{
+            name: 'Points',
+            data: Nyquistdata()[1].map(function(element){return element[0];})
         }]
 		
     });
