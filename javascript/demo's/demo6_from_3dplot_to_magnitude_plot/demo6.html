@@ -599,9 +599,9 @@
 							the given frequency. 
 						</p>
 						<p>
-							This steady-state response can also be calculated by using the transfer function. As seen in class, if the input can be written as a complex exponential,
+							This steady-state response can also be calculated by using the transfer function. As seen in class, if the input can be written as a complex exponential, like for a cosine function:
 								$$ \cos{(\omega t + \theta)} = \Re{(e^{j(\omega t + \theta)})} $$
-							by using the formula for the general response \\( Y(s) \\) in the Laplace domain, we found that the steady-state output is given by (An analog also exists for discete time):
+							by using the formula for the general response \\( Y(s) \\) in the Laplace domain, we found that the steady-state output is given by (An analog also exists for discrete time):
 								$$ \left| H(j\omega) \right| \cos{(\omega t + \theta \angle H(j\omega))} $$
 						</p>
 						<p>
@@ -613,11 +613,44 @@
 					</div>
 				</div>
 				<div id="step-3-header" class="step-header">Step 3</div>
-				<div id="step-3-content" class="step-content"></div>
+				<div id="step-3-content" class="step-content">
+					<div>
+						<p>
+							A magnitude plot is two-dimensional. We remove the surface plot because we only need the values of \\( \left| H(j\omega) \right| \\). The plot is rotated to hide the third dimension.
+						</p>
+					</div>
+				</div>
 				<div id="step-4-header" class="step-header">Step 4</div>
-				<div id="step-4-content" class="step-content"></div>
+				<div id="step-4-content" class="step-content">
+					<div>
+						<p> 
+							The magnitude plot only shows the positive frequencies. You can now see why this is so: \\( \left| H(j\omega) \right| \\) is perfectly symmetric with respect to the real axis (which is now pointing out of the screen). This is because the transfer function of a LTI-system is a rational function with real coefficients, so both numerator and denominator are real polynomials. Evaluating a real polynomial with the complex conjugate gives the complex conjugate of the polynomial itself, and because taking the conjugate does not change the magnitude of the polynomial, we get \\( \left| H(-j\omega) \right|  = \left| H(j\omega) \right| \\)
+						</p>
+						<p>
+							We move the origin to the bottom left. Now we have almost a magnitude plot with only one step remaining: the scale is still linear.
+						</p>
+					</div>
+				</div>
 				<div id="step-5-header" class="step-header">Step 5</div>
-				<div id="step-5-content" class="step-content"></div>
+				<div id="step-5-content" class="step-content">
+					<div>
+						<p> 
+							The imaginary axis (horizontal axis) receives a simple logarithmic scale:
+							
+								$$ \omega \longrightarrow \log{(\omega)} $$
+						</p>
+						<p>
+							The magnitude axis (vertical axis) is expressed in decibels:
+						
+								$$  
+										\left| H(j\omega) \right| \longrightarrow 20\log{( \left| H(j\omega) \right| )} 
+								$$
+						</p>
+						<p>
+							We now have the magnitude plot.
+						</p>
+					</div>
+				</div>
 			</div>
 			<div id="right-pane">
 				<div id="drawing"></div>
