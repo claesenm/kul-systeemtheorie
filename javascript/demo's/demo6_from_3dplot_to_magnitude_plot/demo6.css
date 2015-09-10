@@ -32,7 +32,7 @@
 
 .step-header.open  + .step-content
 {
-	max-height: 700px;
+	max-height: 500px;
 }
 
 :not{.open}.step-header:after

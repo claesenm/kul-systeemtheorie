@@ -7,6 +7,9 @@ var dyn_sys = new control.system.tf([2,3], [1,8,16])
 var RANGE = [ [-5,5], [-5,5] ];
 var GRID_RANGE = [ [-6,6], [-6,6], [-6,6] ];
 
+var CAMERA_ANGLE_PHI = Math.PI / 4; //around Y
+var CAMERA_ANGLE_THETA = 0.3; // around X
+
 // determines how much further curve goest than surface
 var CURVE_CONT = 0.5;
 
@@ -38,13 +41,11 @@ function imgCurveFunc(omega)
 // is the number of the step
 
 var stepKeeper = function(step_container, open_step)
-{
-	if ( open_step === undefined)
-			open_step = 0;
-	// steps start by 1, zero means no open step
-	this.current_step = open_step;
-	
+{	
 	this.step_container = step_container;
+	
+	// total time in ms of a transition between two arbitrary steps
+	this.transition_time = 2000;
 	
 	// TODO: store this or call this every time?
 	var step_headers	= step_container.getElementsByClassName("step-header");
@@ -54,33 +55,8 @@ var stepKeeper = function(step_container, open_step)
 	var stepClick = function()
 	{
 		
-		// an extra class open on the headers marks open steps
-		
-		// get index of clicked step and its content (first step is number 0)
-		var clicked_step = this.id.split('-')[1] - 1;
-		
-		// see if there is an already expanded step
-		var open_step = null;
-		
-		for( var i= 0; i < step_headers.length; i++)
-		{
-			if( step_headers[i].className.search("open") != -1)
-			{
-				open_step = i;
-				
-				// assumption: only one open step
-				break;
-			}
-		}
-		
-		// close a pontential open step that is not the current step
-		if(open_step !== null && open_step != clicked_step)
-		{
-			removeClassName(step_headers[open_step], "open");
-		}
-		
-		// set this step to open
-		addClassName(this, "open");
+		// get index of clicked step and its content
+		var clicked_step = Number(this.id.split('-')[1]);
 		
 		_my_this.gotoStep(clicked_step);
 	}
@@ -91,9 +67,15 @@ var stepKeeper = function(step_container, open_step)
 		step_headers[i].addEventListener('click', stepClick);
 	}
 	
-	// functions that have to be called when step is left/enter functions
-	this.step_leave_functions = [];
-	this.step_enter_functions = [];
+	// functions that have to be called when doing/undoing step
+	// enmpty for now
+	this.step_do_functions = new Array(step_headers.length + 1);
+	this.step_undo_functions = new Array(step_headers.length + 1);
+	
+	// steps start by 1, zero means no open step
+	this.current_step = 0;
+	this.gotoStep(open_step);
+	
 }
 
 stepKeeper.prototype.getStep = function()
@@ -101,16 +83,70 @@ stepKeeper.prototype.getStep = function()
 	return current_step;
 }
 
-stepKeeper.prototype.gotoStep = function(nxt_step)
+stepKeeper.prototype.gotoStep = function(next_step)
 {
-	console.log("Went from step to step " + this.current_step + " to step " + nxt_step );
-	this.current_step = nxt_step;
+	var step_headers	= this.step_container.getElementsByClassName("step-header");
+	
+	// see if there is an already expanded step
+	var open_index = null;
+	for( var i= 0; i < step_headers.length; i++)
+	{
+		if( step_headers[i].className.search("open") != -1)
+		{
+			open_index = i;
+			
+			// assumption: only one open step
+			break;
+		}
+	}
+	
+	// close a pontential open step that is not the current step
+	if(open_index !== null && (open_index - 1) != this.current_step)
+	{
+		removeClassName(step_headers[open_index], "open");
+	}
+	
+	if(this.current_step != next_step)
+	{
+		// delay to ensure close transition start before other opens
+		// window.setTimeout(function()
+		// {
+			
+			// set this step to open
+			
+			// TODO: is looping necessairy or can we count on order? maybe auto order step_headers with update headerslist function?
+			// it appears we can NOT count on order
+			for(var i =0; i < step_headers.length; i++)
+			{
+				if ( step_headers[i].id.split('-')[1] == next_step)
+					// an extra class open on the headers marks open steps
+					addClassName(step_headers[i], "open");
+					
+			}
+		//}, 200);
+
+		// do/undo all animations until we get to the clicked step
+
+		var advancing		= (this.current_step < next_step)? true : false;
+		var animations	= advancing? this.step_do_functions : this.step_undo_functions;
+		var amount_steps	= Math.abs(this.current_step - next_step);
+		var one_step_duration = this.transition_time / amount_steps;
+		
+		for( var i = 0; i < amount_steps; i++)
+		{
+			var anim_step = advancing? this.current_step + i + 1 :  this.current_step - i;
+			if(animations[anim_step])
+				animations[anim_step](one_step_duration);
+		}
+	}
+	console.log("Went from step to step " + this.current_step + " to step " + next_step );
+	this.current_step = next_step;
 }
 
 // to set the step internally without making any changes to plot or step list
 stepKeeper.prototype.updateStep = function(nb_step)
 {
-	this.current_step = nxt_step;
+	this.current_step = next_step;
 }
 
 // end class
@@ -118,9 +154,8 @@ stepKeeper.prototype.updateStep = function(nb_step)
 
 function main()
 {	
-	// stepSetup();
 	
-	stepMngr = new stepKeeper(document.getElementById("left-pane"));
+	stepMngr = new stepKeeper(document.getElementById("left-pane"), 1);
 	
 	// STEP 1
 	// -------
@@ -139,11 +174,60 @@ function main()
 	
 	// draw formula
 	step1Formula();
-	
+
 	
 	// STEP 2
 	// --------
 	
+	// register animation for step2
+	stepMngr.step_do_functions[2] = function(duration)
+	{
+		mathbox.animate	( '#img-curve', 
+						{ domain: RANGE[1].map(function(x){ return Math.sign(x) * (Math.abs(x) + CURVE_CONT);})},
+						{ duration: duration}
+					);
+	};
+	
+	stepMngr.step_undo_functions[2] = function(duration)
+	{
+		mathbox.animate	('#img-curve', 
+						{ domain: [0,0]},
+						{ duration: duration}
+					);
+	};
+	
+	/* STEP 3
+	  --------
+		- remove positive real half
+		- turn camera to 2D
+	
+	*/
+	
+	stepMngr.step_do_functions[3] = function(duration)
+	{
+		var new_range = RANGE.slice(); new_range[0] = [new_range[0][0], 0];
+		
+		mathbox.animate(	"#tf-modulus",
+							{ domain: new_range},
+							{ duration: duration}
+						);
+		mathbox.animate( 'camera',
+						 {phi: 0, theta: 0},
+						 {duration: duration}
+						);
+	};
+	
+	stepMngr.step_undo_functions[3] = function(duration)
+	{
+		mathbox.animate( '#tf-modulus', 
+						 { domain: RANGE},
+						 { duration: duration}
+					);
+		mathbox.animate( 'camera',
+						 {phi: CAMERA_ANGLE_PHI, theta: CAMERA_ANGLE_THETA},
+						 {duration: duration}
+						);
+	};
 	
 	// mathboxcall
 	// ---------
@@ -230,7 +314,8 @@ function main()
 	})
 	.camera({
 		orbit: 5,
-		phi: Math.PI / 4
+		phi: CAMERA_ANGLE_PHI,
+		theta: CAMERA_ANGLE_THETA
 	})
 	;
 	
@@ -282,12 +367,6 @@ function setTextOfNode(node, str)
 	}
 }
 
-// set's up the folding of the steps
-function stepSetup()
-{
-	
-	//var step_contents	= document.getElementsByClassName("step-content");
-}
 
 // function for when submitting tf in step 1
 function step1Submit()
@@ -351,17 +430,4 @@ function step1Formula()
 	}
 }
 
-// defines what has to happen in the plot when step 2 is entered
-function enterStep2(previous_step)
-{
-	mathbox.animate	(	'curve', 
-						{ domain: RANGE[1].map(function(x){ return Math.sign(x) * (Math.abs(x) + CURVE_CONT);})},
-						{duration: 2000}
-					);
-}
-// defines what has to happen in the plot when step 2 is left
-function leaveStep2(next_step)
-{
-	return;
-}
 window.onload = main;
