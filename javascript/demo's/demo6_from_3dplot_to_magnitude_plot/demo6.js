@@ -1,37 +1,91 @@
 
 
-// dynamic system with default trasfer function
+// dynamic system with default transfer function
 var dyn_sys = new control.system.tf([2,3], [1,8,16])
 
-// range imaginairy plane
+// range imaginary plane
+// The coordinate system is right handed, the Y-axis is the default axis for function values.
 var RANGE = [ [-5,5], [-5,5] ];
 var GRID_RANGE = [ [-6,6], [-6,6], [-6,6] ];
 
 var CAMERA_ANGLE_PHI = Math.PI / 4; //around Y
 var CAMERA_ANGLE_THETA = 0.3; // around X
+var CAMERA_DIST = 5;
 
-// determines how much further curve goest than surface
+// determines how much further curve goes than surface
 var CURVE_CONT = 0.5;
 
-// ofset so the curves appear on the surface and not beneath
+// offset so the curves appear on the surface and not beneath
 var CURVE_Y_OFFSET = 0.01;
+
+var GRID_OPTIONS = 	
+	{
+	  id: 'my-grid',
+	  axis: [0, 2],
+	  color: 0xc0c0c0,
+	  lineWidth: 1,
+	};
+	
+var SURFACE_OPTIONS =
+{
+	  id: 'tf-modulus', 
+	  n: [ 40, 40 ],
+	  domain: RANGE,
+	  expression: surfaceFunc,
+	  points: false,
+	  shaded: true,
+	  mesh: true,
+};
+
+var X_OPTIONS = 
+{
+	id: 'a',
+	axis: 0,
+	color: 0xa0a0a0,
+	ticks: 5,
+	lineWidth: 2,
+	size: .05,
+	labels: true,
+};
+var Y_OPTIONS =
+{
+	id: 'b',
+	axis: 1,
+	color: 0xa0a0a0,
+	ticks: 5,
+	lineWidth: 2,
+	size: .05,
+	zero: false,
+	labels: true,
+};
+var Z_OPTIONS =
+{
+	id: 'c',
+	axis: 2,
+	color: 0xa0a0a0,
+	ticks: 5,
+	lineWidth: 2,
+	size: .05,
+	zero: false,
+	labels: true,
+};
 
 var mathbox = null;
 
 var stepMngr = null;
 
-function surfaceFunc(x, y) 
+function surfaceFunc(x, z) 
 {
-    return dyn_sys.evalS(math.complex(x,y)).toPolar().r;
+    return dyn_sys.evalS(math.complex(z,x)).toPolar().r;
 };
 
 function imgCurveFunc(omega)
 {
 	// parametric
-	return [0, dyn_sys.evalS(math.complex(0,omega)).toPolar().r + CURVE_Y_OFFSET, omega ];
+	return [omega, dyn_sys.evalS(math.complex(0,omega)).toPolar().r + CURVE_Y_OFFSET, 0 ];
 }
 
-// stepKeper class
+// stepKeeper class
 // --------------
 
 // step container is the html element that contains the step titles and step content
@@ -68,7 +122,7 @@ var stepKeeper = function(step_container, open_step)
 	}
 	
 	// functions that have to be called when doing/undoing step
-	// enmpty for now
+	// empty for now
 	this.step_do_functions = new Array(step_headers.length + 1);
 	this.step_undo_functions = new Array(step_headers.length + 1);
 	
@@ -114,7 +168,7 @@ stepKeeper.prototype.gotoStep = function(next_step)
 			
 			// set this step to open
 			
-			// TODO: is looping necessairy or can we count on order? maybe auto order step_headers with update headerslist function?
+			// TODO: is looping necessary or can we count on order? maybe auto order step_headers with update headerslist function?
 			// it appears we can NOT count on order
 			for(var i =0; i < step_headers.length; i++)
 			{
@@ -136,7 +190,7 @@ stepKeeper.prototype.gotoStep = function(next_step)
 		{
 			var anim_step = advancing? this.current_step + i + 1 :  this.current_step - i;
 			if(animations[anim_step])
-				animations[anim_step](one_step_duration);
+				window.setTimeout(function(step) {animations[step](one_step_duration)}, one_step_duration*i, anim_step);
 		}
 	}
 	console.log("Went from step to step " + this.current_step + " to step " + next_step );
@@ -198,35 +252,65 @@ function main()
 	
 	/* STEP 3
 	  --------
-		- remove positive real half
+		- remove surface plot
 		- turn camera to 2D
-	
+		- remove grid
+		- remove z-axis
 	*/
-	
 	stepMngr.step_do_functions[3] = function(duration)
 	{
-		var new_range = RANGE.slice(); new_range[0] = [new_range[0][0], 0];
+		//var new_range = RANGE.slice(); new_range[0] = [new_range[0][0], new_range[0][0]];
 		
-		mathbox.animate(	"#tf-modulus",
-							{ domain: new_range},
-							{ duration: duration}
-						);
+		
 		mathbox.animate( 'camera',
-						 {phi: 0, theta: 0},
+						 {phi: Math.PI/2, theta: 0},
 						 {duration: duration}
 						);
+		mathbox.remove(	"#tf-modulus",	{ duration: duration*2/3} );
+		mathbox.remove( 'grid', { duration: duration/2});
+		mathbox.remove( '#c', { duration: duration*2/3});
 	};
 	
 	stepMngr.step_undo_functions[3] = function(duration)
 	{
-		mathbox.animate( '#tf-modulus', 
-						 { domain: RANGE},
-						 { duration: duration}
-					);
 		mathbox.animate( 'camera',
 						 {phi: CAMERA_ANGLE_PHI, theta: CAMERA_ANGLE_THETA},
 						 {duration: duration}
 						);
+		mathbox.transition(duration * 2/3);
+		mathbox.grid( GRID_OPTIONS );
+		mathbox.surface(SURFACE_OPTIONS);
+		mathbox.axis(Z_OPTIONS);
+		mathbox.transition(0);
+	};
+	
+	/* STEP 4
+	  --------
+		- Keep only positive part of curve (which is actually -z)
+		- Move the axes (or camera) to the bottom left
+	
+	*/
+	
+	stepMngr.step_do_functions[4] = function(duration)
+	{
+		mathbox.animate( '#img-curve',
+						 { domain: [ 0, CURVE_CONT + RANGE[1][1] ] },
+						 { duration: duration});
+		mathbox.animate( 'viewport',
+						 { range: [  [0, GRID_RANGE[0][1]], [0, GRID_RANGE[1][1]], [0, 1] ]},
+						 { duration: duration});
+		mathbox.animate( 'camera', { orbit: 3});
+		
+	};
+	
+	stepMngr.step_undo_functions[4] = function(duration)
+	{
+		// restore curve as it should be in step 2
+		stepMngr.step_do_functions[2](duration);
+		mathbox.animate( 'viewport',
+						 { range: GRID_RANGE},
+						 { duration: duration});
+		mathbox.animate( 'camera', { orbit: CAMERA_DIST});
 	};
 	
 	// mathboxcall
@@ -242,59 +326,27 @@ function main()
         fullscreen:     true,
       }).start();
 					
-	
 	mathbox
 	.viewport({
 	  type: 'cartesian',
 	  range: GRID_RANGE,
 	  scale: [1,1,1]
 	 })
-	//Add XYZ axes
+	
 	// Axes
-        .axis({
-          id: 'a',
-          axis: 0,
-          color: 0xa0a0a0,
-          ticks: 5,
-          lineWidth: 2,
-          size: .05,
-          labels: true,
-        })
-        .axis({
-          id: 'b',
-          axis: 1,
-          color: 0xa0a0a0,
-          ticks: 5,
-          lineWidth: 2,
-          size: .05,
-          zero: false,
-          labels: true,
-        })
-        .axis({
-          id: 'c',
-          axis: 2,
-          color: 0xa0a0a0,
-          ticks: 5,
-          lineWidth: 2,
-          size: .05,
-          zero: false,
-          labels: true,
-        })
+        .axis(X_OPTIONS)
+        .axis(Y_OPTIONS)
+        .axis(Z_OPTIONS)
 
 	// Grid
-	.grid({
-	  id: 'my-grid',
-	  axis: [0, 2],
-	  color: 0xc0c0c0,
-	  lineWidth: 1,
-	})
+	.grid( GRID_OPTIONS)
 
 	//Curve on imaginairy axis, is invisble at first
 	.curve({
 	  id: 'img-curve',
 	  
 	  // Should not be visible yet:
-	  domain: [0,0 ],
+	  domain: [0, 0],
 	  expression: imgCurveFunc,
 	  line: true,
 	  points: false,
@@ -303,17 +355,9 @@ function main()
 	  n: 200
 	})
 
-	.surface({
-	  id: 'tf-modulus', 
-	  n: [ 40, 40 ],
-	  domain: RANGE,
-	  expression: surfaceFunc,
-	  points: false,
-	  shaded: true,
-	  mesh: true
-	})
+	.surface(SURFACE_OPTIONS)
 	.camera({
-		orbit: 5,
+		orbit: CAMERA_DIST,
 		phi: CAMERA_ANGLE_PHI,
 		theta: CAMERA_ANGLE_THETA
 	})
