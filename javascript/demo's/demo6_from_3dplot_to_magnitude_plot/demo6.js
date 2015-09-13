@@ -1,7 +1,8 @@
 
 
 // dynamic system with default transfer function
-var dyn_sys = new control.system.tf([2,3], [1,8,16])
+var dyn_sys = new control.system.tf([2,3], [1,8,16]);
+var chart	= null;
 
 // range imaginary plane
 // The coordinate system is right handed, the Y-axis is the default axis for function values.
@@ -19,12 +20,12 @@ var CURVE_CONT = 0.5;
 var CURVE_Y_OFFSET = 0.01;
 
 var GRID_OPTIONS = 	
-	{
-	  id: 'my-grid',
-	  axis: [0, 2],
-	  color: 0xc0c0c0,
-	  lineWidth: 1,
-	};
+{
+  id: 'my-grid',
+  axis: [0, 2],
+  color: 0xc0c0c0,
+  lineWidth: 1,
+};
 	
 var SURFACE_OPTIONS =
 {
@@ -37,6 +38,58 @@ var SURFACE_OPTIONS =
 	  mesh: true,
 };
 
+var CHART_OPTIONS =
+{
+	chart: {
+		renderTo: 'chart'
+    },
+	
+	credits: false,
+	
+	title: {
+		text: ""
+	},
+	
+	legend: {
+		enabled: false
+	},
+	
+	xAxis: {
+		tickInterval: 1,
+		gridLineWidth: 0,
+		tickColor: "#c0c0c0",
+		lineColor: "#c0c0c0",
+		title: { text: "ω"},
+		min: 0,
+	},
+	
+	yAxis: {
+		tickInterval: 1,
+		gridLineWidth: 0,
+		lineWidth: 1,
+		tickWidth: 1,
+		//type: 'logarithmic',
+		//minorTickInterval: 0.1
+		tickColor: "#c0c0c0",
+		lineColor: "#c0c0c0",
+		title: { text: "H|(jω)|"},
+	},
+	
+	tooltip: {
+		headerFormat: '<b>{series.name}</b><br />',
+		pointFormat: 'x = {point.x}, y = {point.y}'
+	},
+	
+	
+	plotOptions : {
+		line: {
+			// disable the initial animation (not others)
+			animation: false,
+			marker: { enabled: false}
+		}
+	},
+};
+
 var X_OPTIONS = 
 {
 	id: 'a',
@@ -46,6 +99,8 @@ var X_OPTIONS =
 	lineWidth: 2,
 	size: .05,
 	labels: true,
+	arrow: false,
+	startOnTick: true,
 };
 var Y_OPTIONS =
 {
@@ -57,6 +112,7 @@ var Y_OPTIONS =
 	size: .05,
 	zero: false,
 	labels: true,
+	arrow: false
 };
 var Z_OPTIONS =
 {
@@ -68,6 +124,7 @@ var Z_OPTIONS =
 	size: .05,
 	zero: false,
 	labels: true,
+	arrow: false
 };
 
 var mathbox = null;
@@ -101,8 +158,10 @@ var stepKeeper = function(step_container, open_step)
 	// total time in ms of a transition between two arbitrary steps
 	this.transition_time = 2000;
 	
-	// TODO: store this or call this every time?
-	var step_headers	= step_container.getElementsByClassName("step-header");
+	this.step_headers	= step_container.getElementsByClassName("step-header");
+	
+	// the number of steps, does not include step 0 where nothing is open
+	this.nb_steps		= this.step_headers.length;
 	
 	// add click events to all steps
 	var _my_this = this;
@@ -116,15 +175,15 @@ var stepKeeper = function(step_container, open_step)
 	}
 	
 	// add stepClick to all headers click event
-	for( var i = 0; i < step_headers.length; i++)
+	for( var i = 0; i < this.step_headers.length; i++)
 	{
-		step_headers[i].addEventListener('click', stepClick);
+		this.step_headers[i].addEventListener('click', stepClick);
 	}
 	
 	// functions that have to be called when doing/undoing step
 	// empty for now
-	this.step_do_functions = new Array(step_headers.length + 1);
-	this.step_undo_functions = new Array(step_headers.length + 1);
+	this.step_do_functions = new Array(this.step_headers.length + 1);
+	this.step_undo_functions = new Array(this.step_headers.length + 1);
 	
 	// steps start by 1, zero means no open step
 	this.current_step = 0;
@@ -134,12 +193,12 @@ var stepKeeper = function(step_container, open_step)
 
 stepKeeper.prototype.getStep = function()
 {
-	return current_step;
+	return this.current_step;
 }
 
 stepKeeper.prototype.gotoStep = function(next_step)
 {
-	var step_headers	= this.step_container.getElementsByClassName("step-header");
+	var step_headers	= this.step_headers; //step_container.getElementsByClassName("step-header");
 	
 	// see if there is an already expanded step
 	var open_index = null;
@@ -193,8 +252,21 @@ stepKeeper.prototype.gotoStep = function(next_step)
 				window.setTimeout(function(step) {animations[step](one_step_duration)}, one_step_duration*i, anim_step);
 		}
 	}
-	console.log("Went from step to step " + this.current_step + " to step " + next_step );
 	this.current_step = next_step;
+}
+
+// goto next step if there is one
+stepKeeper.prototype.nextStep = function()
+{
+	if( this.current_step != this.nb_steps)
+		this.gotoStep(this.getStep() + 1);
+}
+
+// goto previous step if there is one
+stepKeeper.prototype.prevStep = function()
+{
+	if(this.current_step != 0)
+		this.gotoStep(this.getStep() - 1);
 }
 
 // to set the step internally without making any changes to plot or step list
@@ -203,13 +275,32 @@ stepKeeper.prototype.updateStep = function(nb_step)
 	this.current_step = next_step;
 }
 
+// event handler for clicks
+stepKeeper.prototype.handleEvent = function(e)
+{
+	var id_clicked = e.target.id;
+	
+	switch(id_clicked)
+	{
+		case "forward-button":
+			this.nextStep();
+			break;
+		case "back-button":
+			this.prevStep();
+			break;
+	}
+}
 // end class
 // -----------
 
 function main()
 {	
-	
+	var plot_container = document.getElementById("drawing");
 	stepMngr = new stepKeeper(document.getElementById("left-pane"), 1);
+	
+	// link prev and next step buttons
+	document.getElementById("back-button").addEventListener('click', stepMngr);
+	document.getElementById("forward-button").addEventListener('click', stepMngr);
 	
 	// STEP 1
 	// -------
@@ -286,11 +377,11 @@ function main()
 	
 	/* STEP 4
 	  --------
-		- Keep only positive part of curve (which is actually -z)
+		- Keep only positive part of curve 
 		- Move the axes (or camera) to the bottom left
+		- Convert plot to highcharts
 	
 	*/
-	
 	stepMngr.step_do_functions[4] = function(duration)
 	{
 		mathbox.animate( '#img-curve',
@@ -299,9 +390,30 @@ function main()
 		mathbox.animate( 'viewport',
 						 { range: [  [0, GRID_RANGE[0][1]], [0, GRID_RANGE[1][1]], [0, 1] ]},
 						 { duration: duration});
-		mathbox.animate( 'camera', { orbit: 3});
+		//mathbox.animate( 'camera', { orbit: 3});
+		animatedOrbitChange(mathbox, 2.3, duration);
+		
+		// make highchart, generate data
+		var data = chartData();
+		
+		// shallow copy of chart_options with own data points
+		var options = CHART_OPTIONS;
+		options['series'] = [ {data: data, color: "#FF0000"}];
+		
+		// show it when animation of this step is done
+		window.setTimeout( function() 
+							{
+								
+								// make chart appear, hide plot
+								chart = new Highcharts.Chart(options);
+								document.getElementById("chart").style.visibility = "visible";
+								plot_container.style.display = 'none';
+							}
+							, duration*9/10);
+		
 		
 	};
+	
 	
 	stepMngr.step_undo_functions[4] = function(duration)
 	{
@@ -310,15 +422,63 @@ function main()
 		mathbox.animate( 'viewport',
 						 { range: GRID_RANGE},
 						 { duration: duration});
-		mathbox.animate( 'camera', { orbit: CAMERA_DIST});
+		//mathbox.animate( 'camera', { orbit: CAMERA_DIST});
+		animatedOrbitChange(mathbox, CAMERA_DIST, duration);
+		
+		chart.destroy();
+		plot_container.style.display = '';
+		window.dispatchEvent(new Event('resize'));
+		document.getElementById("chart").style.visibility = "hidden";
+		
+		
 	};
+	
+	/* STEP 5
+	  --------
+		- To log/db plot
+	*/
+	stepMngr.step_do_functions[5] = function(duration)
+	{
+				
+		// new data for logarithmic scale
+		var log_freq_range = control.num.interesting_region_logspace(dyn_sys);
+		var data = [];
+		var step = (log_freq_range[1] - log_freq_range[0]) / 200;
+		for(var x = log_freq_range[0]; x <= log_freq_range[1] ; x+=step  )
+		{
+			data.push( [ math.pow(10, x) , 20*math.log(imgCurveFunc(math.pow(10, x))[1], 10)] );
+		}
+		
+		var xOptions =
+		{
+			min: data[0][0],
+			type:"logarithmic"
+		};
+		
+		chart.series[0].setData( data, false, true);
+		chart.xAxis[0].update( xOptions, true);
+		
+	};
+	
+	stepMngr.step_undo_functions[5] = function(duration)
+	{
+		var xOptions =
+		{
+			min: 0,
+			type:"linear"
+		};
+		
+		var data = chartData();
+		
+		chart.series[0].setData( data, false);
+		chart.xAxis[0].update( xOptions, true);
+	};
+	
 	
 	// mathboxcall
 	// ---------
-	var element = document.getElementById("drawing");
 	
-	// TODO: keep matbox in it's right pane
-	mathbox = mathBox(element,{
+	mathbox = mathBox(plot_container,{
         cameraControls: true,
         cursor:         true,
         controlClass:   ThreeBox.OrbitControls,
@@ -330,7 +490,7 @@ function main()
 	.viewport({
 	  type: 'cartesian',
 	  range: GRID_RANGE,
-	  scale: [1,1,1]
+	  scale: [1.2, 1.2, 1.2],
 	 })
 	
 	// Axes
@@ -474,4 +634,30 @@ function step1Formula()
 	}
 }
 
+function chartData()
+{
+	var data = [];
+	var x_max = RANGE[0][1] + CURVE_CONT, step = x_max / 200;
+	for(var x = 0; x < x_max ; x+=step  )
+	{
+		data.push( [x, imgCurveFunc(x)[1] ] );
+	}
+	
+	return data;
+}
+
+function animatedOrbitChange(boxInst, new_orbit, duration)
+{
+	var camera	= boxInst.select("camera")[0];
+	var old_orbit = camera.__attributes.orbit;
+	var delta_orbit = new_orbit - old_orbit;
+	
+	var step = duration/(1000);
+	
+	for( var t = 0; t < duration; t+= step)
+	{
+		window.setTimeout( function(time) {boxInst.set("camera", {orbit: old_orbit + time/duration*(delta_orbit)}); }, t, t);
+	}
+	
+}
 window.onload = main;

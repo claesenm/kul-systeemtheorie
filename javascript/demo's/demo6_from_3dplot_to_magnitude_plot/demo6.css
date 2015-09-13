@@ -28,6 +28,7 @@
 {
 	border: 1px;
 	border-style: solid;
+	cursor: pointer;
 }
 
 .step-header.open  + .step-content
@@ -46,7 +47,14 @@
 	width:100%;
 	height:800px;
 }
-
+#chart
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 800px;
+	visibility: hidden;
+}
 .step-content > div
 {
 	margin: 0pt 5pt;
@@ -61,4 +69,31 @@
 #step-1-content button
 {
 	margin: 5pt 0pt;
+}
+
+.nav-button
+{
+	float: right;
+	margin: 5px;
+	padding: 3px;
+	background-color: green;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#top-bar
+{
+	width: 100%;
+	display: block;
+}
+
+#top-bar > h1
+{
+	float: left;
+}
+
+#page-content
+{
+	clear: both;
 }
