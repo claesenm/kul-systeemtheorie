@@ -163,21 +163,11 @@ var stepKeeper = function(step_container, open_step)
 	// the number of steps, does not include step 0 where nothing is open
 	this.nb_steps		= this.step_headers.length;
 	
-	// add click events to all steps
-	var _my_this = this;
-	var stepClick = function()
-	{
-		
-		// get index of clicked step and its content
-		var clicked_step = Number(this.id.split('-')[1]);
-		
-		_my_this.gotoStep(clicked_step);
-	}
 	
 	// add stepClick to all headers click event
 	for( var i = 0; i < this.step_headers.length; i++)
 	{
-		this.step_headers[i].addEventListener('click', stepClick);
+		this.step_headers[i].addEventListener('click', this);
 	}
 	
 	// functions that have to be called when doing/undoing step
@@ -213,30 +203,23 @@ stepKeeper.prototype.gotoStep = function(next_step)
 		}
 	}
 	
-	// close a pontential open step that is not the current step
-	if(open_index !== null && (open_index - 1) != this.current_step)
+	// close a pontential open step that is not the next step
+	if(open_index !== null && (open_index + 1) != next_step)
 	{
 		removeClassName(step_headers[open_index], "open");
 	}
 	
 	if(this.current_step != next_step)
 	{
-		// delay to ensure close transition start before other opens
-		// window.setTimeout(function()
-		// {
-			
-			// set this step to open
-			
-			// TODO: is looping necessary or can we count on order? maybe auto order step_headers with update headerslist function?
-			// it appears we can NOT count on order
-			for(var i =0; i < step_headers.length; i++)
-			{
-				if ( step_headers[i].id.split('-')[1] == next_step)
-					// an extra class open on the headers marks open steps
-					addClassName(step_headers[i], "open");
-					
-			}
-		//}, 200);
+		// TODO: is looping necessary or can we count on order? maybe auto order step_headers with update headerslist function?
+		// it appears we can NOT count on order
+		for(var i =0; i < step_headers.length; i++)
+		{
+			if ( step_headers[i].id.split('-')[1] == next_step)
+				// an extra class open on the headers marks open steps
+				addClassName(step_headers[i], "open");
+				
+		}
 
 		// do/undo all animations until we get to the clicked step
 
@@ -279,15 +262,29 @@ stepKeeper.prototype.updateStep = function(nb_step)
 stepKeeper.prototype.handleEvent = function(e)
 {
 	var id_clicked = e.target.id;
+	var className_clicked = e.target.className;
 	
-	switch(id_clicked)
+	if(className_clicked.search("nav-button") != -1)
 	{
-		case "forward-button":
-			this.nextStep();
-			break;
-		case "back-button":
-			this.prevStep();
-			break;
+		switch(id_clicked)
+		{
+			case "forward-button":
+				this.nextStep();
+				break;
+			case "back-button":
+				this.prevStep();
+				break;
+		}
+	}
+	else
+	{
+		if(className_clicked.search("step-header") != -1)
+		{
+			// get index of clicked step
+			var clicked_step = Number(id_clicked.split('-')[1]);
+			
+			this.gotoStep(clicked_step);
+		}
 	}
 }
 // end class
