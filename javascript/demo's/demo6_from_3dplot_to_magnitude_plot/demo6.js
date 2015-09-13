@@ -6,8 +6,8 @@ var chart	= null;
 
 // range imaginary plane
 // The coordinate system is right handed, the Y-axis is the default axis for function values.
-var RANGE = [ [-5,5], [-5,5] ];
-var GRID_RANGE = [ [-6,6], [-6,6], [-6,6] ];
+var range = [ [-5,5], [-5,5] ];
+var grid_range = [ [-6,6], [-6,6], [-6,6] ];
 
 var CAMERA_ANGLE_PHI = Math.PI / 4; //around Y
 var CAMERA_ANGLE_THETA = 0.3; // around X
@@ -31,7 +31,6 @@ var SURFACE_OPTIONS =
 {
 	  id: 'tf-modulus', 
 	  n: [ 60, 60 ],
-	  domain: RANGE,
 	  expression: surfaceFunc,
 	  points: false,
 	  shaded: true,
@@ -70,7 +69,7 @@ var CHART_OPTIONS =
 		tickWidth: 1,
 		tickColor: "#c0c0c0",
 		lineColor: "#c0c0c0",
-		title: { text: "Magnitude |H(jω)|" }
+		title: { text: "Magnitude |H(jω)|" },
 	},
 	
 	tooltip: {
@@ -208,13 +207,17 @@ stepKeeper.prototype.gotoStep = function(next_step)
 	
 	if(this.current_step != next_step)
 	{
+		var step_contents = document.getElementsByClassName("step-content")
 		// TODO: is looping necessary or can we count on order? maybe auto order step_headers with update headerslist function?
 		// it appears we can NOT count on order
 		for(var i =0; i < step_headers.length; i++)
 		{
 			if ( step_headers[i].id.split('-')[1] == next_step)
-				// an extra class open on the headers marks open steps
+			{
+				// an extra class 'open'' on the headers marks open steps
 				addClassName(step_headers[i], "open");
+				break;
+			}
 				
 		}
 
@@ -295,7 +298,9 @@ function main()
 	// link prev and next step buttons
 	document.getElementById("back-button").addEventListener('click', stepMngr);
 	document.getElementById("forward-button").addEventListener('click', stepMngr);
-	
+		
+	calcUsefulRange()
+	SURFACE_OPTIONS["domain"] = range;
 	// STEP 1
 	// -------
 	
@@ -322,7 +327,7 @@ function main()
 	stepMngr.step_do_functions[2] = function(duration)
 	{
 		mathbox.animate	( '#img-curve', 
-						{ domain: RANGE[1].map(function(x){ return Math.sign(x) * (Math.abs(x) + CURVE_CONT);})},
+						{ domain: range[1].map(function(x){ return Math.sign(x) * (Math.abs(x) + CURVE_CONT);})},
 						{ duration: duration}
 					);
 	};
@@ -344,7 +349,7 @@ function main()
 	*/
 	stepMngr.step_do_functions[3] = function(duration)
 	{
-		//var new_range = RANGE.slice(); new_range[0] = [new_range[0][0], new_range[0][0]];
+		//var new_range = range.slice(); new_range[0] = [new_range[0][0], new_range[0][0]];
 		
 		
 		mathbox.animate( 'camera',
@@ -379,10 +384,10 @@ function main()
 	stepMngr.step_do_functions[4] = function(duration)
 	{
 		mathbox.animate( '#img-curve',
-						 { domain: [ 0, CURVE_CONT + RANGE[1][1] ] },
+						 { domain: [ 0, CURVE_CONT + range[1][1] ] },
 						 { duration: duration});
 		mathbox.animate( 'viewport',
-						 { range: [  [0, GRID_RANGE[0][1]], [0, GRID_RANGE[1][1]], [0, 1] ]},
+						 { range: [  [0, grid_range[0][1]], [0, grid_range[1][1]], [0, 1] ]},
 						 { duration: duration});
 		//mathbox.animate( 'camera', { orbit: 3});
 		animatedOrbitChange(mathbox, 2.3, duration);
@@ -393,6 +398,7 @@ function main()
 		// shallow copy of chart_options with own data points
 		var options = CHART_OPTIONS;
 		options['series'] = [ {data: data, color: "#FF0000"}];
+		options.yAxis['max'] = grid_range[1][1];
 		
 		// show it when animation of this step is done
 		window.setTimeout( function() 
@@ -414,7 +420,7 @@ function main()
 		// restore curve as it should be in step 2
 		stepMngr.step_do_functions[2](duration);
 		mathbox.animate( 'viewport',
-						 { range: GRID_RANGE},
+						 { range: grid_range},
 						 { duration: duration});
 		//mathbox.animate( 'camera', { orbit: CAMERA_DIST});
 		animatedOrbitChange(mathbox, CAMERA_DIST, duration);
@@ -451,7 +457,8 @@ function main()
 		};
 		var yOptions =
 		{
-			title: { text: "Magnitude |H(jω)| (dB)"}
+			title: { text: "Magnitude |H(jω)| (dB)"},
+			max: null
 		};
 		chart.series[0].setData( data, false, true);
 		chart.yAxis[0].update( yOptions, false);
@@ -468,7 +475,9 @@ function main()
 		};
 		var yOptions =
 		{
-			title: { text: "Magnitude |H(jω)|" }
+			title: { text: "Magnitude |H(jω)|" },
+			max: grid_range[1][1],
+			
 		};
 		var data = chartData();
 		
@@ -493,7 +502,7 @@ function main()
 	mathbox
 	.viewport({
 	  type: 'cartesian',
-	  range: GRID_RANGE,
+	  range: grid_range,
 	  scale: [1.2, 1.2, 1.2],
 	 })
 	
@@ -615,6 +624,11 @@ function step1Submit()
 	
 	//update formula
 	step1Formula();
+	
+	// calc new ranges
+	var ranges = calcUsefulRange();
+	mathbox.set( "#tf-modulus", {domain: ranges[0]});
+	mathbox.set( "viewport", {range: ranges[1]} );
 }
 
 function step1Formula()
@@ -639,7 +653,7 @@ function step1Formula()
 function chartData()
 {
 	var data = [];
-	var x_max = RANGE[0][1] + CURVE_CONT, step = x_max / 200;
+	var x_max = range[0][1] + CURVE_CONT, step = x_max / 200;
 	for(var x = 0; x < x_max ; x+=step  )
 	{
 		data.push( [x, imgCurveFunc(x)[1] ] );
@@ -661,5 +675,78 @@ function animatedOrbitChange(boxInst, new_orbit, duration)
 		window.setTimeout( function(time) {boxInst.set("camera", {orbit: old_orbit + time/duration*(delta_orbit)}); }, t, t);
 	}
 	
+}
+
+// returns a square range for 
+function calcUsefulRange()
+{
+	var intrest_pt = dyn_sys.getBreakPoints();
+	var max = 0;
+	intrest_pt.forEach( function(el) 
+	{
+		if(el.re)
+		{
+			var re = math.abs(el.re), im = math.abs(el.im);
+			max = ( re > max)? re : max;
+			max = ( im > max)? im : max;
+		}
+		else
+		{
+			var val = math.abs(el);
+			max = ( val > max)? val : max;
+		}
+	});
+	
+	// Get y-axis range from DC gain 
+	var poles = dyn_sys.getPoles();
+	var zeros = dyn_sys.getZeros();
+	
+	// count how many more poles at 0 than zeros 
+	var cnt = 0
+	poles.forEach( function(el) { if (el==0) cnt++;});
+	zeros.forEach( function(el) { if (el==0) cnt--;});
+	
+	if( cnt )
+	{
+		
+		if( cnt >= 0)
+		{
+			//aproximate gain as if there were no poles at zero
+			var diff = Infinity;
+			var eval_val = 0.01;
+			var gain = dyn_sys.evalS(eval_val)*math.pow(eval_val,cnt);
+			while( diff > 0.0001 && eval_val > 0.00000001)
+			{
+				eval_val /= 2;
+				var new_gain = math.abs( dyn_sys.evalS(eval_val)*math.pow(eval_val,cnt) );
+				diff = math.abs( gain - new_gain );
+				gain = new_gain;
+			}
+		}
+		else
+		{
+			gain = 5;
+		}
+		
+	}
+	else
+	{
+		gain = math.abs(dyn_sys.evalS(0));
+	}
+	
+	max *= 1.5;
+	gain *= 10;
+	
+	// round to order of magnitude
+	var rnd = function(val) { return math.pow( 5, math.round( math.log(val,5) )); }
+	gain = rnd(gain);
+	
+	max = math.round(max);
+	
+	// modify the global var
+	range = [ [-max, max], [-max, max]];
+	grid_range = [ [-max, max], [- gain/3, gain], [-max, max]];
+	
+	return [ range, grid_range];
 }
 window.onload = main;

@@ -18,8 +18,8 @@
 .step-content
 {
 	overflow: hidden;
-	-webkit-transition: max-height 600ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
-	transition:         max-height 600ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
+	-webkit-transition: max-height 500ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
+	transition:         max-height 500ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
 	max-height: 0px;
 	background-color: #E8DFD3
 }
@@ -33,7 +33,7 @@
 
 .step-header.open  + .step-content
 {
-	max-height: 500px;
+	max-height: 600px;
 }
 
 :not{.open}.step-header:after
@@ -57,7 +57,7 @@
 }
 .step-content > div
 {
-	margin: 0pt 5pt;
+	padding: 0pt 5pt;
 }
 
 #step-1-content>div>span
