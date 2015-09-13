@@ -30,7 +30,7 @@ var GRID_OPTIONS =
 var SURFACE_OPTIONS =
 {
 	  id: 'tf-modulus', 
-	  n: [ 40, 40 ],
+	  n: [ 60, 60 ],
 	  domain: RANGE,
 	  expression: surfaceFunc,
 	  points: false,
@@ -59,7 +59,7 @@ var CHART_OPTIONS =
 		gridLineWidth: 0,
 		tickColor: "#c0c0c0",
 		lineColor: "#c0c0c0",
-		title: { text: "ω"},
+		title: { text: "Frequency ω (rad/s)" },
 		min: 0,
 	},
 	
@@ -68,16 +68,13 @@ var CHART_OPTIONS =
 		gridLineWidth: 0,
 		lineWidth: 1,
 		tickWidth: 1,
-		//type: 'logarithmic',
-		//minorTickInterval: 0.1
 		tickColor: "#c0c0c0",
 		lineColor: "#c0c0c0",
-		title: { text: "H|(jω)|"},
+		title: { text: "Magnitude |H(jω)|" }
 	},
 	
 	tooltip: {
-		headerFormat: '<b>{series.name}</b><br />',
-		pointFormat: 'x = {point.x}, y = {point.y}'
+		formatter: function() { return "Frequency: " + this.x.toFixed(3) + "<br>Magnitude: "  + this.y.toFixed(3); }
 	},
 	
 	
@@ -452,8 +449,12 @@ function main()
 			min: data[0][0],
 			type:"logarithmic"
 		};
-		
+		var yOptions =
+		{
+			title: { text: "Magnitude |H(jω)| (dB)"}
+		};
 		chart.series[0].setData( data, false, true);
+		chart.yAxis[0].update( yOptions, false);
 		chart.xAxis[0].update( xOptions, true);
 		
 	};
@@ -465,10 +466,14 @@ function main()
 			min: 0,
 			type:"linear"
 		};
-		
+		var yOptions =
+		{
+			title: { text: "Magnitude |H(jω)|" }
+		};
 		var data = chartData();
 		
 		chart.series[0].setData( data, false);
+		chart.yAxis[0].update(yOptions, false);
 		chart.xAxis[0].update( xOptions, true);
 	};
 	
@@ -482,6 +487,7 @@ function main()
         controlClass:   ThreeBox.OrbitControls,
         elementResize:  true,
         fullscreen:     true,
+		stats: false,
       }).start();
 					
 	mathbox
