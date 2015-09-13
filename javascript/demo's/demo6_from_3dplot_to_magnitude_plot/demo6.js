@@ -443,7 +443,8 @@ function main()
 		var step = (log_freq_range[1] - log_freq_range[0]) / 200;
 		for(var x = log_freq_range[0]; x <= log_freq_range[1] ; x+=step  )
 		{
-			data.push( [ math.pow(10, x) , 20*math.log(imgCurveFunc(math.pow(10, x))[1], 10)] );
+			var x_val = math.pow(10, x);
+			data.push( [ x_val, 20*math.log(imgCurveFunc( x_val )[1], 10)] );
 		}
 		
 		var xOptions =
@@ -604,9 +605,7 @@ function step1Submit()
 	// use these array to update dynsys
 	dyn_sys = new control.system.tf(arrayNumerator,arrayDenominator);
 	
-	//update mathbox plot
-	mathbox.surface();
-	mathbox.curve();
+	// the plot updates automatically because the math functions are continouslye evaluated
 	
 	//update formula
 	step1Formula();
