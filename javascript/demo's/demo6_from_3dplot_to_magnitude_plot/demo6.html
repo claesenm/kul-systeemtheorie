@@ -28,6 +28,10 @@
 		<script src="demo6.js" charset="UTF-8"></script>
 		
 		<link rel="stylesheet" type="text/css" href="demo6.css">
+		<!-- Webfonts -->
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+		
 	</head>
 	<body>
 		<!-- For mathbox to work, does not show on webpage -->
@@ -604,8 +608,8 @@
 						<p>
 							This steady-state response can also be calculated by using the transfer function. As seen in class, if the input can be written as a complex exponential, like for a cosine function:
 								$$ \cos{(\omega t + \theta)} = \Re{(e^{j(\omega t + \theta)})} $$
-							by using the formula for the general response \\( Y(s) \\) in the Laplace domain, we found that the steady-state output is given by (An analog also exists for discrete time):
-								$$ \left| H(j\omega) \right| \cos{(\omega t + \theta \angle H(j\omega))} $$
+							By using the formula for the general response \\( Y(s) \\) in the Laplace domain, we found that the steady-state output is given by (An analog also exists for discrete time):
+								$$ \left| H(j\omega) \right| \cos{(\omega t + \theta + \angle H(j\omega))} $$
 						</p>
 						<p>
 							Now, there must be a link between these two approaches: they both give the steady-state response.
