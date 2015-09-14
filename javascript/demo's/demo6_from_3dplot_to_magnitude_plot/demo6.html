@@ -34,8 +34,9 @@
 		
 	</head>
 	<body>
-		<!-- For mathbox to work, does not show on webpage -->
-		<!-- TODO: Remove unused shaders when all the rest is done to improve load time -->
+		<!--	For mathbox to work, does not show on webpage.
+				Some shaders are removed because they are not needed to improve load time, thus some functionality of mathbox is disabled
+				You can find them all in a separate file-->
 		<div id="mathbox-shaders">
 			<script type="application/x-glsl" id="bezierSurface3">
 			// Vertex shader: bicubic bezier surface
@@ -167,25 +168,6 @@
 			}
 			</script>
 
-			<script type="application/x-glsl" id="polarPower">
-			// Vertex shader: apply a power operator to complex numbers represented in polar coordinates.
-			uniform float polarPower;
-			uniform float polarFold;
-
-			void polarPower(in vec3 positionIn, out vec3 positionOut) {
-
-			  if (polarPower != 1.0 || polarFold != 1.0) {
-				positionOut = vec3(
-				  positionIn.x * polarFold,
-				  sign(positionIn.y) * pow(abs(positionIn.y), polarPower),
-				  positionIn.z//,
-				);
-			  }
-			  else {
-				positionOut = positionIn;
-			  }
-			}
-			</script>
 
 			<script type="application/x-glsl" id="worldToMath">
 			// Vertex shader: transform from world-space to math-space
@@ -237,54 +219,7 @@
 			  positionOut = pos4.xyz / pos4.w;
 			}
 			</script>
-
-			<script type="application/x-glsl" id="cartesianToPolar">
-			// Vertex shader: transform smoothly between cartesian viewport and polar viewport.
-			uniform float polarAlpha;
-			uniform float polarFocus;
-			uniform float polarAspect;
-			uniform float polarHelix;
-
-			void cartesianToPolar(in vec3 positionIn, out vec3 positionOut) {
-			  if (polarAlpha > 0.0001) {
-				vec2 xy = positionIn.xy * vec2(polarAlpha, polarAspect);
-				float radius = polarFocus + xy.y;
-				positionOut = vec3(
-				  sin(xy.x) * radius,
-				  (cos(xy.x) * radius - polarFocus) / polarAspect,
-				  positionIn.z + positionIn.x * polarHelix * polarAlpha//,
-				);
-			  }
-			  else {
-				positionOut = positionIn;
-			  }
-			}
-			</script>
-
-			<script type="application/x-glsl" id="cartesianToSphere">
-			// Vertex shader: transform smoothly between cartesian viewport and spherical viewport.
-			uniform float sphereAlpha;
-			uniform float sphereFocus;
-			uniform float sphereAspectX;
-			uniform float sphereAspectY;
-			uniform float sphereYScale;
-
-			void cartesianToSphere(in vec3 positionIn, out vec3 positionOut) {
-			  if (sphereAlpha > 0.0001) {
-				vec3 xyz = positionIn.xyz * vec3(sphereAlpha, sphereAlpha / sphereAspectY * sphereYScale, sphereAspectX);
-				float radius = sphereFocus + xyz.z;
-				float cosTR = cos(xyz.y) * radius;
-				positionOut = vec3(
-				  sin(xyz.x) * cosTR,
-				  sin(xyz.y) * radius * sphereAspectY,
-				  (cos(xyz.x) * cosTR - sphereFocus) / sphereAspectX//,
-				);
-			  }
-			  else {
-				positionOut = positionIn;
-			  }
-			}
-			</script>
+			
 
 			<script type="application/x-glsl" id="projectToView">
 			// Vertex shader: project points to view (and apply zIndex bias).
@@ -471,15 +406,6 @@
 			  gl_FragColor = vec4(color, opacity * edgeAlpha);
 			}
 			</script>
-			<script type="application/x-glsl" id="fragmentTexture">
-			// Fragment shader: render a textured sample.
-			uniform sampler2D texture;
-			varying vec2 vUV;
-
-			void fragmentTexture() {
-				gl_FragColor = texture2D(texture, vUV);
-			}
-			</script>
 
 			<!-- generic vertex/fragment shaders -->
 			<script type="application/x-glsl" id="generic-vertex">
@@ -516,14 +442,6 @@
 			}
 			</script>
 
-			<script type="application/x-glsl" id="generic-fragment-texture">
-			uniform sampler2D texture;
-			varying vec2 vUV;
-
-			void main() {
-			  gl_FragColor = texture2D(texture, vUV);
-			}
-			</script>
 
 			<!-- downsample shader -->
 			<script type="application/x-glsl" id="rtt-vertex-downsample">
@@ -579,7 +497,7 @@
 		</div>
 		<div id="page-content">
 			<div id="left-pane">
-				<div id="step-1-header" class="step-header">Step 1</div>
+				<div id="step-1-header" class="step-header open">Step 1</div>
 				<div id="step-1-content" class="step-content">
 					<div>
 						<p> The current transfer function is: <br>
