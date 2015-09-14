@@ -390,7 +390,7 @@ function main()
 						 { range: [  [0, grid_range[0][1]], [0, grid_range[1][1]], [0, 1] ]},
 						 { duration: duration});
 		//mathbox.animate( 'camera', { orbit: 3});
-		animatedOrbitChange(mathbox, 2.3, duration);
+		animatedOrbitChange(mathbox, 2, duration);
 		
 		// make highchart, generate data
 		var data = chartData();
@@ -458,9 +458,8 @@ function main()
 		var yOptions =
 		{
 			title: { text: "Magnitude |H(jω)| (dB)"},
-			max: null
 		};
-		chart.series[0].setData( data, false, true);
+		chart.series[0].setData( data, false);
 		chart.yAxis[0].update( yOptions, false);
 		chart.xAxis[0].update( xOptions, true);
 		
@@ -737,15 +736,24 @@ function calcUsefulRange()
 	max *= 1.5;
 	gain *= 10;
 	
-	// round to order of magnitude
-	var rnd = function(val) { return math.pow( 5, math.round( math.log(val,5) )); }
+	// rounds to a given amount of signifcant numbers. If second argument is ommited, returns nb rounded to most signifacant number
+	var rnd = function(nb, sign_digits)
+		{
+			if( sign_digits === undefined){ sign_digits = 1};
+			
+			var order = math.floor( math.log(nb, 10) );
+			var signifacant_nb = math.round( nb/math.pow(10, order - (sign_digits -1) ));
+			return signifacant_nb * math.pow(10, order - (sign_digits -1));
+		}
 	gain = rnd(gain);
+	max = rnd(max);
 	
-	max = math.round(max);
+	// grid extends a bit further
+	var grid_max = rnd( 6/5*max, 2);
 	
 	// modify the global var
 	range = [ [-max, max], [-max, max]];
-	grid_range = [ [-max, max], [- gain/3, gain], [-max, max]];
+	grid_range = [ [-grid_max, grid_max], [- gain/3, gain], [-grid_max, grid_max]];
 	
 	return [ range, grid_range];
 }
