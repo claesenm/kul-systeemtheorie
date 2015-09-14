@@ -10,12 +10,12 @@
 #bode
 {
 	display: inline-block;
-	width: 37.5%;
+	width: 40%
 }
 #output
 {
 	float: right;
-	width: 37.5%;
+	width: 35%;
 	
 	/* Does nothing but to output-element but enables children to position relative to this */
 	position: relative; 
@@ -67,7 +67,7 @@
 #input-form   span
 {
 	float: left; 
-	width: 6em;
+	width: 7em;
 }
 
 #output-formulas ul li span:first-child

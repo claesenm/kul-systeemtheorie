@@ -17,9 +17,15 @@
 		<script type="text/javascript" src="nouislider.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="nouislider.pips.css">
 		
-		<script type="text/javascript" src="demo_transfer_function_bode.js"></script>
-		<link rel="stylesheet" type="text/css" href="../style.css">
+		<script type="text/javascript" src="demo_transfer_function_bode.js"></script>		
+		
 		<link rel="stylesheet" type="text/css" href="demo_transfer_function_bode.css">
+		<link rel="stylesheet" type="text/css" href="../demo_finishing_styles.css">
+		<link rel="stylesheet" type="text/css" href="../nouislider.css">
+		
+		<!-- Webfonts -->
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
     </head>
 	<body>
 		<h1>Transfer function and bode plot</h1>
@@ -27,7 +33,7 @@
 			This demo illustrates the effect of a dynamic system described by a transfer function on a sine input. <br>
 			You can select the amplitude and angular frequency using the sliders below and see the amplification and phase shift highlighted in the bode plot. The output shows the input-sine in blue, the output in black.
 		</p>
-		<div id="demo-container">
+		<div id="demo-container"  class="page-section">
 			<div id="input">
 				<h3>Transfer Function</h3>
 				<form id="input-form">
@@ -61,11 +67,11 @@
 					</div>
 				</div>
 			</div>
-			<div id="bode">
+			<div id="bode" class="page-section">
 				<h3>Bode Plot of Transfer Function</h3>
 				<div id="bode-plot-container"></div>
 			</div>
-			<div id="output">
+			<div id="output" class="page-section">
 				<h3>Output</h3>
 				<div id="output-plot-container"></div>
 				<div id="output-plot-no-ss"> No steady-state solution </div>

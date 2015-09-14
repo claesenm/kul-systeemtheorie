@@ -2,14 +2,20 @@
 <html>
     <head>
 		<script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="../../library/controlplot.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="../../library/controlplot.js"></script>
+		<!-- <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
-<script type="text/javascript" src="./secondorderfinalscriptsliders.js"></script>
-<script type="text/javascript" src="nouislider.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../style.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
+		<script type="text/javascript" src="./secondorderfinalscriptsliders.js"></script>
+		<script type="text/javascript" src="nouislider.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style.css">
+		<link rel="stylesheet" type="text/css" href="../nouislider.css">
+		
+		<!-- Webfonts and common css for final styling -->
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="../demo_finishing_styles.css">
     </head>
     <body>
         <h1>Second order systems</h1>
@@ -49,13 +55,13 @@ G(s) = <div class="fraction">
     </div>
 <br>
 <b> Pole-zero plot: </b>
-<div id="polezeroplot" style="width:200px; height: 200px;"></div> <br>
+<div id="polezeroplot" ></div> <br>
 
 </section>
 
 <section id="section2">
 <b> Step response: </b>
-<div id="step-plot" style="width:400px; height: 400px;"></div> 
+<div id="step-plot" ></div> 
 Rise time: <span id="rise_time"></span> <br>
 Peak: <span id="peak"></span> <br>
 Settling time: <span id="settling_time"></span> <br>
@@ -65,7 +71,7 @@ Final value: <span id="final_value"></span>
 
 <section id="section3">
 <b> Bode Diagram: </b>
-<div id="bode-plot" style="width:500px; height: 500px;"></div> <br>
+<div id="bode-plot" ></div> <br>
 
 
 
