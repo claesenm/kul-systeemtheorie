@@ -1,10 +1,11 @@
-// This library is tested with Highcharts 4.1.8
+// Created by Maxime Feyerick, assisted by Oscar Mauricio Agudelo, for Prof. Bart de Moor as material to be used with the course "Systeemtheorie en Regeltechniek"
+// This script is tested with Highcharts 4.1.8
 
 //TODO: use setData to update charts and improve performance (most important for output)
 
 var bodePlot 	= 	null;
 var bodeCharts	=	null;
-var ouputPlot 	=	null;
+var outputPlot 	=	null;
 var outputChart	=	null;
 var dynSys 		= 	null;
 var noUnstablePoles = true;
@@ -16,7 +17,7 @@ var sliderFrequency 	= null;
 var sliderAmpVal		= 1;
 var	sliderOmegaVal		= 1;
 
-// the default tranfer function
+// the default transfer function
 var tfNum		= [1, 2];
 var tfDen		= [8, 3, 4];
 
@@ -63,7 +64,7 @@ var outputChartOptions = {
 							}
 						};
 
-// Additonal options to control the tooltip
+// Additional options to control the tooltip
 var bodePlotChartOptions =	{ 
 								tooltip: {
 											enabled: false
@@ -107,7 +108,7 @@ function setup()
 	inputBoxNumerator.value = inputBoxValue(tfNum);
 	inputBoxDenominator.value = inputBoxValue(tfDen);
 	
-	// make math allign left
+	// make math align left
 	MathJax.Hub.Config(
 	{
 		displayAlign: "left",
@@ -169,10 +170,10 @@ function update_tf(num, den)
 	
 	var tfLatex		= " $$ H(s) = \\frac{";
 	
-	/**	Makes a in latex formated polynom
-	 *	
+	/**	Makes a in latex formatted polynomial
+	 *
 	 *	@param {Array} coeff -
-	 *	Array containing the coefficients of the polynom
+	 *	Array containing the coefficients of the polynomial
 	 *
 	*/
 	var makeLatexPolynom = function(coeff)
@@ -213,7 +214,7 @@ function update_tf(num, den)
 				}
 				
 			}
-			//console.log("Made Polynom: " + returnString)
+			//console.log("Made polynomial: " + returnString)
 			return returnString;
 		};
 	
@@ -225,10 +226,10 @@ function update_tf(num, den)
 	MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
 	
 	// update MathJax 
-	// this way is more efficiënt but it does not work if mathjax hasn't processed for the first time yet
+	// this way is more efficient but it does not work if MathJax hasn't processed for the first time yet
 	// var math = MathJax.Hub.getAllJax("tf-function")[0];
 	//MathJax.Hub.Queue(["Text",math,tfLatex]);
-};
+}
 
 function get_polar_gain( sys, freq)
 {
@@ -236,7 +237,7 @@ function get_polar_gain( sys, freq)
 	return tf_eval.toPolar();
 }
 
-/**	Generates an array of points to plot the ouput function
+/**	Generates an array of points to plot the output function
  *	
  *	@param {number} lowerBound -
  *	Where the x-value should start
@@ -267,22 +268,22 @@ function generate_output_data(lowerBound, upperBound, step, gainPolar)
 	var outputVal = function(t_val)
 	{
 		return [t_val, inputFunction(t_val, gainPolar.r, gainPolar.phi) ];
-	}
+	};
 	
-	// Apply map funciton on x-values by (x,y) points and return
+	// Apply map function on x-values by (x,y) points and return
 	return ptList.map(outputVal);
 	
 }
 
 function update_output_plot()
 {	
-	// Calculate the step and range according to freqency (nyquist-shannon sampling theorem)
+	// Calculate the step and range according to frequency (nyquist-shannon sampling theorem)
 	var lowBound = 0;
 	// 50 steps in one period
 	var step = (Math.PI*2)/sliderOmegaVal/40;
 	// 5 periods long
 	var highBound = (Math.PI*2)/sliderOmegaVal*5;
-	//  round to second most signifact number so we get a domain that changes step-wise so the user notices change in frequency
+	//  round to second most significant number so we get a domain that changes step-wise so the user notices change in frequency
 	var posFirstSignificantNb = math.ceil(math.abs(math.log(highBound,10))) * ( (highBound < 1)? -1:1);
 	highBound = math.floor(highBound*math.pow(10,-(posFirstSignificantNb - 1))) * math.pow(10,posFirstSignificantNb - 1);
 	
@@ -372,7 +373,7 @@ function areAllNumbers( chkArray )
 
 function  update_bode_plot()
 {
-	// workaround for bug in lib: first clear containter, than fill it up.
+	// workaround for bug in lib: first clear container, than fill it up.
 	// otherwise a new plot is created beneath the old one
 	while (bodePlot.firstChild) {
 		bodePlot.removeChild(bodePlot.firstChild);
@@ -399,7 +400,7 @@ function  update_bode_plot()
 					else
 					{
 						// If point is already defined, use it's index to get exactly the same point in the other graph.
-						// Otherwise (using assignment above) there is a small errror
+						// Otherwise (using assignment above) there is a small error
 						point = chart.series[0].data[point.index];
 					}
 					
@@ -419,7 +420,7 @@ function  update_bode_plot()
 	for(var i = 0; i < bodePlot.children.length; i++)
 	{ 
 		bodePlot.children[i].onmousemove = sync;
-	};
+	}
 	
 	update_bode_tooltip();
 }
@@ -429,7 +430,7 @@ function update_bode_tooltip()
 	
 	if(bodeCharts)
 	{
-		var i = null
+		var i = null;
 		
 		bodeCharts.forEach(function(graph) {
 			if(!i)
@@ -444,7 +445,7 @@ function update_bode_tooltip()
 			// fire MouseOver event for this point like we are really selecting this point
 			newPoint.onMouseOver();
 			
-			//display tooltip arround this point
+			//display tooltip around this point
 			graph.tooltip.refresh(newPoint);
 			
 			//draw crosshair
@@ -573,7 +574,8 @@ function update_output_formulas(first_load)
 										+ latexDolars();
 			
 			return [inputFormulaLatexStr, outputFormulaLatexStr]
-		}
+		};
+
 
 	if(first_load)
 	{
@@ -593,10 +595,10 @@ function update_output_formulas(first_load)
 	}
 }
 
-function get_output_formulas(withLatexDolars)
+function get_output_formulas(withLatexDollars)
 {
-	if (typeof(withLatexDolars)==='undefined') withLatexDolars = true;
-	var latexDolars = function() { return withLatexDolars? "$$" : ""};
+	if (typeof(withLatexDollars)==='undefined') withLatexDollars = true;
+	var latexDollars = function() { return withLatexDollars? "$$" : ""};
 	
 	// Fill in the Latex
 	var nb_print = function(nb)	{
@@ -616,22 +618,22 @@ function get_output_formulas(withLatexDolars)
 														( ( (phaseSft < 0)? "" : "+") + phaseSft) ) 
 													+ ")}" ;
 											};
-	var inputFormulaLatexStr= latexDolars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDolars();
+	var inputFormulaLatexStr= latexDollars() + "u(t) = " + latexSine(sliderAmpVal, 0) + latexDollars();
 	
 	var polarGain = get_polar_gain(dynSys, sliderOmegaVal);
-	var outputFormulaLatexStr =  latexDolars() + 
+	var outputFormulaLatexStr =  latexDollars() +
 									(
 										(noUnstablePoles)?
 											("y(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
 									)
-								+ latexDolars();
+								+ latexDollars();
 	
 	return [inputFormulaLatexStr, outputFormulaLatexStr]
 }
 
 function build_sliders(omega_range)
 {
-	// Destroy old sliders if necessairy
+	// Destroy old sliders if necessary
 	if(sliderAmplitude.noUiSlider)
 		sliderAmplitude.noUiSlider.destroy();
 	if(sliderFrequency.noUiSlider)
@@ -681,7 +683,7 @@ function build_sliders(omega_range)
 		}
 	});
 	
-	// Attach necessairy events
+	// Attach necessary events
 	sliderAmplitude.noUiSlider.on('update', function ( values, handle )
 		{
 			sliderAmpVal = parseFloat(values[handle]);

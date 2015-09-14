@@ -1,4 +1,4 @@
-
+// Created by Maxime Feyerick, assisted by Oscar Mauricio Agudelo, for Prof. Bart de Moor as material to be used with the course "Systeemtheorie en Regeltechniek"
 
 // dynamic system with default transfer function
 var dyn_sys = new control.system.tf([2,3], [1,8,16]);
@@ -486,7 +486,7 @@ function main()
 	};
 	
 	
-	// mathboxcall
+	// mathbox call
 	// ---------
 	
 	mathbox = mathBox(plot_container,{
@@ -513,7 +513,7 @@ function main()
 	// Grid
 	.grid( GRID_OPTIONS)
 
-	//Curve on imaginairy axis, is invisble at first
+	//Curve on imaginary axis, is invisible at first
 	.curve({
 	  id: 'img-curve',
 	  
@@ -619,7 +619,7 @@ function step1Submit()
 	// use these array to update dynsys
 	dyn_sys = new control.system.tf(arrayNumerator,arrayDenominator);
 	
-	// the plot updates automatically because the math functions are continouslye evaluated
+	// the plot updates automatically because the math functions are continuously evaluated
 	
 	//update formula
 	step1Formula();
@@ -710,7 +710,7 @@ function calcUsefulRange()
 		
 		if( cnt >= 0)
 		{
-			//aproximate gain as if there were no poles at zero
+			//approximate gain as if there were no poles at zero
 			var diff = Infinity;
 			var eval_val = 0.01;
 			var gain = dyn_sys.evalS(eval_val)*math.pow(eval_val,cnt);
@@ -736,7 +736,7 @@ function calcUsefulRange()
 	max *= 1.5;
 	gain *= 10;
 	
-	// rounds to a given amount of signifcant numbers. If second argument is ommited, returns nb rounded to most signifacant number
+	// rounds to a given amount of significant numbers. If second argument is omitted, returns nb rounded to most significant number
 	var rnd = function(nb, sign_digits)
 		{
 			if( sign_digits === undefined){ sign_digits = 1};
