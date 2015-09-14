@@ -18,7 +18,16 @@ var bodePlotChartOptions =	{
 										 }
 							};
 			
-			
+
+function sortPoints(a,b){
+
+return a[1] - b[1];
+
+}	
+  function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+}
+	
 function Nyquistdata(){
 
 		
@@ -26,37 +35,109 @@ var evaluation = function(Dyn, omega)
 	{
 		return Dyn.evalS(math.complex(0,omega));
 	};
-var points1 =[];
-var points2 =[];
 
- for (i = 0; i<33;i++){
-	 var j = evaluation(dynSys,2*math.PI*math.pow(10,i-36))
-	 
-	 points1.push([[j.im,j.re],math.pow(10,i-36)]);
-	 points2.push([[-j.im,j.re],,math.pow(10,i-36)]);
-	 
- }
- 
-  for (i = 33; i<533;i++){
-	 var j = evaluation(dynSys,2*math.PI*(math.pow(1.14,i-93)))
-	
-	 points1.push([[j.im,j.re],math.pow(1.14,i-93)]);
-	 points2.push([[-j.im,j.re],math.pow(1.14,i-93)]);
-	 
- }
- 
- for(i=533;i<566;i++){     
-	 var j = evaluation(dynSys,2*math.PI*(math.pow(10,i-507)))
-	
-	 points1.push([[j.im,j.re],math.pow(10,i-507)]);
-	 points2.push([[j.im,j.re],math.pow(10,i-507)]);
-	 
- }
+var points4 = [];
+var points5 = [];
+var points6 =[];
+var points7 =[];
+var points8 =[];
 
-points2.reverse()
-var points = points2.concat(points1);
-points.pop
-return [points1,points2];
+	for (i=0;i<2000;i++){
+	var j = evaluation(dynSys,math.pow(1.005,i-1000));
+	points4.push([[j.im,j.re],math.pow(1.005,i-1000)]);	
+	points5.push([[-j.im,j.re],math.pow(1.005,i-1000)]);
+	var z = evaluation(dynSys,math.pow(10,i-1000));
+	if (z!= Infinity && isNaN(z)== false){
+	points4.push([[z.im,z.re],math.pow(10,z-1000)]);	
+	points5.push([[-z.im,z.re],math.pow(10,z-1000)]);
+	}
+	var x = evaluation(dynSys,i/1000);
+	if (x!= Infinity && isNaN(x)== false){
+	points4.push([[x.im,x.re],i/1000]);	
+    points5.push([[-x.im,x.re],i/1000]);
+	 }
+  	}
+	
+	points4.sort(function(a,b){
+	 return a[1] - b[1];  
+   });
+   	points5.sort(function(a,b){
+	 return a[1] - b[1];  
+   });
+   
+	var fstep = 4;
+	var f = math.pow(10,-10);
+	var j = evaluation(dynSys,2*math.PI*f);
+	points6.push([[j.im,j.re],f]);
+	points7.push([[-j.im,j.re],f]);
+    for (i=0;i<4000;i++){
+		
+	
+	
+	if (fstep>1){
+	f= f*fstep;
+	}
+	
+	if(f== Infinity){
+	break;
+	}
+	j  = evaluation(dynSys,2*math.PI*f);
+	points6.push([[j.im,j.re],f]);
+    points7.push([[-j.im,j.re],f]);
+	if(points6[i+1][0][0]== 0 && points6[i+1][0][1]==0){
+	fstep = fstep*10;
+	}
+    var distance = math.sqrt(math.pow(points6[i+1][0][0]-points6[i][0][0],2)+math.pow(points6[i+1][0][1]-points6[i][0][1],2));
+	if (distance<math.pow(10,-60)){
+	fstep = fstep*1.25;
+	}
+	if (distance>math.pow(10,-1)){
+	fstep = fstep/3;	
+	var back = getBaseLog(10,f);
+    f = f/math.pow(10,1);	
+	}
+	
+	}
+   
+
+// for (i=0;i=500;i++){
+// var j  = evaluation(dynSys,2*math.PI*math.pow(1.05,i-200));
+// points8.push([[j.im,j.re],math.pow(1.05,i)]);	
+	
+// }
+// for (i=0;i=500;i++){
+// var j  = evaluation(dynSys,2*math.PI*math.pow(5,i-250));
+// if (j != Infinity && isNaN(j)== false){
+// points8.push([[j.im,j.re],math.pow(5,i-250)]);		
+// }	
+// } 
+// for (i=0;i=500;i++){
+// var j  = evaluation(dynSys,2*math.PI*(i/100));
+// if (j != Infinity && isNaN(j)== false){
+// points8.push([[j.im,j.re],i/100]);		
+// }	
+// } 
+  
+   points6.sort(function(a,b){
+	 return a[1] - b[1];  
+   });
+   
+   points7.sort(function(a,b){
+	 return a[1] - b[1];  
+   });	
+   
+   // points8.sort(function(a,b){
+	 // return a[1] - b[1];  
+   // });	
+points5.reverse()
+points7.reverse()
+
+	// var z = control.system.bode.omegas([-20,20]);
+	// for(i=0;i<z.length;i++){
+	// var b = evaluation(dynSys,2*math.PI*z[i]);	
+	// points8.push([[b.im,b.re],z[i]]);
+	// }
+return [points6,points7];
 }
 	
 function setup()
@@ -254,9 +335,10 @@ function Nyquistplotting(){
 
     new Highcharts.Chart({
         chart: {
-            type: 'spline',
+            //type: 'spline',
             inverted: true,
-			renderTo: outputplot
+			renderTo: outputplot,
+			polar: true
         },
 		title: {
             text: ''
@@ -278,6 +360,7 @@ function Nyquistplotting(){
                 }
             },
 			offset: 0,
+			gridLineWidth: 1,
             maxPadding: 0.05,
             showLastLabel: true
         },
@@ -287,6 +370,7 @@ function Nyquistplotting(){
                 text: 'Real'
 				
             },
+
             labels: {
                 formatter: function () {
                     return this.value;  //+ '°';
@@ -294,7 +378,7 @@ function Nyquistplotting(){
             },
 			offset: 0,
             lineWidth: 2,
-			gridLineWidth: 0
+			gridLineWidth: 1
         },
         legend: {
             enabled: false
@@ -304,12 +388,13 @@ function Nyquistplotting(){
 			formatter: function () {
 				var coordinates1 = Nyquistdata()[0];
 				var coordinates2 = Nyquistdata()[1];
+				
 				for (i=0;i<1132;i++){
 				if (coordinates1[i][0][0] == this.x && coordinates1[i][0][1]==this.y){
-				return 'The frequency is <b>'+coordinates1[i][1]+'</b>'+ '<b> <br> Imaginary is '+ this.x +'</b>'+ '<b> <br> Real is ' + this.y + '</b>'; 	
+				return 'The frequency is <b>'+coordinates1[i][1]+'</b>'+ '<br>  Imaginary is <b> '+ this.x +'</b>'+ ' <br>  Real is <b>' + this.y + '</b>'; 	
 				}
                 if (coordinates2[i][0][0] == this.x && coordinates2[i][0][1]==this.y){
-				return 'The frequency is <b>'+coordinates2[i][1]+'</b>'+ '<b> <br> Imaginary is '+ this.x +'</b>'+ '<b> <br> Real is ' + this.y + '</b>'; 	
+				return 'The frequency is <b>'+coordinates2[i][1]+'</b>'+ ' <br>  Imaginary is <b>'+ this.x +'</b>'+ ' <br>  Real is <b>' + this.y + '</b>'; 	
 				}				
 				}
 			},
