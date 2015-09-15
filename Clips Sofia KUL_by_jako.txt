@@ -1,0 +1,24 @@
+These are the clips that helped me a lot for the study of this course. 
+I found that a lot of clips that I was thinking about are already included in the online platform. 
+These are not included yet. 
+
+They are all from an online teacher called Brian Douglas
+
+1) Step-by-step explanation regarind Gain and Phase Margin (with visual insight)
+
+https://www.youtube.com/watch?v=ThoA4amCAX4
+
+2) Step-by-step explanation of the sensitivity function + an extra insight that is not included in the course text
+
+https://www.youtube.com/watch?v=BAWdZvF1O40 
+
+3) 2 short clips explaining PID-controllers. The first one is a decent introduction, and the second one uses 
+2 cars as metaphors for why you should use P, I, or D control. (There is already a similar clip added, but maybe this one gives extra insight?)
+
+https://www.youtube.com/watch?v=UR0hOmjaHp0 (Introduction)
+
+https://www.youtube.com/watch?v=XfAt6hNV8XM (PID control explanation)
+
+4) This clip helped me a lot. It gives a more graphical approach of the laplace transform and the frequency spectrum.
+
+https://www.youtube.com/watch?v=ZGPtPkTft8g Graphical approach of laplace transform
