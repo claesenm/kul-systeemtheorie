@@ -19,14 +19,16 @@ var bodePlotChartOptions =	{
 							};
 			
 
-function sortPoints(a,b){
+function Distance(list1,list2){
 
-return a[1] - b[1];
+return math.sqrt(math.pow(list1[0]-list2[0],2)+math.pow(list1[1]-list2[1],2));
 
 }	
   function getBaseLog(x, y) {
   return Math.log(y) / Math.log(x);
 }
+
+
 	
 function Nyquistdata(){
 
@@ -41,7 +43,7 @@ var points5 = [];
 var points6 =[];
 var points7 =[];
 var points8 =[];
-
+var points9 =[];
 	for (i=0;i<2000;i++){
 	var j = evaluation(dynSys,math.pow(1.005,i-1000));
 	points4.push([[j.im,j.re],math.pow(1.005,i-1000)]);	
@@ -65,41 +67,81 @@ var points8 =[];
 	 return a[1] - b[1];  
    });
    
-	var fstep = 4;
-	var f = math.pow(10,-10);
-	var j = evaluation(dynSys,2*math.PI*f);
-	points6.push([[j.im,j.re],f]);
-	points7.push([[-j.im,j.re],f]);
-    for (i=0;i<4000;i++){
+    //var num = dynSys.getNumerator() ;
+	//var den = dynSys.getDenominator();
+	//var evallist = []
+    var bounds = control.num.interesting_region_logspace(dynSys);
+    var checkpoint = control.num.logspace(bounds[0],bounds[1],500);
+    //for (i=0;i<500;i++){
+	//var nnum = control.num.evalzorp(checkpoint[i],num).re;
+	//var nden = control.num.evalzorp(checkpoint[i],den).re;
+	//evallist.push(nnum/nden);
+	//var z = dynSys.evalS(checkpoint[i]);
+	//evallist.push(z);
+	// var j = evaluation(dynSys,2*math.PI*(checkpoint[i]));
+	// points6.push([[j.im,j.re],checkpoint[i]]);
+	// points7.push([[-j.im,j.re],checkpoint[i]]);
+	// }
+	// var pole = dynSys.getBreakPoints();
+	// var breaklist  = [];
+	// for (k=0;k<pole.length;k++){
+	// var b = math.complex(pole[k]);	
+	// var mod = math.sqrt(math.pow(b.re,2)+math.pow(b.im,2));
+    // breaklist.push(mod)	
+	// }
+	// for (h=0;h<pole;h++){
+	// for (m=0;m<500;m++){
+	// var j = evaluation(dynSys,2*math.PI*(breaklist[h]-math.pow(1.00005,m)));
+	// var q = evaluation(dynSys,2*math.PI*(breaklist[h]+math.pow(1.00005,m)));
+	// points6.push([[j.im,j.re],breaklist[h]-math.pow(1.00005,m)]);
+	// points7.push([[-j.im,j.re],breaklist[h]-math.pow(1.00005,m)]);	
+	// points6.push([[q.im,q.re],breaklist[h]+math.pow(1.00005,m)]);
+	// points7.push([[-q.im,q.re],breaklist[h]+math.pow(1.00005,m)]);	
+	// }	
 		
+	//}
+	// var maxevallist = control.num.extreme_by(evallist,Math.max,function(arg){return arg});
+	// for (i=0;i<100;i++){
+	// var j = evaluation(dynSys,2+math.pow(1.0004,i));
+    // points6.push([[j.im,j.re],2+math.pow(1.0004,i)]);	
+	// points7.push([[-j.im,j.re],2+math.pow(1.0004,i)]);
+	 // }
+	// for (i=0;i<100;i++){
+	// var j = evaluation(dynSys,2-math.pow(1.0004,i));
+    // points6.push([[j.im,j.re],2-math.pow(1.0004,i)]);	
+	// points7.push([[-j.im,j.re],2-math.pow(1.0004,i)]);
+	// }	
+	// for (i=0;i<100;i++){
+	// var j = evaluation(dynSys,maxevallist+math.pow(1.004,i));
+		// if (evallist+math.pow(1.004,i)== Infinity ){
+			// break
+		// }
+// if 		(isNaN(evallist+math.pow(1.004,i))=true){
+		// break;
+	// } 
+	// if(j.im ==0 & j.re == 0){
+		// break;
+	// }
 	
+	// points6.push([[j.im,j.re],maxevallist+math.pow(1.004,i)]);
+	// points7.push([[-j.im,j.re],maxevallist+math.pow(1.004,i)]);
+	// }
 	
-	if (fstep>1){
-	f= f*fstep;
-	}
-	
-	if(f== Infinity){
-	break;
-	}
-	j  = evaluation(dynSys,2*math.PI*f);
-	points6.push([[j.im,j.re],f]);
-    points7.push([[-j.im,j.re],f]);
-	if(points6[i+1][0][0]== 0 && points6[i+1][0][1]==0){
-	fstep = fstep*10;
-	}
-    var distance = math.sqrt(math.pow(points6[i+1][0][0]-points6[i][0][0],2)+math.pow(points6[i+1][0][1]-points6[i][0][1],2));
-	if (distance<math.pow(10,-60)){
-	fstep = fstep*1.25;
-	}
-	if (distance>math.pow(10,-1)){
-	fstep = fstep/3;	
-	var back = getBaseLog(10,f);
-    f = f/math.pow(10,1);	
-	}
-	
-	}
-   
-
+	// for (i=0;i<100;i++){
+	// var j = evaluation(dynSys,evallist-math.pow(1.004,i));
+		// if (evallist-math.pow(1.004,i)== Infinity ){
+			// break
+		// }
+ // if (isNaN(evallist-math.pow(1.004,i))=true){
+		// break;
+	// } 
+	// if(j.im ==0 & j.re == 0){
+		// break;
+	// }
+	// points6.push([[j.im,j.re],evallist-math.pow(1.004,i)]);
+	// points7.push([[-j.im,j.re],evallist-math.pow(1.004,i)]);
+	// }	
+    
 // for (i=0;i=500;i++){
 // var j  = evaluation(dynSys,2*math.PI*math.pow(1.05,i-200));
 // points8.push([[j.im,j.re],math.pow(1.05,i)]);	
@@ -132,12 +174,56 @@ var points8 =[];
 points5.reverse()
 points7.reverse()
 
-	// var z = control.system.bode.omegas([-20,20]);
-	// for(i=0;i<z.length;i++){
-	// var b = evaluation(dynSys,2*math.PI*z[i]);	
-	// points8.push([[b.im,b.re],z[i]]);
-	// }
-return [points6,points7];
+	
+	
+	
+	
+	 var fstep = 4;
+	 var f = math.pow(10,-15);
+	 var j = evaluation(dynSys,2*math.PI*f);
+	 points8.push([[j.im,j.re],f]);
+	 points9.push([[-j.im,j.re],f]);
+	
+	 for (i=0;i<100;i++){
+	 if (f == Infinity){
+	 break;
+	  }
+	  var fnew = fstep*f;
+	  if (isNaN(fnew)){
+	  break;
+	  }
+      var j = evaluation(dynSys,2*math.PI*fnew);
+      if (j.im ==0 && j.re == 0){
+	  break;
+	  }
+	  points8.push([[j.im,j.re],fnew]);
+	  points9.push([[-j.im,j.re],f]);
+	  var dis = Distance(points8[i+1][0],points8[i][0]);
+	  while (dis>math.pow(10,-5)){
+	  fstep = fstep-0.01;	
+	  if(fstep<=1){
+	  fstep = 1.000000000005;
+	  break;
+	  }	
+	  fnew = f*fstep;
+	  if (isNaN(fnew)){
+	  break;
+	  }
+	  points8.pop();
+	  points9.pop();
+	  var j = evaluation(dynSys,2*math.PI*fnew);
+	
+	  points8.push([[j.im,j.re],fnew]);
+	  points9.push([[-j.im,j.re],f]);
+      dis = Distance(points8[i+1][0],points8[i][0]);
+	  }
+	  f = fnew;
+	  if (fstep<30){
+      fstep  = fstep*25;	
+	  }
+	  }
+	
+return [points8,points9];
 }
 	
 function setup()
