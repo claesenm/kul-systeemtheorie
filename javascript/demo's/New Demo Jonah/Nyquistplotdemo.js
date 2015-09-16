@@ -3,6 +3,10 @@ var bodeCharts	=	null;
 var ouputPlot 	=	null;
 var outputChart	=	null;
 var dynSys 		= 	null;
+var stepresponse = null;
+var stepCharts = null;
+var impulseresponse = null;
+var impulseCharts = null;
 var noUnstablePoles = true;
 
 var buttonSubmit		= null;
@@ -18,7 +22,18 @@ var bodePlotChartOptions =	{
 										 }
 							};
 			
+var stepResponseChartOptions =	{ 
+								tooltip: {
+											enabled: false
+										 }
+							};
+var impulseResponseChartOptions =	{ 
+								tooltip: {
+											enabled: false
+										 }
+							};	
 
+							
 function Distance(list1,list2){
 
 return math.sqrt(math.pow(list1[0]-list2[0],2)+math.pow(list1[1]-list2[1],2));
@@ -38,193 +53,68 @@ var evaluation = function(Dyn, omega)
 		return Dyn.evalS(math.complex(0,omega));
 	};
 
-var points4 = [];
-var points5 = [];
-var points6 =[];
-var points7 =[];
-var points8 =[];
-var points9 =[];
-	for (i=0;i<2000;i++){
-	var j = evaluation(dynSys,math.pow(1.005,i-1000));
-	points4.push([[j.im,j.re],math.pow(1.005,i-1000)]);	
-	points5.push([[-j.im,j.re],math.pow(1.005,i-1000)]);
-	var z = evaluation(dynSys,math.pow(10,i-1000));
-	if (z!= Infinity && isNaN(z)== false){
-	points4.push([[z.im,z.re],math.pow(10,z-1000)]);	
-	points5.push([[-z.im,z.re],math.pow(10,z-1000)]);
-	}
-	var x = evaluation(dynSys,i/1000);
-	if (x!= Infinity && isNaN(x)== false){
-	points4.push([[x.im,x.re],i/1000]);	
-    points5.push([[-x.im,x.re],i/1000]);
-	 }
-  	}
-	
-	points4.sort(function(a,b){
-	 return a[1] - b[1];  
-   });
-   	points5.sort(function(a,b){
-	 return a[1] - b[1];  
-   });
-   
-    //var num = dynSys.getNumerator() ;
-	//var den = dynSys.getDenominator();
-	//var evallist = []
-    var bounds = control.num.interesting_region_logspace(dynSys);
-    var checkpoint = control.num.logspace(bounds[0],bounds[1],500);
-    //for (i=0;i<500;i++){
-	//var nnum = control.num.evalzorp(checkpoint[i],num).re;
-	//var nden = control.num.evalzorp(checkpoint[i],den).re;
-	//evallist.push(nnum/nden);
-	//var z = dynSys.evalS(checkpoint[i]);
-	//evallist.push(z);
-	// var j = evaluation(dynSys,2*math.PI*(checkpoint[i]));
-	// points6.push([[j.im,j.re],checkpoint[i]]);
-	// points7.push([[-j.im,j.re],checkpoint[i]]);
-	// }
-	// var pole = dynSys.getBreakPoints();
-	// var breaklist  = [];
-	// for (k=0;k<pole.length;k++){
-	// var b = math.complex(pole[k]);	
-	// var mod = math.sqrt(math.pow(b.re,2)+math.pow(b.im,2));
-    // breaklist.push(mod)	
-	// }
-	// for (h=0;h<pole;h++){
-	// for (m=0;m<500;m++){
-	// var j = evaluation(dynSys,2*math.PI*(breaklist[h]-math.pow(1.00005,m)));
-	// var q = evaluation(dynSys,2*math.PI*(breaklist[h]+math.pow(1.00005,m)));
-	// points6.push([[j.im,j.re],breaklist[h]-math.pow(1.00005,m)]);
-	// points7.push([[-j.im,j.re],breaklist[h]-math.pow(1.00005,m)]);	
-	// points6.push([[q.im,q.re],breaklist[h]+math.pow(1.00005,m)]);
-	// points7.push([[-q.im,q.re],breaklist[h]+math.pow(1.00005,m)]);	
-	// }	
-		
-	//}
-	// var maxevallist = control.num.extreme_by(evallist,Math.max,function(arg){return arg});
-	// for (i=0;i<100;i++){
-	// var j = evaluation(dynSys,2+math.pow(1.0004,i));
-    // points6.push([[j.im,j.re],2+math.pow(1.0004,i)]);	
-	// points7.push([[-j.im,j.re],2+math.pow(1.0004,i)]);
-	 // }
-	// for (i=0;i<100;i++){
-	// var j = evaluation(dynSys,2-math.pow(1.0004,i));
-    // points6.push([[j.im,j.re],2-math.pow(1.0004,i)]);	
-	// points7.push([[-j.im,j.re],2-math.pow(1.0004,i)]);
-	// }	
-	// for (i=0;i<100;i++){
-	// var j = evaluation(dynSys,maxevallist+math.pow(1.004,i));
-		// if (evallist+math.pow(1.004,i)== Infinity ){
-			// break
-		// }
-// if 		(isNaN(evallist+math.pow(1.004,i))=true){
-		// break;
-	// } 
-	// if(j.im ==0 & j.re == 0){
-		// break;
-	// }
-	
-	// points6.push([[j.im,j.re],maxevallist+math.pow(1.004,i)]);
-	// points7.push([[-j.im,j.re],maxevallist+math.pow(1.004,i)]);
-	// }
-	
-	// for (i=0;i<100;i++){
-	// var j = evaluation(dynSys,evallist-math.pow(1.004,i));
-		// if (evallist-math.pow(1.004,i)== Infinity ){
-			// break
-		// }
- // if (isNaN(evallist-math.pow(1.004,i))=true){
-		// break;
-	// } 
-	// if(j.im ==0 & j.re == 0){
-		// break;
-	// }
-	// points6.push([[j.im,j.re],evallist-math.pow(1.004,i)]);
-	// points7.push([[-j.im,j.re],evallist-math.pow(1.004,i)]);
-	// }	
-    
-// for (i=0;i=500;i++){
-// var j  = evaluation(dynSys,2*math.PI*math.pow(1.05,i-200));
-// points8.push([[j.im,j.re],math.pow(1.05,i)]);	
-	
-// }
-// for (i=0;i=500;i++){
-// var j  = evaluation(dynSys,2*math.PI*math.pow(5,i-250));
-// if (j != Infinity && isNaN(j)== false){
-// points8.push([[j.im,j.re],math.pow(5,i-250)]);		
-// }	
-// } 
-// for (i=0;i=500;i++){
-// var j  = evaluation(dynSys,2*math.PI*(i/100));
-// if (j != Infinity && isNaN(j)== false){
-// points8.push([[j.im,j.re],i/100]);		
-// }	
-// } 
-  
-   points6.sort(function(a,b){
-	 return a[1] - b[1];  
-   });
-   
-   points7.sort(function(a,b){
-	 return a[1] - b[1];  
-   });	
-   
-   // points8.sort(function(a,b){
-	 // return a[1] - b[1];  
-   // });	
-points5.reverse()
-points7.reverse()
 
-	
-	
-	
-	
-	 var fstep = 4;
-	 var f = math.pow(10,-15);
-	 var j = evaluation(dynSys,2*math.PI*f);
-	 points8.push([[j.im,j.re],f]);
-	 points9.push([[-j.im,j.re],f]);
-	
-	 for (i=0;i<100;i++){
-	 if (f == Infinity){
-	 break;
-	  }
-	  var fnew = fstep*f;
-	  if (isNaN(fnew)){
-	  break;
-	  }
-      var j = evaluation(dynSys,2*math.PI*fnew);
-      if (j.im ==0 && j.re == 0){
-	  break;
-	  }
-	  points8.push([[j.im,j.re],fnew]);
-	  points9.push([[-j.im,j.re],f]);
-	  var dis = Distance(points8[i+1][0],points8[i][0]);
-	  while (dis>math.pow(10,-5)){
-	  fstep = fstep-0.01;	
-	  if(fstep<=1){
-	  fstep = 1.000000000005;
-	  break;
-	  }	
-	  fnew = f*fstep;
-	  if (isNaN(fnew)){
-	  break;
-	  }
-	  points8.pop();
-	  points9.pop();
-	  var j = evaluation(dynSys,2*math.PI*fnew);
-	
-	  points8.push([[j.im,j.re],fnew]);
-	  points9.push([[-j.im,j.re],f]);
-      dis = Distance(points8[i+1][0],points8[i][0]);
-	  }
-	  f = fnew;
-	  if (fstep<30){
-      fstep  = fstep*25;	
-	  }
-	  }
-	
-return [points8,points9];
+var points1 =[];
+var points2 =[];
+var a=1;
+var step=10
+
+var w = math.pow(10,-20);
+var p = evaluation(dynSys,w);
+points1.push([[p.im,p.re],w]);
+points2.push([[-p.im,p.re],w]);
+
+while (w < math.pow(10,15)){
+
+a=a+1;	
+var w_new = w*step;
+var p_new = evaluation(dynSys,w_new);
+var niter =0;
+
+ while  ((Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re)) > (math.PI/180)||math.abs(p.toPolar().r-p_new.toPolar().r)>0.1*p.toPolar().r) && niter<25){
+     w_new = (w + w_new)/2;
+     p_new = evaluation(dynSys,w_new);
+	 niter = niter +1
+	 var angdif = Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re));
+}	
+step=2*(w_new/w);
+if (step>10000){
+step = 10000;
 }
+p =p_new;
+w =w_new;
+if(isNaN(p.im) == false && isNaN(p.re) == false){
+points1.push([[p.im,p.re],w]);
+points2.push([[-p.im,p.re],w]);
+}
+/*if (Math.abs(points1[points1.length-1][1]-points1[points1.length-2][1]>10 )){
+var dif = points1[points1.length-2][1] - points1[points1.length-3][1]
+for (i=0;i<10;i++){
+var j = evaluation(dynSys,dif+(i+1));
+points1.push([[j.im,j.re],w]);
+points2.push([[-j.im,j.re],w]);	
+
+}
+}
+*/	
+}
+points1.sort(function(a,b){return a[1]-b[1]});
+points2.sort(function(a,b){return a[1]-b[1]});
+
+return [points1,points2];
+}
+
+function impulse_data(){
+	var coord = [];
+	var time = dynSys.impulse().t;
+	var x = dynSys.impulse().x;
+	for (i=0;i<time.length;i++){
+	coord.push([time[i],x[i]]);
+	}
+var v = 0;	
+return coord;	
+}
+
 	
 function setup()
 {var inputBoxNumerator = document.getElementById('input-numerator');
@@ -251,12 +141,16 @@ function setup()
 	
 	// set up global variables to identify the various elements
 	bodePlot 	= 	document.getElementById('bode-plot-container');
+	stepresponse = document.getElementById('stepresponsecontainer');
+	impulseresponse = document.getElementById('impulserespcontainer')
 	dynSys		=	control.system.tf(tfNum,tfDen);
 	outputplot  = document.getElementById("Nyquistcontainer");
 	buttonSubmit		=	document.getElementById('submit-button');
     
 	buttonSubmit.onclick = submit_transfer_function; 
 	update_bode_plot();
+	update_step_response();
+	impulse_plot();
 	Nyquistplotting();
 }
 
@@ -354,7 +248,87 @@ function  update_bode_plot()
 	
 	
 }
+function update_step_response(){
+	while (stepresponse.firstChild) {
+		stepresponse.removeChild(stepresponse.firstChild);
+	}
+	stepCharts = control.plot.step(stepresponse, dynSys);
+	
+}
 
+function impulse_plot(){
+
+	 new Highcharts.Chart({
+		         chart: {
+            //type: 'spline',
+            inverted: false,
+			renderTo: impulseresponse,
+			polar: true
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+			
+            reversed: false,
+            title: {
+                enabled: true,
+                text: 'Time',
+				//align: 'low'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value; //+ 'km';
+                }
+            },
+			offset: 0,
+			gridLineWidth: 0,
+            maxPadding: 0.05,
+            showLastLabel: true
+        },
+        yAxis: {
+			
+            title: {
+                text: ''
+				
+            },
+
+            labels: {
+                formatter: function () {
+                    return this.value;  //+ '°';
+                }
+            },
+			offset: 0,
+            lineWidth: 2,
+			gridLineWidth: 0
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            formatter: function(){
+			var coordinates = impulse_data(); 
+			for (i=0;i<coordinates.length;i++){
+			if (coordinates[i][0]==this.x && coordinates[i][0]==this.y){
+			return  'Time:<b> '+coordinates[i][0]+'</b>'+ 'X:<b> '+coordinates[i][1]+'</b>'
+			}	
+			}	
+			}
+        },
+   
+        series: [{
+            name: '',
+            data: impulse_data()
+        }]
+    });
+
+	
+}
+
+	
 function submit_transfer_function()
 {
 	var arrayNumerator 		= document.getElementById('input-numerator').value.toString().split(/[,;:]+/);
@@ -403,13 +377,16 @@ function submit_transfer_function()
 	}
 	
 	update_tf(arrayNumerator, arrayDenominator);
+	
 	update_bode_plot();
+	update_step_response();
+	impulse_plot();
 	Nyquistplotting();
 	
 	
 	// change the range from the sliders according to new plot
 	var bodeChartRange = bodeCharts[0].xAxis[0].getExtremes();
-	
+	var stepresponseChartRange = stepCharts[0].xAxis[0].getExtremes();
 	
 	
 }
@@ -475,12 +452,12 @@ function Nyquistplotting(){
 				var coordinates1 = Nyquistdata()[0];
 				var coordinates2 = Nyquistdata()[1];
 				
-				for (i=0;i<1132;i++){
+				for (i=0;i<coordinates1.length;i++){
 				if (coordinates1[i][0][0] == this.x && coordinates1[i][0][1]==this.y){
-				return 'The frequency is <b>'+coordinates1[i][1]+'</b>'+ '<br>  Imaginary is <b> '+ this.x +'</b>'+ ' <br>  Real is <b>' + this.y + '</b>'; 	
+				return 'Frequency:<b> '+Math.round(coordinates1[i][1]*1000)/1000+'</b>'+ ' rad/s <br>  Imaginary:<b> '+ Math.round(this.x*1000)/1000 +'</b>'+ ' <br>  Real:<b> ' + Math.round(this.y*1000)/1000 + '</b>'; 	
 				}
                 if (coordinates2[i][0][0] == this.x && coordinates2[i][0][1]==this.y){
-				return 'The frequency is <b>'+coordinates2[i][1]+'</b>'+ ' <br>  Imaginary is <b>'+ this.x +'</b>'+ ' <br>  Real is <b>' + this.y + '</b>'; 	
+				return 'Frequency:<b> '+Math.round(-coordinates2[i][1]*1000)/1000+'</b>'+ ' rad/s <br>  Imaginary:<b> '+ Math.round(this.x*1000)/1000 +'</b>'+ ' <br>  Real:<b> ' + Math.round(this.y*1000)/1000 + '</b>'; 	
 				}				
 				}
 			},
@@ -498,7 +475,8 @@ function Nyquistplotting(){
             data: Nyquistdata()[0].map(function(element){return element[0];})
         },{
             name: 'Points',
-            data: Nyquistdata()[1].map(function(element){return element[0];})
+            data: Nyquistdata()[1].map(function(element){return element[0];}),
+			enableMouseTracking: false
         }]
 		
     });
