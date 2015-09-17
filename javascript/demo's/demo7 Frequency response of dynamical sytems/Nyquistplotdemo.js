@@ -71,7 +71,7 @@ var w_new = w*step;
 var p_new = evaluation(dynSys,w_new);
 var niter =0;
 
- while  ((Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re)) > (math.PI/180)||math.abs(p.toPolar().r-p_new.toPolar().r)>0.1*p.toPolar().r) && niter<25){
+ while  ((Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re)) > (0.5*math.PI/180)||math.abs(p.toPolar().r-p_new.toPolar().r)>0.05*p.toPolar().r) && niter<25){
      w_new = (w + w_new)/2;
      p_new = evaluation(dynSys,w_new);
 	 niter = niter +1
@@ -107,9 +107,9 @@ return [points1,points2];
 function impulse_data(){
 	var coord = [];
 	var time = dynSys.impulse().t;
-	var x = dynSys.impulse().x;
+	var xco = dynSys.impulse().x;
 	for (i=0;i<time.length;i++){
-	coord.push([time[i],x[i]]);
+	coord.push([time[i],xco[i]]);
 	}
 var v = 0;	
 return coord;	
@@ -257,7 +257,7 @@ function update_step_response(){
 }
 
 function impulse_plot(){
-
+     var coordinates = impulse_data();  
 	 new Highcharts.Chart({
 		         chart: {
             //type: 'spline',
@@ -277,11 +277,11 @@ function impulse_plot(){
             title: {
                 enabled: true,
                 text: 'Time',
-				//align: 'low'
+				
             },
             labels: {
                 formatter: function () {
-                    return this.value; //+ 'km';
+                    return this.value; 
                 }
             },
 			offset: 0,
@@ -298,7 +298,7 @@ function impulse_plot(){
 
             labels: {
                 formatter: function () {
-                    return this.value;  //+ '°';
+                    return this.value;  
                 }
             },
 			offset: 0,
@@ -310,18 +310,32 @@ function impulse_plot(){
         },
         tooltip: {
             formatter: function(){
-			var coordinates = impulse_data(); 
+			 
 			for (i=0;i<coordinates.length;i++){
-			if (coordinates[i][0]==this.x && coordinates[i][0]==this.y){
-			return  'Time:<b> '+coordinates[i][0]+'</b>'+ 'X:<b> '+coordinates[i][1]+'</b>'
+			if (coordinates[i][0]== this.x ){
+			return  'Time: <b>'+ Math.round(this.x*1000)/1000+'</b>'+ '<br> X: <b>'+Math.round(this.y*1000)/1000+'</b>';
 			}	
 			}	
-			}
+			},
+			pointFormat: "Value: {point.x:.2f} mm",
+
+		  crosshairs: {
+        color: 'grey',
+        dashStyle: 'solid'
+    },
+    shared: true
+        },
+					        plotOptions: {
+            spline: {
+                marker: {
+                    enable: false
+                }
+            }
         },
    
         series: [{
             name: '',
-            data: impulse_data()
+            data: coordinates
         }]
     });
 
@@ -461,8 +475,15 @@ function Nyquistplotting(){
 				}				
 				}
 			},
-			pointFormat: "Value: {point.y:.2f} mm"
+			pointFormat: "Value: {point.y:.2f} mm",
+		crosshairs: {
+        color: 'grey',
+        dashStyle: 'solid'
+    },
+    shared: true
         },
+			
+        
         plotOptions: {
             spline: {
                 marker: {

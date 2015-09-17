@@ -11,7 +11,7 @@
 		<!-- mathJs -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.min.js"></script>
 		
-		<!-- Pretty-->
+		<!-- Pretty math-->
 		<script type="text/javascript" src="nouislider.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="nouislider.pips.css">
 		<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -37,22 +37,26 @@
 					</span>
 				</p>
 				</div>
-			<div id="bode">
+			<div id="column2" >
+			<div id="bode" style = "height: 400px;width:400px">
 				<h3>Bode Plot of Transfer Function</h3>
-				<div id="bode-plot-container"></div>
+				<div id="bode-plot-container" style = "height: 400px;width:400px;margin-right:5%;margin-left:0%"></div>
 			</div>
-			<div id="output">
+			<div id="output" style = "height: 160px;width:500px">
 			<h3>Nyquist Plot</h3>
-		<div id="Nyquistcontainer" > </div>	
+		<div id="Nyquistcontainer" style ="margin-right:5%;margin-left:0%" > </div>	
 		</div>
-		<div id="stepresponse">
+		</div>
+		<div id="column3">
+		<div id="stepresponse" style="float:right;height:300px;width:450px;margin-right:1%;margin-left:0%">
 		<h3>Step Response</h3>
-		<div id="stepresponsecontainer" > </div>	
+		<div id="stepresponsecontainer" style="float:right;height:300px;width:450px;"> </div>	
 		</div>
-		<div id="impulseresponse">
+		<div id="impulseresponse" style="float:right;height:300px;width:+450px;margin-right:6%;margin-left:0%" >
 		<h3>Impulse Response</h3>
-		<div id="impulserespcontainer" > </div>	
-		</div>	
+		<div id="impulserespcontainer" style="float:right;height:300px;width:450px" > </div>	
+		</div>
+        </div>	
 	</div>
 	</body>
 </html>
