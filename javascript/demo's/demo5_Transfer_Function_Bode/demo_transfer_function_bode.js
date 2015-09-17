@@ -569,7 +569,7 @@ function update_output_formulas(first_load)
 			var outputFormulaLatexStr =  latexDolars() + 
 											(
 												(noUnstablePoles)?
-													("u(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
+													("y(t) = " + latexSine( (sliderAmpVal*polarGain.r).toFixed(2), polarGain.phi.toFixed(2)) ):"None" 
 											)
 										+ latexDolars();
 			
