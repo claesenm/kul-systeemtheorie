@@ -10,4 +10,10 @@
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo3/PIDcontrollers.html" target="_blank">PID controller demo</a></li>
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo4/rootlocus.html" target="_blank">Root Locus demo</a></li>
 	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo5/demo_transfer_function_bode.html" target="_blank">Understanding the Bode plot</a></li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo6/demo6.html" target="_blank">From&nbsp;the 3D plot of the magnitude of a&nbsp;transfer function&nbsp;to &nbsp;its bode magnitude plot</a>&nbsp;
+	<ul>
+		<li>Requirement: your browser should support the WebGL technology (<a href="http://get.webgl.org/" target="_blank">http://get.webgl.org/</a>)</li>
+	</ul>
+	</li>
+	<li><a href="http://homes.esat.kuleuven.be/~maapc/Sofia/javascript/demo7/Nyquistplotdemo.html" target="_blank">Time and frequency response of dynamical systems</a></li>
 </ul>
