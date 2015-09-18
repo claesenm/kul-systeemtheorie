@@ -45,7 +45,7 @@ return math.sqrt(math.pow(list1[0]-list2[0],2)+math.pow(list1[1]-list2[1],2));
 
 
 	
-function Nyquistdata(){
+function Nyquistdata(TF){
 
 // This function is used to evaluate the tf for a value of omega		
 var evaluation = function(Dyn, omega)
@@ -63,7 +63,7 @@ var step=10
 // w is the frequency, it starts at 10^-20
 var w = math.pow(10,-20);
 // p is the complex number you get from evaluating the tf in w
-var p = evaluation(dynSys,w);
+var p = evaluation(TF,w);
 // After each evaluation, we put the real and imaginary part in a list of 2. We then make a list of these coordinates and the corresponding 
 // frequency. Points 1 and 2 will then become lists with frequencies and their corresponding coordinates on the complex plane.
 points1.push([[p.im,p.re],w]);
@@ -75,7 +75,7 @@ a=a+1;
 // This variable is used to store the current new stepsize
 var w_new = w*step;
 // This variable is used to store the possible new coordinats
-var p_new = evaluation(dynSys,w_new);
+var p_new = evaluation(TF,w_new);
 // Counter variable, used in the while loop to prevent an infinite loop
 var niter =0;
 //The loop checks of the possible new value for w is an ok plot point(=to make sure no important area is skipped)
@@ -84,7 +84,7 @@ var niter =0;
  while  ((Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re)) > (0.5*math.PI/180)||math.abs(p.toPolar().r-p_new.toPolar().r)>0.05*p.toPolar().r) && niter<25){
      //Line interpolation between two points
 	 w_new = (w + w_new)/2;
-     p_new = evaluation(dynSys,w_new);
+     p_new = evaluation(TF,w_new);
 	 niter = niter +1
 	 
 }
@@ -157,7 +157,7 @@ function setup()
 	update_bode_plot();
 	update_step_response();
 	impulse_plot();
-	Nyquistplotting();
+	Nyquistplotting(outputplot,dynSys);
 }
 
 function update_tf(num, den)
@@ -401,7 +401,7 @@ function submit_transfer_function()
 	update_bode_plot();
 	update_step_response();
 	impulse_plot();
-	Nyquistplotting();
+	Nyquistplotting(outputplot,dynSys);
 	
 	
 	// change the range from the sliders according to new plot
@@ -414,13 +414,13 @@ function submit_transfer_function()
 
 
 
-function Nyquistplotting(){
+function Nyquistplotting(cont,tf){
 
     new Highcharts.Chart({
         chart: {
             //type: 'spline',
             inverted: true,
-			renderTo: outputplot,
+			renderTo: cont,
 			polar: true
         },
 		title: {
@@ -469,8 +469,8 @@ function Nyquistplotting(){
         tooltip: {
             
 			formatter: function () {
-				var coordinates1 = Nyquistdata()[0];
-				var coordinates2 = Nyquistdata()[1];
+				var coordinates1 = Nyquistdata(tf)[0];
+				var coordinates2 = Nyquistdata(tf)[1];
 				
 				for (i=0;i<coordinates1.length;i++){
 				if (coordinates1[i][0][0] == this.x && coordinates1[i][0][1]==this.y){
@@ -499,10 +499,10 @@ function Nyquistplotting(){
         },
         series: [{
             name: 'Points',
-            data: Nyquistdata()[0].map(function(element){return element[0];})
+            data: Nyquistdata(tf)[0].map(function(element){return element[0];})
         },{
             name: 'Points',
-            data: Nyquistdata()[1].map(function(element){return element[0];}),
+            data: Nyquistdata(tf)[1].map(function(element){return element[0];}),
 			enableMouseTracking: false
         }]
 		
