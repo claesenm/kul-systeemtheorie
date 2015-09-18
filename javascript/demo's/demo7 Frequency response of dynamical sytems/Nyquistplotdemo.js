@@ -47,59 +47,65 @@ return math.sqrt(math.pow(list1[0]-list2[0],2)+math.pow(list1[1]-list2[1],2));
 	
 function Nyquistdata(){
 
-		
+// This function is used to evaluate the tf for a value of omega		
 var evaluation = function(Dyn, omega)
 	{
 		return Dyn.evalS(math.complex(0,omega));
 	};
 
-
+// This 2 lists are going to be used to store the coordinates for the Nyquistplot
 var points1 =[];
 var points2 =[];
-var a=1;
-var step=10
 
+var a=1;
+//This is the beginning stepsize
+var step=10
+// w is the frequency, it starts at 10^-20
 var w = math.pow(10,-20);
+// p is the complex number you get from evaluating the tf in w
 var p = evaluation(dynSys,w);
+// After each evaluation, we put the real and imaginary part in a list of 2. We then make a list of these coordinates and the corresponding 
+// frequency. Points 1 and 2 will then become lists with frequencies and their corresponding coordinates on the complex plane.
 points1.push([[p.im,p.re],w]);
 points2.push([[-p.im,p.re],w]);
-
+// This loops as long as w is smaller than a maximum frequency
 while (w < math.pow(10,15)){
 
 a=a+1;	
+// This variable is used to store the current new stepsize
 var w_new = w*step;
+// This variable is used to store the possible new coordinats
 var p_new = evaluation(dynSys,w_new);
+// Counter variable, used in the while loop to prevent an infinite loop
 var niter =0;
-
+//The loop checks of the possible new value for w is an ok plot point(=to make sure no important area is skipped)
+// The criteria is both the angular difference between 2 points and the difference in magnitude. After 25 times the loops stop, even
+// if the points are not interpolated enough(= to prevent infinite loop)
  while  ((Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re)) > (0.5*math.PI/180)||math.abs(p.toPolar().r-p_new.toPolar().r)>0.05*p.toPolar().r) && niter<25){
-     w_new = (w + w_new)/2;
+     //Line interpolation between two points
+	 w_new = (w + w_new)/2;
      p_new = evaluation(dynSys,w_new);
 	 niter = niter +1
-	 var angdif = Math.abs(Math.atan2(p_new.im,p_new.re) - Math.atan2(p.im,p.re));
-}	
+	 
+}
+//Adjusting the stepsize 	
 step=2*(w_new/w);
+//Maximum stepsize, to make sure the frequency doesn't go up to high
 if (step>10000){
 step = 10000;
 }
+//Giving a new value for p and w to use for the next evaluation of the loop
 p =p_new;
 w =w_new;
+//To make sure you can plot the points, NaN gives an error
 if(isNaN(p.im) == false && isNaN(p.re) == false){
 points1.push([[p.im,p.re],w]);
 points2.push([[-p.im,p.re],w]);
 }
-/*if (Math.abs(points1[points1.length-1][1]-points1[points1.length-2][1]>10 )){
-var dif = points1[points1.length-2][1] - points1[points1.length-3][1]
-for (i=0;i<10;i++){
-var j = evaluation(dynSys,dif+(i+1));
-points1.push([[j.im,j.re],w]);
-points2.push([[-j.im,j.re],w]);	
 
 }
-}
-*/	
-}
-points1.sort(function(a,b){return a[1]-b[1]});
-points2.sort(function(a,b){return a[1]-b[1]});
+//points1.sort(function(a,b){return a[1]-b[1]});
+//points2.sort(function(a,b){return a[1]-b[1]});
 
 return [points1,points2];
 }
