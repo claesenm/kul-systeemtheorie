@@ -1,0 +1,19 @@
+Final Error Table Chapter 2 (58 pages --> 145 slides)
+
+In general --> Problem with space. Vspace doesn't function properly in my case. 
+I will leave this for a Latex expert..
+
+348 %Arrow doesn't work.. only xrightarrow works 
+403 %Slide not converted completely
+419 %Same Story with this slide
+530 %Vspace only moves the graphic, not the text. 
+626 %Cannot get section on a new page
+821 %xRightarrow doesn't work, only xrightarrow
+917 %Not able to align properly
+1144 % xRightarrow doesnt work..
+1277 %I want to move 'for k ...' upside but with Vspace it doesnt work again. Only the text beneath it moves
+1400 %I used multiple different codes that I found on the internet but none of them worked. I don't know how to number the rows and columns..
+1508 %Again a frequent occuring problem. 'Characteristic equation' does not move with vspace, only the align part moves up...
+1609 %I don't find the problem for these mistakes
+1786 %Again problems with displaying the "" brackets
+1929 %again, the "" doesn't display

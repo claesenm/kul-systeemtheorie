@@ -1,0 +1,2017 @@
+
+
+\section{General Format}
+\subsection{Definition}
+\begin{frame}
+	\frametitle{Definition}
+	\emph{This is valid for any \textcolor{red}{nonlinear} causal system}
+
+	\begin{columns}
+		\column {0.4\textwidth}
+		\begin{align*}
+		\text{CT: }&\dot{x}=f(x,u) \\
+		&y=h(x,u)
+		\end{align*}
+
+		\column {0.4\textwidth}
+		\begin{align*}
+     	DT: x_{k+1}&=f(x_k,u_k)\\
+     	y_k&=h(x_k,u_k)
+		\end{align*}
+	
+	\end{columns}
+
+\vspace{0.5cm}
+where
+\vspace{-0.5cm}
+\begin{align*}
+    &\mathit{x} = \text{the state of the system, } n\times1 \text{ vector}\\
+    &\mathit{u} = \text{the input of the system, } m\times1\text{ vector}\\
+    &\mathit{y} = \text{the output of the system, } p\times1 \text{ vector}\\
+    &\mathit{f} = \text{state equation vector function}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Definition}
+    \emph{This is valid for any \color{red}nonlinear} \emph{causal system}
+
+        \begin{columns}
+	    	\column {0.4\textwidth}
+		        \begin{align*}
+		       \text{CT: }&\dot{x}=f(x,u) \\
+	        	&y=h(x,u)
+	        	\end{align*}
+
+	    	\column {0.4\textwidth}
+		        \begin{align*}
+     	        DT: x_{k+1}&=f(x_k,u_k)\\
+     	        y_k&=h(x_k,u_k)
+		        \end{align*}
+		 \end{columns}
+
+
+\vspace{0.5cm}
+where
+\vspace{-0.5cm}
+\begin{align*}
+    &\mathit{h} = \text{output equation vector function}\\
+    &\mathit{n} = \text{number of states} \Rightarrow n \text{-th order system}\\
+    &\mathit{m} = \text{number of inputs}\\
+    &\mathit{p} = \text{number of outputs}\\
+\end{align*}
+\end{frame}
+
+\subsection{Based on the number of inputs and outputs}
+\begin{frame}
+	\frametitle{Based on the number of inputs and outputs}
+	\vspace{-8ex}
+	\begin{enumerate}
+		\item \textbf{SISO}: Single Input Single Output:  m = p = 1
+		\medskip
+		\item \textbf{SIMO}: Single Input Multiple Output: m, p $>$ 1
+		\medskip
+		\item \textbf{MISO}: Multiple Input Single Output: m $>$ 1, p = 1
+		\medskip
+		\item \textbf{MIMO}: Multiple Input Multiple Output: m = 1, p $>$ 1
+		\medskip
+
+	\end{enumerate}
+\end{frame}
+
+\section{Linear Time Invariant (LTI) systems}
+\subsection{Definition}
+\vspace{-2ex}
+\begin{frame}
+	\frametitle{Definition: Continuous-time}
+	\emph{Only valid for \color{red}linear} \emph{causal systems}
+	
+Continuous-time system:
+
+		\vspace{-2ex}
+		\begin{align*}
+		&\dot{x} = \text{Ax + Bu}\\
+				&\text{y = Cx + Du}
+		\end{align*}
+		
+\includegraphics[width=0.8\linewidth]{"Figuur 1".jpg}
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Definition: Continuous-time}
+\vspace{0.6cm}
+
+\includegraphics[width=0.8\linewidth]{"Figuur 1".jpg}
+\begin{align*}
+ &\text{A: } n\times n \text{ system matrix}\\
+ &\text{B: } n\times m \text{ input matrix}\\
+ &\text{C: } p\times n \text{ output matrix}\\
+ &\text{D: } p\times m \text{ direct transmission matrix}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Definition: Discrete-time}
+	\emph{Only valid for \color{red}linear} \emph{causal systems}
+	
+Discrete-time system:
+
+		\vspace{-2ex}
+		\begin{align*}
+		x_{k+1} &= {A_x}_k\text{ + } {B_u}_k\\
+		y_{k} &= {C_x}_k\text{ + } {D_u}_k
+		\end{align*}
+
+\vspace{-0.5cm}
+\includegraphics[width=0.8\linewidth]{"Figuur 2".jpg}
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Definition: Discrete-time}
+\vspace{0.5cm}
+\includegraphics[width=0.8\linewidth]{"Figuur 2".jpg}
+\begin{align*}
+ &\text{A: } n\times n \text{ system matrix}\\
+ &\text{B: } n\times m \text{ input matrix}\\
+ &\text{C: } p\times n \text{ output matrix}\\
+ &\text{D: } p\times m \text{ direct transmission matrix}
+\end{align*}
+\end{frame}
+
+\subsection{Example}
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+	\textbf{Example:} Tape drive control - state space modeling\\
+	
+Process description:
+\vspace{0.5cm}
+\includegraphics[width=0.8\linewidth]{"Figuur 3".jpg}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+The drive motor on each end of the tape is independently
+controllable by voltage resources e1 and e2. The tape is
+modeled as a linear spring with a small amount of viscous
+damping near to the static equilibrium with tape tension
+6N. The variables are defined as deviations from this equilibrium
+point.
+\vspace{0cm}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{"Figuur 3".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+The equations of motion of the system are:
+\vspace{-0.2cm}
+\begin{align*}
+ \text{capstan 1}&: J\frac{d\omega_1}{dt}=Tr-\beta \omega_1+{K_t}{i_1}\\
+ \text{speed of }x_1&: \dot{p_1}=r\omega_1\\
+ \text{motor 1}&: L\frac{di_1}{dt}=-R{i_1}-K_e \omega_1+e_1\\
+ \text{capstan 2}&: J\frac{d\omega_2}{dt}=Tr-\beta \omega_2+{K_t}{i_2} \\ 
+ \text{speed of }x_2&:\dot{p_2}=r\omega_2 \\
+ \end{align*}
+ \end{frame}
+ \begin{frame}{Example of linear state space modeling}
+ \begin{align*}
+ \text{motor 2}&: L\frac{di_2}{dt}=-R{i_2}-K_e \omega_2+e_2 \\
+\vspace{-1cm}
+ \text{Tension of tape}&: T=\frac{K}{2}({p_2}-{p_1})+\frac{D}{2}({\dot{p}_2}-{\dot{p}_1}) \\
+ \text{Position of the head}&: p_3=\frac{{p_1}+{p_1}}{2} \\
+ \end{align*}
+ \end{frame}
+
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+Description of variables and constants:
+\vspace{0.1cm}
+\begin{align*}
+\text{D}&=\text{damping in the tape-stretch motion}
+= \text{20 N/m·sec}\\
+{e_1,_2}&=\text{applied voltage, V }\\
+{i_1,_2}&=\text{current into the capstan motor }\\
+\text{J}&=\text{inertia of the wheel and the motor }\\
+&= \text{4x}10^{-5}\text{kg.m²}\\
+\beta &= \text{capstan rotational friction, 400 kg·m²}\\
+\text{K}&=\text{spring constant of the tape, }4x{10^4}\text{N/m}\\
+{K_e}&=\text{electrical constant of the motors = 0.03 V·sec }\\
+{K_t}&=\text{torque constant of the motors = 0.03 N·m/A }\\
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+Description of variables and constants:
+\vspace{0.1cm}
+\begin{align*}
+L&=\text{armature inductance = }10^{-3}\text{ H}\\
+R&=\text{armature resistance = 1 }\Omega\\
+r&=\text{radius of the take-up wheels, 0.02 m}\\
+T&=\text{tape tension at the read/write head, N}\\
+{p_1,_2,_3}&=\text{tape position at capstan 1,2 and the head}\\
+{\dot{p}_1,_2,_3}&=\text{tape velocity at capstan 1,2 and the head}\\
+{{\theta}_1,_2}&=\text{angular displacement of capstan 1,2}\\
+{{\omega}_1,_2}&=\text{speed of drive wheels = }{\dot{\theta}_1,_2}\\
+\end{align*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+With a time scaling factor of $10^3$ and a position scaling factor $10^{−5}$ for numerical reasons, the state equations become:
+\vspace{-0.6cm}
+
+        \begin{align*}
+		&\dot{x} = \text{Ax + Bu}\\
+				&\text{y = Cx + Du}
+		\end{align*}
+\vspace{0.0cm}
+where
+\begin{align*}
+{
+\text{x =}\begin{bmatrix} 
+p_1 \\
+w_1\\
+p_2\\
+w_2\\
+i_1\\
+i_2
+\end{bmatrix}
+\text{ , A =}\begin{bmatrix} 
+0 & 2 & 0 & 0 & 0 & 0 \\
+-0.1 & -0.35 & 0.1 & 0.1 & 0.75 & 0\\
+0 & 0 & 0 & 2 & 0 & 0\\
+0.1 & 0.1 & -0.1 & -0.35 & 0 & 0.75\\
+0 & -0.03 & 0 & 0 & -1 & 0\\
+0 & 0 & 0 & -0.03 & 0 & -1\\
+\end{bmatrix}
+}
+\end{align*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+With a time scaling factor of $10^3$ and a position scaling factor $10^{−5}$ for numerical reasons, the state equations become:
+\vspace{-2ex}
+
+        \begin{align*}
+		&\dot{x} = \text{Ax + Bu}\\
+				&\text{y = Cx + Du}
+		\end{align*}
+\vspace{0.1cm}
+where
+\begin{align*}
+{
+\text{B =}\begin{bmatrix} 
+0 & 0 \\
+0 & 0 \\
+0 & 0  \\
+0 & 0  \\
+1 & 0  \\
+0 & 1  
+\end{bmatrix}
+\text{ , C =}\begin{bmatrix} 
+0.5 & 0 & 0.5 & 0 & 0 & 0 \\
+-0.2 & -0.2 & 0.2 & 0.2 & 0 & 0\\
+\end{bmatrix}
+}
+\end{align*}
+\end{frame}
+\begin{frame}
+	\frametitle{Example of linear state space modeling}
+With a time scaling factor of $10^3$ and a position scaling factor $10^{−5}$ for numerical reasons, the state equations become:
+\vspace{-2ex}
+
+        \begin{align*}
+		&\dot{x} = \text{Ax + Bu}\\
+				&\text{y = Cx + Du}
+		\end{align*}
+\vspace{0.1cm}
+where
+\begin{align*}
+{
+\text{D =}\begin{bmatrix} 
+0 & 0 \\
+0 & 0 
+\end{bmatrix}
+\text{ , y =}\begin{bmatrix} 
+p_3 \\
+T\\
+\end{bmatrix}
+\text{ , u =}\begin{bmatrix} 
+e_1 \\
+e_2\\
+\end{bmatrix}
+}
+\end{align*}
+\end{frame}
+
+\subsection{State-space model, Transfer matrix and impulse}
+\begin{frame}
+\frametitle{State-space model, transfer matrix and impulse
+response}
+
+Continuous-time system: 
+\vspace{0.1cm}
+\begin{align*}
+		& \begin{cases}
+			\dot{x} = Ax + Bu\\
+			y = Cx + Du
+		\end{cases} \xrightarrow{
+		    \begin{array}{c}
+                Laplace\\
+                x(0)=0\\
+            \end{array}
+            }
+		\underbrace{G(s)=\frac{Y(s)}{U(s)}=D\text{ + }C({sI-A})^{-1}B}_{\text{transfer matrix}}
+	\end{align*}
+$$\text{in practice: }D=0$$
+
+
+\begin{align*}
+\underbrace{G(t)=Ce^{At}B}_{\text{impulse response     matrix}} \xrightarrow{
+		    \begin{array}{c}
+               \Downarrow\\
+             \text{Laplace}\\
+         \end{array}} 
+\end{align*}
+
+%Arrow doesn't work.. only xrightarrow works 
+
+
+\end{frame}
+
+\section{Linearization of a nonlinear system
+about an equilibrium point}
+\subsection{Title1}
+\begin{frame}
+	\frametitle{Title 1}
+	
+Consider a general nonlinear system in continuous time :
+\begin{align*}
+\frac{dx}{dt}&= f(x, u)\\
+y&=h(x,u)
+\end{align*}
+For small deviations about an equilibrium point $(x_e, u_e, y_e)$ for which
+\begin{align*}
+&f(x_e,u_e)= 0\\
+&y_e=h(x_e,u_e)
+\end{align*}
+we define
+\begin{align*}
+x = x_e + \Delta x, u = u_e + \Delta u, y = y_e + \Delta y
+\end{align*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Title 1}
+and obtain
+\begin{align*}
+\frac{dx}{dt} = \frac{d\Delta x}{dt} = f(x_e+\Delta x,u_e+\Delta u)
+\end{align*}
+and
+\begin{align*}
+y_e + \Delta y = h(x,u) = h(x_e+\Delta x,u_e+\Delta u)
+\end{align*}
+\end{frame}
+
+\begin{frame}{Title 1}
+By first order approximation we obtain a linear state space
+model from $\Delta u$ to $\Delta y$ :
+
+\begin{align*}
+\frac{d\Delta x}{dt}=&f(x_e+\Delta x,u_e+\Delta u)\\
+&\Downarrow {\tiny {f(x_e,u_e)=0}} %CANNOT MAKE IT SMALLER
+\end{align*}
+
+\begin{align*}
+\frac{d\Delta x}{dt}\stackrel{(1)}{=}&\underbrace{\frac{\partial f}{\partial x}\bigg|_{x_e,u_e}}_\text{n x n}
+\Delta x + &\underbrace{\frac{\partial f}{\partial u}\bigg|_{x_e,u_e}}_\text{n x m}
+\Delta u\\
+&\Downarrow &\Downarrow
+\end{align*}
+
+%Slide not converted completely
+
+\end{frame}
+
+\begin{frame}{Title 1}
+and
+\begin{align*}
+y_e+ \Delta y=&h(x_e+\Delta x,u_e+\Delta u)\\
+&\Downarrow {\tiny y_e=h(x_e,u_e)}
+\end{align*}
+
+\begin{align*}
+\Delta y\stackrel{(1)}{=}&\underbrace{\frac{\partial h}{\partial x}\bigg|_{x_e,u_e} }_\text{p x n}
+\Delta x + &\underbrace{\frac{\partial h}{\partial u}\bigg|_{x_e,u_e}}_\text{p x m}
+\Delta u\\
+\end{align*}
+%Same Story with this slide
+\end{frame}
+
+
+
+\subsection{Example}
+\begin{frame}{Example}
+Consider a decalcification plant which is used to reduce the
+concentration of calcium hydroxide in water by forming a
+calcium carbonate precipitate.
+
+\end{frame}
+
+\begin{frame}{Example}
+The following equations hold (simplified model) :
+\begin{itemize}
+    \item chemical reaction : $Ca(OH)_2$ + $CO_2$ → $CaCO_3$ + $H_2O$
+    \item reaction speed : r = c[$Ca(OH)_2$][$CO_2$]
+
+    \item rate of change of concentration : $$\frac{d[Ca(OH)_2]}{dt} = \frac{k}{V} - \frac{r}{V}$$\\
+    $$\frac{d[CO_2]}{dt} = \frac{u}{V} - \frac{r}{V}$$
+
+\end{itemize}
+$k$ and $u$ are the inflow rates in MOL/s of calcium
+hydroxide and carbon dioxide respectively.
+V is the tank volume in liters.
+Let the inflow rate of carbon dioxide be the input and the
+concentration of calcium hydroxide be the output.
+
+\end{frame}
+
+\begin{frame}{Example}
+A nonlinear state space model for this reactor is :
+\begin{align*}
+\frac{d[Ca(OH)_2]}{dt}&=\frac{k}{V} - \frac{c}{V}[Ca(OH)_2][CO_2]\\
+\frac{d[CO_2]}{dt} &= \frac{u}{V} - \frac{c}{V}[Ca(OH)_2][CO_2]\\
+y&=[Ca(OH)_2]
+\end{align*}
+The state variables are $x_1$ = $[Ca(OH)_2
+]$ and $x_2$ = $[CO_2]$.
+
+\end{frame}
+
+\begin{frame}{Example}
+In equilibrium we have :
+\begin{align*}
+\frac{k}{V} - \frac{c}{V}[Ca(OH)_2]_{eq}[CO_2]_{eq} &= \frac{k}{V} - \frac{c}{V}X_1X_2=0\\
+\frac{u_{eq}}{V} - \frac{c}{V}[Ca(OH)_2]_{eq}[CO_2]_{eq} &= \frac{U}{V} - \frac{c}{V}X_1X_2=0\\
+Y=[Ca(OH)_2]_{eq}&=X_1\\
+\end{align*}
+
+For small deviations about the equilibrium :
+%This sentence refuses to move with vspace. Only the equations move
+\begin{align*}
+\frac{d\Delta x_1}{dt} &=- \frac{c}{V}X_2\Delta x_1- \frac{c}{V}X_1\Delta x_2\\
+\frac{d\Delta x_2}{dt} &=- \frac{c}{V}X_2\Delta x_1- \frac{c}{V}X_1\Delta x_2+\frac{1}{V}\Delta u\\
+\Delta y &= \Delta x_1
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Example}
+so,
+\begin{align*}
+A=\begin{bmatrix}
+  -\frac{cX_2}{V} & -\frac{cX_1}{V} \\
+  -\frac{cX_2}{V} & -\frac{cX_1}{V}
+ \end{bmatrix}
+,B=\begin{bmatrix}
+  0 \\
+  \frac{1}{V}
+ \end{bmatrix}
+,C=\begin{bmatrix}
+  1 & 0\\
+ \end{bmatrix}
+,D=0
+\end{align*}
+If
+\begin{align*}
+&k = 0.1\text{ } \frac{\text{mole}}{\text{sec}}, c = 0.5\text{ } \frac{l^2}{\text{sec.mole}}, U = 0.1\text{ } \frac{\text{mole}}{\text{sec}},\\
+&X_1 = 0.25\text{ } \frac{\text{mole}}{\text{l}}, X_2 = 0.8\text{ } \frac{\text{mole}}{\text{l}}, V = 5\text{ l}\\
+\end{align*}
+\vspace{-0.8cm}
+Then
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+    \begin{array}{cc|c}
+        -0.08 & -0.025 &0 \\ 
+        -0.08 & -0.025 &0.2\\ \hline
+        1 & 0 & 0
+    \end{array}
+\right]
+}
+\end{align*}   
+\end{frame}
+
+\begin{frame}{Example}
+The corresponding transfer function is
+\begin{align*}
+\frac{\Delta y(s)}{\Delta u(s)} = \frac{-0.005}{s^2+0.105s}\\
+\end{align*}
+\vspace{-0.4cm}
+and its bode plot\\
+%Vspace only moves the graphic, not the text. How do i fix this?
+\begin{center}
+\includegraphics[width=0.5\linewidth]{"Figuur 4".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{"Figuur 4".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+One can also obtain a linear state space model for this
+chemical plant from linear system identification.\\
+For small deviations about the equilibrium point the dynamics can be described fairly well by a linear $(A, B,C, D)$-model. \\
+\vspace{0.3cm}
+Hence, a small white noise disturbance ∆u was
+generated and was added to the equilibrium value U. \\
+We applied this signal to the input of a nonlinear model of the chemical reactor (Simulink model for instance),\\ i.e. u(t) = U + $\Delta$u.
+\end{frame}
+
+\begin{frame}{Example}
+The following input-output set was obtained :
+\begin{center}
+\includegraphics[width=0.6\linewidth]{"Figuur 5".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+By applying a linear system identification algorithm
+(N4SID), the following 2nd-order model was obtained :
+
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+\begin{array}{cc|c}
+0.0015 & −0.0589 &−0.0867\\ 
+0.0027 & −0.1066 &0.1713\\ \hline
+0.2546 &  0.129  & 0
+\end{array}\right]
+}
+\end{align*}
+The corresponding transfer function is
+\begin{align*}
+\frac{\Delta y(s)}{\Delta u(s)} = \frac{-1.299.10^{-7}s-0.05}{s^2+0.1051s+1.346.10^{-8}}\\
+\end{align*}
+\vspace{0.5cm}
+It has 2 poles at $−1.281.10^{−7}$
+and $−1.051$.
+\end{frame}
+
+\begin{frame}{Example}
+As $−1.281.10^{−7}$ lies close to 0, and taking in account the properties of the manually derived linear model of page 45, we conclude that the plant has one integrator pole.\\ \vspace{0.3cm}
+Hence,
+it might be better to fix one pole at $s = 0$. In this way
+it is guaranteed that the linear model obtained by system
+identification is stable.\\\vspace{0.3cm}
+The transfer function which was obtained using this modified
+identification procedure is
+\begin{align*}
+\frac{\Delta y(s)}{\Delta u(s)} = \frac{-1.68.10^{-8}s-0.005}{s^2+0.1051s}\\
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Example}
+The different models are validated by comparing their response
+to the following input :
+\begin{align*}
+\Delta u(t) &= 0.003\text{ if }100<t<200\\
+&=0\text{ elsewhere}
+\end{align*}
+Four responses are shown :
+\begin{itemize}
+\item the nonlinear system (--)
+\item the linearised model obtained by hand (page 45) (- -)
+\item the 2nd-order linear model obtained from N4SID (. . .)
+\item the linear model obtained from N4SID having a fixed
+integrator pole by construction (-.)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[width=0.7\linewidth]{"Figuur 6".jpg}
+\end{center}
+\end{frame}
+
+%I want this section on a new page
+\newpage
+\section{Digitization of state space models}
+\subsection{Introduction}
+\begin{frame}{Digitization}
+in this course we want to control physical plants using a
+digital computer :
+
+\begin{center}
+\includegraphics[width=0.8\linewidth]{"Figuur 7".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Digitization}
+
+\begin{itemize}
+\item analog-to-digital converter :
+\end{itemize}
+\begin{center}
+\includegraphics[width=0.5\linewidth]{"Figuur 8".jpg}
+\end{center}
+
+\begin{itemize}
+\item[--] the analog anti-aliasing filter filters out high frequent
+components ($>$ Nyquist frequency)
+\item[--] the filtered analog signal is sampled and quantized
+in order to obtain a digital signal. For quantization
+10 to 12 bits are common.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Digitization}
+\begin{itemize}
+\item digital-to-analog converter :
+    \begin{itemize}
+    \item[--]zero-order hold
+    
+    \begin{center}
+        \includegraphics[width=0.3\linewidth]{"Figuur 9".jpg}
+    \end{center}
+        \begin{itemize}
+        \item[*] introduces a delay
+        \item[*] frequency spectrum deformation
+        \end{itemize}
+    \item[--]first-order hold
+    \item[--]n-th order polynomial (more general case) : fit a $n-th$
+order polynomial through the $n+1$ most recent
+samples and extrapolate to the next time instance
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Digitization}
+
+\begin{center}
+        \includegraphics[width=0.7\linewidth]{"Figuur 9".jpg}
+\end{center}
+\end{frame}
+
+
+
+\subsection{Numerical Integration Rules}
+\begin{frame}{Numerical Integration Rules}
+
+
+1. Discretization by applying numerical integration rules: a continuous-time integrator\\
+\begin{align*}
+\dot{x}(t)&=e(t)\\
+&\Leftrightarrow \\
+sX(s)&=E(s)
+\end{align*}
+can be approximated using
+\end{frame}
+
+\begin{frame}{Euler's method}
+\begin{itemize}
+\item the forward rectangular rule or Euler’s method
+\end{itemize}
+
+\begin{align*}
+&\frac{x_{k+1}-x_k}{T_s}=e_k\text{ with }x_k=(kT_s)\Leftrightarrow\\
+&\frac{z-1}{T_s}X(z)=E(z) 
+\end{align*}
+\begin{center}
+    \includegraphics[width=0.3\linewidth]{"Figuur 10".jpg}\\
+\end{center}
+\end{frame}
+
+\begin{frame}{Backward rectangular rule}
+\begin{itemize}
+\item the backward rectangular rule
+\end{itemize}
+
+\begin{align*}
+&\frac{x_{k+1}-x_k}{T_s}=e_{k+1}\Leftrightarrow\\
+&\frac{z-1}{zT_s}X(z)=E(z) 
+\end{align*}
+\begin{center}
+    \includegraphics[width=0.3\linewidth]{"Figuur 11".jpg}\\
+\end{center}
+\end{frame}
+
+\begin{frame}{Trapezoid rule or bilinear transformation}
+\begin{itemize}
+\item the trapezoid rule or bilinear transformation
+\end{itemize}
+
+
+\begin{align*}
+&\frac{x_{k+1}-x_k}{T_s}=\frac{e_{k+1}+e_k}{2}\Leftrightarrow\\
+&\frac{2}{T_s}\frac{z-1}{z+1}X(z)=E(z) 
+\end{align*}
+
+\begin{center}
+    \includegraphics[width=0.3\linewidth]{"Figuur 12".jpg}\\
+\end{center}
+\end{frame}
+
+\begin{frame}{Numerical Integration Rules}
+Change a continuous model $G(s)$ into a discrete model
+$G_d(z)$ by replacing all integrators with their discrete equivalents:
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{"Figuur 13".jpg}\\
+\end{center}
+
+Except for the forward rectangular rule stable continuous
+poles (grey zone) are guaranteed to be placed in stable
+discrete areas, i.e. within the unit circle.\\
+The bilinear transformation maps stable poles $\rightarrow$ stable
+poles and unstable poles $\rightarrow$ unstable poles.
+\end{frame}
+
+\begin{frame}{Numerical Integration Rules}
+The following continuous-time model is given :
+
+\begin{equation*}
+\begin{split}
+    \dot{x} &= Ax+Bu\\
+    y &= Cx+Du\\
+  \end{split}
+\quad\leftrightarrow\quad
+  \begin{split}
+    sX &= AX+BU\\
+   y &= CX+DU
+  \end{split}
+\end{equation*}
+
+following Euler’s method $s$ is replaced by $\frac{z-1}{T_s}$
+, so
+\begin{align*}
+\frac{z-1}{Ts}X=AX+BU
+\end{align*}
+or
+\begin{align*}
+zX=I+AT_s)X+BT_sU
+\end{align*}
+\end{frame}
+
+\begin{frame}{Numerical Integration Rules}
+the output equation $Y = CX + DU$ remains. A similar
+calculation can be done for the backward rectangular rule
+and the bilinear transformation resulting in the following
+table :
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{"Figuur 14".jpg}\\
+\end{center}
+\end{frame}
+
+\subsection{Zero-order hold}
+\begin{frame}{Zero-order hold}
+2. Discretization by assuming zero-order hold ...
+\vspace{-0.2cm}
+\begin{align*}
+\dot{x}=Ax+Bu
+\end{align*}
+
+$\Rightarrow$
+\vspace{-0.4cm}
+\begin{align*}
+x(t)=e^{At}x(0)+
+\underbrace{\int_0^t \! e^{A(t-\tau)}Bu(\tau)}_\text{convolution integral}
+\end{align*}
+Let the sampling time be $T_s$, then
+\begin{align*}
+x(t+T_s)&=e^{At+T_s}x(0)+
+\int_0^{t+T_s} \! e^{A(t+T_s-\tau)}Bu(\tau)\\
+&=e^{AT_s}x(t)+e^{AT_s}
+\underbrace{\int_t^{t+T_s} \! e^{A(t-\tau)}Bu(\tau)}_\text{approximated}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Zero-order hold}
+
+
+%xRightarrow doesn't work, only xrightarrow
+
+
+
+\begin{align*}
+\xrightarrow{\text{ZOH}}x_{k+1}\stackrel{t=kT_s}{=} &e^{AT_s}x_k + e^{AT_s}A^{-1}(I-e^{-AT_s})Bu_k\\
+= &\underbrace{e^{AT_s}}_{A_d}x_k + \underbrace{A^{-1}(e^{AT_s}-I)B}_{B_d}u_k
+\end{align*}
+One can prove that $G_d(z)$ can be expressed as\vspace{-0.3cm}
+
+
+\begin{align*}
+G_d(z)\stackrel{ZOH}{=} (1-z^{-1})\mathcal{Z}
+\left\{ \mathcal{L}^{-1}
+    \left\{ 
+            \frac{G(s)}{s}
+    \right\}
+\right\}
+\end{align*}
+For this reason this discretization method is sometimes
+called step invariance mapping.
+
+\end{frame}
+
+\subsection{Zero-pole mapping}
+\begin{frame}{Zero-pole mapping}
+3. discretization by zero-pole mapping :\\
+\vspace{0.6cm}
+Following the previous method the poles of $G_d(z)$ are
+related to the poles of $G(s)$ according to $z=e^{sT_s}$.\\
+\vspace{0.3cm}
+If we assume by simplicity that also the zeros undergo this
+transformation, the following heuristic may be applied:
+\end{frame}
+
+\begin{frame}{Zero-pole mapping}
+\begin{enumerate}[(a)]
+\item map poles and zeros according to $z=e^{sT_s}$
+\item if the numerator is of lower order than the denominator,
+add discrete zeros at $-1$ until the order of the
+numerator is one less than the order of the denominator.
+A lower numerator order corresponds to zeros
+at $\infty$ in continuous time. By discretization they are
+put at $-1$.
+
+\item adjust the DC gain such that
+\end{enumerate}
+\begin{align*}
+    \lim_{s\to0}G(s)=\lim_{z\to1}G_d(z)
+\end{align*}
+
+\end{frame}
+
+\subsection{Example}
+\begin{frame}{Example}
+Example: given the following SISO system
+
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+\begin{array}{cc|c}
+-0.2 & −0.5 &1 \\ 
+1 & 0 &0 \\ \hline
+1 &  0.4  & 0
+\end{array}\right]
+}
+\end{align*}
+\begin{align*}
+\Rightarrow G(s)=C(sI-A)^{-1}B+D=\frac{s+0.4}{s^2+0.2s+0.5}
+\end{align*}
+Now compare the following discretization methods $(T_s = 1
+sec.)$ :
+
+\begin{enumerate}
+\item bilinear transformation
+\item ZOH
+\item pole-zero mapping
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Bilinear transformation}
+1. Bilinear transformation:
+\begin{enumerate}[(a)]
+    \item
+    $A_d$, $B_d$, $C_d$ and $D_d$ are calculated using the conversion table
+    \item
+    $G_{bilinear}(z)=C_d(zI-A_d)^{-1}B_d+D_d$\\
+    \vspace{0.2cm}
+    $=\frac{0.4898+0.1633z^{-1}-0.3265z^{-2}}{1-1.4286z^{-1}+0.8367z^{-2}}$
+%Not able to align properly
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{ZOH}
+2. Zero-order hold: 
+\begin{enumerate}[(a)]
+    \item
+    $A_d=e^{AT_s}$, $B_d=A^{-1}(e^{AT_s}-1)B$, $C_d=C$ and $D_d=D$
+    \item
+    $G_{ZOH}(z)=C_d(zI-A_d)^{-1}B_d+D_d$\\
+    \vspace{0.2cm}
+    $=\frac{1.0125z^{-1}-0.6648z^{-2}}{1-− 1.3841z^{-1}+0.8187z^{-2}}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Pole-zero mapping}
+3. Pole-zero mapping:
+\begin{enumerate}[(a)]
+    \item the poles of $G(s)$ are $-0.1 + j0.7$ and $-0.1 -j0.7$
+    \item there is one zero at $-0.4$
+    \item 
+    \vspace{0.1cm}
+        \begin{align*}
+            G_{pz}&=K\frac{z-e^{-0.4}}{(z-e^{-0.1+j0.7})(z-e^{-0.1-j0.7})}\\
+            &=K\frac{z^{-1}-0.6703z^{-2}}{1- 1.3841z^{-1}+0.8187z^{-2}}\\
+            &\text{Hence }K=\frac{\lim_{s\to0}G(s)}{\lim_{z\to1}G_{pz}(z)}=1.0546
+        \end{align*}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Bodeplots}
+Compare the bode plots :
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{"Figuur 15".jpg}\\
+\end{center}
+\end{frame}
+    
+
+\subsection{Sampling rate}
+\begin{frame}{Sampling rate selection}  
+\begin{itemize}
+    \item the lower the sampling rate, the lower the implementation
+    cost (cheap microcontroller and A/D converters), the
+    rougher the response and the larger the delay between
+    command changes and system response.
+    \vspace{0.1cm}
+    \item an absolute lower bound is set by the specification to
+    track a command input with a certain frequency :
+    \begin{align*}
+    f_s\geq 2BW_{cl}
+    \end{align*}
+    \vspace{-0.1cm}
+    $f_s$ is the sampling rate and $BW_{cl}$ is the closed-loop system  bandwidth.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sampling rate selection}  
+\begin{itemize}
+     \item if the controller is designed for disturbance rejection,
+            \begin{align*}
+            f_s>20BW_{cl}
+            \end{align*}
+     \item when the sampling rate is too high, finite-word effects
+show up in small word-size microcontrollers ($<$ 10 bits).
+
+     \item for systems where the controller adds damping to a
+lightly damped mode with resonant frequency $f_r$, \vspace{-0.2cm}
+             \begin{align*}
+              f_s>2f_r
+            \end{align*}
+\end{itemize}
+\vspace{-0.3cm}
+In practice, the sampling rate is a factor 20 to 40 higher
+than $BW_{cl}$.
+
+\end{frame}
+
+\subsection{Advantages of state space models}
+\begin{frame}{Advantages of state space models}  
+\begin{itemize}
+    \item More general models: LTI and Nonlinear Time Varying (NTV).
+    \item Geometric concepts: more mathematical tools (linear
+algebra).
+    \item Internal and external descriptions: “divide and conquer”
+strategy.
+
+    \item Unified framework: the same for SISO and MIMO.
+\end{itemize}
+\end{frame}
+
+\section{Geometric properties of lineair state-space models}
+\subsection{Canonical Forms}
+\begin{frame}
+Control canonical form (SISO):
+\begin{align*}
+\dot{x}=A_cx+B_cu,\text{ } y=C_cx
+\end{align*}
+\vspace{-0.5cm}
+\begin{align*}
+A = \begin{bmatrix}
+       -a_1 & -a_2 & \hdots & \hdots & -a_n\\[0.3em]
+       1 & 0 & \hdots & \hdots & 0\\[0.3em]
+       0 & \ddots & \ddots &  & \vdots\\[0.3em]
+       \vdots & \ddots & \ddots &\ddots  & \vdots\\[0.3em]
+       0 & \hdots & 0 & 1 & 0\\[0.3em]
+     \end{bmatrix}
+, B_c=   \begin{bmatrix}
+            1\\
+            0\\
+            \vdots\\
+            0\\
+         \end{bmatrix},
+\end{align*}
+\vspace{-0.5cm}
+\begin{align*}
+C_c=
+\begin{bmatrix}
+    b_1 & b_2 & \hdots & b_n\\
+\end{bmatrix}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Transfer function}
+Corresponding transfer function:
+
+\begin{align*}
+G(s)=\frac{b(s)}{a(s)}\\
+\end{align*}
+\vspace{-1.5cm}
+\begin{align*}
+b(s)=b_1s^{n-1}+b_2s^{n-2}+\hdots+b_n\\
+a(s)=s^n+a_1s^{n-1}+a_2s^{n-2}+\hdots+a_n
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Block diagram}
+Block diagram for the control canonical form
+\begin{center}
+\includegraphics[width=0.55\linewidth]{"Figuur 16".jpg}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Modal canonical form}
+Modal canonical form:
+\begin{align*}
+\dot{x}=A_mx+B_mu,\text{ }y=C_mx.\\
+\end{align*}
+\vspace{-1cm}
+\begin{align*}
+A_m=\begin{bmatrix}
+        {-s_1}&&&\\
+        &{-s_2}&&\\
+        &&\ddots&\\
+        &&&{-s_n}\\
+    \end{bmatrix}
+,B_m=\begin{bmatrix}
+            1\\
+            1\\
+            \vdots\\
+            1\\
+       \end{bmatrix}\\
+\end{align*}
+\vspace{-1.2cm}
+\begin{align*}
+C_m=\begin{bmatrix}
+        r_1 & r_2 & \hdots & r_n\\
+    \end{bmatrix}
+\end{align*}
+Corresponding transfer function:
+\vspace{-0.2cm}
+\begin{align*}
+G(s)=\sum\limits_{i=1}^n \frac{r_i}{s+s_i}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Block diagram}
+Block diagram for the modal canonical form:
+\begin{center}
+\includegraphics[width=0.55\linewidth]{"Figuur 17".jpg}
+\end{center}
+\end{frame}
+
+\subsection{Similarity transformation}
+\begin{frame}
+A state space model (A, B, C,D) is not unique for a physical
+system. Let
+\begin{align*}
+x=T\bar{x},\text{ }\det(T)\neq0,\\
+\end{align*}
+\vspace{-1.5cm}
+\begin{align*}
+\bar{A}=T^{-1}AT,\text{ } \bar{B}=T^{-1}B,\text{ } \bar{C}=CT,\text{ } \bar{D}=D
+\end{align*}
+$\rightarrow$
+\vspace{-0.5cm}
+\begin{align*}
+\dot{\bar{x}}=T^{-1}AT\bar{x}+T^{-1}Bu=\bar{A}\bar{x}+\bar{B}u,\\
+y=CT\bar{x}+Du=\bar{C}\bar{x}+Du
+\end{align*}
+T is chosen to give the most convenient state-space description
+for a given problem (e.g.control or modal canonical
+forms).
+\end{frame}
+
+\begin{frame}{Example}
+Example: Eigenvalue decomposition of A:
+\begin{align*}
+A = X\Lambda X^{−1}
+,\Lambda=\begin{bmatrix}
+            \alpha_1 & \beta_1 & & & \\
+            -\beta_1 & \alpha_1 & & & \\
+             & &\ddots & & \\
+            && & \lambda_1& \\
+            &  & & &\ddots \\
+       \end{bmatrix}\\
+\end{align*}
+  \vspace{-0.5cm}
+\begin{equation*}
+\begin{split}
+    \dot{x} &= Ax+Bu\\
+    y &= Cx+Du\\
+  \end{split}
+\quad\xrightarrow{X^{-1}x=z}\quad
+% xRightarrow doesnt work..
+  \begin{split}
+    \dot{z}&=\Lambda z+X^{-1}Bu\\
+   y &= CX_z+Du
+  \end{split}
+\end{equation*}
+\end{frame}
+
+\subsection{Controllability}
+\begin{frame}{Controllability}
+An $n$-th order system is called controllable if one can reach
+any state $x$ from any given initial state $x_0$ in a finite time.\\
+\vspace{0,3cm}
+Controllability matrix:
+\begin{align*}
+C&=\begin{bmatrix}
+    B&AB&\hdots&A^{n-1}&B\\
+  \end{bmatrix}\\
+rank&(C)=n\iff(A,B)\text{ controllable}
+\end{align*}
+Explanation:
+Consider a linear (discrete) system of the form
+\begin{align*}
+x_{k+1}=Ax_k+Bu_k
+\end{align*}
+\end{frame}
+
+\begin{frame}{Controllability}
+Then
+\begin{align*}
+x_{k+1}=Ax_k+Bu_k
+\end{align*}
+such that
+\begin{align*}
+x_{k+1}-A^{k+1}x_0=
+        \begin{bmatrix}
+             B&AB&\hdots&A^{k}&B\\
+        \end{bmatrix}
+        \begin{bmatrix}
+             u_k\\
+             u_{k-1}\\
+             \vdots\\
+             u_0
+        \end{bmatrix}\\
+\end{align*}
+\end{frame}
+
+\begin{frame}{Controllability}
+Note that
+\begin{align*}
+rank    \begin{bmatrix}
+             B&AB&\hdots&A^{k}&B\\
+        \end{bmatrix} 
+= rank \begin{bmatrix}
+             B&AB&\hdots&A^{n-1}&B\\
+        \end{bmatrix}
+\end{align*}
+for $k\geq n-1$ (Cayley-Hamilton Theorem).\\
+There exists always a vector 
+$\begin{bmatrix}
+             u_k\\
+             u_{k-1}\\
+             \vdots\\
+             u_0
+        \end{bmatrix}$ 
+if rank($C$)=$n$.
+\\Remarks: Controllability matrices for a continuous time
+system and a discrete time system are of the same form.
+\end{frame}
+
+\subsection{Observability}
+\begin{frame}{Observability}
+An n-th order system is called observable if knowledge of
+the input $u$ and the output $y$ over a finite time interval is
+sufficient to determine the state $x$.\\
+\vspace{0,3cm}
+Observability matrix: 
+\begin{align*}
+O&=      \begin{bmatrix}
+             C\\
+             CA\\
+             \vdots\\
+             CA^{n-1}
+        \end{bmatrix}\\
+rank(O)=n&\iff(A,C)\text{ observable}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Observability}
+Explanation:\\
+Consider an autonomous system
+\begin{align*}
+x_{k+1}=Ax_k\\
+y_k=Cx_k
+\end{align*}
+\vspace{-0.2cm}
+Then we find easily
+    \begin{align*}
+    y_k=CA_kx_0
+    \end{align*}
+and
+    \begin{align*}
+        \begin{bmatrix}
+             y_0\\
+             y_1\\
+             \vdots\\
+             y_k
+        \end{bmatrix}
+=   \begin{bmatrix}
+             C\\
+             CA\\
+             \vdots\\
+             CA^{k}
+        \end{bmatrix}x_0\\
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Observability}
+Note that
+\begin{align*}
+        rank\begin{bmatrix}
+             C\\
+             CA\\
+             \vdots\\
+             CA^{k}
+        \end{bmatrix}
+=   rank\begin{bmatrix}
+             C\\
+             CA\\
+             \vdots\\
+             CA^{n-1}
+        \end{bmatrix}\\
+    \end{align*}
+%I want to move 'for k ...' upside but with Vspace it doesnt work again. Only the text beneath it moves
+
+for $k \geq n-1$.\\
+One can always determine $x_0$ if rank($O$) = $n$.\\
+Remarks: Observability matrices for a continuous time system
+and a discrete time system are of the same form.
+\end{frame}
+
+\subsection{The Popov-Belevitch-Hautus tests (PBH)}
+\begin{frame}{PBH controllability test}
+$(A,B$) is not controllable if and only if there exists a left
+eigenvector $q \neq 0$ of A such that
+\begin{align*}
+A^Tq=q\lambda \\
+B^Tq=0
+\end{align*}
+In other words, $(A,B)$ is controllable if and only if there is
+no left eigenvector $q$ of $A$ that is orthogonal to $B$.
+If there is a $\lambda$ and $q$ satisfying the PBH test, then we
+say that the mode corresponding to eigenvalue $\lambda$ is uncontrollable
+(uncontrollable mode), otherwise it is controllable
+(controllable mode).
+\end{frame}
+
+\begin{frame}{PBH controllability test}
+How to understand (for SISO) ? Put A in the modal canonical
+form:
+\begin{align*}
+A=\begin{bmatrix}
+    *&&\\
+    &\lambda_i&\\
+    &&*\\
+  \end{bmatrix}
+,B= \begin{bmatrix}
+    *\\
+    0\\
+    *\\
+  \end{bmatrix}
+,\Rightarrow q= \begin{bmatrix}
+                0\\
+                1\\
+                0\\
+               \end{bmatrix}
+\end{align*}
+Uncontrollable mode: $\dot{x}_i = \lambda_ix_i$
+\end{frame}
+
+\begin{frame}{PBH observability test}
+$(A,C)$ is not observable if and only if there exists a right
+eigenvector $p \neq 0$ of $A$ such that
+\begin{align*}
+&A_p = p\lambda\\
+&C_p = 0
+\end{align*}
+If there is a $\lambda$ and $p$ satisfy the PBH test, then we say that
+the mode corresponding to eigenvalue $\lambda$ is unobservable
+(unobservable mode), otherwise it is observable (observable
+mode).\\
+\vspace{0.2cm}
+How to understand for SISO ? Put $A$ in a modal canonical
+form.
+\end{frame}
+
+
+\subsection{Stability/Stabilizability/Detectability}
+\begin{frame}{Stability/Stabilizability/Detectability}
+Stability:\\
+A system with system matrix $A$ is unstable if $A$ has an
+eigenvalue $\lambda$ with real($\lambda$)$\geq0$ for a continuous time system
+and $|\lambda|\geq 1$ for a discrete time system.\\
+\vspace{0.5cm}
+Stabilizability:\\
+$(A,B)$ is stabilizable if all unstable modes are controllable.\\
+\vspace{0.5cm}
+Detectability:\\
+$(A,C)$ is detectable if all unstable modes are observable.
+\end{frame}
+
+\begin{frame}{Example}
+\vspace{-1cm}
+\begin{align*}
+x_{k+1}=Ax_k+Bu_k\\
+y_k=Cx_k+Du_k\\
+\end{align*}
+\vspace{-1cm}
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+\begin{array}{cccc|c}
+1.1 & 0 &0&0&1 \\ 
+0 & -0.5 &0.6&0&2\\ 
+0 & -0.6 &-0.5&0&-1 \\
+0 & -0.5 &0.6&0&2 \\\hline
+0 & 1 &2&3&1 \\
+\end{array}\right]
+}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{"Figuur 18".jpg}
+\end{center}
+\end{frame}
+
+\subsection{Kalman decomposition and minimal realization}
+\begin{frame}{Kalman decomposition}
+Given a state space system $[A,B,C,D]$. Then we can
+always find an invertible similarity transformation $T$ such
+that the transformed matrices have the structure
+
+\begin{align*}
+TAT^{−1} =\text{MATRIX}
+\end{align*}
+\begin{align*}
+TB=\text{MATRIX},CT^{-1}=\text{MATRIX}\\
+%I used multiple different codes that I found on the internet but none of them worked. I don't know how to number the rows and columns..
+\end{align*}
+where
+\begin{align*}
+r_1=rank(OC),\text{ }r_2=rank(C)-r_1,\\
+r_3=rank(O)-r_1,\text{ }r_4=n-r_1-r_2-r_3.
+\end{align*}
+\end{frame}
+
+\begin{frame}{Kalman decomposition}
+\vspace{0.2cm}
+The subsystem
+$$[ A_{co},B_{co},C_{co},D ]$$
+is controllable and observable. \\The subsystem
+\begin{align*}
+    \begin{pmatrix}
+    A_{co}&0\\
+    A_{21}&A_{\bar{co}}
+    \end{pmatrix}
+,   \begin{pmatrix}
+    B_{co}\\
+    B_{\bar{co}}
+    \end{pmatrix}
+,\begin{pmatrix}
+    C_{co}&0
+    \end{pmatrix}
+,D
+\end{align*}
+is controllable. 
+\end{frame}
+
+
+\begin{frame}{Kalman decomposition}
+The subsystem
+\begin{align*}
+    \begin{pmatrix}
+    A_{co}&A_{13}\\
+    0&A_{\bar{co}}
+    \end{pmatrix}
+,   \begin{pmatrix}
+    B_{co}\\
+    0
+    \end{pmatrix}
+,\begin{pmatrix}
+    C_{co}&C_{\bar{co}}
+    \end{pmatrix}
+,D
+\end{align*}
+is observable. \\
+\vspace{0.2cm}
+The subsystem $$[A_{\bar{co}} , 0, 0,D ]$$
+is neither controllable nor observable.
+\end{frame}
+
+\begin{frame}{Kalman decomposition}
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{"Figuur 19".jpg}
+\end{center}
+\end{frame}
+
+\begin{subsection}{Minimal realization}
+\begin{frame}{Minimal realization}
+A minimal realization is one that has the smallest-size $A$ matrix for all triplets $[A,B,C]$ satisfying
+$$G(s) = D + C(sI − A)^{−1}B$$
+where $G(s)$ is a given transfer matrix.\\
+\vspace{0.2cm}
+$[A,B,C,D]$ is minimal $\iff$ controllable and observable.\\
+\end{frame}
+
+\begin{frame}{Minimal realization}
+Let $[A_i,B_i,C_i,D],i=1,2$, be two minimal realizations
+of a transfer matrix, then
+    \begin{align*}
+    [A_1,B_1,C_1,D]\\
+    T\Downarrow\Uparrow T^{-1}\\
+    [A_2,B_2,C_2,D]\\
+    \end{align*}
+with
+$$T=C_1C_2^T(C_1C_2^T)^{-1}$$
+\end{frame}
+
+\section{Input/output properties of state-space
+models}
+\subsection{Definition}
+\begin{frame}{Transfer matrix}
+General transfer matrix for a state space model :
+\begin{align*}
+G(\xi)=D+C(\xi I-A)^{-1}B\\
+\small{\xi\text{ can be }s\text{ }CT\text{ or }z\text{ }DT}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Poles}
+Characteristic polynomial of matrix $A$:
+\begin{align*}
+\alpha(\xi)&=det(\xi I-A)\\
+&=\alpha_n\xi^n+\alpha_{n-1}\xi^{n-1}+\hdots+\alpha_1\xi+\alpha_0\\
+\end{align*}
+\vspace{-0.4cm}
+Characteristic equation:
+\begin{align*}
+\alpha(\xi)=0
+\end{align*}
+The eigenvalues $\lambda_i=1,\hdots,n$ of the system matrix $A$
+are called the poles of the system.\\
+The pole polynomial is defined as
+$$\pi(\xi)=\prod\limits_{i=1}^n (\xi-\lambda_i)$$
+\end{frame}
+%Again a frequent occuring problem. 'Characteristic equation' does not move with vspace, only the align part moves up...
+
+\subsection{Physical interpretation of a pole}
+\begin{frame}{Physical interpretation of the pole}
+Consider the following second order system :
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+\begin{array}{cc|c}
+\alpha & \beta &b_1 \\ 
+-\beta & \alpha &b_2 \\ \hline
+c_1 &  c_2  & 0
+\end{array}\right]
+}
+\end{align*}
+The transfer matrix is given by (try to verify it) :
+\begin{align*}
+G(\xi) &=C(\xi I-A)^{-1}B+D\\
+&=\frac{\xi(b_1c_1+b_2c_2)+\beta(b_2c_1+b_1c_2)-\alpha(b_1c_1+b_2c_2)}{\xi^2+2\alpha\xi+\alpha^2+\beta^2}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Physical interpretation of the pole}
+\vspace{0.8cm}
+There are $2$ poles at $\alpha\pm j\beta$\\
+\vspace{0.8cm}
+There is a zero at
+$$\frac{\alpha(b_1c_1+b_2c_2)-\beta(b_2c_1+b_1c_2)}{b_1c_1+b_2c_2}$$
+\end{frame}
+
+\begin{frame}{Continuous time}
+In continuous time the impulse response takes on the form: $$g(t)=\mathcal{L}^{-1}\{G(s)\}$$
+
+
+
+
+\begin{align*}
+&=\mathcal{L}^{-1}\{=\frac{s(b_1c_1+b_2c_2)+\beta(b_2c_1+b_1c_2)-\alpha(b_1c_1+b_2c_2)}{s^2+2\alpha s+\alpha^2+\beta^2}\}\\
+&=(A_m\cos(\beta t)+B_m\sin(\beta t))e^{\alpha t}=C_me^{\alpha t}\cos(\beta t+\gamma)
+\end{align*}
+$$\text{with }A_m = b_1c_1 + b_2c_2\text{ and }B_m = b_2c_1-b_1c_2$$
+
+\begin{align*}
+&\Rightarrow C_m=\sqrt{(b_1^2+b_2^2)(c_1^2+c_2^2)}\\
+&\Rightarrow \gamma =\arctan{(\frac{-B_m}{A_m})}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Continuous time}
+Define the damping ratio $\zeta$ and natural frequency $\omega_n:$
+
+$$\alpha=-\zeta\omega_n,\text{ } \beta= \omega_n\sqrt{1-\zeta^2}$$
+
+\begin{center}
+    \includegraphics[width=0.4\linewidth]{"Figuur 20".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Continuous time}
+For a second order system
+$$G(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_ns+\omega_n^2}$$
+the time response looks like :
+\begin{center}
+        \includegraphics[width=0.4\linewidth]{"Figuur 21".jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}{Continuous time}
+\begin{center}
+        \includegraphics[width=0.6\linewidth]{"Figuur 21".jpg}\\
+        rise time $t_r\simeq\frac{1.8}{\omega_n}$\\
+        settling time $t_s=\frac{4.6}{\zeta\omega_n}$\\
+        peak time $t_p=\frac{\pi}{\omega_d}, 
+        \omega_d=\omega_n\sqrt{1-\zeta^2}$\\
+        overshoot $M_p=e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}}$\\
+%sfrac and rfrac doesn't work, only frac
+\end{center}
+\end{frame}
+
+\begin{frame}{Continuous time}
+In general : if a continuous-time system $(A, B,C, 0)$ has
+poles at $\alpha \pm j\beta \Rightarrow$ the impulse response will have time
+modes of the form
+$$A_me^{\alpha t}cos(\beta t + \gamma)$$
+
+
+\left       
+       \begin{array}{lr}
+       $A_m:$\text{amplitude}\\
+       $\gamma:$\text{ phase}
+       \end{array}
+ \right
+ \}\text{determined by }$B$\text{ and }$C$.
+\end{frame}
+%I don't find the problem for these mistakes
+
+\begin{frame}{Discrete time}
+In discrete time the impulse response matrix $G_d(k)$ takes
+on the form :
+$$G_d(k)=C_dA_d^{k-1}B_d,\text{  }k\geq 1$$
+which can be proven to be a sum of terms of the form :
+$$C_mb^{k-1}\cos(\omega(k-1)+\gamma)$$
+each of which satisfies a second order linear system
+\begin{align*}
+{
+\left[
+    \begin{array}{c|c}
+        A & B \\ \hline
+        C & D
+    \end{array}
+\right]
+=
+\left[
+\begin{array}{cc|c}
+\alpha & \beta &b_1 \\ 
+-\beta & \alpha &b_2 \\ \hline
+c_1 &  c_2  & 0
+\end{array}\right]
+}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Discrete time}
+Parameterize A as
+$$A=\begin{bmatrix}
+    b\cos\omega&b\sin\omega\\
+    -b\sin\omega&b\cos\omega
+    \end{bmatrix}
+$$
+then
+$$A^k=b^k\begin{bmatrix}
+    b\cos\omega&b\sin\omega\\
+    -b\sin\omega&b\cos\omega
+    \end{bmatrix}
+$$
+\end{frame}
+
+\begin{frame}{Discrete time}
+Now,
+\begin{align*}
+CA_kB&=(A_m\cos\omega_k+B_m\sin\omega_k)b^k\\
+&=C_mb^k\cos(\omega_k+\gamma)\\
+\text{with }&A_m=C_m\cos\gamma = b_1c_1+b_2c_2\\
+\text{and }&B_m=-C_m\sin\gamma = b_2c_1+b_1c_2
+\end{align*}
+\end{frame}
+
+\begin{frame}{Discrete time}
+\begin{align*}
+&\Rightarrow C_m=\sqrt{(b_1^2+b_2^2)(c_1^2+c_2^2)}\\
+&\Rightarrow b=\sqrt{\alpha^2+\beta^2}\\
+&\Rightarrow \omega=\arctan{(\frac{\beta}{\alpha})}\\
+&\Rightarrow \gamma =\arctan{(\frac{-B_m}{A_m})}
+\end{align*}
+\end{frame}
+
+\subsection{Transmission zero's}
+\begin{frame}{Definition}
+Definition: The zeros of a LTI system are defined as those
+values $\zeta\in C$ for which the rank of the transfer matrix $G(\xi)$
+is lower than its normal rank (=rank of $G(\xi)$ for almost all
+values of $\xi$):
+$$\text{rank}G(\zeta)<\text{normal rank}$$
+\end{frame}
+
+
+
+\begin{frame}{Property}
+Property: Let $\zeta$ be a zero of $G(\xi)$ $(p\times m)$, then
+
+
+\begin{align*}
+\text{rank}G(\zeta)&>\text{normal rank}\\
+&\Downarrow\text{ if }\zeta\text{is not a pole of } G(\xi)\\
+\exists v\neq \text{ s.t. }[D &+ C(\zeta I - A)^{-1}B]v=0,\\
+&\Downarrow \text{ define }\w={\Delta}C(\zeta I - A)^{-1}\\
+Dv+Cw=&0,C(\zeta I - A)w-Bv=0\\
+&\Downarrow\\
+\end{align*}
+\vspace{-1.2cm}
+\begin{align*}
+\begin{bmatrix}
+    \zeta I-A&-B\\
+    C&D\\
+\end{bmatrix}&
+\begin{bmatrix}
+    w\\
+    v\\
+\end{bmatrix}=0
+\end{align*}
+\end{frame}
+
+\begin{frame}{Transmission zero's}
+How to find zeros for square MIMO systems $(p = m)$ with
+invertible $D$ ?
+\begin{align*}
+(\zeta I-A)w-Bv&=0,\text{ }v=D^{-1}Cw\\
+&\Downarrow\\
+Aw + Bv = w\zeta&,\text{ } v = −D^{-1}Cw\\
+&\Downarrow\\
+(A-B&D^{-1}C)w=w\zeta\\
+\end{align*}
+\vspace{-1cm}
+\begin{align*}
+\zeta &=\text{ eigenvalue of }A-BD^{-1}C,\\
+w&=\text{ corresponding eigenvector !}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Other case}
+For other cases :
+\begin{itemize}
+\item Generalized eigenvalue problem.
+\item Use Matlab function “tzero”.
+%How display "" ?? Doesn't work with $$ either
+\end{itemize}
+\vspace{0.5cm}
+Minimum and non-minimum phase systems:
+If a system has an unstable zero (in the right half–plane
+(RHP) or outside the unit circle), then it is a non-minimum
+phase (NMP) system, otherwise it is a minimum phase
+(MP) system.
+\end{frame}
+
+\begin{frame}{Physical explanation (continuous time)}
+Let $\zeta$ be a real zero, then there will exist vectors $x_0$ and $u_0$
+such that:
+\begin{align*}
+\begin{bmatrix}
+    \zeta I-A&-B\\
+    C&D\\
+\end{bmatrix}&
+\begin{bmatrix}
+    x_0\\
+    u_0\\
+\end{bmatrix}=0
+\end{align*}
+This means if we have an input $u_0e^{\zeta t}$, there exists an initial
+state $x_0$ such that the response is
+$$y(t) = 0.$$
+\end{frame}
+
+\begin{frame}{Physical explanation (continuous time)}
+For complex zeros :\\
+if $\zeta$ is a complex zero, then also its complex conjugate$\zeta^*$ is a zero. Try to prove that if
+\begin{align*}
+\begin{bmatrix}
+    \zeta I-A&-B\\
+    C&D\\
+\end{bmatrix}&
+\begin{bmatrix}
+    x_0\\
+    u_0\\
+\end{bmatrix}=0
+\end{align*}
+the output $y(t)$ will be exactly zero if the input is
+$$u(t)|u_0|e^{\Re e(\zeta)t}.\cos({\Im_ m\{\zeta\}t}+{\phi_u}_0)$$
+and the initial state is chosen to be $\Re_e\{x_0\}.$
+\end{frame}
+
+
+\begin{frame}{Physical explanation (continuous time)}
+“·” is the
+elementwise multiplication, both “cos()” and “$e$
+()” are assumed
+to be elementwise operators,\\
+\vspace{0.5cm}
+$\Re_e\{x_0\}$ is the real part
+of $x_0$,\\ $\Im_ m\{\zeta\} $ is the imaginary part of $\zeta$ and $u_0 = |u_0|·e^{j\phi u_0}.$\\
+\vspace{0.5cm}
+Try to derive equivalent formulas for the discrete-time case.
+%Again problems with displaying the "" brackets
+\end{frame}
+
+\begin{frame}{Transmission zero's}
+Why zeros are important :
+\begin{itemize}
+    \item Limited control system performance
+        \begin{center}
+        \includegraphics[width=0.5\linewidth]{"Figuur 22".jpg}
+        \end{center}
+    If $G$ is NMP, $k$ can not go to $\infty$, since unstable zeros
+    (which become unstable poles) put a limit on high gains.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Transmission zero's}
+\begin{itemize}
+    \item Stability of a stabilizing controller, Parity Interlacing
+    Property (PIP) :\\
+    Let $G$ be unstable. Then, $G$ can be stabilized by a
+    controller $C$ which itself is stable $\Leftrightarrow$ between every pair
+of real RHP zeros of $G$ (including at $\infty$), there is an
+even number of poles.\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+\textbf{Example:}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{"Figuur 23".jpg}
+        \end{center}
+$G(s)$ can not be stabilized by a stable controller.
+
+\end{frame}
+
+\begin{frame}{Transmission zero's}
+RHP zeros can cause undershoot !\\
+Let
+$$G(s)=\frac{\prod\limits_{i=1}^n 1-\frac{s}{\zeta_i}}
+{\prod\limits_{i=1}^{n+r} 1-\frac{s}{\lambda_i} },$$
+where $r$ = relative degree of $G(s)$. Let $y(t)$ be the step
+response.\\
+
+
+  Fact: \left\{
+     \begin{array}{l}
+       y(0)\text{ and its first }r-1\text{ derivative are }0;\\
+       y^{(r)}\text{ is the first non-zero derivative;} \\
+       y(\infty) = G(0).
+     \end{array}
+   \right.
+\end{frame}
+
+\begin{frame}{Transmission zero's}
+The system has undershoot $\Leftrightarrow$ the steady state value
+$y(\infty)$ has a sign opposite to $y^{(r)}(0)$, i.e.
+$$y^{(r)}(0)y(\infty)<0.$$
+It can be proven that the system has undershoot $\Leftrightarrow$ there
+is an odd number of RHP zeros.
+
+\end{frame}
+
+\begin{frame}{PBH test:}
+There are 6 (independent) left eigenvectors associated with
+the 6 eigenvalues of $A$ :
+\begin{align*}
+    \begin{bmatrix}
+    -0.1480\pm0.0826i\\
+    0.0703\pm0.5380i\\
+    0.1480\pm0.0826i\\
+    -0.0703\pm0.5380i\\
+    0.2994\pm0.2954i\\
+    -0.2994\pm0.2954i
+    \end{bmatrix},  
+    \begin{bmatrix}
+    0.0766\\
+    0.5624\\
+    0.0766\\
+    0.5624\\
+    0.4218\\
+    0.4218
+\end{bmatrix}\\
+\end{align*}
+\end{frame}
+
+\begin{frame}{PBH test:}
+There are 6 (independent) left eigenvectors associated with
+the 6 eigenvalues of $A$ :
+\begin{align*}
+    \begin{bmatrix}
+        0\\
+    0.4892\\
+    0.0000\\
+    0.4892\\
+    0.5105\\
+    0.5105
+    \end{bmatrix},
+    \begin{bmatrix}
+    -0.0046\\
+    -0.0227\\
+    0.0046\\
+    0.0227\\
+    -0.7067\\
+    0.7067
+    \end{bmatrix},
+    \begin{bmatrix}
+    0.0000\\
+    -0.0295\\
+    0.0000\\
+    -0.0295\\
+    -0.7065\\
+    -0.7065
+    \end{bmatrix}
+    \end{align*}
+    
+It can be easily checked that none of them is orthogonal to
+$B$. The result is the same as the rank test above.
+The same can be done to investigate the observability.
+\end{frame}
+
+
+
+
+\begin{frame}{Poles and zeros:}
+Poles: the eigenvalues of A are
+\begin{align*}
+-0.2370\pm0.5947i, 0, -0.2813, −0.9760, -0.9687
+\end{align*}
+
+The system is not stable since there is a pole at zero.\\
+\vspace{0.5cm}
+The first two oscillatory poles are from the spring-mass
+system consisting of the tape and the motor/capstan inertias.
+The zero pole reflects the pure integrative effect of
+the tape on the capstans.
+\end{frame}
+
+\begin{frame}{Poles and zeros:}
+
+Zeros: it can be checked in Matlab using function “tzero”
+that there is only one zero at -2. The eigenvector of the
+matrix
+%again, the "" doesn't display
+\begin{align*}
+\begin{bmatrix}
+    -2I-A&-B\\
+    C&0\\
+\end{bmatrix}
+\end{align*}
+associated with the eigenvalue 0 is
+
+\begin{align*}
+\begin{bmatrix}
+    x_0\\
+    u_0\\
+\end{bmatrix} 
+with\text{ }x_0=
+    \begin{bmatrix}
+    -0.1959\\
+    0.1959\\
+    0.1959\\
+    -0.1959\\
+    -0.4571\\
+    0.4571
+\end{bmatrix}, u_0=\begin{bmatrix}
+    0.4630\\
+    -0.4630
+\end{bmatrix}
+\end{align*}
+
+Thus, let
+$$x(0)=x_0, u(t)=u_0e^{-2t},$$
+then the output $y(t)$ will be always zero, $\forall t \geq 0.$
+
+\end{frame}
+
+
+
+\subsection{Physical explanation of the zero:}
+\begin{frame}{Physical explanation of the zero:}
+
+Since the initial values $i_1(0)=-i_2(0)$ and the inputs
+$e_1(t)=-e_2(t)$, and the motor drive systems in both sides
+are symmetric, the two capstans will rotate at the same
+speed, but in opposite directions. So the tape position over
+the read/write head will remain at 0 if the initial value is
+at 0.
+
+The tension in the tape is the sum of the tensions in the
+tape spring and the tape damping. The input voltages vary
+such a way that the tensions in the tape spring and the tape
+damping cancel each other out.
+
+
+\end{frame}
+\subsection{Matlab Functions}
+\begin{frame}{Matlab Functions}
+\begin{columns}
+		\column {0.4\textwidth}
+		\begin{center}
+		c2d\\
+c2dm\\
+canon\\
+expm\\
+tf2ss\\
+ss2tf
+		\end{center}
+
+		\column {0.4\textwidth}
+		\begin{center}
+     	(d)impulse\\
+(d)step\\
+minreal\\
+tzero\\
+ctrb\\
+obsv
+
+		\end{center}
+		
+		\column {0.4\textwidth}
+	    \begin{center}
+     	ctrbf\\
+obsvf\\
+(d)lsim\\
+ss\\
+ssdata\\
+
+		\end{center}
+	
+	\end{columns}
+\end{frame}
